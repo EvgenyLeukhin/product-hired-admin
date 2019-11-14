@@ -1,9 +1,14 @@
 import React, { Component } from "react";
-import { Input } from "reactstrap";
+import { Input, Alert } from "reactstrap";
 import PropTypes from "prop-types";
 import cln from 'classnames';
+import axios from 'axios';
 
+import Spinner from '../../components/Spinner';
 import FormValidator from "../Forms/Validator.js";
+
+import API_URL from '../../consts/apiUrl';
+
 import "../Forms/Material.scss";
 
 /**
@@ -24,7 +29,10 @@ class Login extends Component {
         formLogin: {
             email: "",
             password: ""
-        }
+        },
+        loading: false,
+        error: false,
+        success: false
     };
 
     /**
@@ -47,7 +55,9 @@ class Login extends Component {
                     ...this.state[form.name].errors,
                     [input.name]: result
                 }
-            }
+            },
+            error: false,
+            success: false
         });
     };
 
@@ -63,11 +73,38 @@ class Login extends Component {
             [form.name]: { ...this.state[form.name], errors }
         });
 
-        // console.log(hasError ? "Form has errors. Check!" : "Form Submitted!");
+        console.log(hasError ? "Form has errors. Check!" : "Form Submitted!");
 
         e.preventDefault();
 
-        alert(this.state.formLogin.name);
+        const { email, password } = this.state.formLogin;
+
+        // login request
+        axios.post(`${API_URL}/api/api/users/login`, { email, password })
+            .then(this.setState({ loading: true }))
+
+        // if login
+        .then((res) => {
+            this.setState({ success: true });
+            const token = localStorage.getItem('ph-admin-token');
+
+            // save tokken to localStorage
+            if (!token) {
+                localStorage.setItem('ph-admin-token', res.data.id);
+                localStorage.setItem('ph-admin-id',    res.data.userId);
+                localStorage.setItem('ph-admin-email', email);
+            }
+
+            setTimeout(() => {
+                const { history } = this.props;
+                history.push('/dashboard');
+            }, 1000);
+        })
+
+        // if not login
+        .catch(() => {
+            this.setState({ error: true, loading: false });
+        });
     };
 
     /* Simplify error check */
@@ -83,12 +120,19 @@ class Login extends Component {
     
     render() {
         const { email, password } = this.state.formLogin;
+        const { success, error, loading } = this.state;
 
         return (
             <div className="container-full">
+                { success && <Alert color="success">Success</Alert> }
+                { error   && <Alert color="danger">Wrong email or password</Alert> }
+
                 <div className="container container-xs">
                     <div className="text-center">
-                        <img className="mv-lg img-fluid thumb64" src="img/logo.png" alt="Brand logo" />
+                        <img 
+                            style={{ display: 'inline-flex', margin: '12vh 0  20px', width: '200px' }}
+                            src="img/logo.svg" alt="Brand logo"
+                        />
                     </div>
 
                     <form
@@ -97,18 +141,9 @@ class Login extends Component {
                         name="formLogin"
                         onSubmit={this.onSubmit}
                     >
-                        <div className="cardbox-offset pb0">
-                            <div className="cardbox-offset-item text-right invisible">
-                                <div className="btn btn-success btn-circle btn-lg">
-                                    <em className="ion-checkmark-round" />
-                                </div>
-                            </div>
-                        </div>
 
                         <div className="cardbox-heading">
-                            <div className="cardbox-title text-center">
-                                Login
-                            </div>
+                            <div className="cardbox-title text-center">Login</div>
                         </div>
                         
                         <div className="cardbox-body">
@@ -154,8 +189,12 @@ class Login extends Component {
                             </div>
                         </div>
 
-                        <button className="btn btn-primary btn-flat" type="submit">
-                            Authenticate
+                        <button 
+                            type="submit"
+                            className="btn btn-primary btn-flat" 
+                            style={{ display: 'flex', justifyContent: 'center' }}
+                        >
+                            { loading ? <Spinner /> : 'Authenticate' }
                         </button>
                     </form>
 

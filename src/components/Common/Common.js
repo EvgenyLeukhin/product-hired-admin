@@ -12,3 +12,4 @@ import './UiNoteArea.scss';
 import './UiSwitch.scss';
 import './DatePicker.scss';
 import './Cardbox.scss';
+import '../Spinner/styles.scss';
