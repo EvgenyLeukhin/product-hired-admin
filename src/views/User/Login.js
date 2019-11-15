@@ -136,7 +136,7 @@ class Login extends Component {
                     </div>
 
                     <form
-                        className="cardbox b0 form-validate"
+                        className={cln('cardbox b0 form-validate', { 'error': error })}
                         action=""
                         name="formLogin"
                         onSubmit={this.onSubmit}

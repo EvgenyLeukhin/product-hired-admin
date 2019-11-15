@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
 import pubsub from "pubsub-js";
 import { withNamespaces, Trans } from "react-i18next";
+import { NavLink } from 'react-router-dom';
 
 import "./Sidebar.scss";
 
@@ -63,7 +64,7 @@ class Sidebar extends Component {
         }
     };
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         this.pubsub_token = pubsub.subscribe("sidebarmode", (msg, mode) => {
             this.setState({
                 sidebarModes: {
@@ -110,12 +111,16 @@ class Sidebar extends Component {
                         <div className="float-right pt-lg text-muted invisible">
                             <em className="ion-close-round" />
                         </div>
+
                         <div className="sidebar-header-logo">
-                            <SVGReplace src="img/logo.svg" alt="Logo" />
-                            <span className="sidebar-header-logo-text">
-                                Centric
-                            </span>
+                            <NavLink to='/'>
+                                <SVGReplace src="img/logo.svg" alt="Logo" width={120} />
+                            </NavLink>
+                            {/* <span className="sidebar-header-logo-text">
+                                PH Admin
+                            </span> */}
                         </div>
+
                     </div>
                 )}
                 <div className="sidebar-content">

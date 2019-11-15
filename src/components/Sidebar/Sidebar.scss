@@ -32,13 +32,16 @@
     padding: 0 16px;
     box-shadow: $sidebar-header-shadow;
     > .sidebar-header-logo {
-        display: inline-block;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
         height: 100%;
         line-height: $sidebar-header-hg;
         text-decoration: none;
         color: inherit;
         font-size: 22px;
         letter-spacing: .023em;
+
         > img,
         > svg {
             $sz: 24px;
@@ -52,6 +55,13 @@
         }
         > svg {
             fill: #fff;
+        }
+
+        > a > svg {
+            width: 135px;
+            height: auto;
+            margin-top: 8px;
+            margin-left: 40px;
         }
     }
     > .sidebar-header-logo-text {
