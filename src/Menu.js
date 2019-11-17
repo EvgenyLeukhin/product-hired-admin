@@ -1,4 +1,62 @@
-const Menu = [{
+const Menu = [
+    {
+        id: 0,
+        name: 'Jobs',
+        path: '/jobs',
+        icon: 'img/icons/clipboard.svg'
+    },
+    {
+        id: 1,
+        name: 'Companies',
+        path: '/companies',
+        icon: 'img/icons/aperture.svg'
+    },
+    {
+        id: 2,
+        name: 'Employers',
+        path: '/employers',
+        icon: 'img/icons/navicon.svg'
+    },
+    {
+        id: 3,
+        name: 'Users',
+        path: '/users',
+        icon: 'img/icons/person-stalker.svg'
+    },
+    {
+        id: 4,
+        name: 'Skills',
+        path: '/skills',
+        icon: 'img/icons/grid.svg'
+    },
+    {
+        id: 5,
+        name: 'Roles',
+        path: '/roles',
+        icon: 'img/icons/radio-waves.svg'
+    },
+    {
+        id: 6,
+        name: 'Plans',
+        path: '/plans',
+        icon: 'img/icons/radio-waves.svg'
+    },
+    {
+        id: 7,
+        name: 'Skills',
+        path: '/skills',
+        icon: 'img/icons/radio-waves.svg'
+    },
+    {
+        id: 8,
+        name: 'Charts',
+        path: '/charts',
+        icon: 'img/icons/connection-bars.svg'
+    },
+];
+
+
+const Menu2 = [{
         name: 'Dashboard',
         path: '/dashboard',
         icon: 'img/icons/aperture.svg',

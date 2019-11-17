@@ -47,8 +47,9 @@ const listofPages = [
 const Routes = ({ location }) => {
     const currentKey = location.pathname.split('/')[1] || '/';
     const timeout = { enter: 500, exit: 500 };
+    const token = localStorage.getItem('ph-admin-token');
 
-    const animationName = 'rag-fadeIn'
+    const animationName = 'rag-fadeIn';
 
     if(listofPages.indexOf(location.pathname) > -1) {
         return (
@@ -56,40 +57,44 @@ const Routes = ({ location }) => {
             <User.Layout>
                 <Switch location={location}>
                     <Route path="/login" component={waitFor(User.Login)}/>
-                    <Route path="/signup" component={waitFor(User.Signup)}/>
-                    <Route path="/recover" component={waitFor(User.Recover)}/>
-                    <Route path="/lock" component={waitFor(User.Lock)}/>
                 </Switch>
             </User.Layout>
         )
     }
     else {
-        return (
-            // Layout component wrapper
-            <Core>
-              <TransitionGroup>
-                <CSSTransition key={currentKey} timeout={timeout} classNames={animationName} exit={false}>
-                    <div>
-                        <Suspense fallback={<PageLoader/>}>
-                            <Switch location={location}>
-                                <Route path="/dashboard" component={waitFor(Dashboard)}/>
-                                <Route path="/cards" component={waitFor(Cards)}/>
-                                <Route path="/charts" component={waitFor(Charts)}/>
-                                <Route path="/forms" component={waitFor(Forms)}/>
-                                <Route path="/tables" component={waitFor(Tables)}/>
-                                <Route path="/layouts" component={waitFor(Layouts)}/>
-                                <Route path="/elements" component={waitFor(Elements)}/>
-                                <Route path="/maps" component={waitFor(Maps)}/>
-                                <Route path="/pages" component={waitFor(Pages)}/>
-
-                                <Redirect to="/dashboard"/>
-                            </Switch>
-                        </Suspense>
-                    </div>
-                </CSSTransition>
-              </TransitionGroup>
-            </Core>
-        )
+        if (token) {
+            return (
+                // Layout component wrapper
+                <Core>
+                  <TransitionGroup>
+                    <CSSTransition key={currentKey} timeout={timeout} classNames={animationName} exit={false}>
+                        <div>
+                            <Suspense fallback={<PageLoader/>}>
+                                <Switch location={location}>
+                                    <Route path="/dashboard" component={waitFor(Dashboard)}/>
+                                    <Route path="/cards" component={waitFor(Cards)}/>
+                                    <Route path="/charts" component={waitFor(Charts)}/>
+                                    <Route path="/forms" component={waitFor(Forms)}/>
+                                    <Route path="/tables" component={waitFor(Tables)}/>
+                                    <Route path="/layouts" component={waitFor(Layouts)}/>
+                                    <Route path="/elements" component={waitFor(Elements)}/>
+                                    <Route path="/maps" component={waitFor(Maps)}/>
+                                    <Route path="/pages" component={waitFor(Pages)}/>
+    
+                                    <Redirect to="/dashboard"/>
+                                </Switch>
+                            </Suspense>
+                        </div>
+                    </CSSTransition>
+                  </TransitionGroup>
+                </Core>
+            );
+        } else {
+            return (
+                <Redirect to='/login' />
+            )
+        }
+        
     }
 }
 

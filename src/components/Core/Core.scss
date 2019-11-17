@@ -5,6 +5,24 @@
 @import '../Common/Variables';
 @import '../Common/Mixins';
 
+@keyframes slideLeft {
+    0% {left: 0;}
+    100% {left: -1200px;}
+}
+
+.container {
+    &.login-success {
+        position: relative;
+        animation-name: slideLeft;
+        animation-duration: 0.5s;
+        animation-delay: 0.75s;
+        animation-iteration-count: 1;
+        animation-fill-mode: both;
+        animation-timing-function: ease;
+    }
+}
+
+
 // Scaffolding
 
 html, body, #app {

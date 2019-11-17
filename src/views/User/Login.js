@@ -127,7 +127,7 @@ class Login extends Component {
                 { success && <Alert color="success">Success</Alert> }
                 { error   && <Alert color="danger">Wrong email or password</Alert> }
 
-                <div className="container container-xs">
+                <div className={cln('container container-xs', { 'login-success': success })}>
                     <div className="text-center">
                         <img 
                             style={{ display: 'inline-flex', margin: '12vh 0  20px', width: '200px' }}
@@ -136,7 +136,7 @@ class Login extends Component {
                     </div>
 
                     <form
-                        className={cln('cardbox b0 form-validate', { 'error': error })}
+                        className={cln('cardbox b0 form-validate', { error } )}
                         action=""
                         name="formLogin"
                         onSubmit={this.onSubmit}
@@ -191,8 +191,12 @@ class Login extends Component {
 
                         <button 
                             type="submit"
-                            className="btn btn-primary btn-flat" 
-                            style={{ display: 'flex', justifyContent: 'center' }}
+                            disabled={!email || !password}
+                            className="btn btn-primary btn-flat"
+                            style={{ 
+                                display: 'flex', 
+                                justifyContent: 'center',
+                            }}
                         >
                             { loading ? <Spinner /> : 'Authenticate' }
                         </button>

@@ -1,17 +1,27 @@
 import React, { Component } from "react";
 import pubsub from 'pubsub-js';
+import axios from 'axios';
+import API_URL from '../../consts/apiUrl';
+
+import { Redirect } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Alert, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 import './Header.scss';
 import './HeaderMenuLinks.scss';
+
+import SpinnerFull from "../SpinnerFull";
 
 class Header extends Component {
 
     state = {
         pageTitle: '',
         navIcon: 'menu-link-slide',
-        dropdownOpen: false
+        dropdownOpen: false,
+        logOutSuccsess: false,
+        loading: false,
+        error: false,
+        redirect: false
     }
 
     UNSAFE_componentWillMount() {
@@ -44,11 +54,50 @@ class Header extends Component {
         }));
     }
 
+    logOut = (e) => {
+        e.preventDefault();
+        this.setState({ loading: true });
+        const userToken = localStorage.getItem('ph-admin-token');
+
+        axios.post(
+            `${API_URL}/api/api/users/logout`, {},
+            {
+              headers: { Authorization: userToken }
+            }
+          )
+          .then(() => {
+            // remove token
+            localStorage.removeItem('ph-admin-id');
+            localStorage.removeItem('ph-admin-token');
+            localStorage.removeItem('ph-admin-email');
+      
+            this.setState({ logOutSuccsess: true });
+      
+            // redirect
+            setTimeout(() => {
+              this.setState({ redirect: true });
+            }, 1000);
+          })
+
+          .catch(() => {
+            this.setState({ error: true, loading: false });
+
+            setTimeout(() => {
+                this.setState({ error: false });
+              }, 2000);
+          });
+    }
+
     render() {
         const { navIcon, pageTitle, dropdownOpen } = this.state
+        const { isOpenOnMobile, logOutSuccsess, error, redirect, loading } = this.state;
 
         return (
             <header className="header-container">
+                { redirect && <Redirect to='/login' />}
+                { error          && <Alert color="danger">Error</Alert> }
+                { logOutSuccsess && <Alert color="success">Log out</Alert> }
+                { loading && <SpinnerFull /> }
                 <nav>
                     <ul className="d-lg-none">
                         <li>
@@ -95,7 +144,7 @@ class Header extends Component {
 
                                 <DropdownItem divider />
                                 
-                                <LinkContainer to="/login">
+                                <LinkContainer to="/login" onClick={this.logOut}>
                                     <DropdownItem>
                                         <em className="ion-log-out icon-fw"/>
                                         Logout
