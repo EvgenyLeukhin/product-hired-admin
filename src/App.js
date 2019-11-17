@@ -28,6 +28,11 @@ class App extends Component {
     // for development it is forced to root only
     /* global PUBLIC_URL */
     const basename = process.env.NODE_ENV === 'development' ? '/' : (PUBLIC_URL || '/');
+    const theme = localStorage.getItem('ph-admin-theme');
+
+    if (theme) {
+      document.body.classList.add(theme);
+    }
 
     return (
         <BrowserRouter basename={basename}>

@@ -11,8 +11,7 @@ class Settings extends Component {
     state = {
         showModal: false,
         selectedLang: 'en',
-        selectedTheme: 'theme-1',
-        selectedNavIconClass: 'menu-link-close',
+        selectedTheme: '',
         sidebarModes: {
             header: true,
             toolbar: true,
@@ -21,9 +20,16 @@ class Settings extends Component {
     }
 
     componentDidMount() {
+        const theme = localStorage.getItem('ph-admin-theme');
+
+        if (theme) {
+            this.setState({ selectedTheme: theme });
+        } else {
+            this.setState({ selectedTheme: 'theme-1' });
+        }
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         this.pubsub_token = pubsub.subscribe('showsettings', () => {
             this.open();
         });
@@ -43,17 +49,9 @@ class Settings extends Component {
         document.body.classList.remove('modal-backdrop-soft')
     }
 
-    close = () => {
-        this.setState({ showModal: false });
-    }
-
-    open = () => {
-        this.setState({ showModal: true });
-    }
-
-    toggle = () => {
-        this.setState({ showModal: !this.state.showModal });
-    }
+    close  = () => this.setState({ showModal: false });
+    open   = () => this.setState({ showModal: true });
+    toggle = () => this.setState({ showModal: !this.state.showModal });
 
     setSelectedLanguage = e => {
         const lng = e.target.value;
@@ -65,13 +63,10 @@ class Settings extends Component {
         const theme = e.target.value;
         document.body.classList.remove(this.state.selectedTheme);
         this.setState({ selectedTheme: theme });
-        document.body.classList.add(theme)
-    }
+        document.body.classList.add(theme);
 
-    setNavIcon = e => {
-        const iconClass = e.target.value;
-        pubsub.publish('setNavIcon', iconClass);
-        this.setState({ selectedNavIconClass: iconClass });
+        // save to storage
+        localStorage.setItem('ph-admin-theme', theme);
     }
 
     changeSidebarMode = mode => e => {
@@ -86,6 +81,8 @@ class Settings extends Component {
 
     render() {
         const closeBtn = <button className="close" onClick={this.toggle}>&times;</button>;
+        const { selectedTheme } = this.state;
+
         return (
             <Modal
                 isOpen={this.state.showModal}
@@ -94,9 +91,11 @@ class Settings extends Component {
                 onClosed={this.onHiddenModal}
                 toggle={this.toggle}
                 >
+
                 <ModalHeader tag="div" close={closeBtn}>
                     <h4 className="m-0"><span>Settings</span></h4>
                 </ModalHeader>
+
                 <ModalBody>
                     <div className="d-flex mb">
                         <div className="wd-tiny mb">
@@ -114,6 +113,7 @@ class Settings extends Component {
                                 </label>
                             </div>
                         </div>
+
                         <div className="wd-tiny mb">
                             <div className="setting-color">
                                 <label className="preview-theme-2">
@@ -129,6 +129,7 @@ class Settings extends Component {
                                 </label>
                             </div>
                         </div>
+
                         <div className="wd-tiny mb">
                             <div className="setting-color">
                                 <label className="preview-theme-3">
@@ -145,6 +146,7 @@ class Settings extends Component {
                             </div>
                         </div>
                     </div>
+
                     <div className="d-flex mb">
                         <div className="wd-tiny mb">
                             <div className="setting-color">
@@ -161,6 +163,7 @@ class Settings extends Component {
                                 </label>
                             </div>
                         </div>
+
                         <div className="wd-tiny mb">
                             <div className="setting-color">
                                 <label className="preview-theme-5">
@@ -176,6 +179,7 @@ class Settings extends Component {
                                 </label>
                             </div>
                         </div>
+
                         <div className="wd-tiny mb">
                             <div className="setting-color">
                                 <label className="preview-theme-6">
@@ -192,6 +196,7 @@ class Settings extends Component {
                             </div>
                         </div>
                     </div>
+
                     <div className="d-flex mb">
                         <div className="wd-tiny mb">
                             <div className="setting-color">
@@ -208,6 +213,7 @@ class Settings extends Component {
                                 </label>
                             </div>
                         </div>
+
                         <div className="wd-tiny mb">
                             <div className="setting-color">
                                 <label className="preview-theme-8">
@@ -223,6 +229,7 @@ class Settings extends Component {
                                 </label>
                             </div>
                         </div>
+
                         <div className="wd-tiny mb">
                             <div className="setting-color">
                                 <label className="preview-theme-9">
@@ -239,7 +246,9 @@ class Settings extends Component {
                             </div>
                         </div>
                     </div>
+
                     <hr/>
+
                     <p>
                         <label className="mda-checkbox">
                             <input type="checkbox" onChange={this.changeSidebarMode('header')} checked={this.state.sidebarModes['header']} />
@@ -247,6 +256,7 @@ class Settings extends Component {
                             Sidebar header
                         </label>
                     </p>
+
                     <p>
                         <label className="mda-checkbox">
                             <input type="checkbox" onChange={this.changeSidebarMode('toolbar')} checked={this.state.sidebarModes['toolbar']} />
@@ -254,6 +264,7 @@ class Settings extends Component {
                             Sidebar toolbar
                         </label>
                     </p>
+
                     <p>
                         <label className="mda-checkbox">
                             <input type="checkbox" onChange={this.changeSidebarMode('offcanvas')} checked={this.state.sidebarModes['offcanvas']} />
@@ -261,34 +272,15 @@ class Settings extends Component {
                             Sidebar offcanvas
                         </label>
                     </p>
+
                     <hr/>
-                    <p>Navigation icon</p>
-                    <p>
-                        <label className="mda-radio">
-                            <input onChange={this.setNavIcon} type="radio" name="headerMenulink" checked={this.state.selectedNavIconClass === 'menu-link-close'} value="menu-link-close"/>
-                            <em className="bg-indigo-500"></em>
-                            Close icon
-                        </label>
-                    </p>
-                    <p>
-                        <label className="mda-radio">
-                            <input onChange={this.setNavIcon} type="radio" name="headerMenulink" checked={this.state.selectedNavIconClass === 'menu-link-slide'} value="menu-link-slide"/>
-                            <em className="bg-indigo-500"></em>
-                            Slide arrow
-                        </label>
-                    </p>
-                    <p>
-                        <label className="mda-radio">
-                            <input onChange={this.setNavIcon} type="radio" name="headerMenulink" checked={this.state.selectedNavIconClass === 'menu-link-arrow'} value="menu-link-arrow"/>
-                            <em className="bg-indigo-500"></em>
-                            Big arrow
-                        </label>
-                    </p>
-                    <hr/>
+
                     <Screenfull tag="button" className="btn btn-secondary btn-raised" type="button" data-toggle-fullscreen="">
                         Toggle fullscreen
                     </Screenfull>
+
                     <hr/>
+
                     <p>Change language</p>
                     <CustomInput type="select" id="select-lang" onChange={this.setSelectedLanguage} name="customSelect" value={this.state.selectedLang}>
                         <option value="en">English</option>

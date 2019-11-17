@@ -49,13 +49,6 @@ class Profile extends Component {
                 console.log(error);
                 this.setState({ error: true });
             });
-
-        axios.get(`${API_URL}/api/api/users`, {
-            headers: { Authorization: userToken }
-        })
-            .then(res => {
-                console.log(res);
-            })
     }
 
     render() {
