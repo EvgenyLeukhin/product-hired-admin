@@ -77,6 +77,7 @@ class Settings extends Component {
             }
         })
         pubsub.publish('sidebarmode', mode);
+        localStorage.setItem(`ph-admin-sidebar-${mode}`, e.target.checked);
     }
 
     render() {
@@ -101,7 +102,7 @@ class Settings extends Component {
                         <div className="wd-tiny mb">
                             <div className="setting-color">
                                 <label className="preview-theme-1">
-                                    <input type="radio" onChange={this.setTheme} value="theme-1" checked={this.state.selectedTheme === 'theme-1'} name="setting-theme"/>
+                                    <input type="radio" onChange={this.setTheme} value="theme-1" checked={selectedTheme === 'theme-1'} name="setting-theme"/>
                                     <span className="ion-checkmark-round"></span>
                                     <div className="t-grid">
                                         <div className="t-row">
@@ -117,7 +118,7 @@ class Settings extends Component {
                         <div className="wd-tiny mb">
                             <div className="setting-color">
                                 <label className="preview-theme-2">
-                                    <input type="radio" onChange={this.setTheme} value="theme-2" checked={this.state.selectedTheme === 'theme-2'} name="setting-theme"/>
+                                    <input type="radio" onChange={this.setTheme} value="theme-2" checked={selectedTheme === 'theme-2'} name="setting-theme"/>
                                     <span className="ion-checkmark-round"></span>
                                     <div className="t-grid">
                                         <div className="t-row">
@@ -133,7 +134,7 @@ class Settings extends Component {
                         <div className="wd-tiny mb">
                             <div className="setting-color">
                                 <label className="preview-theme-3">
-                                    <input type="radio" onChange={this.setTheme} value="theme-3" checked={this.state.selectedTheme === 'theme-3'} name="setting-theme"/>
+                                    <input type="radio" onChange={this.setTheme} value="theme-3" checked={selectedTheme === 'theme-3'} name="setting-theme"/>
                                     <span className="ion-checkmark-round"></span>
                                     <div className="t-grid">
                                         <div className="t-row">
@@ -151,7 +152,7 @@ class Settings extends Component {
                         <div className="wd-tiny mb">
                             <div className="setting-color">
                                 <label className="preview-theme-4">
-                                    <input type="radio" onChange={this.setTheme} value="theme-4" checked={this.state.selectedTheme === 'theme-4'} name="setting-theme"/>
+                                    <input type="radio" onChange={this.setTheme} value="theme-4" checked={selectedTheme === 'theme-4'} name="setting-theme"/>
                                     <span className="ion-checkmark-round"></span>
                                     <div className="t-grid">
                                         <div className="t-row">
@@ -167,7 +168,7 @@ class Settings extends Component {
                         <div className="wd-tiny mb">
                             <div className="setting-color">
                                 <label className="preview-theme-5">
-                                    <input type="radio" onChange={this.setTheme} value="theme-5" checked={this.state.selectedTheme === 'theme-5'} name="setting-theme"/>
+                                    <input type="radio" onChange={this.setTheme} value="theme-5" checked={selectedTheme === 'theme-5'} name="setting-theme"/>
                                     <span className="ion-checkmark-round"></span>
                                     <div className="t-grid">
                                         <div className="t-row">
@@ -183,7 +184,7 @@ class Settings extends Component {
                         <div className="wd-tiny mb">
                             <div className="setting-color">
                                 <label className="preview-theme-6">
-                                    <input type="radio" onChange={this.setTheme} value="theme-6" checked={this.state.selectedTheme === 'theme-6'} name="setting-theme"/>
+                                    <input type="radio" onChange={this.setTheme} value="theme-6" checked={selectedTheme === 'theme-6'} name="setting-theme"/>
                                     <span className="ion-checkmark-round"></span>
                                     <div className="t-grid">
                                         <div className="t-row">
@@ -201,7 +202,7 @@ class Settings extends Component {
                         <div className="wd-tiny mb">
                             <div className="setting-color">
                                 <label className="preview-theme-7">
-                                    <input type="radio" onChange={this.setTheme} value="theme-7" checked={this.state.selectedTheme === 'theme-7'} name="setting-theme"/>
+                                    <input type="radio" onChange={this.setTheme} value="theme-7" checked={selectedTheme === 'theme-7'} name="setting-theme"/>
                                     <span className="ion-checkmark-round"></span>
                                     <div className="t-grid">
                                         <div className="t-row">
@@ -217,7 +218,7 @@ class Settings extends Component {
                         <div className="wd-tiny mb">
                             <div className="setting-color">
                                 <label className="preview-theme-8">
-                                    <input type="radio" onChange={this.setTheme} value="theme-8" checked={this.state.selectedTheme === 'theme-8'} name="setting-theme"/>
+                                    <input type="radio" onChange={this.setTheme} value="theme-8" checked={selectedTheme === 'theme-8'} name="setting-theme"/>
                                     <span className="ion-checkmark-round"></span>
                                     <div className="t-grid">
                                         <div className="t-row">
@@ -233,7 +234,7 @@ class Settings extends Component {
                         <div className="wd-tiny mb">
                             <div className="setting-color">
                                 <label className="preview-theme-9">
-                                    <input type="radio" onChange={this.setTheme} value="theme-9" checked={this.state.selectedTheme === 'theme-9'} name="setting-theme"/>
+                                    <input type="radio" onChange={this.setTheme} value="theme-9" checked={selectedTheme === 'theme-9'} name="setting-theme"/>
                                     <span className="ion-checkmark-round"></span>
                                     <div className="t-grid">
                                         <div className="t-row">
