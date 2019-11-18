@@ -11,7 +11,7 @@ class Settings extends Component {
     state = {
         showModal: false,
         selectedLang: 'en',
-        selectedTheme: '',
+        selectedTheme: 'theme-1',
         sidebarModes: {
             header: true,
             toolbar: true,
@@ -24,8 +24,6 @@ class Settings extends Component {
 
         if (theme) {
             this.setState({ selectedTheme: theme });
-        } else {
-            this.setState({ selectedTheme: 'theme-1' });
         }
     }
 
@@ -77,7 +75,6 @@ class Settings extends Component {
             }
         })
         pubsub.publish('sidebarmode', mode);
-        localStorage.setItem(`ph-admin-sidebar-${mode}`, e.target.checked);
     }
 
     render() {
@@ -250,35 +247,33 @@ class Settings extends Component {
 
                     <hr/>
 
-                    <p>
+                    {/* <p>
                         <label className="mda-checkbox">
                             <input type="checkbox" onChange={this.changeSidebarMode('header')} checked={this.state.sidebarModes['header']} />
                             <em className="bg-indigo-500"></em>
                             Sidebar header
                         </label>
-                    </p>
+                    </p> */}
 
-                    <p>
+                    {/* <p>
                         <label className="mda-checkbox">
                             <input type="checkbox" onChange={this.changeSidebarMode('toolbar')} checked={this.state.sidebarModes['toolbar']} />
                             <em className="bg-indigo-500"></em>
                             Sidebar toolbar
                         </label>
-                    </p>
+                    </p> */}
 
-                    <p>
+                    {/* <p>
                         <label className="mda-checkbox">
                             <input type="checkbox" onChange={this.changeSidebarMode('offcanvas')} checked={this.state.sidebarModes['offcanvas']} />
                             <em className="bg-indigo-500"></em>
                             Sidebar offcanvas
                         </label>
-                    </p>
+                    </p> */}
 
-                    <hr/>
+                    {/* <hr/> */}
 
-                    <Screenfull tag="button" className="btn btn-secondary btn-raised" type="button" data-toggle-fullscreen="">
-                        Toggle fullscreen
-                    </Screenfull>
+                    <Screenfull tag="button" className="btn btn-secondary btn-raised" type="button" data-toggle-fullscreen="">Toggle fullscreen</Screenfull>
 
                     <hr/>
 

@@ -21,6 +21,14 @@ import Routes from './Routes';
 import './components/Ripple/Ripple.init.js';
 
 class App extends Component {
+
+  componentDidMount() {
+    const theme = localStorage.getItem('ph-admin-theme', theme);
+    if (theme) {
+      document.body.classList.add(theme);
+    }
+  }
+
   render() {
 
     // specify base href from env varible 'PUBLIC_URL'
