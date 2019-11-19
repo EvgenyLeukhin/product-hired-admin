@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "/product-hired-admin/static/js/9.a89666e2.chunk.js"
   },
   {
-    "revision": "aaa2c584b3a7e2ceb48b",
+    "revision": "255a53c69faae70663db",
     "url": "/product-hired-admin/static/css/main.48648e67.chunk.css"
   },
   {
@@ -40,8 +40,8 @@ self.__precacheManifest = [
     "url": "/product-hired-admin/static/js/8.fe1e4672.chunk.js"
   },
   {
-    "revision": "aaa2c584b3a7e2ceb48b",
-    "url": "/product-hired-admin/static/js/main.aaa2c584.chunk.js"
+    "revision": "255a53c69faae70663db",
+    "url": "/product-hired-admin/static/js/main.255a53c6.chunk.js"
   },
   {
     "revision": "28df6ee7b407fd8a14b40bc01f4fd3ae",
@@ -56,8 +56,8 @@ self.__precacheManifest = [
     "url": "/product-hired-admin/static/media/ionicons.dd4781d1.ttf"
   },
   {
-    "revision": "58b61a4b98dc3eb3ffa3",
-    "url": "/product-hired-admin/static/js/11.58b61a4b.chunk.js"
+    "revision": "0a76c4dd610385886144",
+    "url": "/product-hired-admin/static/js/11.0a76c4dd.chunk.js"
   },
   {
     "revision": "733b7c8cad185c1a985e",
@@ -72,7 +72,7 @@ self.__precacheManifest = [
     "url": "/product-hired-admin/static/media/ionicons.19e65b89.eot"
   },
   {
-    "revision": "58b61a4b98dc3eb3ffa3",
+    "revision": "0a76c4dd610385886144",
     "url": "/product-hired-admin/static/css/11.6e0c3594.chunk.css"
   },
   {
@@ -80,7 +80,7 @@ self.__precacheManifest = [
     "url": "/product-hired-admin/static/css/10.e7ed8484.chunk.css"
   },
   {
-    "revision": "db16f14a12cbb388a7724c5383af833f",
+    "revision": "74f1f75e7d97f9e37393dad022989a32",
     "url": "/product-hired-admin/index.html"
   }
 ];

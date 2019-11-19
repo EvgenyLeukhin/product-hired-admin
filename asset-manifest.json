@@ -1,7 +1,7 @@
 {
   "main.css": "/product-hired-admin/static/css/main.48648e67.chunk.css",
-  "main.js": "/product-hired-admin/static/js/main.aaa2c584.chunk.js",
-  "main.js.map": "/product-hired-admin/static/js/main.aaa2c584.chunk.js.map",
+  "main.js": "/product-hired-admin/static/js/main.255a53c6.chunk.js",
+  "main.js.map": "/product-hired-admin/static/js/main.255a53c6.chunk.js.map",
   "static/js/1.f875bee4.chunk.js": "/product-hired-admin/static/js/1.f875bee4.chunk.js",
   "static/js/1.f875bee4.chunk.js.map": "/product-hired-admin/static/js/1.f875bee4.chunk.js.map",
   "static/js/2.6c7570ee.chunk.js": "/product-hired-admin/static/js/2.6c7570ee.chunk.js",
@@ -24,8 +24,8 @@
   "static/js/10.d7bc03de.chunk.js": "/product-hired-admin/static/js/10.d7bc03de.chunk.js",
   "static/js/10.d7bc03de.chunk.js.map": "/product-hired-admin/static/js/10.d7bc03de.chunk.js.map",
   "static/css/11.6e0c3594.chunk.css": "/product-hired-admin/static/css/11.6e0c3594.chunk.css",
-  "static/js/11.58b61a4b.chunk.js": "/product-hired-admin/static/js/11.58b61a4b.chunk.js",
-  "static/js/11.58b61a4b.chunk.js.map": "/product-hired-admin/static/js/11.58b61a4b.chunk.js.map",
+  "static/js/11.0a76c4dd.chunk.js": "/product-hired-admin/static/js/11.0a76c4dd.chunk.js",
+  "static/js/11.0a76c4dd.chunk.js.map": "/product-hired-admin/static/js/11.0a76c4dd.chunk.js.map",
   "runtime~main.js": "/product-hired-admin/static/js/runtime~main.733b7c8c.js",
   "runtime~main.js.map": "/product-hired-admin/static/js/runtime~main.733b7c8c.js.map",
   "static/media/ionicons.css": "/product-hired-admin/static/media/ionicons.19e65b89.eot",
@@ -33,6 +33,6 @@
   "static/css/11.6e0c3594.chunk.css.map": "/product-hired-admin/static/css/11.6e0c3594.chunk.css.map",
   "static/css/10.e7ed8484.chunk.css.map": "/product-hired-admin/static/css/10.e7ed8484.chunk.css.map",
   "index.html": "/product-hired-admin/index.html",
-  "precache-manifest.afbf5809e913f60f0f440f9097200bcd.js": "/product-hired-admin/precache-manifest.afbf5809e913f60f0f440f9097200bcd.js",
+  "precache-manifest.5fccc23c479877211c15a1a6d84bc427.js": "/product-hired-admin/precache-manifest.5fccc23c479877211c15a1a6d84bc427.js",
   "service-worker.js": "/product-hired-admin/service-worker.js"
 }
