@@ -21,6 +21,10 @@
     @include theme-header($mdc-blue-grey-800, #fff);
     @include theme-content-dark($mdc-blue-grey-800);
     @include theme-sidebar-items($brand-primary, $brand-success);
+
+    .table {
+        color: #fff;
+    }
 }
 
 .theme-4 {
