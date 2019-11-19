@@ -83,28 +83,28 @@ class Login extends Component {
         axios.post(`${API_URL}/api/api/users/login`, { email, password })
             .then(this.setState({ loading: true }))
 
-        // if login
-        .then((res) => {
-            this.setState({ success: true });
-            const token = localStorage.getItem('ph-admin-token');
+            // if login
+            .then((res) => {
+                this.setState({ success: true });
+                const token = localStorage.getItem('ph-admin-token');
 
-            // save tokken to localStorage
-            if (!token) {
-                localStorage.setItem('ph-admin-token', res.data.id);
-                localStorage.setItem('ph-admin-id',    res.data.userId);
-                localStorage.setItem('ph-admin-email', email);
-            }
+                // save tokken to localStorage
+                if (!token) {
+                    localStorage.setItem('ph-admin-token', res.data.id);
+                    localStorage.setItem('ph-admin-id',    res.data.userId);
+                    localStorage.setItem('ph-admin-email', email);
+                }
 
-            setTimeout(() => {
-                const { history } = this.props;
-                history.push('/users');
-            }, 1000);
-        })
+                setTimeout(() => {
+                    const { history } = this.props;
+                    history.push('/users');
+                }, 1000);
+            })
 
-        // if not login
-        .catch(() => {
-            this.setState({ error: true, loading: false });
-        });
+            // if not login
+            .catch(() => {
+                this.setState({ error: true, loading: false });
+            });
     };
 
     /* Simplify error check */

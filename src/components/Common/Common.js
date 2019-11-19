@@ -1,3 +1,4 @@
+import 'react-table/react-table.css';
 
 import './Animate.scss';
 import './ButtonsExtra.scss';
