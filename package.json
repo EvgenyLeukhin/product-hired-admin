@@ -2,6 +2,7 @@
   "name": "centric",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://evgenyleukhin.github.io/product-hired-admin",
   "dependencies": {
     "animate.css": "3.7.0",
     "axios": "0.18.0",
@@ -76,7 +77,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "modernizr": "modernizr -c modernizr-config.json -d src/modernizr.js",
-    "postinstall": "npm run modernizr"
+    "postinstall": "npm run modernizr",
+    "deploy": "npm run build && gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
