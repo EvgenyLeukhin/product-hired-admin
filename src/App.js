@@ -24,6 +24,7 @@ class App extends Component {
 
   componentDidMount() {
     const theme = localStorage.getItem('ph-admin-theme', theme);
+
     if (theme) {
       document.body.classList.remove('theme-1');
       document.body.classList.add(theme);

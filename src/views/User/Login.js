@@ -97,7 +97,7 @@ class Login extends Component {
 
             setTimeout(() => {
                 const { history } = this.props;
-                history.push('/dashboard');
+                history.push('/users');
             }, 1000);
         })
 

@@ -14,10 +14,17 @@ import Utils       from './components/Utils/Utils';
 import User from './views/User/User';
 
 /* Used to render a lazy component with react-router */
-const waitFor = Tag => props => <Tag {...props}/>;
+const waitFor = Tag => props => <Tag {...props} />;
 
 const Users     = lazy(() => import('./views/Pages/Users'));
 const Companies = lazy(() => import('./views/Pages/Companies'));
+const Talents   = lazy(() => import('./views/Pages/Talents'));
+const Employers = lazy(() => import('./views/Pages/Employers'));
+const Filters   = lazy(() => import('./views/Pages/Filters'));
+const Jobs      = lazy(() => import('./views/Pages/Jobs'));
+const Skills    = lazy(() => import('./views/Pages/Skills'));
+const Roles     = lazy(() => import('./views/Pages/Roles'));
+const Plans     = lazy(() => import('./views/Pages/Plans'));
 
 
 // List of routes that uses the page layout
@@ -37,7 +44,7 @@ const Routes = ({ location }) => {
 
     const animationName = 'rag-fadeIn';
 
-    if(listofPages.indexOf(location.pathname) > -1 && !token) {
+    if (listofPages.indexOf(location.pathname) > -1 && !token) {
         return (
             // Page Layout component wrapper
             <User.Layout>
@@ -45,7 +52,7 @@ const Routes = ({ location }) => {
                     <Route path="/login" component={waitFor(User.Login)}/>
                 </Switch>
             </User.Layout>
-        )
+        );
     }
     else {
         if (token) {
@@ -57,8 +64,15 @@ const Routes = ({ location }) => {
                         <div>
                             <Suspense fallback={<PageLoader/>}>
                                 <Switch location={location}>
-                                    <Route path="/users" component={waitFor(Users)} />
+                                    <Route path="/users"     component={waitFor(Users)} />
                                     <Route path="/companies" component={waitFor(Companies)} />
+                                    <Route path="/talents"   component={waitFor(Talents)} />
+                                    <Route path="/employers" component={waitFor(Employers)} />
+                                    <Route path="/filters"   component={waitFor(Filters)} />
+                                    <Route path="/jobs"      component={waitFor(Jobs)} />
+                                    <Route path="/skills"    component={waitFor(Skills)} />
+                                    <Route path="/roles"     component={waitFor(Roles)} />
+                                    <Route path="/plans"     component={waitFor(Plans)} />
 
                                     <Redirect to="/users"/>
                                 </Switch>
@@ -68,12 +82,8 @@ const Routes = ({ location }) => {
                   </TransitionGroup>
                 </Core>
             );
-        } else {
-            return (
-                <Redirect to='/login' />
-            )
-        }
-        
+
+        } else return <Redirect to='/login' />;
     }
 }
 
