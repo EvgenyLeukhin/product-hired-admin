@@ -51,7 +51,7 @@ const Routes = ({ location }) => {
 
     const animationName = 'rag-fadeIn';
 
-    if(listofPages.indexOf(location.pathname) > -1) {
+    if(listofPages.indexOf(location.pathname) > -1 && !token) {
         return (
             // Page Layout component wrapper
             <User.Layout>

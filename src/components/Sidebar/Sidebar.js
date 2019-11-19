@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
 import pubsub from "pubsub-js";
+import axios from 'axios';
 import { withNamespaces, Trans } from "react-i18next";
 import { NavLink } from 'react-router-dom';
 
@@ -9,6 +10,8 @@ import "./Sidebar.scss";
 
 import SidebarRun from "./Sidebar.run";
 import { SVGReplace } from "../Utils/Utils";
+
+import API_URL from '../../consts/apiUrl';
 
 import Menu from "../../Menu.js";
 
@@ -61,7 +64,10 @@ class Sidebar extends Component {
             header: true,
             toolbar: true,
             offcanvas: false
-        }
+        },
+        name: '',
+        surname: '',
+        imageUrl: '',
     };
 
     UNSAFE_componentWillMount() {
@@ -88,6 +94,24 @@ class Sidebar extends Component {
 
     componentDidMount() {
         SidebarRun();
+
+        const userId = localStorage.getItem('ph-admin-id');
+        const userToken = localStorage.getItem('ph-admin-token');
+
+        axios.get(`${API_URL}/api/api/users/${userId}`, {
+            headers: { Authorization: userToken }
+        })
+            .then(res => {
+                this.setState({
+                    name: res.data.name,
+                    surname: res.data.surname,
+                    imageUrl: res.data.image.url,
+                });
+            })
+            .catch(error => {
+                console.log(error);
+                this.setState({ error: true });
+            });
     }
 
     componentWillUnmount() {
@@ -103,6 +127,7 @@ class Sidebar extends Component {
 
     render() {
         const hasSubmenu = item => item.submenu && item.submenu.length;
+        const { name, surname, imageUrl } = this.state;
 
         return (
             <aside className="sidebar-container">
@@ -128,13 +153,13 @@ class Sidebar extends Component {
                         <div className="sidebar-toolbar text-center">
                             <a href="#user">
                                 <img
-                                    src="img/user/01.jpg"
+                                    src={imageUrl || 'img/user/01.jpg'}
                                     alt="Profile"
                                     className="rounded-circle thumb64"
                                 />
                             </a>
                             <div className="mt">
-                                <Trans i18nKey="user.WELCOME" />, Willie Webb
+                                <Trans i18nKey="user.WELCOME" />, {`${name} ${surname}`}
                             </div>
                         </div>
                     )}
