@@ -5,10 +5,16 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 /* loader component for Suspense */
 import PageLoader  from './components/Common/PageLoader';
 import Core        from './components/Core/Core';
-import Bootstrap   from './components/Bootstrap/Bootstrap';
+
+// eslint-disable-next-line no-unused-vars
+import Bootstrap   from './components/Bootstrap/Bootstrap'; 
+// eslint-disable-next-line no-unused-vars
 import Common      from './components/Common/Common';
+// eslint-disable-next-line no-unused-vars
 import Colors      from './components/Colors/Colors';
+// eslint-disable-next-line no-unused-vars
 import FloatButton from './components/FloatButton/FloatButton';
+// eslint-disable-next-line no-unused-vars
 import Utils       from './components/Utils/Utils';
 
 import User from './views/User/User';
@@ -25,6 +31,7 @@ const Jobs      = lazy(() => import('./views/Pages/Jobs'));
 const Skills    = lazy(() => import('./views/Pages/Skills'));
 const Roles     = lazy(() => import('./views/Pages/Roles'));
 const Plans     = lazy(() => import('./views/Pages/Plans'));
+const Profile   = lazy(() => import('./views/Pages/Profile'));
 
 
 // List of routes that uses the page layout
@@ -73,6 +80,7 @@ const Routes = ({ location }) => {
                                     <Route path="/skills"    component={waitFor(Skills)} />
                                     <Route path="/roles"     component={waitFor(Roles)} />
                                     <Route path="/plans"     component={waitFor(Plans)} />
+                                    <Route path="/profile"   component={waitFor(Profile)} />
 
                                     <Redirect to="/users"/>
                                 </Switch>
