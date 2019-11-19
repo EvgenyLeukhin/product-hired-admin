@@ -10,7 +10,7 @@
  */
 
 import React, { Component } from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter as Router } from 'react-router-dom';
 
 // Vendor dependencies
 import './Vendor';
@@ -40,9 +40,9 @@ class App extends Component {
     const basename = process.env.NODE_ENV === 'development' ? '/' : (PUBLIC_URL || '/');
 
     return (
-        <BrowserRouter basename={basename}>
+        <Router basename={basename}>
             <Routes />
-        </BrowserRouter>
+        </Router>
     );
 
   }

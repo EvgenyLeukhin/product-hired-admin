@@ -22,7 +22,7 @@ const Core = props => (
 
             {/* Page footer */}
             <footer>
-                <span>2019 - Centric app.</span>
+                <span>2019 - Product Hired Admin</span>
             </footer>
 
         </main>

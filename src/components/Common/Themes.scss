@@ -66,6 +66,14 @@
     @include theme-header(#fff, $text-color);
     @include theme-content($mdc-blue-grey-50);
     @include theme-sidebar-items(darken($mdc-blue-grey-300, 10%), $mdc-blue-grey-300);
+
+    .sidebar-header {
+        svg > g {
+            path:first-child {
+                fill: #37474F;
+            }
+        }
+    }
 }
 
 // Theme previews for settings panel
