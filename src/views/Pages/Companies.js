@@ -1,91 +1,101 @@
-import React, { Component } from "react";
-import ReactTable from 'react-table';
-import { NavLink } from 'react-router-dom';
+import React from "react";
+import ReactTable from "react-table";
+
+import matchSorter from 'match-sorter';
 
 import axios from 'axios';
 import API_URL from '../../consts/apiUrl';
 
 import { withHeaderTitle } from '../../components/Header/HeaderTitle';
 
-class Companies extends Component {
-    state = {
-      loading: false,
-      companies: []
-    }
 
-    componentWillMount() {
-        this.props.setHeaderTitle('Companies');
-    }
+class Companies extends React.Component {
+  state = {
+    loading: false,
+    companies: []
+  }
 
-    componentDidMount() {
-      const userToken = localStorage.getItem('ph-admin-token');
+  UNSAFE_componentWillMount() {
+    this.props.setHeaderTitle('Companies');
+  }
 
-      axios.get(`${API_URL}/api/api/companies`, {
-          headers: { Authorization: userToken }
-      })
-          .then(this.setState({ loading: true }))
+  componentDidMount() {
+    const userToken = localStorage.getItem('ph-admin-token');
 
-          .then(res => {
-              this.setState({ 
-                companies: res.data,
-                loading: false,
-                // companies: res.data.slice(0, 100), // only 100
-              });
-          })
-    }
+    axios.get(`${API_URL}/api/api/companies`, {
+        headers: { Authorization: userToken }
+    })
+        .then(this.setState({ loading: true }))
 
-    render() {
+        .then(res => {
+            this.setState({ 
+              companies: res.data,
+              loading: false,
+            });
+        })
+  }
 
-      const columns = [
-        { 
-          Header: 'ID',
-          accessor: 'id',
-          width: 60,
-          Cell: ({ original }) => {
-            return (
-              <div style={{ textAlign: 'right' }}>
-                <span>{original.id}</span>
-              </div>
-            );
-          }
-        }, 
-        { 
-          Header: 'Name', 
-          accessor: 'name',
-          Cell: ({ original }) => {
-            return (
-              <div>
-                <img src={original.logo} width={20} height="auto" />
-                &nbsp;&nbsp;
-                <span>{original.name}</span>
-              </div>
-            );
-          }
-        },
-        { 
-          Header: 'Domain', 
-          accessor: 'domain',
-          Cell: ({ original }) => {
-            return (
-              <a href={`http://${original.domain}`} target="_blank" rel="noopener noreferrer">{original.domain}</a>
-            );
-          }
-        },
-      ];
+  render() {
+    const { companies } = this.state;
 
-      const { companies, loading } = this.state;
+    const columns = [
+      { 
+        Header: 'ID',
+        accessor: 'id',
+        width: 60,
+        Cell: ({ original }) => {
+          return (
+            <div style={{ textAlign: 'right' }}>
+              <span>{original.id}</span>
+            </div>
+          );
+        }
+      }, 
+      { 
+        Header: 'Name', 
+        accessor: 'name',
+        id: 'name',
+        accessor: d => d.name,
+        filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ['name'] }),
+        filterAll: true,
+        Cell: ({ original }) => {
+          return (
+            <div>
+              <img src={original.logo} width={20} height="auto" />
+              &nbsp;&nbsp;
+              <span>{original.name}</span>
+            </div>
+          );
+        }
+      },
+      { 
+        Header: 'Domain', 
+        accessor: 'domain',
+        id: 'domain',
+        accessor: d => d.domain,
+        filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ['domain'] }),
+        filterAll: true,
+        Cell: ({ original }) => {
+          return (
+            <a href={`http://${original.domain}`} target="_blank" rel="noopener noreferrer">{original.domain}</a>
+          );
+        }
+      },
+    ];
+    
+    return (
+      <div>
+        <ReactTable
+          className="-striped -highlight"
+          data={companies}
+          columns={columns}
+          filterable={true}
+          resizable={true}
+        />
 
-        return (
-            <section className="section-container">
-              <ReactTable 
-                data={companies} 
-                columns={columns} 
-                filterable={true}
-                resizable={true}
-              />
-            </section>
-        );
-    }
+      </div>
+    );
+  }
 }
 
 export default withHeaderTitle(Companies);
