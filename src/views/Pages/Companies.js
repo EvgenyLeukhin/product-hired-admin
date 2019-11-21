@@ -1,15 +1,16 @@
 import React, { Component } from "react";
 import ReactTable from 'react-table';
-import { withHeaderTitle } from '../../components/Header/HeaderTitle';
-import axios from 'axios';
+import { NavLink } from 'react-router-dom';
 
+import axios from 'axios';
 import API_URL from '../../consts/apiUrl';
 
+import { withHeaderTitle } from '../../components/Header/HeaderTitle';
 
 class Companies extends Component {
     state = {
-        loading: false,
-        companies: []
+      loading: false,
+      companies: []
     }
 
     componentWillMount() {
@@ -17,63 +18,71 @@ class Companies extends Component {
     }
 
     componentDidMount() {
-        const userToken = localStorage.getItem('ph-admin-token');
+      const userToken = localStorage.getItem('ph-admin-token');
 
-        axios.get(`${API_URL}/api/api/companies`, {
-            headers: { Authorization: userToken }
-        })
-            .then(this.setState({ loading: true }))
+      axios.get(`${API_URL}/api/api/companies`, {
+          headers: { Authorization: userToken }
+      })
+          .then(this.setState({ loading: true }))
 
-            .then(res => {
-                console.log(res);
-                this.setState({ 
-                    companies: res.data,
-                    loading: false,
-                });
-            })
+          .then(res => {
+              this.setState({ 
+                companies: res.data,
+                loading: false,
+                // companies: res.data.slice(0, 100), // only 100
+              });
+          })
     }
 
     render() {
-        const { companies } = this.state;
-        const columns = [
-            { Header: 'Col 1' }, 
-            { Header: 'Col 2' }, 
-            { Header: 'Col 3' }, 
-        ];
 
-        const data = [
-            { Header: 'Col 1' }, 
-            { Header: 'Col 2' }, 
-            { Header: 'Col 3' }, 
-        ];
+      const columns = [
+        { 
+          Header: 'ID',
+          accessor: 'id',
+          width: 60,
+          Cell: ({ original }) => {
+            return (
+              <div style={{ textAlign: 'right' }}>
+                <span>{original.id}</span>
+              </div>
+            );
+          }
+        }, 
+        { 
+          Header: 'Name', 
+          accessor: 'name',
+          Cell: ({ original }) => {
+            return (
+              <div>
+                <img src={original.logo} width={20} height="auto" />
+                &nbsp;&nbsp;
+                <span>{original.name}</span>
+              </div>
+            );
+          }
+        },
+        { 
+          Header: 'Domain', 
+          accessor: 'domain',
+          Cell: ({ original }) => {
+            return (
+              <a href={`http://${original.domain}`} target="_blank" rel="noopener noreferrer">{original.domain}</a>
+            );
+          }
+        },
+      ];
+
+      const { companies, loading } = this.state;
 
         return (
             <section className="section-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>№</th>
-                            <th>Company</th>
-                            <th>ID</th>
-                            <th>Domain</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {
-                        companies.map((i, index) => {
-                            return (
-                                <tr key={i.id}>
-                                    <td>{index}</td>
-                                    <td>{i.name}</td>
-                                    <td>{i.id}</td>
-                                    <td>{i.domain}</td>
-                                    {/* <img src={i.logo} /> */}
-                                </tr>
-                            );
-                        })
-                    }
-                    </tbody>
-                </table>
+              <ReactTable 
+                data={companies} 
+                columns={columns} 
+                filterable={true}
+                resizable={true}
+              />
             </section>
         );
     }
