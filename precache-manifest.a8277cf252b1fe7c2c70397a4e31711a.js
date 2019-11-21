@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "/product-hired-admin/static/css/10.d936857c.chunk.css"
   },
   {
-    "revision": "315bb47f62c479f3610d",
+    "revision": "b63d74bcd0302f24dc82",
     "url": "/product-hired-admin/static/css/main.602e15f1.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = [
     "url": "/product-hired-admin/static/js/1.8e078ec7.chunk.js"
   },
   {
-    "revision": "e7f65bf5b051fcad628f",
-    "url": "/product-hired-admin/static/js/2.e7f65bf5.chunk.js"
+    "revision": "fcdb14fc3490d33e5c1d",
+    "url": "/product-hired-admin/static/js/2.fcdb14fc.chunk.js"
   },
   {
     "revision": "31f41716931cfd6f208f",
@@ -44,8 +44,8 @@ self.__precacheManifest = [
     "url": "/product-hired-admin/static/js/9.d255937a.chunk.js"
   },
   {
-    "revision": "315bb47f62c479f3610d",
-    "url": "/product-hired-admin/static/js/main.315bb47f.chunk.js"
+    "revision": "b63d74bcd0302f24dc82",
+    "url": "/product-hired-admin/static/js/main.b63d74bc.chunk.js"
   },
   {
     "revision": "ae0ea7d021d854893a7d",
@@ -56,16 +56,16 @@ self.__precacheManifest = [
     "url": "/product-hired-admin/static/media/ionicons.28df6ee7.svg"
   },
   {
-    "revision": "f6bab889acfeb61f351a",
-    "url": "/product-hired-admin/static/js/11.f6bab889.chunk.js"
+    "revision": "6ae4645aff4a42a4148a",
+    "url": "/product-hired-admin/static/js/11.6ae4645a.chunk.js"
   },
   {
-    "revision": "398ead05f4bafedf4e10",
-    "url": "/product-hired-admin/static/js/12.398ead05.chunk.js"
+    "revision": "a7c3f05ee33ee8a5f0c6",
+    "url": "/product-hired-admin/static/js/12.a7c3f05e.chunk.js"
   },
   {
-    "revision": "0ddf3a8075a895772007",
-    "url": "/product-hired-admin/static/js/runtime~main.0ddf3a80.js"
+    "revision": "9716aff04ee9186c1300",
+    "url": "/product-hired-admin/static/js/runtime~main.9716aff0.js"
   },
   {
     "revision": "2c159d0d05473040b53ec79df8797d32",
@@ -80,11 +80,11 @@ self.__precacheManifest = [
     "url": "/product-hired-admin/static/media/ionicons.dd4781d1.ttf"
   },
   {
-    "revision": "f6bab889acfeb61f351a",
+    "revision": "6ae4645aff4a42a4148a",
     "url": "/product-hired-admin/static/css/11.26dd0f7c.chunk.css"
   },
   {
-    "revision": "7cdb0bb92b422d9205095d2ae5550be7",
+    "revision": "b867ba549eaae1a50d936b5c8d595374",
     "url": "/product-hired-admin/index.html"
   }
 ];
