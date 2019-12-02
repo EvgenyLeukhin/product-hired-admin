@@ -38,7 +38,7 @@ class Spinners extends Component {
         }
     };
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         this.props.setHeaderTitle('Spinners');
     }
 

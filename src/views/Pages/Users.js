@@ -28,15 +28,17 @@ class Users extends React.Component {
         .then(this.setState({ loading: true }))
 
         .then(res => {
+            console.log(res);
             this.setState({ 
               users: res.data,
               loading: false,
             });
         })
+        .catch(error => console.log(error));
   }
 
   render() {
-    const { users } = this.state;
+    const { users, loading } = this.state;
 
     const columns = [
       { 
@@ -53,18 +55,64 @@ class Users extends React.Component {
       }, 
       { 
         Header: 'Name', 
-        accessor: 'name',
         id: 'name',
-        accessor: d => d.name,
+        accessor: d => d.name + d.surname,
         filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ['name'] }),
-        filterAll: true
-      }
+        filterAll: true,
+        Cell: ({ original }) => {
+          const { name, surname } = original; 
+          return (
+            <span>{`${name} ${surname}`}</span>
+          );
+        }
+      },
+      { 
+        Header: 'Roles',
+        id: 'roles',
+        accessor: 'roles',
+        width: 150,
+        filterAll: true,
+        Cell: ({ original }) => {
+          const { roles } = original;
+
+          return (
+            <span>{roles[0] ? roles[0].name : '—'}</span>
+          );
+        }
+      },
+      { 
+        Header: 'E-mail', 
+        accessor: 'email',
+        id: 'email',
+        width: 250,
+        filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ['email'] }),
+        filterAll: true,
+        Cell: ({ original }) => {
+          return (
+            <a href={`mailto:http://${original.email}`} target="_blank" rel="noopener noreferrer">{original.email}</a> || '—'
+          );
+        }
+      },
+      { 
+        Header: 'Created',
+        width: 100,
+        accessor: 'created',
+        filterable: false,
+        Cell: ({ original }) => {
+          const { created } = original;
+
+          return (
+            <span>{created.substring(0, 10) || '—'}</span>
+          );
+        }
+      },
     ];
     
     return (
       <div>
         <ReactTable
           className="-striped -highlight"
+          loading={loading}
           data={users}
           columns={columns}
           filterable={true}

@@ -12,6 +12,7 @@ import { withHeaderTitle } from '../../components/Header/HeaderTitle';
 class Companies extends React.Component {
   state = {
     loading: false,
+    error: false,
     companies: []
   }
 
@@ -28,15 +29,25 @@ class Companies extends React.Component {
         .then(this.setState({ loading: true }))
 
         .then(res => {
+          console.log(res.data);
             this.setState({ 
               companies: res.data,
               loading: false,
             });
+            console.log(res);
+        })
+
+        .catch(error => {
+          console.log(error);
+          this.setState({ 
+            error: true,
+            loading: false,
+          });
         })
   }
 
   render() {
-    const { companies } = this.state;
+    const { companies, loading } = this.state;
 
     const columns = [
       { 
@@ -91,8 +102,8 @@ class Companies extends React.Component {
           columns={columns}
           filterable={true}
           resizable={true}
+          loading={loading}
         />
-
       </div>
     );
   }
