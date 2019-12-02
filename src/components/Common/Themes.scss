@@ -22,8 +22,14 @@
     @include theme-content-dark($mdc-blue-grey-800);
     @include theme-sidebar-items($brand-primary, $brand-success);
 
-    .table {
+    .ReactTable {
         color: #fff;
+
+        .rt-thead.-filters input, 
+        .-pagination select,
+        .-pagination input {
+            color: #000;
+        }
     }
 }
 

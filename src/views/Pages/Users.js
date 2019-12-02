@@ -28,13 +28,16 @@ class Users extends React.Component {
         .then(this.setState({ loading: true }))
 
         .then(res => {
-            console.log(res);
             this.setState({ 
               users: res.data,
               loading: false,
             });
         })
-        .catch(error => console.log(error));
+
+        .catch(error => {
+          console.log(error)
+          this.setState({ loading: false });
+        });
   }
 
   render() {
