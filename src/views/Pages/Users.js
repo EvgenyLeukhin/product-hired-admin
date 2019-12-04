@@ -48,6 +48,7 @@ class Users extends React.Component {
         Header: 'ID',
         accessor: 'id',
         width: 60,
+        // sortDescFirst: true,
         Cell: ({ original }) => {
           return (
             <div style={{ textAlign: 'right' }}>
