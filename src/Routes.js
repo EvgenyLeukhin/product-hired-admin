@@ -7,7 +7,7 @@ import PageLoader  from './components/Common/PageLoader';
 import Core        from './components/Core/Core';
 
 // eslint-disable-next-line no-unused-vars
-import Bootstrap   from './components/Bootstrap/Bootstrap'; 
+import Bootstrap   from './components/Bootstrap/Bootstrap';
 // eslint-disable-next-line no-unused-vars
 import Common      from './components/Common/Common';
 // eslint-disable-next-line no-unused-vars
@@ -38,61 +38,62 @@ const Profile   = lazy(() => import('./views/Pages/Profile'));
 // listed here to Switch between layouts
 // depending on the current pathname
 const listofPages = [
-    '/login',
-    '/signup',
-    '/recover',
-    '/lock'
+  '/login',
+  '/signup',
+  '/recover',
+  '/lock'
 ];
 
 const Routes = ({ location }) => {
-    const currentKey = location.pathname.split('/')[1] || '/';
-    const timeout = { enter: 500, exit: 500 };
-    const token = localStorage.getItem('ph-admin-token');
+  const currentKey = location.pathname.split('/')[1] || '/';
+  const timeout = { enter: 500, exit: 500 };
+  const token = localStorage.getItem('ph-admin-token');
 
-    const animationName = 'rag-fadeIn';
+  const animationName = 'rag-fadeIn';
 
-    if (listofPages.indexOf(location.pathname) > -1 && !token) {
-        return (
-            // Page Layout component wrapper
-            <User.Layout>
-                <Switch location={location}>
-                    <Route path="/login" component={waitFor(User.Login)}/>
-                </Switch>
-            </User.Layout>
-        );
-    }
-    else {
-        if (token) {
-            return (
-                // Layout component wrapper
-                <Core>
-                  <TransitionGroup>
-                    <CSSTransition key={currentKey} timeout={timeout} classNames={animationName} exit={false}>
-                        <div>
-                            <Suspense fallback={<PageLoader/>}>
-                                <Switch location={location}>
-                                    <Route path="/users"     component={waitFor(Users)} />
-                                    <Route path="/companies" component={waitFor(Companies)} />
-                                    <Route path="/talents"   component={waitFor(Talents)} />
-                                    <Route path="/employers" component={waitFor(Employers)} />
-                                    <Route path="/filters"   component={waitFor(Filters)} />
-                                    <Route path="/jobs"      component={waitFor(Jobs)} />
-                                    <Route path="/skills"    component={waitFor(Skills)} />
-                                    <Route path="/roles"     component={waitFor(Roles)} />
-                                    <Route path="/plans"     component={waitFor(Plans)} />
-                                    <Route path="/profile"   component={waitFor(Profile)} />
+  if (listofPages.indexOf(location.pathname) > -1 && !token) {
+    return (
+      // Page Layout component wrapper
+      <User.Layout>
+        <Switch location={location}>
+          <Route path="/login" component={waitFor(User.Login)}/>
+        </Switch>
+      </User.Layout>
+    );
+  } else {
+    if (token) {
+      return (
+        // Layout component wrapper
+        <Core>
+          <TransitionGroup>
+            <CSSTransition key={currentKey} timeout={timeout} classNames={animationName} exit={false}>
 
-                                    <Redirect to="/users"/>
-                                </Switch>
-                            </Suspense>
-                        </div>
-                    </CSSTransition>
-                  </TransitionGroup>
-                </Core>
-            );
+              <div>
+                <Suspense fallback={<PageLoader/>}>
+                  <Switch location={location}>
+                    <Route path="/users"     component={waitFor(Users)} />
+                    <Route path="/companies" component={waitFor(Companies)} />
+                    <Route path="/talents"   component={waitFor(Talents)} />
+                    <Route path="/employers" component={waitFor(Employers)} />
+                    <Route path="/filters"   component={waitFor(Filters)} />
+                    <Route path="/jobs"      component={waitFor(Jobs)} />
+                    <Route path="/skills"    component={waitFor(Skills)} />
+                    <Route path="/roles"     component={waitFor(Roles)} />
+                    <Route path="/plans"     component={waitFor(Plans)} />
+                    <Route path="/profile"   component={waitFor(Profile)} />
 
-        } else return <Redirect to='/login' />;
-    }
+                    <Redirect to="/users"/>
+                  </Switch>
+                </Suspense>
+              </div>
+
+            </CSSTransition>
+          </TransitionGroup>
+        </Core>
+      );
+
+    } else return <Redirect to='/login' />;
+  }
 }
 
 export default withRouter(Routes);

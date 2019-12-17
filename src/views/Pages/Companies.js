@@ -11,46 +11,18 @@ import { withHeaderTitle } from '../../components/Header/HeaderTitle';
 
 class Companies extends React.Component {
   state = {
+    data: [],
+    count: null,
     loading: false,
-    error: false,
-    companies: []
   }
 
   UNSAFE_componentWillMount() {
     this.props.setHeaderTitle('Companies');
   }
 
-  componentDidMount() {
-    const userToken = localStorage.getItem('ph-admin-token');
-
-    axios.get(`${API_URL}/api/api/companies`, {
-        headers: { Authorization: userToken }
-    })
-        .then(this.setState({ loading: true }))
-
-        .then(res => {
-          console.log(res.data);
-            this.setState({ 
-              companies: res.data,
-              loading: false,
-            });
-            console.log(res);
-        })
-
-        .catch(error => {
-          console.log(error);
-          this.setState({ 
-            error: true,
-            loading: false,
-          });
-        })
-  }
-
   render() {
-    const { companies, loading } = this.state;
-
     const columns = [
-      { 
+      {
         Header: 'ID',
         accessor: 'id',
         width: 60,
@@ -61,13 +33,13 @@ class Companies extends React.Component {
             </div>
           );
         }
-      }, 
-      { 
-        Header: 'Name', 
+      },
+      {
+        Header: 'Name',
         accessor: 'name',
         id: 'name',
         accessor: d => d.name,
-        filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ['name'] }),
+        // filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ['name'] }),
         filterAll: true,
         Cell: ({ original }) => {
           return (
@@ -79,12 +51,12 @@ class Companies extends React.Component {
           );
         }
       },
-      { 
-        Header: 'Domain', 
+      {
+        Header: 'Domain',
         accessor: 'domain',
         id: 'domain',
         accessor: d => d.domain,
-        filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ['domain'] }),
+        // filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ['domain'] }),
         filterAll: true,
         Cell: ({ original }) => {
           return (
@@ -93,16 +65,53 @@ class Companies extends React.Component {
         }
       },
     ];
-    
+
+    const { data, loading, count } = this.state;
+
     return (
       <div>
         <ReactTable
-          className="-striped -highlight"
-          data={companies}
-          columns={columns}
-          filterable={true}
-          resizable={true}
+          pages={count}
+          manual={true}
+          data={data}
           loading={loading}
+          resizable={true}
+          filterable={true}
+          sortable={false}
+          className="-striped -highlight"
+          columns={columns}
+          onFetchData={(state, instance) => {
+
+            // own Table state
+            console.log(instance);
+            this.setState({ loading: true });
+            const pageSize = state.pageSize;
+            const page = state.page;
+
+            // fetch count
+            axios.get(`${API_URL}/api/api/companies/count`, {
+              headers: { Authorization: localStorage.getItem('ph-admin-token') }
+            }).then(res => {
+              this.setState({
+                count: Math.ceil(res.data.count / pageSize),
+              });
+
+            // fetch data only for 1 page
+            }).then(
+              axios.get(`${API_URL}/api/api/companies`, {
+                headers: { Authorization: localStorage.getItem('ph-admin-token') },
+                params: {
+                  filter: {
+                    "limit": pageSize,
+                    "skip": page * pageSize,
+                    "order":"id DESC"
+                  }
+                }
+              }).then(res => {
+                this.setState({ loading: false, data: res.data });
+              })
+            )
+          }}
         />
       </div>
     );

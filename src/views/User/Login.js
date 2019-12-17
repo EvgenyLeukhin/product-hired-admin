@@ -80,7 +80,7 @@ class Login extends Component {
         const { email, password } = this.state.formLogin;
 
         // login request
-        axios.post(`${API_URL}/api/api/users/login`, { email, password })
+        axios.post(`${API_URL}/api/api/users/login?include=user`, { email, password })
             .then(this.setState({ loading: true }))
 
             // if login

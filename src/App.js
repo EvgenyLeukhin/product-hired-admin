@@ -1,14 +1,3 @@
-/*!
- *
- * Centric - Bootstrap Admin Template
- *
- * Version: 2.0
- * Author: @themicon_co
- * Website: http://themicon.co
- * License: https://wrapbootstrap.com/help/licenses
- *
- */
-
 import React, { Component } from 'react';
 import { HashRouter as Router } from 'react-router-dom';
 
@@ -25,6 +14,7 @@ class App extends Component {
   componentDidMount() {
     const theme = localStorage.getItem('ph-admin-theme', theme);
 
+    // add color theme if it saved in localStore
     if (theme) {
       document.body.classList.remove('theme-1');
       document.body.classList.add(theme);
@@ -40,9 +30,9 @@ class App extends Component {
     const basename = process.env.NODE_ENV === 'development' ? '/' : (PUBLIC_URL || '/');
 
     return (
-        <Router basename={basename}>
-            <Routes />
-        </Router>
+      <Router basename={basename}>
+        <Routes />
+      </Router>
     );
 
   }

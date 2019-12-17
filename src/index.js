@@ -15,7 +15,4 @@ import App from './App';
 
 import './i18n';
 
-ReactDOM.render(
-    <App />,
-    document.getElementById('app')
-);
+ReactDOM.render(<App />, document.getElementById('app'));

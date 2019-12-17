@@ -30,7 +30,7 @@ class Jobs extends React.Component {
         .then(res => {
             console.log(res);
 
-            this.setState({ 
+            this.setState({
               vacancies: res.data,
               loading: false,
             });
@@ -45,39 +45,39 @@ class Jobs extends React.Component {
   render() {
     const { vacancies, loading } = this.state;
 
-    // const columns = [
-    //   { 
-    //     Header: 'ID',
-    //     accessor: 'id',
-    //     width: 60,
-    //     Cell: ({ original }) => {
-    //       return (
-    //         <div style={{ textAlign: 'right' }}>
-    //           <span>{original.id}</span>
-    //         </div>
-    //       );
-    //     }
-    //   }, 
-    //   { 
-    //     Header: 'Name', 
-    //     accessor: 'name',
-    //     id: 'name',
-    //     accessor: d => d.name,
-    //     filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ['name'] }),
-    //     filterAll: true
-    //   }
-    // ];
-    
+    const columns = [
+      {
+        Header: 'ID',
+        accessor: 'id',
+        width: 60,
+        Cell: ({ original }) => {
+          return (
+            <div style={{ textAlign: 'right' }}>
+              <span>{original.id}</span>
+            </div>
+          );
+        }
+      },
+      {
+        Header: 'Name',
+        accessor: 'name',
+        id: 'name',
+        accessor: d => d.name,
+        filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ['name'] }),
+        filterAll: true
+      }
+    ];
+
     return (
       <div>
-        {/* <ReactTable
+        <ReactTable
           className="-striped -highlight"
           loading={loading}
           data={vacancies}
           columns={columns}
           filterable={true}
           resizable={true}
-        /> */}
+        />
 
       </div>
     );
