@@ -1,3 +1,8 @@
+// add slug
+// count to componetDidMount
+// id request to login
+// sortiong by click
+
 import React from "react";
 import ReactTable from "react-table";
 
@@ -14,59 +19,73 @@ class Companies extends React.Component {
     data: [],
     count: null,
     loading: false,
+    columnName: 'id',
+    sortingOrder: 'DESC', // DESC-ASC
   }
 
   UNSAFE_componentWillMount() {
     this.props.setHeaderTitle('Companies');
   }
 
+  //     box-shadow: inset 0 3px 0 0 rgba(0,0,0,0.6);
+  toggleOrder = (colName) => {
+    const { sortingOrder } = this.state;
+    this.setState({ columnName: colName });
+    sortingOrder === 'DESC' ? this.setState({ sortingOrder: 'ASC' }) : this.setState({ sortingOrder: 'DESC' })
+  }
+
   render() {
     const columns = [
+        // filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ['name'] }),
+        // filterAll: true,
       {
-        Header: 'ID',
+        Header: <div onClick={this.toggleOrder.bind(this, 'id')}>ID</div>,
         accessor: 'id',
         width: 60,
-        Cell: ({ original }) => {
-          return (
-            <div style={{ textAlign: 'right' }}>
-              <span>{original.id}</span>
-            </div>
-          );
-        }
+        Cell: ({ original }) => (
+          <div style={{ textAlign: 'right' }}>
+            <span>{original.id || '...'}</span>
+          </div>
+        )
       },
       {
-        Header: 'Name',
+        Header: <div onClick={this.toggleOrder.bind(this, 'name')}>Name</div>,
         accessor: 'name',
         id: 'name',
         accessor: d => d.name,
-        // filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ['name'] }),
-        filterAll: true,
         Cell: ({ original }) => {
           return (
             <div>
               <img src={original.logo} width={20} height="auto" />
               &nbsp;&nbsp;
-              <span>{original.name}</span>
+              <span>{original.name || '...'}</span>
             </div>
           );
         }
       },
       {
-        Header: 'Domain',
+        Header: <div onClick={this.toggleOrder.bind(this, 'domain')}>Domain</div>,
         accessor: 'domain',
         id: 'domain',
         accessor: d => d.domain,
-        // filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ['domain'] }),
-        filterAll: true,
         Cell: ({ original }) => {
-          return (
-            <a href={`http://${original.domain}`} target="_blank" rel="noopener noreferrer">{original.domain}</a>
-          );
+          if (original.domain) {
+            return (
+              <a href={`http://${original.domain}`} target="_blank" rel="noopener noreferrer">{original.domain}</a>
+            );
+          } else return <div>...</div>;
         }
+      },
+      {
+        Header: <div onClick={this.toggleOrder.bind(this, 'slug')}>Slug</div>,
+        accessor: 'slug',
+        id: 'slug',
+        accessor: d => d.slug,
+        Cell: ({ original }) => <div>{original.slug || '...'}</div>
       },
     ];
 
-    const { data, loading, count } = this.state;
+    const { data, loading, count, columnName, sortingOrder } = this.state;
 
     return (
       <div>
@@ -77,13 +96,12 @@ class Companies extends React.Component {
           loading={loading}
           resizable={true}
           filterable={true}
-          sortable={false}
           className="-striped -highlight"
           columns={columns}
           onFetchData={(state, instance) => {
 
+            // console.log(state); //sortedData
             // own Table state
-            console.log(instance);
             this.setState({ loading: true });
             const pageSize = state.pageSize;
             const page = state.page;
@@ -104,7 +122,7 @@ class Companies extends React.Component {
                   filter: {
                     "limit": pageSize,
                     "skip": page * pageSize,
-                    "order":"id DESC"
+                    "order": `${columnName} ${sortingOrder}`
                   }
                 }
               }).then(res => {
