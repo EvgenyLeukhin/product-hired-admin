@@ -1,8 +1,3 @@
-// add slug
-// count to componetDidMount
-// id request to login
-// sortiong by click
-
 import React from "react";
 import ReactTable from "react-table";
 import cln from 'classnames';
@@ -65,6 +60,7 @@ class Companies extends React.Component {
           )
         }
       },
+
       {
         Header: () => {
           const { sortingOrder, columnName, loading } = this.state;
@@ -82,6 +78,7 @@ class Companies extends React.Component {
         },
         accessor: 'name',
         id: 'name',
+        style: { fontWeight: 'bold' },
         accessor: d => d.name,
         Cell: ({ original }) => {
           return (
@@ -93,6 +90,7 @@ class Companies extends React.Component {
           );
         }
       },
+
       {
         Header: () => {
           const { sortingOrder, columnName, loading } = this.state;
@@ -119,6 +117,7 @@ class Companies extends React.Component {
           } else return <div>...</div>;
         }
       },
+
       {
         Header: () => {
           const { sortingOrder, columnName, loading } = this.state;

@@ -106,7 +106,7 @@ class Profile extends Component {
                           <tr>
                             <td><em className="ion-email icon-fw mr" />Email</td>
                             <td>
-                              <span className="is-editable text-inherit"><a href="#">{email || '—'}</a></span>
+                              <span className="is-editable text-inherit"><a href={`mailto:${email}`}>{email || '—'}</a></span>
                             </td>
                           </tr>
 
