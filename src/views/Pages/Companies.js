@@ -7,6 +7,8 @@ import React from "react";
 import ReactTable from "react-table";
 import cln from 'classnames';
 
+import noLogo from './../../img/no-logo.jpg';
+
 // import matchSorter from 'match-sorter';
 // filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ['name'] }),
 // filterAll: true,
@@ -84,7 +86,7 @@ class Companies extends React.Component {
         Cell: ({ original }) => {
           return (
             <div>
-              <img src={original.logo} width={20} height="auto" />
+              <img src={original.logo || noLogo} width={20} height="auto" />
               &nbsp;&nbsp;
               <span>{original.name || '...'}</span>
             </div>
