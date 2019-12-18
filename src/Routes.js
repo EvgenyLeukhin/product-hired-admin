@@ -6,16 +6,12 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import PageLoader  from './components/Common/PageLoader';
 import Core        from './components/Core/Core';
 
-// eslint-disable-next-line no-unused-vars
-import Bootstrap   from './components/Bootstrap/Bootstrap';
-// eslint-disable-next-line no-unused-vars
-import Common      from './components/Common/Common';
-// eslint-disable-next-line no-unused-vars
-import Colors      from './components/Colors/Colors';
-// eslint-disable-next-line no-unused-vars
-import FloatButton from './components/FloatButton/FloatButton';
-// eslint-disable-next-line no-unused-vars
-import Utils       from './components/Utils/Utils';
+// common styles //
+import './components/Bootstrap/Bootstrap';
+import './components/Common/Common';
+import './components/Colors/Colors';
+import './components/FloatButton/FloatButton';
+import './components/Utils/Utils';
 
 import User from './views/User/User';
 
@@ -37,12 +33,7 @@ const Profile   = lazy(() => import('./views/Pages/Profile'));
 // List of routes that uses the page layout
 // listed here to Switch between layouts
 // depending on the current pathname
-const listofPages = [
-  '/login',
-  '/signup',
-  '/recover',
-  '/lock'
-];
+const listofPages = [ '/login', '/signup', '/recover', '/lock' ];
 
 const Routes = ({ location }) => {
   const currentKey = location.pathname.split('/')[1] || '/';

@@ -85,19 +85,21 @@ class Login extends Component {
 
             // if login
             .then((res) => {
+                console.log(res);
                 this.setState({ success: true });
                 const token = localStorage.getItem('ph-admin-token');
 
                 // save tokken to localStorage
                 if (!token) {
-                    localStorage.setItem('ph-admin-token', res.data.id);
-                    localStorage.setItem('ph-admin-id',    res.data.userId);
-                    localStorage.setItem('ph-admin-email', email);
+                  localStorage.setItem('ph-admin-token',  res.data.id);
+                  localStorage.setItem('ph-admin-id',     res.data.userId);
+                  localStorage.setItem('ph-admin-avatar', res.data.user.image.url);
+                  localStorage.setItem('ph-admin-username', `${res.data.user.name} ${res.data.user.surname}`);
                 }
 
                 setTimeout(() => {
-                    const { history } = this.props;
-                    history.push('/users');
+                  const { history } = this.props;
+                  history.push('/users');
                 }, 1000);
             })
 
@@ -117,7 +119,7 @@ class Login extends Component {
         );
     };
 
-    
+
     render() {
         const { email, password } = this.state.formLogin;
         const { success, error, loading } = this.state;
@@ -129,7 +131,7 @@ class Login extends Component {
 
                 <div className={cln('container container-xs', { 'login-success': success })}>
                     <div className="text-center">
-                        <img 
+                        <img
                             style={{ display: 'inline-flex', margin: '12vh 0  20px', width: '200px' }}
                             src="img/logo.svg" alt="Brand logo"
                         />
@@ -145,7 +147,7 @@ class Login extends Component {
                         <div className="cardbox-heading">
                             <div className="cardbox-title text-center">Login</div>
                         </div>
-                        
+
                         <div className="cardbox-body">
                             <div className="mda-form-group float-label mda-input-group">
                                 <div className="mda-form-control">
@@ -182,19 +184,19 @@ class Login extends Component {
                                     <div className="mda-form-control-line" />
                                     <label>Password</label>
                                 </div>
-                                        
+
                                 <span className={cln('mda-input-group-addon', { hasValue: password })}>
                                     <em className="ion-ios-locked-outline icon-lg" />
                                 </span>
                             </div>
                         </div>
 
-                        <button 
+                        <button
                             type="submit"
                             disabled={!email || !password}
                             className="btn btn-primary btn-flat"
-                            style={{ 
-                                display: 'flex', 
+                            style={{
+                                display: 'flex',
                                 justifyContent: 'center',
                             }}
                         >

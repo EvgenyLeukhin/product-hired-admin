@@ -5,8 +5,11 @@
 
 import React from "react";
 import ReactTable from "react-table";
+import cln from 'classnames';
 
-import matchSorter from 'match-sorter';
+// import matchSorter from 'match-sorter';
+// filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ['name'] }),
+// filterAll: true,
 
 import axios from 'axios';
 import API_URL from '../../consts/apiUrl';
@@ -27,7 +30,6 @@ class Companies extends React.Component {
     this.props.setHeaderTitle('Companies');
   }
 
-  //     box-shadow: inset 0 3px 0 0 rgba(0,0,0,0.6);
   toggleOrder = (colName) => {
     const { sortingOrder } = this.state;
     this.setState({ columnName: colName });
@@ -36,20 +38,46 @@ class Companies extends React.Component {
 
   render() {
     const columns = [
-        // filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ['name'] }),
-        // filterAll: true,
       {
-        Header: <div onClick={this.toggleOrder.bind(this, 'id')}>ID</div>,
+        Header: () => {
+          const { sortingOrder, columnName, loading } = this.state;
+          return (
+            <div
+              onClick={this.toggleOrder.bind(this, 'id')}
+              className={cln('custom-th', {
+                'desc': !loading && columnName === 'id' && sortingOrder === 'DESC',
+                'asc':  !loading && columnName === 'id' && sortingOrder === 'ASC'
+              })}
+            >
+              ID
+            </div>
+          )
+        },
         accessor: 'id',
         width: 60,
-        Cell: ({ original }) => (
-          <div style={{ textAlign: 'right' }}>
-            <span>{original.id || '...'}</span>
-          </div>
-        )
+        Cell: ({ original }) => {
+          return (
+            <div style={{ textAlign: 'right' }} >
+              <span>{original.id || '...'}</span>
+            </div>
+          )
+        }
       },
       {
-        Header: <div onClick={this.toggleOrder.bind(this, 'name')}>Name</div>,
+        Header: () => {
+          const { sortingOrder, columnName, loading } = this.state;
+          return (
+            <div
+              onClick={this.toggleOrder.bind(this, 'name')}
+              className={cln('custom-th', {
+                'desc': !loading && columnName === 'name' && sortingOrder === 'DESC',
+                'asc':  !loading && columnName === 'name' && sortingOrder === 'ASC'
+              })}
+            >
+              Name
+            </div>
+          )
+        },
         accessor: 'name',
         id: 'name',
         accessor: d => d.name,
@@ -64,7 +92,20 @@ class Companies extends React.Component {
         }
       },
       {
-        Header: <div onClick={this.toggleOrder.bind(this, 'domain')}>Domain</div>,
+        Header: () => {
+          const { sortingOrder, columnName, loading } = this.state;
+          return (
+            <div
+              onClick={this.toggleOrder.bind(this, 'domain')}
+              className={cln('custom-th', {
+                'desc': !loading && columnName === 'domain' && sortingOrder === 'DESC',
+                'asc':  !loading && columnName === 'domain' && sortingOrder === 'ASC'
+              })}
+            >
+              Domain
+            </div>
+          )
+        },
         accessor: 'domain',
         id: 'domain',
         accessor: d => d.domain,
@@ -77,7 +118,20 @@ class Companies extends React.Component {
         }
       },
       {
-        Header: <div onClick={this.toggleOrder.bind(this, 'slug')}>Slug</div>,
+        Header: () => {
+          const { sortingOrder, columnName, loading } = this.state;
+          return (
+            <div
+              onClick={this.toggleOrder.bind(this, 'slug')}
+              className={cln('custom-th', {
+                'desc': !loading && columnName === 'slug' && sortingOrder === 'DESC',
+                'asc':  !loading && columnName === 'slug' && sortingOrder === 'ASC'
+              })}
+            >
+              Slug
+            </div>
+          )
+        },
         accessor: 'slug',
         id: 'slug',
         accessor: d => d.slug,
@@ -95,8 +149,8 @@ class Companies extends React.Component {
           data={data}
           loading={loading}
           resizable={true}
-          filterable={true}
-          className="-striped -highlight"
+          // filterable={true}
+          className="companies-table -striped -highlight"
           columns={columns}
           onFetchData={(state, instance) => {
 
