@@ -30,11 +30,8 @@ class Companies extends React.Component {
         Header: 'ID',
         accessor: 'id',
         width: 60,
-        Cell: ({ original }) => (
-          <div style={{ textAlign: 'right' }}>
-            <span>{original.id || '...'}</span>
-          </div>
-        )
+        style: { textAlign: 'right' },
+        Cell: ({ original }) => <div>{original.id || '...'}</div>
       },
 
       {
@@ -58,7 +55,7 @@ class Companies extends React.Component {
             return (
               <a href={`http://${original.domain}`} target="_blank" rel="noopener noreferrer">{original.domain}</a>
             );
-          } else return <div>...</div>;
+          } else return '...';
         }
       },
 

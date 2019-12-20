@@ -30,22 +30,15 @@ class Jobs extends React.Component {
         Header: 'ID',
         accessor: 'id',
         width: 60,
-        Cell: ({ original }) => (
-          <div style={{ textAlign: 'right' }}>
-            <span>{original.id || '...'}</span>
-          </div>
-        )
+        style: { textAlign: 'right' },
+        Cell: ({ original }) => <div>{original.id || '...'}</div>
       },
 
       {
-        Header: 'Name',
+        Header: 'Job',
         accessor: 'name',
         style: { fontWeight: 'bold' },
-        Cell: ({ original }) => (
-          <div>
-            <span>{original.name || '...'}</span>
-          </div>
-        )
+        Cell: ({ original }) => <div>{original.name || '...'}</div>
       },
 
       {
@@ -54,11 +47,7 @@ class Jobs extends React.Component {
         width: 200,
         sortable: false,
         filterable: false,
-        Cell: ({ original }) => (
-          <div style={{ textAlign: 'center' }}>
-            <span>{original.locations.map(i => `${i.name} `)}</span>
-          </div>
-        )
+        Cell: ({ original }) => <span>{original.locations.map(i => `${i.name} `)}</span>
       },
 
       {
@@ -136,7 +125,6 @@ class Jobs extends React.Component {
                 headers: { Authorization: localStorage.getItem('ph-admin-token') }
 
               }).then(res => {
-                console.log(res.data);
                 this.setState({
                   // save data to component state
                   data: res.data,

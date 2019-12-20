@@ -29,11 +29,8 @@ class Users extends React.Component {
         Header: 'ID',
         accessor: 'id',
         width: 60,
-        Cell: ({ original }) => (
-          <div style={{ textAlign: 'right' }}>
-            <span>{original.id || '...'}</span>
-          </div>
-        )
+        style: { textAlign: 'right' },
+        Cell: ({ original }) => <div>{original.id || '...'}</div>
       },
 
       {
@@ -128,7 +125,6 @@ class Users extends React.Component {
                 headers: { Authorization: localStorage.getItem('ph-admin-token') }
 
               }).then(res => {
-                console.log(res.data);
                 this.setState({
                   // save data to component state
                   data: res.data,
