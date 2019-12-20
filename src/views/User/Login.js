@@ -91,15 +91,17 @@ class Login extends Component {
 
                 // save tokken to localStorage
                 if (!token) {
+
                   localStorage.setItem('ph-admin-token',  res.data.id);
                   localStorage.setItem('ph-admin-id',     res.data.userId);
                   localStorage.setItem('ph-admin-avatar', res.data.user.image.url);
+                  localStorage.setItem('ph-admin-user', res.data.user.image.url);
                   localStorage.setItem('ph-admin-username', `${res.data.user.name} ${res.data.user.surname}`);
                 }
 
                 setTimeout(() => {
                   const { history } = this.props;
-                  history.push('/users');
+                  history.push('/companies');
                 }, 1000);
             })
 

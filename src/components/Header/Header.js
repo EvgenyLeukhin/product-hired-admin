@@ -70,6 +70,7 @@ class Header extends Component {
       localStorage.removeItem('ph-admin-id');
       localStorage.removeItem('ph-admin-token');
       localStorage.removeItem('ph-admin-username');
+      localStorage.removeItem('ph-admin-avatar');
 
       this.setState({ logOutSuccsess: true });
 

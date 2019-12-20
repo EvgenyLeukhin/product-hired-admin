@@ -70,7 +70,7 @@ class Jobs extends React.Component {
         Cell: ({ original }) => {
           return (
             <div title={original.description}>
-              <span>{`${original.name} ${original.surname}` || '...'}</span>
+              <span>{original.name || '...'}</span>
             </div>
           );
         }
@@ -81,7 +81,6 @@ class Jobs extends React.Component {
           const { sortingOrder, columnName, loading } = this.state;
           return (
             <div
-              onClick={this.toggleOrder.bind(this, 'company')}
               className={cln('custom-th', {
                 'desc': !loading && columnName === 'company' && sortingOrder === 'DESC',
                 'asc':  !loading && columnName === 'company' && sortingOrder === 'ASC'
@@ -89,6 +88,8 @@ class Jobs extends React.Component {
           )
         },
         accessor: 'company',
+        sorting: false,
+        filterable: false,
         width: 100,
         Cell: ({ original }) => <div>{original.company.name || '—'}</div>
       },

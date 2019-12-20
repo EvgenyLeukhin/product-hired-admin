@@ -1,114 +1,58 @@
+// filtering +++
+// прописать catch для запросов
+// save user data in one object in localStorage
+// checking admin rights when login
+// catch 401 error -> redirect to login
+
 import React from "react";
 import ReactTable from "react-table";
-import cln from 'classnames';
-
-import noLogo from './../../img/no-logo.jpg';
-
-// import matchSorter from 'match-sorter';
-// filterMethod: (filter, rows) => matchSorter(rows, filter.value, { keys: ['name'] }),
-// filterAll: true,
-
 import axios from 'axios';
-import API_URL from '../../consts/apiUrl';
 
 import { withHeaderTitle } from '../../components/Header/HeaderTitle';
 
+import noLogo from './../../img/no-logo.jpg';
+import API_URL from '../../consts/apiUrl';
 
 class Companies extends React.Component {
   state = {
     data: [],
     count: null,
     loading: false,
-    columnName: 'id',
-    sortingOrder: 'DESC', // DESC-ASC
   }
 
-  UNSAFE_componentWillMount() {
-    this.props.setHeaderTitle('Companies');
-  }
-
-  toggleOrder = (colName) => {
-    const { sortingOrder } = this.state;
-    this.setState({ columnName: colName });
-    sortingOrder === 'DESC' ? this.setState({ sortingOrder: 'ASC' }) : this.setState({ sortingOrder: 'DESC' })
-  }
+  // inject title text
+  UNSAFE_componentWillMount() { this.props.setHeaderTitle('Companies') }
 
   render() {
+    // table columns
     const columns = [
       {
-        Header: () => {
-          const { sortingOrder, columnName, loading } = this.state;
-          return (
-            <div
-              onClick={this.toggleOrder.bind(this, 'id')}
-              className={cln('custom-th', {
-                'desc': !loading && columnName === 'id' && sortingOrder === 'DESC',
-                'asc':  !loading && columnName === 'id' && sortingOrder === 'ASC'
-              })}
-            >
-              ID
-            </div>
-          )
-        },
+        Header: 'ID',
         accessor: 'id',
         width: 60,
-        Cell: ({ original }) => {
-          return (
-            <div style={{ textAlign: 'right' }} >
-              <span>{original.id || '...'}</span>
-            </div>
-          )
-        }
+        Cell: ({ original }) => (
+          <div style={{ textAlign: 'right' }}>
+            <span>{original.id || '...'}</span>
+          </div>
+        )
       },
 
       {
-        Header: () => {
-          const { sortingOrder, columnName, loading } = this.state;
-          return (
-            <div
-              onClick={this.toggleOrder.bind(this, 'name')}
-              className={cln('custom-th', {
-                'desc': !loading && columnName === 'name' && sortingOrder === 'DESC',
-                'asc':  !loading && columnName === 'name' && sortingOrder === 'ASC'
-              })}
-            >
-              Name
-            </div>
-          )
-        },
+        Header: 'Company name',
         accessor: 'name',
-        id: 'name',
         style: { fontWeight: 'bold' },
-        accessor: d => d.name,
-        Cell: ({ original }) => {
-          return (
-            <div>
-              <img src={original.logo || noLogo} width={20} height="auto" />
-              &nbsp;&nbsp;
-              <span>{original.name || '...'}</span>
-            </div>
-          );
-        }
+        Cell: ({ original }) => (
+          <div>
+            <img src={original.logo || noLogo} width={20} height={20} />
+            &nbsp;&nbsp;
+            <span>{original.name || '...'}</span>
+          </div>
+        )
       },
 
       {
-        Header: () => {
-          const { sortingOrder, columnName, loading } = this.state;
-          return (
-            <div
-              onClick={this.toggleOrder.bind(this, 'domain')}
-              className={cln('custom-th', {
-                'desc': !loading && columnName === 'domain' && sortingOrder === 'DESC',
-                'asc':  !loading && columnName === 'domain' && sortingOrder === 'ASC'
-              })}
-            >
-              Domain
-            </div>
-          )
-        },
+        Header: 'Domain',
         accessor: 'domain',
-        id: 'domain',
-        accessor: d => d.domain,
         Cell: ({ original }) => {
           if (original.domain) {
             return (
@@ -119,28 +63,13 @@ class Companies extends React.Component {
       },
 
       {
-        Header: () => {
-          const { sortingOrder, columnName, loading } = this.state;
-          return (
-            <div
-              onClick={this.toggleOrder.bind(this, 'slug')}
-              className={cln('custom-th', {
-                'desc': !loading && columnName === 'slug' && sortingOrder === 'DESC',
-                'asc':  !loading && columnName === 'slug' && sortingOrder === 'ASC'
-              })}
-            >
-              Slug
-            </div>
-          )
-        },
+        Header: 'Slug',
         accessor: 'slug',
-        id: 'slug',
-        accessor: d => d.slug,
         Cell: ({ original }) => <div>{original.slug || '...'}</div>
       },
     ];
 
-    const { data, loading, count, columnName, sortingOrder } = this.state;
+    const { data, loading, count } = this.state;
 
     return (
       <div>
@@ -150,39 +79,65 @@ class Companies extends React.Component {
           data={data}
           loading={loading}
           resizable={true}
-          // filterable={true}
-          className="companies-table -striped -highlight"
+          filterable={true}
+          className="-striped -highlight"
           columns={columns}
-          onFetchData={(state, instance) => {
+          onFetchData={state => {
+            // use ReactTable own state to forming a request
+            // it refresh always when we're doing any actions with this table
+            // console.log(state);
 
-            // console.log(state); //sortedData
-            // own Table state
+            const { pageSize, page, sorted, filtered } = state;
+
             this.setState({ loading: true });
-            const pageSize = state.pageSize;
-            const page = state.page;
 
-            // fetch count
+            // filter template for request
+            const filter = {
+              where: {},
+              limit: pageSize,
+              skip: page * pageSize,
+              order: 'id DESC' // id DESC - by default
+            };
+
+            // inject values to filter object when we fill data to filter inputs
+            filtered.forEach(i => {
+              if (i.id === 'id') filter.where[i.id] = i.value
+              else               filter.where[i.id] = { 'like': i.value + '%' }
+            });
+
+            // inject data to order when we click sorting
+            sorted.forEach(i => {
+              const desc = i.desc ? 'DESC' : 'ASC'
+              filter.order = `${i.id} ${desc}`;
+            });
+
+
+            // fetch only count
             axios.get(`${API_URL}/api/api/companies/count`, {
-              headers: { Authorization: localStorage.getItem('ph-admin-token') }
-            }).then(res => {
-              this.setState({
-                count: Math.ceil(res.data.count / pageSize),
-              });
+              headers: { Authorization: localStorage.getItem('ph-admin-token') },
+            }
+
+            ).then(res => {
+              // save count to coponent state
+              // res.data.count - all items inside response
+              // count - we find pages-count to add to Table property pages
+              this.setState({ count: Math.ceil(res.data.count / pageSize) });
 
             // fetch data only for 1 page
             }).then(
               axios.get(`${API_URL}/api/api/companies`, {
-                headers: { Authorization: localStorage.getItem('ph-admin-token') },
-                params: {
-                  filter: {
-                    "limit": pageSize,
-                    "skip": page * pageSize,
-                    "order": `${columnName} ${sortingOrder}`
-                  }
-                }
+                params: { filter },
+                headers: { Authorization: localStorage.getItem('ph-admin-token') }
+
               }).then(res => {
-                this.setState({ loading: false, data: res.data });
-              })
+                this.setState({
+                  // save data to component state
+                  data: res.data,
+                  loading: false
+                });
+
+                // TODO catch errors
+              }).catch(error => { console.log(error) })
             )
           }}
         />

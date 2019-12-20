@@ -54,6 +54,7 @@ const Routes = ({ location }) => {
   } else {
     if (token) {
       return (
+
         // Layout component wrapper
         <Core>
           <TransitionGroup>
@@ -62,18 +63,18 @@ const Routes = ({ location }) => {
               <div>
                 <Suspense fallback={<PageLoader/>}>
                   <Switch location={location}>
-                    <Route path="/users"     component={waitFor(Users)} />
                     <Route path="/companies" component={waitFor(Companies)} />
+                    <Route path="/users"     component={waitFor(Users)} />
+                    <Route path="/jobs"      component={waitFor(Jobs)} />
                     <Route path="/talents"   component={waitFor(Talents)} />
                     <Route path="/employers" component={waitFor(Employers)} />
                     <Route path="/filters"   component={waitFor(Filters)} />
-                    <Route path="/jobs"      component={waitFor(Jobs)} />
                     <Route path="/skills"    component={waitFor(Skills)} />
                     <Route path="/roles"     component={waitFor(Roles)} />
                     <Route path="/plans"     component={waitFor(Plans)} />
                     <Route path="/profile"   component={waitFor(Profile)} />
 
-                    <Redirect to="/users"/>
+                    <Redirect to="/companies" />
                   </Switch>
                 </Suspense>
               </div>
@@ -83,7 +84,15 @@ const Routes = ({ location }) => {
         </Core>
       );
 
-    } else return <Redirect to='/login' />;
+    } else {
+      // clean localStorage
+      localStorage.removeItem('ph-admin-id');
+      localStorage.removeItem('ph-admin-token');
+      localStorage.removeItem('ph-admin-username');
+      localStorage.removeItem('ph-admin-avatar');
+
+      return <Redirect to='/login' />;
+    }
   }
 }
 
