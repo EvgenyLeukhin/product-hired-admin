@@ -114,6 +114,8 @@ class Companies extends React.Component {
 
             // fetch only count
             axios.get(`${API_URL}/api/api/companies/count`, {
+              // params for get count when we have filled filters
+              params: { where: filter.where },
               headers: { Authorization: localStorage.getItem('ph-admin-token') },
             }
 
