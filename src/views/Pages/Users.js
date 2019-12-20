@@ -1,141 +1,71 @@
+// filtering +++
+// прописать catch для запросов
+// save user data in one object in localStorage
+// checking admin rights when login
+// catch 401 error -> redirect to login
+
 import React from "react";
 import ReactTable from "react-table";
-import cln from 'classnames';
-
 import axios from 'axios';
-import API_URL from '../../consts/apiUrl';
 
 import { withHeaderTitle } from '../../components/Header/HeaderTitle';
 
+import API_URL from '../../consts/apiUrl';
 
 class Users extends React.Component {
   state = {
     data: [],
     count: null,
     loading: false,
-    columnName: 'id',
-    sortingOrder: 'DESC', // DESC-ASC
   }
 
-  UNSAFE_componentWillMount() {
-    this.props.setHeaderTitle('Users');
-  }
-
-  toggleOrder = (colName) => {
-    const { sortingOrder } = this.state;
-    this.setState({ columnName: colName });
-    sortingOrder === 'DESC' ? this.setState({ sortingOrder: 'ASC' }) : this.setState({ sortingOrder: 'DESC' })
-  }
+  // inject title text
+  UNSAFE_componentWillMount() { this.props.setHeaderTitle('Users') }
 
   render() {
+    // table columns
     const columns = [
       {
-        Header: () => {
-          const { sortingOrder, columnName, loading } = this.state;
-          return (
-            <div
-              onClick={this.toggleOrder.bind(this, 'id')}
-              className={cln('custom-th', {
-                'desc': !loading && columnName === 'id' && sortingOrder === 'DESC',
-                'asc':  !loading && columnName === 'id' && sortingOrder === 'ASC'
-              })}>ID</div>
-          )
-        },
+        Header: 'ID',
         accessor: 'id',
         width: 60,
-        Cell: ({ original }) => {
-          return (
-            <div style={{ textAlign: 'right' }} >
-              <span>{original.id || '...'}</span>
-            </div>
-          )
-        }
+        Cell: ({ original }) => (
+          <div style={{ textAlign: 'right' }}>
+            <span>{original.id || '...'}</span>
+          </div>
+        )
       },
 
       {
-        Header: () => {
-          const { sortingOrder, columnName, loading } = this.state;
-
-          return (
-            <div
-              onClick={this.toggleOrder.bind(this, 'name')}
-              className={cln('custom-th', {
-                'desc': !loading && columnName === 'name' && sortingOrder === 'DESC',
-                'asc':  !loading && columnName === 'name' && sortingOrder === 'ASC'
-              })}>Name</div>
-          )
-        },
+        Header: 'Name',
         accessor: 'name',
         style: { fontWeight: 'bold' },
-        Cell: ({ original }) => {
-          return (
-            <div>
-              <span>{`${original.name} ${original.surname}` || '...'}</span>
-            </div>
-          );
-        }
+        Cell: ({ original }) => (
+          <div>
+            <span>{`${original.name} ${original.surname}` || '...'}</span>
+          </div>
+        )
       },
 
       {
-        Header: () => {
-          const { sortingOrder, columnName, loading } = this.state;
-          return (
-            <div
-              onClick={this.toggleOrder.bind(this, 'email')}
-              className={cln('custom-th', {
-                'desc': !loading && columnName === 'email' && sortingOrder === 'DESC',
-                'asc':  !loading && columnName === 'email' && sortingOrder === 'ASC'
-              })}>Email</div>
-          )
-        },
+        Header: 'Email',
         accessor: 'email',
         Cell: ({ original }) => <a href={`mailto:${original.email}`}>{original.email || '—'}</a>
       },
 
       {
-        Header: () => {
-          const { sortingOrder, columnName, loading } = this.state;
-          return (
-            <div
-              onClick={this.toggleOrder.bind(this, 'created')}
-              className={cln('custom-th', {
-                'desc': !loading && columnName === 'created' && sortingOrder === 'DESC',
-                'asc':  !loading && columnName === 'created' && sortingOrder === 'ASC'
-              })}>Created</div>
-          )
-        },
-        width: 120,
+        Header: 'Created',
         accessor: 'created',
+        width: 120,
         Cell: ({ original }) => (
           <div style={{ textAlign: 'center' }} >
             <span>{original.created.substring(0, 10) || '...'}</span>
           </div>
         )
       },
-
-      {
-        Header: () => {
-          const { sortingOrder, columnName, loading } = this.state;
-          return (
-            <div
-              onClick={this.toggleOrder.bind(this, 'status')}
-              className={cln('custom-th', {
-                'desc': !loading && columnName === 'status' && sortingOrder === 'DESC',
-                'asc':  !loading && columnName === 'status' && sortingOrder === 'ASC'
-              })}>Status</div>
-          )
-        },
-        width: 100,
-        accessor: 'status',
-        Cell: ({ original }) => (
-          <div style={{ textAlign: 'center' }} >
-            <span>{original.status ? 'Active' : 'Blocked'}</span>
-          </div>
-        )
-      },
     ];
 
-    const { data, loading, count, columnName, sortingOrder } = this.state;
+    const { data, loading, count } = this.state;
 
     return (
       <div>
@@ -145,37 +75,68 @@ class Users extends React.Component {
           data={data}
           loading={loading}
           resizable={true}
-          // filterable={true}
-          className="companies-table -striped -highlight"
+          filterable={true}
+          className="-striped -highlight"
           columns={columns}
-          onFetchData={(state, instance) => {
+          onFetchData={state => {
+            // use ReactTable own state to forming a request
+            // it refresh always when we're doing any actions with this table
+            // console.log(state);
 
-            // console.log(state); //sortedData
-            // own Table state
+            const { pageSize, page, sorted, filtered } = state;
+
             this.setState({ loading: true });
-            const pageSize = state.pageSize;
-            const page = state.page;
 
-            // fetch count
+            // filter template for request
+            const filter = {
+              where: {},
+              limit: pageSize,
+              skip: page * pageSize,
+              order: 'id DESC' // id DESC - by default
+            };
+
+            // inject values to filter object when we fill data to filter inputs
+            filtered.forEach(i => {
+              if (i.id === 'id') filter.where[i.id] = i.value
+              else               filter.where[i.id] = { 'like': i.value + '%' }
+            });
+
+            // inject data to order when we click sorting
+            sorted.forEach(i => {
+              const desc = i.desc ? 'DESC' : 'ASC'
+              filter.order = `${i.id} ${desc}`;
+            });
+
+
+            // fetch only count
             axios.get(`${API_URL}/api/api/users/count`, {
-              headers: { Authorization: localStorage.getItem('ph-admin-token') }
-            }).then(res => {
-              this.setState({
-                count: Math.ceil(res.data.count / pageSize),
-              });
+              // params for get count when we have filled filters
+              params: { where: filter.where },
+              headers: { Authorization: localStorage.getItem('ph-admin-token') },
+            }
+
+            ).then(res => {
+              // save count to coponent state
+              // res.data.count - all items inside response
+              // count - we find pages-count to add to Table property pages
+              this.setState({ count: Math.ceil(res.data.count / pageSize) });
 
             // fetch data only for 1 page
             }).then(
               axios.get(`${API_URL}/api/api/users`, {
-                headers: { Authorization: localStorage.getItem('ph-admin-token') },
-                params: {
-                  filter: {
-                    "limit": pageSize,
-                    "skip": page * pageSize,
-                    "order": `${columnName} ${sortingOrder}`
-                  }
-                }
-              }).then(res => { this.setState({ loading: false, data: res.data }) })
+                params: { filter },
+                headers: { Authorization: localStorage.getItem('ph-admin-token') }
+
+              }).then(res => {
+                console.log(res.data);
+                this.setState({
+                  // save data to component state
+                  data: res.data,
+                  loading: false
+                });
+
+                // TODO catch errors
+              }).catch(error => { console.log(error) })
             )
           }}
         />
