@@ -1,46 +1,39 @@
 import React, { Component } from "react";
-import { withHeaderTitle } from '../../components/Header/HeaderTitle';
 import axios from 'axios';
 
-import API_URL from '../../consts/apiUrl';
+import { withHeaderTitle } from '../../components/Header/HeaderTitle';
 
+import API_URL from '../../consts/apiUrl';
 import "../Elements/List.scss";
 
 class Profile extends Component {
   state = {
-      error: false,
-      name: '',
-      position: '',
-      avatar: '',
-      id: null,
-      email: '',
-      created: '',
-      city: '',
-      country: '',
-      usersList: []
+    error: false,
+    name: '',
+    position: '',
+    avatar: '',
+    id: null,
+    email: '',
+    created: '',
+    city: '',
+    country: '',
   }
   UNSAFE_componentWillMount() { this.props.setHeaderTitle('Profile') }
 
     componentDidMount() {
-      // username
-      const name = localStorage.getItem('ph-admin-username');
-      if (name) this.setState({ name });
-
-      // avatar
-      const avatar = localStorage.getItem('ph-admin-avatar');
-      if (avatar !== 'null') this.setState({ avatar });
-
       // id & token
-      const userId = localStorage.getItem('ph-admin-id');
-      const userToken = localStorage.getItem('ph-admin-token');
+      const userData = JSON.parse(localStorage.getItem('ph-admin-user-data'));
+      const token = userData && userData.id;
+      const userId = userData && userData.userId;
 
       // get userData
       axios.get(`${API_URL}/api/api/users/${userId}`, {
-        headers: { Authorization: userToken }
+        headers: { Authorization: token }
       })
 
       .then(res => {
         this.setState({
+          name: `${res.data.name} ${res.data.surname}`,
           position: res.data.job_title,
           avatar: res.data.image.url,
           id: res.data.id,
@@ -52,6 +45,7 @@ class Profile extends Component {
       })
 
       .catch(error => {
+        // TODO
         console.log(error);
         this.setState({ error: true });
       });
@@ -72,9 +66,9 @@ class Profile extends Component {
               </div>
 
               <div className="media-body">
-                <h4 className="mt-sm mb0">{name}</h4>
+                <h4 className="mt-sm mb0">{ name || ''}</h4>
                 <span className="text-muted" style={{ textTransform: 'capitalize' }}>
-                  {{position} && `Product Hired ${position}`}
+                  { position && `Product Hired ${position}` }
                 </span>
               </div>
             </div>

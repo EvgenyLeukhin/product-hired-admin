@@ -57,20 +57,20 @@ class Header extends Component {
   logOut = (e) => {
     e.preventDefault();
     this.setState({ loading: true });
-    const userToken = localStorage.getItem('ph-admin-token');
+
+    // get token
+    const userData = JSON.parse(localStorage.getItem('ph-admin-user-data'));
+    const token = userData.id;
 
     axios.post(
       `${API_URL}/api/api/users/logout`, {},
       {
-        headers: { Authorization: userToken }
+        headers: { Authorization: token }
       }
     )
     .then(() => {
       // remove token
-      localStorage.removeItem('ph-admin-id');
-      localStorage.removeItem('ph-admin-token');
-      localStorage.removeItem('ph-admin-username');
-      localStorage.removeItem('ph-admin-avatar');
+      localStorage.removeItem('ph-admin-user-data');
 
       this.setState({ logOutSuccsess: true });
 
@@ -85,6 +85,9 @@ class Header extends Component {
 
       setTimeout(() => {
         this.setState({ error: false });
+        localStorage.removeItem('ph-admin-user-data');
+
+        this.setState({ redirect: true });
       }, 2000);
     });
   }
@@ -95,16 +98,16 @@ class Header extends Component {
 
     return (
       <header className="header-container">
-        { redirect && <Redirect to='/login' />}
+        { redirect       && <Redirect to='/login' />}
         { error          && <Alert color="danger">Error</Alert> }
         { logOutSuccsess && <Alert color="success">Log out</Alert> }
-        { loading && <SpinnerFull /> }
+        { loading        && <SpinnerFull /> }
 
         <nav>
         <ul className="d-lg-none">
           <li>
             <a id="sidebar-toggler" href="#dummylink1" className={"menu-link "+navIcon}>
-              <span><em/></span>
+              <span><em /></span>
             </a>
           </li>
         </ul>
@@ -112,7 +115,7 @@ class Header extends Component {
         <ul className="d-none d-lg-block">
           <li>
             <a id="offcanvas-toggler" href="#dummylink2" className={"menu-link "+navIcon}>
-              <span><em/></span>
+              <span><em /></span>
             </a>
           </li>
         </ul>

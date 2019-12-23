@@ -15,6 +15,10 @@ class ReactTableCustom extends React.Component {
     const { columns, dataPath, order } = this.props;
     const { data, loading, count } = this.state;
 
+    // get token
+    const userData = JSON.parse(localStorage.getItem('ph-admin-user-data'));
+    const token = userData && userData.id;
+
     return (
       <div>
         <ReactTable
@@ -60,7 +64,7 @@ class ReactTableCustom extends React.Component {
             axios.get(`${API_URL}/api/api/${dataPath}/count`, {
               // params for get count when we have filled filters
               params: { where: filter.where },
-              headers: { Authorization: localStorage.getItem('ph-admin-token') },
+              headers: { Authorization: token },
             }
 
             ).then(res => {
@@ -73,7 +77,7 @@ class ReactTableCustom extends React.Component {
             }).then(
               axios.get(`${API_URL}/api/api/${dataPath}`, {
                 params: { filter },
-                headers: { Authorization: localStorage.getItem('ph-admin-token') }
+                headers: { Authorization: token }
 
               }).then(res => {
                 this.setState({

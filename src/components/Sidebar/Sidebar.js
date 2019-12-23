@@ -93,12 +93,14 @@ class Sidebar extends Component {
   componentDidMount() {
     SidebarRun();
 
+    const userData = JSON.parse(localStorage.getItem('ph-admin-user-data'));
+
     // username
-    const name = localStorage.getItem('ph-admin-username');
+    const name = userData && `${userData.user.name} ${userData.user.surname}`;
     if (name) this.setState({ name });
 
     // avatar
-    const avatar = localStorage.getItem('ph-admin-avatar');
+    const avatar = userData && `${userData.user.image.url}`;
     if (avatar !== 'null') this.setState({ avatar });
   }
 

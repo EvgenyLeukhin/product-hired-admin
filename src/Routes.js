@@ -30,70 +30,58 @@ const Plans     = lazy(() => import('./views/Pages/Plans'));
 const Profile   = lazy(() => import('./views/Pages/Profile'));
 
 
-// List of routes that uses the page layout
-// listed here to Switch between layouts
-// depending on the current pathname
-const listofPages = [ '/login', '/signup', '/recover', '/lock' ];
-
 const Routes = ({ location }) => {
-  const currentKey = location.pathname.split('/')[1] || '/';
-  const timeout = { enter: 500, exit: 500 };
-  const token = localStorage.getItem('ph-admin-token');
-
   const animationName = 'rag-fadeIn';
+  const timeout       = { enter: 500, exit: 500 };
+  const currentKey    = location.pathname.split('/')[1] || '/';
 
-  if (listofPages.indexOf(location.pathname) > -1 && !token) {
+  // get token
+  const userData = JSON.parse(localStorage.getItem('ph-admin-user-data'));
+  const token    = userData && userData.id;
+
+  if (!token) {
+    // clean localStorage
+    localStorage.removeItem('ph-admin-user-data');
+
+    // if not login
     return (
-      // Page Layout component wrapper
       <User.Layout>
         <Switch location={location}>
           <Route path="/login" component={waitFor(User.Login)}/>
+          <Redirect to="/login" />
         </Switch>
       </User.Layout>
     );
-  } else {
-    if (token) {
-      return (
 
-        // Layout component wrapper
-        <Core>
-          <TransitionGroup>
-            <CSSTransition key={currentKey} timeout={timeout} classNames={animationName} exit={false}>
+  // if login
+  } else return (
+    <Core>
+      <TransitionGroup>
+        <CSSTransition key={currentKey} timeout={timeout} classNames={animationName} exit={false}>
 
-              <div>
-                <Suspense fallback={<PageLoader/>}>
-                  <Switch location={location}>
-                    <Route path="/companies" component={waitFor(Companies)} />
-                    <Route path="/users"     component={waitFor(Users)} />
-                    <Route path="/jobs"      component={waitFor(Jobs)} />
-                    <Route path="/talents"   component={waitFor(Talents)} />
-                    <Route path="/employers" component={waitFor(Employers)} />
-                    <Route path="/filters"   component={waitFor(Filters)} />
-                    <Route path="/skills"    component={waitFor(Skills)} />
-                    <Route path="/roles"     component={waitFor(Roles)} />
-                    <Route path="/plans"     component={waitFor(Plans)} />
-                    <Route path="/profile"   component={waitFor(Profile)} />
+          <div>
+            <Suspense fallback={<PageLoader/>}>
+              <Switch location={location}>
+                <Route path="/companies" component={waitFor(Companies)} />
+                <Route path="/users"     component={waitFor(Users)} />
+                <Route path="/jobs"      component={waitFor(Jobs)} />
+                <Route path="/talents"   component={waitFor(Talents)} />
+                <Route path="/employers" component={waitFor(Employers)} />
+                <Route path="/filters"   component={waitFor(Filters)} />
+                <Route path="/skills"    component={waitFor(Skills)} />
+                <Route path="/roles"     component={waitFor(Roles)} />
+                <Route path="/plans"     component={waitFor(Plans)} />
+                <Route path="/profile"   component={waitFor(Profile)} />
 
-                    <Redirect to="/companies" />
-                  </Switch>
-                </Suspense>
-              </div>
+                <Redirect to="/companies" />
+              </Switch>
+            </Suspense>
+          </div>
 
-            </CSSTransition>
-          </TransitionGroup>
-        </Core>
-      );
-
-    } else {
-      // clean localStorage
-      localStorage.removeItem('ph-admin-id');
-      localStorage.removeItem('ph-admin-token');
-      localStorage.removeItem('ph-admin-username');
-      localStorage.removeItem('ph-admin-avatar');
-
-      return <Redirect to='/login' />;
-    }
-  }
+        </CSSTransition>
+      </TransitionGroup>
+    </Core>
+  );
 }
 
 export default withRouter(Routes);
