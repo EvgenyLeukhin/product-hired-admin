@@ -43,10 +43,9 @@ class Companies extends React.Component {
 
     return (
       <ReactTableCustom
-        order='id DESC'
         columns={columns}
-        dataPath='api/api/companies'
-        countPath='api/api/companies/count'
+        order='id DESC'
+        dataPath='companies'
       />
     );
   }

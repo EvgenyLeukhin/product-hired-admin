@@ -27,8 +27,7 @@ class Plans extends React.Component {
     return (
       <ReactTableCustom
         columns={columns}
-        dataPath='api/api/plans'
-        countPath='api/api/plans/count'
+        dataPath='plans'
       />
     );
   }

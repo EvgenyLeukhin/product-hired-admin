@@ -31,8 +31,7 @@ class Skills extends React.Component {
     return (
       <ReactTableCustom
         columns={columns}
-        dataPath='api/api/skills'
-        countPath='api/api/skills/count'
+        dataPath='skills'
       />
     );
   }

@@ -38,10 +38,9 @@ class Jobs extends React.Component {
 
     return (
       <ReactTableCustom
-        order='id DESC'
         columns={columns}
-        dataPath='api/api/vacancies'
-        countPath='api/api/vacancies/count'
+        order='id DESC'
+        dataPath='vacancies'
       />
     );
   }

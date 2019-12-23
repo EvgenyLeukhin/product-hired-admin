@@ -23,8 +23,7 @@ class Roles extends React.Component {
     return (
       <ReactTableCustom
         columns={columns}
-        dataPath='api/api/user_roles'
-        countPath='api/api/user_roles/count'
+        dataPath='user_roles'
       />
     );
   }

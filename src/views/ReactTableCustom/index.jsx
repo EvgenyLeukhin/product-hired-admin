@@ -12,7 +12,7 @@ class ReactTableCustom extends React.Component {
   }
 
   render() {
-    const { columns, countPath, dataPath, order } = this.props;
+    const { columns, dataPath, order } = this.props;
     const { data, loading, count } = this.state;
 
     return (
@@ -57,7 +57,7 @@ class ReactTableCustom extends React.Component {
 
 
             // fetch only count
-            axios.get(`${API_URL}/${countPath}`, {
+            axios.get(`${API_URL}/api/api/${dataPath}/count`, {
               // params for get count when we have filled filters
               params: { where: filter.where },
               headers: { Authorization: localStorage.getItem('ph-admin-token') },
@@ -71,7 +71,7 @@ class ReactTableCustom extends React.Component {
 
             // fetch data only for 1 page
             }).then(
-              axios.get(`${API_URL}/${dataPath}`, {
+              axios.get(`${API_URL}/api/api/${dataPath}`, {
                 params: { filter },
                 headers: { Authorization: localStorage.getItem('ph-admin-token') }
 

@@ -40,8 +40,7 @@ class Users extends React.Component {
     return (
       <ReactTableCustom
         columns={columns}
-        dataPath='api/api/users'
-        countPath='api/api/users/count'
+        dataPath='users'
       />
     );
   }
