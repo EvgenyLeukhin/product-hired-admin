@@ -8,12 +8,6 @@ class Plans extends React.Component {
 
   render() {
     const columns = [
-      { Header: 'Id',
-        accessor: 'id',
-        width: 60,
-        style: { textAlign: 'right' },
-        Cell: ({ original }) => <div>{original.id || '...'}</div> },
-
       { Header: 'Plan',
         accessor: 'plan',
         style: { fontWeight: 'bold' },

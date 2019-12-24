@@ -8,12 +8,6 @@ class Skills extends React.Component {
 
   render() {
     const columns = [
-      { Header: 'Id',
-        accessor: 'id',
-        width: 60,
-        style: { textAlign: 'right' },
-        Cell: ({ original }) => <div>{original.id || '...'}</div> },
-
       { Header: 'Skill',
         accessor: 'name',
         style: { fontWeight: 'bold' },

@@ -11,13 +11,65 @@ class ReactTableCustom extends React.Component {
     loading: false,
   }
 
+  edit = id => () => {
+    alert(id);
+  }
+
+  delete = id => () => {
+    const { dataPath } = this.props;
+
+    const userData = JSON.parse(localStorage.getItem('ph-admin-user-data'));
+    const token = userData && userData.id;
+
+    // console.log(`${API_URL}/api/api/${dataPath}/${id}`);
+
+    // delete request
+    axios.delete(
+      `${API_URL}/api/api/${dataPath}/${id}`,
+      {
+        // headers: { Authorization: token }
+        headers: { Authorization: null }
+      }
+    ).then(res => {
+      console.log(res);
+      alert('ok!');
+
+    }).catch(error => {
+      console.log(error);
+      alert('not ok!');
+    })
+  }
+
   render() {
     const { columns, dataPath, order } = this.props;
     const { data, loading, count } = this.state;
 
-    // get token
-    const userData = JSON.parse(localStorage.getItem('ph-admin-user-data'));
-    const token = userData && userData.id;
+    const idColumn = [
+      {
+        Header: 'Id',
+        accessor: 'id',
+        width: 60,
+        style: { textAlign: 'right' },
+        Cell: ({ original }) => <div>{original.id || '...'}</div>
+      }
+    ];
+
+    const controlsColumn = [
+      {
+        Header: 'Controls',
+        width: 80,
+        Cell: ({ original }) => {
+          const { id } = original;
+
+          return (
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <span onClick={this.edit(id)}>Edit</span>
+              <span onClick={this.delete(id)}>Delete</span>
+            </div>
+          )
+        }
+      }
+    ];
 
     return (
       <div>
@@ -29,7 +81,7 @@ class ReactTableCustom extends React.Component {
           resizable={true}
           filterable={true}
           className="-striped -highlight"
-          columns={columns}
+          columns={[...idColumn, ...columns, ...controlsColumn]}
           onFetchData={state => {
             // use ReactTable own state to forming a request
             // it refresh always when we're doing any actions with this table
@@ -59,6 +111,9 @@ class ReactTableCustom extends React.Component {
               filter.order = `${i.id} ${desc}`;
             });
 
+            // get token
+            const userData = JSON.parse(localStorage.getItem('ph-admin-user-data'));
+            const token = userData && userData.id;
 
             // fetch only count
             axios.get(`${API_URL}/api/api/${dataPath}/count`, {

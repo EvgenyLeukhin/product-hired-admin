@@ -1,20 +1,15 @@
 import React from "react";
+
+import { withHeaderTitle } from '../../components/Header/HeaderTitle';
 import ReactTableCustom from '../ReactTableCustom';
 
 import noLogo from './../../img/no-logo.jpg';
-import { withHeaderTitle } from '../../components/Header/HeaderTitle';
 
 class Companies extends React.Component {
   UNSAFE_componentWillMount() { this.props.setHeaderTitle('Companies') }
 
   render() {
     const columns = [
-      { Header: 'Id',
-        accessor: 'id',
-        width: 60,
-        style: { textAlign: 'right' },
-        Cell: ({ original }) => <div>{original.id || '...'}</div> },
-
       { Header: 'Company name',
         accessor: 'name',
         style: { fontWeight: 'bold' },
@@ -38,7 +33,7 @@ class Companies extends React.Component {
 
       { Header: 'Slug',
         accessor: 'slug',
-        Cell: ({ original }) => <div>{original.slug || '...'}</div> },
+        Cell: ({ original }) => <div>{original.slug || '...'}</div> }
     ];
 
     return (

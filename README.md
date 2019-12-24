@@ -23,3 +23,25 @@ Build: ```npm run build``` || ```yarn build```
 ## deploy to gh-pages
 
 ```npm run deploy```
+
+<!-- TODO -->
+
+<!-- 0. Modal -->
+<!-- 1. Delete -->
+<!-- 2. Add -->
+<!-- 3. Edit -->
+
+
+<!-- old admin -->
+<!-- https://admin.producthired.com/ -->
+<!-- mail: eugenel@effective.band -->
+<!-- pw:   eugenel@effective.band -->
+
+
+
+<!-- this admin -->
+<!-- mail: eugenel@effective.band -->
+<!-- pw:   eugenel@effective.band -->
+
+<!-- mail: eugeny.leukhin@stellarsolvers.com -->
+<!-- pw:   123123 -->

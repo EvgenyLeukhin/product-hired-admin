@@ -8,12 +8,6 @@ class Jobs extends React.Component {
 
   render() {
     const columns = [
-      { Header: 'Id',
-        accessor: 'id',
-        width: 60,
-        style: { textAlign: 'right' },
-        Cell: ({ original }) => <div>{original.id || '...'}</div> },
-
       { Header: 'Job',
         accessor: 'name',
         style: { fontWeight: 'bold' },
