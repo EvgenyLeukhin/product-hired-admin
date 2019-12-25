@@ -1,4 +1,15 @@
+.rt-table {
+  .rt-tbody {
+    .rt-tr-group:hover {
+      .rt-custom__controls {
+        opacity: 1;
+      }
+    }
+  }
+}
+
 .rt-custom__controls {
+  opacity: 0;
   display: flex;
   justify-content: space-around;
   text-align: center;

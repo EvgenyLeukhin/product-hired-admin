@@ -104,7 +104,7 @@ class ReactTableCustom extends React.Component {
 
     const controlsColumn = [
       {
-        Header: 'Controls',
+        Header: '',
         width: 65,
         sortable: false,
         filterable: false,
