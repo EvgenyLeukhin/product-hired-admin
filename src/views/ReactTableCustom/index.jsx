@@ -1,48 +1,96 @@
 import React from "react";
 import ReactTable from "react-table";
+import { Alert } from "reactstrap";
 import axios from 'axios';
 
+import Modal from './Modal';
+
 import API_URL from '../../consts/apiUrl';
+
+import './styles.scss';
 
 class ReactTableCustom extends React.Component {
   state = {
     data: [],
     count: null,
     loading: false,
+    itemOriginal: null,
+    modalType: '',
+    modalIsOpen: false,
+    modalLoader: false,
+    alert: false
   }
 
-  edit = id => () => {
-    alert(id);
+  editClick = original => () => {
+    this.setState({
+      modalType: 'edit',
+      itemOriginal: original
+    });
+
+    alert(`Edit TODO id:${original.id}`);
   }
 
-  delete = id => () => {
+  deleteClick = original => () => {
+    this.setState({
+      modalType: 'delete',
+      modalIsOpen: true,
+      itemOriginal: original
+    });
+  }
+
+  deleteRequest = () => {
     const { dataPath } = this.props;
+    const { itemOriginal: { id } } = this.state;
 
     const userData = JSON.parse(localStorage.getItem('ph-admin-user-data'));
     const token = userData && userData.id;
 
-    // console.log(`${API_URL}/api/api/${dataPath}/${id}`);
 
     // delete request
     axios.delete(
       `${API_URL}/api/api/${dataPath}/${id}`,
       {
-        // headers: { Authorization: token }
-        headers: { Authorization: null }
-      }
-    ).then(res => {
-      console.log(res);
-      alert('ok!');
+        headers: { Authorization: token }
+      })
 
-    }).catch(error => {
-      console.log(error);
-      alert('not ok!');
-    })
+      // start loader
+      .then(this.setState({ modalLoader: true }))
+
+      // if ok
+      .then(res => {
+        console.log(res);
+        this.setState({ modalIsOpen: false, modalLoader: false })
+      })
+
+      // show alert and reload page with timeOut
+      .then(() => {
+        this.setState({ alert: true });
+
+        setTimeout(() => {
+          this.setState({ alert: false });
+          window.location.reload();
+        }, 2000);
+      })
+
+      // if not ok // TODO
+      .catch(error => {
+        console.log(error);
+        alert('Something is wrong!');
+      })
   }
 
   render() {
     const { columns, dataPath, order } = this.props;
-    const { data, loading, count } = this.state;
+    const {
+      data,
+      loading,
+      count,
+      itemOriginal,
+      modalType,
+      modalIsOpen,
+      modalLoader,
+      alert
+    } = this.state;
 
     const idColumn = [
       {
@@ -57,22 +105,37 @@ class ReactTableCustom extends React.Component {
     const controlsColumn = [
       {
         Header: 'Controls',
-        width: 80,
-        Cell: ({ original }) => {
-          const { id } = original;
-
-          return (
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span onClick={this.edit(id)}>Edit</span>
-              <span onClick={this.delete(id)}>Delete</span>
-            </div>
-          )
-        }
+        width: 65,
+        sortable: false,
+        filterable: false,
+        Cell: ({ original }) => (
+          <div className="rt-custom__controls">
+            <i className="ion-edit"           onClick={this.editClick(original)} />
+            <i className="ion-android-delete" onClick={this.deleteClick(original)} />
+          </div>
+        )
       }
     ];
 
     return (
       <div>
+        <Modal
+          type={modalType}
+          itemOriginal={itemOriginal}
+          modalLoader={modalLoader}
+          isOpen={modalIsOpen}
+          closeModal={() => this.setState({ modalIsOpen: false })}
+          deleteRequest={this.deleteRequest}
+        />
+
+        {
+          alert && itemOriginal && (
+            <Alert color="danger">
+              {`"${itemOriginal.id}`} - <b>{`${itemOriginal.name}" is deleted`}</b>
+            </Alert>
+          )
+        }
+
         <ReactTable
           manual={true}
           pages={count}
