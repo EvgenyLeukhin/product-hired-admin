@@ -93,6 +93,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "debounce-input-decorator": "^1.0.0",
     "imports-loader": "0.8.0",
     "node-sass": "4.11.0",
     "react-scripts-rewired": "2.1.3",

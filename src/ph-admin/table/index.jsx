@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactTable from 'react-table';
+import { Input } from 'debounce-input-decorator';
+
 import Modal from '../modal';
 import Alerts from '../alerts';
 
@@ -25,7 +27,8 @@ class Table extends React.Component {
     modalLoading: false,
 
     // alert //
-    alertIsOpen: false
+    alertIsOpen: false,
+    idValue: ''
   }
 
   deleteClick = original => () => {
@@ -92,7 +95,14 @@ class Table extends React.Component {
         accessor: 'id',
         width: 60,
         style: { textAlign: 'right' },
-        Cell: ({ original }) => <div>{original.id || '...'}</div>
+        Cell: ({ original }) => <div>{original.id || '...'}</div>,
+        Filter: ({ filter, onChange }) => (
+          <Input
+            value={filter ? filter.value : ''}
+            onChange={event => onChange(event.target.value)}
+            debounceTimeout={800}
+          />
+        )
       }
     ];
 

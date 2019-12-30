@@ -9,8 +9,8 @@ const DeleteModal = ({ itemOriginal, closeModal, deleteRequest, modalLoading }) 
   return (
     <>
       <div className='ReactModal__delete__title'>
-          <span>Are you sure you want to delete </span> <br/>
-          {`"${itemOriginal.id}`} - <b>{`${itemOriginal.name}"?`}</b>
+        <span>Are you sure you want to delete </span> <br/>
+        {`"${itemOriginal.id}`} - <b>{`${itemOriginal.name}"?`}</b>
       </div>
 
       {

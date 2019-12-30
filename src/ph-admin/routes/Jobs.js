@@ -1,6 +1,7 @@
 import React from "react";
-import Table from '../../ph-admin/table';
 
+import Table from '../../ph-admin/table';
+import customFiltering from '../table/customFiltering';
 import { withHeaderTitle } from '../../components/Header/HeaderTitle';
 
 class Jobs extends React.Component {
@@ -8,26 +9,35 @@ class Jobs extends React.Component {
 
   render() {
     const columns = [
-      { Header: 'Job',
+      {
+        Header: 'Job',
         accessor: 'name',
         style: { fontWeight: 'bold' },
-        Cell: ({ original }) => <div>{original.name || '...'}</div> },
+        Cell: ({ original }) => <div>{original.name || '...'}</div>,
+        Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+      },
 
-      { Header: 'Location',
+      {
+        Header: 'Location',
         accessor: 'locations',
         width: 200,
         sortable: false,
         filterable: false,
-        Cell: ({ original }) => <span>{original.locations.map(i => `${i.name} `)}</span> },
+        Cell: ({ original }) => <span>{original.locations.map(i => `${i.name} `)}</span>,
+        Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+      },
 
-      { Header: 'Created',
+      {
+        Header: 'Created',
         accessor: 'created',
         width: 120,
         Cell: ({ original }) => (
           <div style={{ textAlign: 'center' }}>
             <span>{original.created.substring(0, 10) || '...'}</span>
           </div>
-        )},
+        ),
+        Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+      },
     ];
 
     return (

@@ -1,6 +1,7 @@
 import React from "react";
-import Table from '../../ph-admin/table';
 
+import Table from '../../ph-admin/table';
+import customFiltering from '../table/customFiltering';
 import { withHeaderTitle } from '../../components/Header/HeaderTitle';
 
 class Skills extends React.Component {
@@ -8,18 +9,27 @@ class Skills extends React.Component {
 
   render() {
     const columns = [
-      { Header: 'Skill',
+      {
+        Header: 'Skill',
         accessor: 'name',
         style: { fontWeight: 'bold' },
-        Cell: ({ original }) => <div>{original.name || '...'}</div> },
+        Cell: ({ original }) => <div>{original.name || '...'}</div>,
+        Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+      },
 
-      { Header: 'Aliases',
+      {
+        Header: 'Aliases',
         accessor: 'markers',
-        Cell: ({ original }) => <div>{original.markers || '...'}</div> },
+        Cell: ({ original }) => <div>{original.markers || '...'}</div>,
+        Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+      },
 
-      { Header: 'Slug',
+      {
+        Header: 'Slug',
         accessor: 'slug',
-        Cell: ({ original }) => <div>{original.slug || '...'}</div> },
+        Cell: ({ original }) => <div>{original.slug || '...'}</div>,
+        Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+      },
     ];
 
     return <Table columns={columns} dataPath='skills' wrapperClassname='skills-table' />;

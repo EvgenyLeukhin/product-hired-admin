@@ -1,6 +1,7 @@
 import React from "react";
-import Table from '../../ph-admin/table';
 
+import Table from '../../ph-admin/table';
+import customFiltering from '../table/customFiltering';
 import { withHeaderTitle } from '../../components/Header/HeaderTitle';
 
 class Plans extends React.Component {
@@ -8,14 +9,20 @@ class Plans extends React.Component {
 
   render() {
     const columns = [
-      { Header: 'Plan',
+      {
+        Header: 'Plan',
         accessor: 'plan',
         style: { fontWeight: 'bold' },
-        Cell: ({ original }) => <div>{original.name || '...'}</div> },
+        Cell: ({ original }) => <div>{original.name || '...'}</div>,
+        Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+      },
 
-      { Header: 'Price',
+      {
+        Header: 'Price',
         accessor: 'price',
-        Cell: ({ original }) => <div>{`$${original.price}`}</div> || '...' },
+        Cell: ({ original }) => <div>{`$${original.price}`}</div> || '...',
+        Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+      },
     ];
 
     return <Table columns={columns} dataPath='plans' wrapperClassname='plans-table' />;

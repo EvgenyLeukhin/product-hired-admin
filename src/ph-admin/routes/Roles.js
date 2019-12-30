@@ -1,6 +1,7 @@
 import React from 'react';
-import Table from '../../ph-admin/table';
 
+import Table from '../../ph-admin/table';
+import customFiltering from '../table/customFiltering';
 import { withHeaderTitle } from '../../components/Header/HeaderTitle';
 
 class Roles extends React.Component {
@@ -8,10 +9,13 @@ class Roles extends React.Component {
 
   render() {
     const columns = [
-      { Header: 'Role',
+      {
+        Header: 'Role',
         accessor: 'name',
         style: { fontWeight: 'bold' },
-        Cell: ({ original }) => <div>{original.name || '...'}</div> },
+        Cell: ({ original }) => <div>{original.name || '...'}</div>,
+        Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+      },
     ];
 
     return (

@@ -3,6 +3,8 @@ import React from "react";
 import { withHeaderTitle } from '../../components/Header/HeaderTitle';
 import Table from '../../ph-admin/table';
 
+import customFiltering from '../table/customFiltering';
+
 import noLogo from './../../img/no-logo.jpg';
 
 class Companies extends React.Component {
@@ -10,7 +12,8 @@ class Companies extends React.Component {
 
   render() {
     const columns = [
-      { Header: 'Company name',
+      {
+        Header: 'Company name',
         accessor: 'name',
         style: { fontWeight: 'bold' },
         Cell: ({ original }) => (
@@ -19,9 +22,12 @@ class Companies extends React.Component {
             &nbsp;&nbsp;
             <span>{original.name || '...'}</span>
           </div>
-        )},
+        ),
+        Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+      },
 
-      { Header: 'Domain',
+      {
+        Header: 'Domain',
         accessor: 'domain',
         Cell: ({ original }) => {
           if (original.domain) {
@@ -29,11 +35,16 @@ class Companies extends React.Component {
               <a href={`http://${original.domain}`} target="_blank" rel="noopener noreferrer">{original.domain}</a>
             );
           } else return '...';
-        }},
+        },
+        Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+      },
 
-      { Header: 'Slug',
+      {
+        Header: 'Slug',
         accessor: 'slug',
-        Cell: ({ original }) => <div>{original.slug || '...'}</div> }
+        Cell: ({ original }) => <div>{original.slug || '...'}</div>,
+        Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+      }
     ];
 
     return (
