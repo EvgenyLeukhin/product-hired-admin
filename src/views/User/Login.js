@@ -79,10 +79,12 @@ class Login extends Component {
             localStorage.setItem('ph-admin-user-data', JSON.stringify(res));
             this.setState({ loading: false, success: true });
 
-            // redirect to /companies
+            // redirect to /companies and reload
             setTimeout(() => {
               const { history } = this.props;
               history.push('/companies');
+              window.location.reload(); // fix problem with getCount after login
+
             }, 1000);
 
           // don't have admin rigts

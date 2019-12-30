@@ -15,6 +15,7 @@ import './components/Utils/Utils';
 
 import User from './views/User/User';
 
+
 /* Used to render a lazy component with react-router */
 const waitFor = Tag => props => <Tag {...props} />;
 

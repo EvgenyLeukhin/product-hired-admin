@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTable from 'react-table';
-import { Input } from 'debounce-input-decorator';
+// import { Input } from 'debounce-input-decorator';
 
 import Modal from '../modal';
 import Alerts from '../alerts';
@@ -8,6 +8,7 @@ import Alerts from '../alerts';
 import getCount from '../api/getCount';
 import getData from '../api/getData';
 import deleteRequest from '../api/deleteRequest';
+import customFiltering from '../table/customFiltering';
 
 import './styles.scss';
 
@@ -96,13 +97,7 @@ class Table extends React.Component {
         width: 60,
         style: { textAlign: 'right' },
         Cell: ({ original }) => <div>{original.id || '...'}</div>,
-        Filter: ({ filter, onChange }) => (
-          <Input
-            value={filter ? filter.value : ''}
-            onChange={event => onChange(event.target.value)}
-            debounceTimeout={800}
-          />
-        )
+        Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
       }
     ];
 
