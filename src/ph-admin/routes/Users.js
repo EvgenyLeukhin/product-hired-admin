@@ -1,5 +1,5 @@
 import React from "react";
-import ReactTableCustom from '../ReactTableCustom';
+import Table from '../../ph-admin/table';
 
 import { withHeaderTitle } from '../../components/Header/HeaderTitle';
 
@@ -31,12 +31,7 @@ class Users extends React.Component {
         )},
     ];
 
-    return (
-      <ReactTableCustom
-        columns={columns}
-        dataPath='users'
-      />
-    );
+    return <Table columns={columns} dataPath='users' wrapperClassname='users-table' />;
   }
 }
 

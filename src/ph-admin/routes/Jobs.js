@@ -1,5 +1,5 @@
 import React from "react";
-import ReactTableCustom from '../ReactTableCustom';
+import Table from '../../ph-admin/table';
 
 import { withHeaderTitle } from '../../components/Header/HeaderTitle';
 
@@ -31,10 +31,11 @@ class Jobs extends React.Component {
     ];
 
     return (
-      <ReactTableCustom
+      <Table
         columns={columns}
         order='id DESC'
         dataPath='vacancies'
+        wrapperClassname='jobs-table'
       />
     );
   }

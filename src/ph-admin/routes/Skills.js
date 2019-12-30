@@ -1,5 +1,5 @@
 import React from "react";
-import ReactTableCustom from '../ReactTableCustom';
+import Table from '../../ph-admin/table';
 
 import { withHeaderTitle } from '../../components/Header/HeaderTitle';
 
@@ -22,12 +22,7 @@ class Skills extends React.Component {
         Cell: ({ original }) => <div>{original.slug || '...'}</div> },
     ];
 
-    return (
-      <ReactTableCustom
-        columns={columns}
-        dataPath='skills'
-      />
-    );
+    return <Table columns={columns} dataPath='skills' wrapperClassname='skills-table' />;
   }
 }
 

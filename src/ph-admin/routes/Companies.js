@@ -1,7 +1,7 @@
 import React from "react";
 
 import { withHeaderTitle } from '../../components/Header/HeaderTitle';
-import ReactTableCustom from '../ReactTableCustom';
+import Table from '../../ph-admin/table';
 
 import noLogo from './../../img/no-logo.jpg';
 
@@ -37,10 +37,11 @@ class Companies extends React.Component {
     ];
 
     return (
-      <ReactTableCustom
+      <Table
+        startOrder='id DESC'
         columns={columns}
-        order='id DESC'
         dataPath='companies'
+        wrapperClassname='companies-table'
       />
     );
   }

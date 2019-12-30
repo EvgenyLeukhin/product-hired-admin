@@ -43,5 +43,6 @@ Build: ```npm run build``` || ```yarn build```
 <!-- mail: eugenel@effective.band -->
 <!-- pw:   eugenel@effective.band -->
 
+<!-- without admin rights -->
 <!-- mail: eugeny.leukhin@stellarsolvers.com -->
 <!-- pw:   123123 -->

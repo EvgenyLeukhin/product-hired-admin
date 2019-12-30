@@ -18,16 +18,16 @@ import User from './views/User/User';
 /* Used to render a lazy component with react-router */
 const waitFor = Tag => props => <Tag {...props} />;
 
-const Users     = lazy(() => import('./views/Pages/Users'));
-const Companies = lazy(() => import('./views/Pages/Companies'));
-const Talents   = lazy(() => import('./views/Pages/Talents'));
-const Employers = lazy(() => import('./views/Pages/Employers'));
-const Filters   = lazy(() => import('./views/Pages/Filters'));
-const Jobs      = lazy(() => import('./views/Pages/Jobs'));
-const Skills    = lazy(() => import('./views/Pages/Skills'));
-const Roles     = lazy(() => import('./views/Pages/Roles'));
-const Plans     = lazy(() => import('./views/Pages/Plans'));
-const Profile   = lazy(() => import('./views/Pages/Profile'));
+const Users     = lazy(() => import('./ph-admin/routes/Users'));
+const Companies = lazy(() => import('./ph-admin/routes/Companies'));
+const Talents   = lazy(() => import('./ph-admin/routes/Talents'));
+const Employers = lazy(() => import('./ph-admin/routes/Employers'));
+const Filters   = lazy(() => import('./ph-admin/routes/Filters'));
+const Jobs      = lazy(() => import('./ph-admin/routes/Jobs'));
+const Skills    = lazy(() => import('./ph-admin/routes/Skills'));
+const Roles     = lazy(() => import('./ph-admin/routes/Roles'));
+const Plans     = lazy(() => import('./ph-admin/routes/Plans'));
+const Profile   = lazy(() => import('./ph-admin/routes/Profile'));
 
 
 const Routes = ({ location }) => {

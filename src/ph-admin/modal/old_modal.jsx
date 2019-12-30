@@ -4,7 +4,7 @@ import ReactModal from 'react-modal';
 import { Button } from "reactstrap";
 import Spinner from '../../components/Spinner';
 
-import './modal.scss';
+import './scss/common.scss';
 
 class Modal extends React.Component {
   render() {

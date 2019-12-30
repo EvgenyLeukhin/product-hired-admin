@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import { Input, Alert } from "reactstrap";
 import PropTypes from "prop-types";
 import cln from 'classnames';
-import axios from 'axios';
 
 import Spinner from '../../components/Spinner';
 import FormValidator from "../Forms/Validator.js";
 
-import API_URL from '../../consts/apiUrl';
+import login from '../../ph-admin/api/logIn';
+
 
 import "../Forms/Material.scss";
 
@@ -65,44 +65,33 @@ class Login extends Component {
     e.preventDefault();
     const { email, password } = this.state.formLogin;
 
+    login(email, password)
+      .then(this.setState({ loading: true }))
 
-    // login request
-    axios.post(`${API_URL}/api/api/users/login?include=user`, { email, password })
+      .then(res => {
+        const { roles } = res.user;
 
-    .then(this.setState({ loading: true })) // выполниться сразу нет функции
+        roles.length ? roles.map(i => {
 
-    // if login ok
-    .then(res => {
-      const roles = res.data.user.roles;
-
-      // check for rights
-      if (roles.length) {
-        roles.map(i => {
-
-          // check for admin rights
+          // have admin rigts
           if (i.name === 'admin') {
-
             // save userData to localStorage, convert object to string
-            localStorage.setItem('ph-admin-user-data', JSON.stringify(res.data));
+            localStorage.setItem('ph-admin-user-data', JSON.stringify(res));
             this.setState({ loading: false, success: true });
 
+            // redirect to /companies
             setTimeout(() => {
               const { history } = this.props;
               history.push('/companies');
             }, 1000);
 
           // don't have admin rigts
-          } else this.setState({ errorRights: true, loading: false });
-        })
+          } else this.setState({ errorRights: true, loading: false })
+        }) : this.setState({ errorRights: true, loading: false });
+      })
 
-      // don't have any rigts
-      } else this.setState({ errorRights: true, loading: false });
-    })
-
-    // if login not ok
-    .catch(() => {  // будет ждать функция есть
-      this.setState({ error: true, loading: false });
-    });
+      // if login not ok
+      .catch(() => this.setState({ error: true, loading: false }));
   };
 
   /* Simplify error check */

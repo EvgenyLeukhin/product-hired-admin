@@ -1,5 +1,5 @@
 import React from "react";
-import ReactTableCustom from '../ReactTableCustom';
+import Table from '../../ph-admin/table';
 
 import { withHeaderTitle } from '../../components/Header/HeaderTitle';
 
@@ -18,12 +18,7 @@ class Plans extends React.Component {
         Cell: ({ original }) => <div>{`$${original.price}`}</div> || '...' },
     ];
 
-    return (
-      <ReactTableCustom
-        columns={columns}
-        dataPath='plans'
-      />
-    );
+    return <Table columns={columns} dataPath='plans' wrapperClassname='plans-table' />;
   }
 }
 

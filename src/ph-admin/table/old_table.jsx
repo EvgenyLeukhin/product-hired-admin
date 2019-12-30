@@ -3,9 +3,9 @@ import ReactTable from "react-table";
 import { Alert } from "reactstrap";
 import axios from 'axios';
 
-import Modal from './Modal';
+import Modal from '../modal/old_modal';
 
-import API_URL from '../../consts/apiUrl';
+import API_URL from './../api/apiUrl';
 
 import './styles.scss';
 
@@ -48,7 +48,7 @@ class ReactTableCustom extends React.Component {
 
     // delete request
     axios.delete(
-      `${API_URL}/api/api/${dataPath}/${id}`,
+      `${API_URL}/${dataPath}/${id}`,
       {
         headers: { Authorization: token }
       })
@@ -154,7 +154,7 @@ class ReactTableCustom extends React.Component {
 
             this.setState({ loading: true });
 
-            // filter template for request
+
             const filter = {
               where: {},
               limit: pageSize,
@@ -179,7 +179,7 @@ class ReactTableCustom extends React.Component {
             const token = userData && userData.id;
 
             // fetch only count
-            axios.get(`${API_URL}/api/api/${dataPath}/count`, {
+            axios.get(`${API_URL}//${dataPath}/count`, {
               // params for get count when we have filled filters
               params: { where: filter.where },
               headers: { Authorization: token },
@@ -193,7 +193,7 @@ class ReactTableCustom extends React.Component {
 
             // fetch data only for 1 page
             }).then(
-              axios.get(`${API_URL}/api/api/${dataPath}`, {
+              axios.get(`${API_URL}/${dataPath}`, {
                 params: { filter },
                 headers: { Authorization: token }
 

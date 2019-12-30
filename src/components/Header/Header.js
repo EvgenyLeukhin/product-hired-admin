@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import pubsub from 'pubsub-js';
-import axios from 'axios';
-import API_URL from '../../consts/apiUrl';
 
 import { Redirect } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Alert, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+
+import logOut from './../../ph-admin/api/logOut';
 
 import './Header.scss';
 import './HeaderMenuLinks.scss';
@@ -38,11 +38,6 @@ class Header extends Component {
     pubsub.unsubscribe(this.pubsub_token_icon);
   }
 
-    // showSearch(e) {
-    //     e.preventDefault();
-    //     pubsub.publish('showsearch');
-    // }
-
   showSettings(e) {
     e.preventDefault();
     pubsub.publish('showsettings');
@@ -54,47 +49,24 @@ class Header extends Component {
     }));
   }
 
-  logOut = (e) => {
+  logout = (e) => {
     e.preventDefault();
     this.setState({ loading: true });
 
-    // get token
-    const userData = JSON.parse(localStorage.getItem('ph-admin-user-data'));
-    const token = userData.id;
-
-    axios.post(
-      `${API_URL}/api/api/users/logout`, {},
-      {
-        headers: { Authorization: token }
-      }
-    )
-    .then(() => {
-      // remove token
-      localStorage.removeItem('ph-admin-user-data');
-
+    logOut().then(() => {
+      // logOutSuccsess alert
       this.setState({ logOutSuccsess: true });
 
       // redirect
       setTimeout(() => {
         this.setState({ redirect: true });
       }, 1000);
-    })
-
-    .catch(() => {
-      this.setState({ error: true, loading: false });
-
-      setTimeout(() => {
-        this.setState({ error: false });
-        localStorage.removeItem('ph-admin-user-data');
-
-        this.setState({ redirect: true });
-      }, 2000);
     });
   }
 
   render() {
     const { navIcon, pageTitle, dropdownOpen } = this.state
-    const { isOpenOnMobile, logOutSuccsess, error, redirect, loading } = this.state;
+    const { logOutSuccsess, error, redirect, loading } = this.state;
 
     return (
       <header className="header-container">
@@ -123,15 +95,9 @@ class Header extends Component {
         <h2 className="header-title">{pageTitle}</h2>
 
         <ul className="float-right">
-          {/* <li>
-              <a href="#dummylink3" className="ripple" onClick={this.showSearch}>
-                  <em className="ion-ios-search-strong"/>
-              </a>
-          </li> */}
             <Dropdown id="basic-nav-dropdown" tag="li" isOpen={dropdownOpen} toggle={this.toggle}>
               <DropdownToggle nav className="has-badge ripple">
                 <em className="ion-person"/>
-                {/* <sup className="badge bg-danger">3</sup> */}
               </DropdownToggle>
 
               <DropdownMenu right className="md-dropdown-menu" >
@@ -141,16 +107,9 @@ class Header extends Component {
                   </DropdownItem>
                 </LinkContainer>
 
-                {/* <LinkContainer to="/pages/messagesboard">
-                    <DropdownItem>
-                        <em className="ion-gear-a icon-fw"/>
-                        Messages
-                    </DropdownItem >
-                </LinkContainer> */}
-
                 <DropdownItem divider />
 
-                <LinkContainer to="/login" onClick={this.logOut}>
+                <LinkContainer to="/login" onClick={this.logout}>
                   <DropdownItem>
                     <em className="ion-log-out icon-fw"/> Logout
                     </DropdownItem >
