@@ -1,11 +1,12 @@
 import React from 'react';
+
 import './scss/edit.scss';
 
-const EditModal = ({ name, id }) => {
+const EditModal = ({ itemOriginal }) => {
   return (
-    <div className='ReactModal__edit'>
-      Edit modal
-    </div>
+    <>
+      <h3>Edit - {`${itemOriginal.name} - ${itemOriginal.id}`} - TODO</h3>
+    </>
   );
 }
 
