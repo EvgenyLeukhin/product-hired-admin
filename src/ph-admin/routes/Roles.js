@@ -16,6 +16,8 @@ class Roles extends React.Component {
         Cell: ({ original }) => <div>{original.name || '...'}</div>,
         Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
       },
+
+      // no SLUG and WEIGHT in original like in old admin
     ];
 
     return (

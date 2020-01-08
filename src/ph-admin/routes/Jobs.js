@@ -18,12 +18,31 @@ class Jobs extends React.Component {
       },
 
       {
+        Header: 'Company',
+        accessor: 'company',
+        sortable: false,
+        filterable: false,
+        Cell: ({ original }) => {
+          const companyName = original.company.name;
+          return <div>{companyName || '...'}</div>
+        },
+      },
+
+      {
         Header: 'Location',
         accessor: 'locations',
         width: 200,
         sortable: false,
         filterable: false,
         Cell: ({ original }) => <span>{original.locations.map(i => `${i.name} `)}</span>,
+        Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+      },
+
+      {
+        Header: 'Status',
+        accessor: 'status',
+        width: 60,
+        Cell: ({ original }) => <div>{original.status || '...'}</div>,
         Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
       },
 
@@ -37,7 +56,7 @@ class Jobs extends React.Component {
           </div>
         ),
         Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
-      },
+      }
     ];
 
     return (
