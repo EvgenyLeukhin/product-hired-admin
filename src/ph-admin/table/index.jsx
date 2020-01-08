@@ -129,6 +129,7 @@ class Table extends React.Component {
           modalLoading={modalLoading}
           itemOriginal={itemOriginal}
           deleteRequest={this.delete}
+          wrapperClassname={wrapperClassname}
           closeModal={() => this.setState({ modalIsOpen: false })}
         />
 

@@ -7,7 +7,7 @@ import AddModal from './add';
 
 import './scss/common.scss';
 
-const Modal = ({ type, modalIsOpen, closeModal, itemOriginal, deleteRequest, modalLoading }) => {
+const Modal = ({ type, modalIsOpen, closeModal, itemOriginal, deleteRequest, modalLoading, wrapperClassname }) => {
   return (
     <>
       <ReactModal
@@ -34,6 +34,7 @@ const Modal = ({ type, modalIsOpen, closeModal, itemOriginal, deleteRequest, mod
               closeModal={closeModal}
               itemOriginal={itemOriginal}
               modalLoading={modalLoading}
+              wrapperClassname={wrapperClassname}
             />
           ) ||
 
