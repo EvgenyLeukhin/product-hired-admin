@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Input, Button } from "reactstrap";
+
 import './scss/edit.scss';
 
 class EditModal extends React.Component {
@@ -9,10 +11,15 @@ class EditModal extends React.Component {
     domain: null,
     slug: null,
     weight: null,
+    price: null,
   }
 
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value })
+  }
+
+  onSubmit = () => {
+    alert('Submit form');
   }
 
   componentDidMount() {
@@ -23,33 +30,34 @@ class EditModal extends React.Component {
       domain: itemOriginal.domain,
       slug: itemOriginal.slug,
       weight: itemOriginal.weight,
+      price: itemOriginal.price,
     });
   }
 
   render() {
-    const { id, name, domain, slug, weight } = this.state;
-    const { itemOriginal, wrapperClassname } = this.props;
-    console.log(itemOriginal, wrapperClassname);
+    const { id, name, domain, slug, weight, price } = this.state;
+    const { itemOriginal, wrapperClassname, closeModal } = this.props;
+    console.log(itemOriginal.price);
 
     return (
-      <div>
-        <div className="form__title">Edit <b>{`"${itemOriginal.id} - ${itemOriginal.name}"`}</b></div>
+      <>
+        <form action="" onSubmit={this.onSubmit}>
+          <header className="form__title">Edit <b>{`"${itemOriginal.id} - ${itemOriginal.name}"`}</b></header>
 
-        <form action="">
           <div>
             <label htmlFor="edit-id">Id</label>
-            <input
+            <Input
               id="edit-id"
               type="number"
               value={id}
               name="id"
-              onChange={this.onChange}
+              disabled
             />
           </div>
 
           <div>
             <label htmlFor="edit-name">Name</label>
-            <input
+            <Input
               id="edit-name"
               type="text"
               value={name}
@@ -58,12 +66,12 @@ class EditModal extends React.Component {
             />
           </div>
 
-          {
+          {/* {
             wrapperClassname === 'companies-table' && (
               <>
                 <div>
                   <label htmlFor="edit-domain">Domain</label>
-                  <input
+                  <Input
                     id="edit-domain"
                     type="url"
                     value={domain}
@@ -74,7 +82,7 @@ class EditModal extends React.Component {
 
                 <div>
                   <label htmlFor="edit-slug">Slug</label>
-                  <input
+                  <Input
                     id="edit-slug"
                     type="text"
                     value={slug}
@@ -85,7 +93,7 @@ class EditModal extends React.Component {
 
                 <div>
                   <label htmlFor="edit-weight">Weight</label>
-                  <input
+                  <Input
                     id="edit-weight"
                     type="text"
                     value={weight}
@@ -95,9 +103,31 @@ class EditModal extends React.Component {
                 </div>
               </>
             )
+          } */}
+
+          {
+            wrapperClassname === 'plans-table' && (
+              <>
+                <div>
+                  <label htmlFor="edit-price">Price</label>
+                  <Input
+                    id="edit-price"
+                    type="number"
+                    value={price}
+                    name="price"
+                    onChange={this.onChange}
+                  />
+                </div>
+              </>
+            )
           }
+
+          <footer className="form__buttons">
+            <Button outline color="secondary" onClick={closeModal}>Cancel</Button>
+            <Button outline color="primary" type="submit">Save</Button>
+          </footer>
         </form>
-      </div>
+      </>
     )
   }
 }

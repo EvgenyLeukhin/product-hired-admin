@@ -73,6 +73,7 @@ class Table extends React.Component {
   }
 
   editClick = original => () => {
+    // TODO
     this.setState({
       modalType: 'edit',
       modalIsOpen: true,
@@ -82,6 +83,7 @@ class Table extends React.Component {
   }
 
   addClick = original => () => {
+    // TODO
     this.setState({
       modalType: 'add',
       modalIsOpen: true,
