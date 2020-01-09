@@ -52,7 +52,6 @@ class Table extends React.Component {
     deleteRequest(dataPath, id)
       // if delete ok
       .then(res => {
-        console.log(res);
         this.setState({ modalIsOpen: false, modalLoading: false })
       })
 
@@ -74,7 +73,6 @@ class Table extends React.Component {
   }
 
   editClick = original => () => {
-    // TODO
     this.setState({
       modalType: 'edit',
       modalIsOpen: true,
@@ -83,8 +81,23 @@ class Table extends React.Component {
     });
   }
 
+  // state ???
   edit = (state, dataPath) => {
-    editRequest(state, dataPath).then(() => alert('Done!'));
+    editRequest(state, dataPath)
+      .then(this.setState({ modalLoading: true }))
+
+      .then(() => {
+        this.setState({
+          modalIsOpen: false,
+          alertIsOpen: true,
+          modalLoading: false
+        });
+
+        setTimeout(() => {
+          this.setState({ alertIsOpen: false });
+          window.location.reload();
+        }, 2000);
+    })
   }
 
   addClick = original => () => {

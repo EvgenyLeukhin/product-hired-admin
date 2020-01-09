@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Input, Button } from "reactstrap";
+import Spinner from '../../components/Spinner';
 
 import './scss/edit.scss';
 
@@ -41,7 +42,7 @@ class EditModal extends React.Component {
 
   render() {
     const { id, name, domain, slug, weight, price, markers } = this.state;
-    const { dataPath, itemOriginal, closeModal } = this.props;
+    const { dataPath, itemOriginal, closeModal, modalLoading } = this.props;
 
     return (
       <>
@@ -194,10 +195,18 @@ class EditModal extends React.Component {
             )
           }
 
-          <footer className="form__buttons">
-            <Button outline color="secondary" onClick={closeModal}>Cancel</Button>
-            <Button outline color="primary" type="submit">Save</Button>
-          </footer>
+          {
+            <footer className="form__buttons">
+              {
+                modalLoading ? <Spinner /> : (
+                  <>
+                    <Button outline color="secondary" onClick={closeModal}>Cancel</Button>
+                    <Button outline color="primary" type="submit">Save</Button>
+                  </>
+                )
+              }
+            </footer>
+          }
         </form>
       </>
     )

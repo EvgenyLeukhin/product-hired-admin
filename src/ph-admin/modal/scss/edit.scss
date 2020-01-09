@@ -16,6 +16,7 @@
     }
 
     .form__buttons {
+      min-height: 45px;
       padding: 0;
       height: auto;
       flex-basis: 100%;
@@ -23,6 +24,12 @@
       display: flex;
       margin-top: 20px;
       border-top: 1px solid #ddd;
+
+      .sk-chase {
+        margin: auto;
+
+        .sk-chase-dot::before { background-color: #007bff; }
+      }
 
       button {
         flex-basis: 50%;
