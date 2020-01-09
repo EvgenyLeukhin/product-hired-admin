@@ -12,14 +12,18 @@ class EditModal extends React.Component {
     slug: null,
     weight: null,
     price: null,
+    markers: null,
   }
 
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value })
   }
 
-  onSubmit = () => {
-    alert('Submit form');
+  onSubmit = (e) => {
+    e.preventDefault();
+    const { state } = this;
+    const { editRequest, dataPath } = this.props;
+    editRequest(state, dataPath);
   }
 
   componentDidMount() {
@@ -31,13 +35,13 @@ class EditModal extends React.Component {
       slug: itemOriginal.slug,
       weight: itemOriginal.weight,
       price: itemOriginal.price,
+      markers: itemOriginal.markers,
     });
   }
 
   render() {
-    const { id, name, domain, slug, weight, price } = this.state;
-    const { itemOriginal, wrapperClassname, closeModal } = this.props;
-    console.log(itemOriginal.price);
+    const { id, name, domain, slug, weight, price, markers } = this.state;
+    const { dataPath, itemOriginal, closeModal } = this.props;
 
     return (
       <>
@@ -106,7 +110,75 @@ class EditModal extends React.Component {
           } */}
 
           {
-            wrapperClassname === 'plans-table' && (
+            dataPath === 'skills' && (
+              <>
+                <div>
+                  <label htmlFor="edit-weight">Weight</label>
+                  <Input
+                    id="edit-weight"
+                    disabled
+                    type="number"
+                    value={weight}
+                    name="weight"
+                    onChange={this.onChange}
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="edit-slug">Slug</label>
+                  <Input
+                    id="edit-slug"
+                    type="text"
+                    value={slug}
+                    name="slug"
+                    onChange={this.onChange}
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="edit-aliases">Aliases</label>
+                  <Input
+                    id="edit-aliases"
+                    type="text"
+                    value={markers}
+                    name="aliases"
+                    onChange={this.onChange}
+                  />
+                </div>
+              </>
+            )
+          }
+
+          {
+            dataPath === 'vacancy_roles' && (
+              <>
+                <div>
+                  <label htmlFor="edit-slug">Slug</label>
+                  <Input
+                    id="edit-slug"
+                    type="text"
+                    value={slug}
+                    name="slug"
+                    onChange={this.onChange}
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="edit-weight">Weight</label>
+                  <Input
+                    id="edit-weight"
+                    type="number"
+                    value={weight}
+                    name="weight"
+                    onChange={this.onChange}
+                  />
+                </div>
+              </>
+            )
+          }
+
+          {
+            dataPath === 'plans' && (
               <>
                 <div>
                   <label htmlFor="edit-price">Price</label>

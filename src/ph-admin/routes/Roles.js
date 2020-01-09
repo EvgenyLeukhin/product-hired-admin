@@ -16,17 +16,23 @@ class Roles extends React.Component {
         Cell: ({ original }) => <div>{original.name || '...'}</div>,
         Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
       },
-
-      // no SLUG and WEIGHT in original like in old admin
+      {
+        Header: 'Slug',
+        accessor: 'slug',
+        Cell: ({ original }) => <div>{original.slug || '...'}</div>,
+        Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+      },
+      {
+        Header: 'Weight',
+        accessor: 'weight',
+        width: 60,
+        Cell: ({ original }) => <div>{original.weight || '...'}</div>,
+        Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+      },
     ];
 
     return (
-      <Table
-        startOrder='id DESC'
-        columns={columns}
-        dataPath='user_roles'
-        wrapperClassname='users-table'
-      />
+      <Table startOrder='id DESC' columns={columns} dataPath='vacancy_roles' />
     );
   }
 }

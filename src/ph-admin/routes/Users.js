@@ -42,7 +42,7 @@ class Users extends React.Component {
       },
     ];
 
-    return <Table columns={columns} dataPath='users' wrapperClassname='users-table' />;
+    return <Table columns={columns} dataPath='users' />;
   }
 }
 

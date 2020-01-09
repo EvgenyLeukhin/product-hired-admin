@@ -7,7 +7,18 @@ import AddModal from './add';
 
 import './scss/common.scss';
 
-const Modal = ({ type, modalIsOpen, closeModal, itemOriginal, deleteRequest, modalLoading, wrapperClassname }) => {
+const Modal = props => {
+  const {
+    type,
+    dataPath,
+    modalIsOpen,
+    closeModal,
+    itemOriginal,
+    editRequest,
+    deleteRequest,
+    modalLoading,
+  } = props;
+
   return (
     <>
       <ReactModal
@@ -31,10 +42,11 @@ const Modal = ({ type, modalIsOpen, closeModal, itemOriginal, deleteRequest, mod
           // edit
           type === 'edit' && (
             <EditModal
+              dataPath={dataPath}
               closeModal={closeModal}
               itemOriginal={itemOriginal}
+              editRequest={editRequest}
               modalLoading={modalLoading}
-              wrapperClassname={wrapperClassname}
             />
           ) ||
 

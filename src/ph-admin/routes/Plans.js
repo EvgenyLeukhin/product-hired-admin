@@ -25,7 +25,7 @@ class Plans extends React.Component {
       },
     ];
 
-    return <Table columns={columns} dataPath='plans' wrapperClassname='plans-table' />;
+    return <Table columns={columns} dataPath='plans' />;
   }
 }
 

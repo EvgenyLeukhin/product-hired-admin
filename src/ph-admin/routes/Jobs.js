@@ -64,7 +64,6 @@ class Jobs extends React.Component {
         columns={columns}
         order='id DESC'
         dataPath='vacancies'
-        wrapperClassname='jobs-table'
       />
     );
   }

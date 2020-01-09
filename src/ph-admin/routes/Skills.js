@@ -32,7 +32,7 @@ class Skills extends React.Component {
       },
     ];
 
-    return <Table columns={columns} dataPath='skills' wrapperClassname='skills-table' />;
+    return <Table columns={columns} dataPath='skills' />;
   }
 }
 

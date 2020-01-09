@@ -7,6 +7,7 @@ import Alerts from '../alerts';
 
 import getCount from '../api/getCount';
 import getData from '../api/getData';
+import editRequest from '../api/editRequest';
 import deleteRequest from '../api/deleteRequest';
 import customFiltering from '../table/customFiltering';
 
@@ -82,6 +83,10 @@ class Table extends React.Component {
     });
   }
 
+  edit = (state, dataPath) => {
+    editRequest(state, dataPath).then(() => alert('Done!'));
+  }
+
   addClick = original => () => {
     // TODO
     this.setState({
@@ -118,11 +123,11 @@ class Table extends React.Component {
       }
     ];
 
-    const { wrapperClassname, columns, dataPath, startOrder } = this.props;
+    const { columns, dataPath, startOrder } = this.props;
     const { loading, count, data, modalIsOpen, itemOriginal, modalType, modalLoading, alertIsOpen } = this.state;
 
     return (
-      <div className={`${wrapperClassname}`}>
+      <div className={`${dataPath}-table`}>
         { alertIsOpen && <Alerts type={modalType} itemOriginal={itemOriginal} /> }
 
         <Modal
@@ -130,8 +135,9 @@ class Table extends React.Component {
           modalIsOpen={modalIsOpen}
           modalLoading={modalLoading}
           itemOriginal={itemOriginal}
+          dataPath={dataPath}
+          editRequest={this.edit}
           deleteRequest={this.delete}
-          wrapperClassname={wrapperClassname}
           closeModal={() => this.setState({ modalIsOpen: false })}
         />
 

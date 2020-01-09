@@ -52,7 +52,6 @@ class Companies extends React.Component {
         startOrder='id DESC'
         columns={columns}
         dataPath='companies'
-        wrapperClassname='companies-table'
       />
     );
   }
