@@ -26,9 +26,6 @@ const getCount = (state, dataPath) => {
   })
     // return count (number)
     .then(res => res.data.count)
-
-    // TODO
-    .catch(error => console.log(error))
 };
 
 export default getCount;

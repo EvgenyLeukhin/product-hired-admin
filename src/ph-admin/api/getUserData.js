@@ -10,9 +10,6 @@ const getUserData = () => {
     headers: { Authorization: token }
   })
     .then(res => res.data)
-
-    // TODO
-    .catch(error => console.log(error));
 }
 
 export default getUserData;

@@ -33,9 +33,6 @@ const getData = (state, dataPath, startOrder) => {
   })
     // return [data]
     .then(res => res.data)
-
-    // TODO
-    .catch(error => console.log(error))
 };
 
 export default getData;

@@ -57,6 +57,24 @@
 
         &:disabled { color: #ccc; }
       }
+
+      &.checkbox-wrapper {
+        flex-direction: row;
+        align-items: center;
+
+        label {
+          order: 2;
+          margin-bottom: 0;
+        }
+
+        input {
+          margin: 0;
+          margin-right: 7px;
+          position: static;
+          width: auto;
+          order: 1;
+        }
+      }
     }
   }
 }

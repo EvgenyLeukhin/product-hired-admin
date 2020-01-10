@@ -51,7 +51,7 @@ class Table extends React.Component {
 
     deleteRequest(dataPath, id)
       // if delete ok
-      .then(res => {
+      .then(() => {
         this.setState({ modalIsOpen: false, modalLoading: false })
       })
 
@@ -81,16 +81,16 @@ class Table extends React.Component {
     });
   }
 
-  // state ???
+  // (state, dataPath) from the edit.jsx
   edit = (state, dataPath) => {
     editRequest(state, dataPath)
       .then(this.setState({ modalLoading: true }))
 
       .then(() => {
         this.setState({
+          modalLoading: false,
           modalIsOpen: false,
-          alertIsOpen: true,
-          modalLoading: false
+          alertIsOpen: true
         });
 
         setTimeout(() => {
@@ -98,6 +98,7 @@ class Table extends React.Component {
           window.location.reload();
         }, 2000);
     })
+    .catch(error => console.log(error)) // TODO
   }
 
   addClick = original => () => {
@@ -177,6 +178,7 @@ class Table extends React.Component {
               // axios -> getData
               .then(() => getData(state, dataPath, startOrder))
               .then(data => this.setState({ data, loading: false }))
+              .catch(error => console.log(error)) // TODO
           }}
         />
       </div>

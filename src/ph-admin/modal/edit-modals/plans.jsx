@@ -1,6 +1,6 @@
 import React from 'react';
 
-const plans = (onChange, price) => {
+const Plans = (onChange, price) => {
   return (
     <>
       <div>
@@ -17,4 +17,4 @@ const plans = (onChange, price) => {
   );
 }
 
-export default plans;
+export default Plans;

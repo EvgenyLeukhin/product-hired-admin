@@ -15,6 +15,25 @@ const editRequest = (state, dataPath) => {
       path, { "name": name, "price": price, "id": id }, { headers }
     )
 
+  // users //
+  } else if (dataPath === 'users') {
+    const { surname, email, emailVerified, adminVerified, status, job_title, experience } = state;
+    return axios.patch(
+      path,
+      {
+        "id": id,
+        "name": name,
+        "surname": surname,
+        "email": email,
+        "emailVerified": emailVerified,
+        "adminVerified": adminVerified,
+        "status": status,
+        "job_title": job_title,
+        "experience": experience
+      },
+      { headers }
+    )
+
   // vacancy_roles //
   } else if (dataPath === 'vacancy_roles') {
     const { slug, weight } = state;
