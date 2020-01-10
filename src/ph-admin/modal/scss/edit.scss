@@ -78,3 +78,15 @@
     }
   }
 }
+
+
+@media (max-width: 600px) {
+  .ReactModal__edit {
+    width: 96%;
+    margin-left: -48%;
+
+    form {
+      flex-direction: column;
+    }
+  }
+}

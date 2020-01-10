@@ -26,7 +26,6 @@ const editRequest = (state, dataPath) => {
         "surname": surname,
         "email": email,
         "emailVerified": emailVerified,
-        "adminVerified": adminVerified,
         "status": status,
         "job_title": job_title,
         "experience": experience

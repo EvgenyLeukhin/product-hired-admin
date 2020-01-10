@@ -87,14 +87,14 @@ body {
 
 // Footer
 
-footer {
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: $footer-hg;
-    border-top: 1px solid rgba(160,160,160, .12);
-    padding: 20px;
-    z-index: 109;
+footer.footer {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: $footer-hg;
+  border-top: 1px solid rgba(160,160,160, .12);
+  padding: 20px;
+  z-index: 109;
 }
 
 // Container variants

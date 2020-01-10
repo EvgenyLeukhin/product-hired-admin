@@ -13,11 +13,23 @@ class Users extends React.Component {
         Header: 'Name',
         accessor: 'name',
         style: { fontWeight: 'bold' },
-        Cell: ({ original }) => (
-          <div>
-            <span>{`${original.name} ${original.surname}` || '...'}</span>
-          </div>
-        ),
+        Cell: ({ original }) => {
+          // console.log(original);
+          return (
+            <div>
+              {
+                !original.status ? <span style={{ color: '#dc3545' }}>● </span>
+                  : <span style={{ color: 'rgb(0,203,131)' }}>● </span>
+              }
+              <span>{`${original.name} ${original.surname} ` || '...'}</span>
+              {
+                original.roles.map(i => {
+                  return i.name === 'admin' && <span style={{ color: '#ccc'}}>{'[admin]'}</span>
+                })
+              }
+            </div>
+          )
+        },
         Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
       },
 

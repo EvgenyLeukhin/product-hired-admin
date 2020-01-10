@@ -1,39 +1,28 @@
 import React from 'react';
 
-import './Core.scss';
-import './LayoutVariants.scss';
-
 import Header from '../Header/Header';
-import HeaderSearch from '../Header/HeaderSearch';
 import Sidebar from '../Sidebar/Sidebar';
 import Settings from '../Settings/Settings';
 
-const Core = props => (
-    <div className="layout-container">
+import './Core.scss';
+import './LayoutVariants.scss';
 
-        <Header />
+const Core = ({ children }) => (
+  <div className="layout-container">
+    <Header />
+    <Sidebar />
+    <Settings/>
 
-        <Sidebar />
-        <div className="sidebar-layout-obfuscator"></div>
+    <div className="sidebar-layout-obfuscator" />
 
-        {/* Page content */}
-        <main className="main-container">
-            { props.children }
+    <main className="main-container">
+      { children }
 
-            {/* Page footer */}
-            <footer>
-                <span>2019 - Product Hired Admin</span>
-            </footer>
-
-        </main>
-
-        {/* Search template */}
-        <HeaderSearch/>
-
-        {/* Settings template */}
-        <Settings/>
-
-    </div>
-)
+      <footer className="footer">
+        <span>2020 - Product Hired Admin</span>
+      </footer>
+    </main>
+  </div>
+);
 
 export default Core;

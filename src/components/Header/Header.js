@@ -100,7 +100,7 @@ class Header extends Component {
                 <em className="ion-person"/>
               </DropdownToggle>
 
-              <DropdownMenu right className="md-dropdown-menu" >
+              <DropdownMenu right className="md-dropdown-menu">
                 <LinkContainer to="/profile">
                   <DropdownItem>
                     <em className="ion-home icon-fw"/> Profile

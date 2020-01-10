@@ -40,26 +40,27 @@ class EditModal extends React.Component {
   componentDidMount() {
     const {
       itemOriginal: {
-        id, name, surname, email, domain, slug, weight, price, markers, emailVerified, adminVerified, status, job_title, experience
+        id, name, surname, email, domain, slug, weight, price, markers, emailVerified, status, job_title, experience
       }
     } = this.props;
 
     this.setState({
-      id, name, surname, email, domain, slug, weight, price, markers, emailVerified, adminVerified, status, job_title, experience
+      id, name, surname, email, domain, slug, weight, price, markers, emailVerified, status, job_title, experience
     });
   }
 
   render() {
-    const { dataPath, itemOriginal, closeModal, modalLoading } = this.props;
+    console.log(this.props.itemOriginal.roles);
+    const { dataPath, closeModal, modalLoading } = this.props;
     const {
-      id, name, email, domain, slug, weight, price, markers, surname, emailVerified, adminVerified, status,
+      id, name, email, domain, slug, weight, price, markers, surname, emailVerified, status,
       job_title, experience
     } = this.state;
 
     return (
       <>
         <form action="" onSubmit={this.onSubmit}>
-          <header className="form__title">Edit <b>{`"${itemOriginal.id} - ${itemOriginal.name}"`}</b></header>
+          <header className="form__title">Edit <b>{`"${id} - ${name}"`}</b></header>
 
           {/* Common inputs */}
           <div>
@@ -144,20 +145,9 @@ class EditModal extends React.Component {
                 </div>
 
                 <div className="checkbox-wrapper">
-                  <label htmlFor="edit-admin-verified">Admin verified</label>
+                  <label htmlFor="edit-user-status">Active status</label>
                   <Input
-                    id="edit-admin-verified"
-                    type="checkbox"
-                    name="adminVerified"
-                    checked={adminVerified}
-                    onChange={this.onChange}
-                  />
-                </div>
-
-                <div className="checkbox-wrapper">
-                  <label htmlFor="edit-admin-status">Active status</label>
-                  <Input
-                    id="edit-admin-status"
+                    id="edit-user-status"
                     type="checkbox"
                     name="status"
                     checked={status}
