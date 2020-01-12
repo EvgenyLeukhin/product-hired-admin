@@ -14,7 +14,7 @@ const logOut = () => {
     localStorage.removeItem('ph-admin-user-data');
 
     // TODO
-  }).catch((error) => {
+  }).catch(error => {
     console.log(error);
     localStorage.removeItem('ph-admin-user-data');
   })
