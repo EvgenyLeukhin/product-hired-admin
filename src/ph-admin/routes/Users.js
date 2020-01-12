@@ -16,18 +16,15 @@ class Users extends React.Component {
         Cell: ({ original }) => {
           // console.log(original);
           return (
-            <div>
-              {
-                !original.status ? <span style={{ color: '#dc3545' }}>● </span>
-                  : <span style={{ color: 'rgb(0,203,131)' }}>● </span>
-              }
+            <>
+              <span style={{ color: !original.status ? '#dc3545' : 'rgb(0,203,131)' }}>● </span>
               <span>{`${original.name} ${original.surname} ` || '...'}</span>
               {
                 original.roles.map(i => {
                   return i.name === 'admin' && <span style={{ color: '#ccc'}}>{'[admin]'}</span>
                 })
               }
-            </div>
+            </>
           )
         },
         Filter: ({ filter, onChange }) => customFiltering(filter, onChange)

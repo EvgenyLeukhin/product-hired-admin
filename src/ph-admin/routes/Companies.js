@@ -47,13 +47,7 @@ class Companies extends React.Component {
       }
     ];
 
-    return (
-      <Table
-        startOrder='id DESC'
-        columns={columns}
-        dataPath='companies'
-      />
-    );
+    return <Table startOrder='id DESC' columns={columns} dataPath='companies' />;
   }
 }
 

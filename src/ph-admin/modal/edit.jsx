@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Input, Label, Button } from "reactstrap";
+import { Input, Button } from "reactstrap";
 import Spinner from '../../components/Spinner';
 
 import './scss/edit.scss';
@@ -34,27 +34,31 @@ class EditModal extends React.Component {
     e.preventDefault();
     const { state } = this;
     const { editRequest, dataPath } = this.props;
+
+    // 3. editRequest func recieve current state of this component
     editRequest(state, dataPath);
   }
 
   componentDidMount() {
+    // 1. Get values from the prop itemOriginal
     const {
       itemOriginal: {
         id, name, surname, email, domain, slug, weight, price, markers, emailVerified, status, job_title, experience
       }
     } = this.props;
 
+    // 2. Set values to the state
     this.setState({
       id, name, surname, email, domain, slug, weight, price, markers, emailVerified, status, job_title, experience
     });
   }
 
   render() {
-    console.log(this.props.itemOriginal.roles);
     const { dataPath, closeModal, modalLoading } = this.props;
+
+    // get data from the state to have onChange ability
     const {
-      id, name, email, domain, slug, weight, price, markers, surname, emailVerified, status,
-      job_title, experience
+      id, name, email, domain, slug, weight, price, markers, surname, emailVerified, status, job_title, experience
     } = this.state;
 
     return (

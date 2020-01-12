@@ -59,13 +59,7 @@ class Jobs extends React.Component {
       }
     ];
 
-    return (
-      <Table
-        columns={columns}
-        order='id DESC'
-        dataPath='vacancies'
-      />
-    );
+    return <Table columns={columns} order='id DESC' dataPath='vacancies'/>;
   }
 }
 
