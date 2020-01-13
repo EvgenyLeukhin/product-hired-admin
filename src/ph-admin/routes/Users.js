@@ -14,7 +14,6 @@ class Users extends React.Component {
         accessor: 'name',
         style: { fontWeight: 'bold' },
         Cell: ({ original }) => {
-          // console.log(original);
           return (
             <>
               <span style={{ color: !original.status ? '#dc3545' : 'rgb(0,203,131)' }}>● </span>

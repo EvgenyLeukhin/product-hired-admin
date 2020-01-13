@@ -1,9 +1,10 @@
 import React from 'react';
 
-import { Input, Button } from "reactstrap";
+import { Button } from "reactstrap";
 import Spinner from '../../components/Spinner';
 
 import Common from './edit-modals/common';
+import Companies from './edit-modals/companies';
 import Users from './edit-modals/users';
 import Skills from './edit-modals/skills';
 import Roles from './edit-modals/roles';
@@ -16,6 +17,7 @@ class EditModal extends React.Component {
     id: null,
     name: null,
     surname: null,
+    domain: null,
     email: null,
     emailVerified: false,
     slug: null,
@@ -49,13 +51,13 @@ class EditModal extends React.Component {
     // 1. Get values from the prop itemOriginal
     const {
       itemOriginal: {
-        id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, roles
+        id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, roles, domain
       }
     } = this.props;
 
     // 2. Set values to the state
     this.setState({
-      id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, roles
+      id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, roles, domain
     });
   }
 
@@ -65,7 +67,8 @@ class EditModal extends React.Component {
 
     // get data from the state to have onChange ability
     const {
-      id, name, email, slug, weight, price, markers, surname, emailVerified, status, job_title, experience, roles
+      id, name, email, slug, weight, price, markers, surname, emailVerified, status, job_title, experience, roles,
+      domain
     } = this.state;
 
     return (
@@ -77,6 +80,16 @@ class EditModal extends React.Component {
           <Common id={id} name={name} onChange={this.onChange} />
 
           {/* 1. Companies --- */}
+          {
+            dataPath === 'companies' && (
+              <Companies
+                slug={slug}
+                domain={domain}
+                weight={weight}
+                onChange={this.onChange}
+              />
+            )
+          }
 
           {/* 2. Users +-- */}
           {
