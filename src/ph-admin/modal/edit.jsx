@@ -27,7 +27,8 @@ class EditModal extends React.Component {
     status: true,
     job_title: null,
     experience: null,
-    roles: []
+    roles: [],
+    logo: null,
   }
 
   onChange = e => {
@@ -51,13 +52,13 @@ class EditModal extends React.Component {
     // 1. Get values from the prop itemOriginal
     const {
       itemOriginal: {
-        id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, roles, domain
+        id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, roles, domain, logo
       }
     } = this.props;
 
     // 2. Set values to the state
     this.setState({
-      id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, roles, domain
+      id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, roles, domain, logo
     });
   }
 
@@ -68,7 +69,7 @@ class EditModal extends React.Component {
     // get data from the state to have onChange ability
     const {
       id, name, email, slug, weight, price, markers, surname, emailVerified, status, job_title, experience, roles,
-      domain
+      domain, logo
     } = this.state;
 
     return (
@@ -84,6 +85,7 @@ class EditModal extends React.Component {
             dataPath === 'companies' && (
               <Companies
                 slug={slug}
+                logo={logo}
                 domain={domain}
                 weight={weight}
                 onChange={this.onChange}

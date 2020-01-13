@@ -30,6 +30,7 @@ class Companies extends React.Component {
         Header: 'Domain',
         accessor: 'domain',
         Cell: ({ original }) => {
+          // console.log(original);
           if (original.domain) {
             return (
               <a href={`http://${original.domain}`} target="_blank" rel="noopener noreferrer">{original.domain}</a>

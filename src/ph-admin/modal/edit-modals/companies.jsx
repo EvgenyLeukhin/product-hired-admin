@@ -1,7 +1,7 @@
 import React from 'react';
 import { Input } from "reactstrap";
 
-const Companies = ({ slug, domain, weight, onChange }) => (
+const Companies = ({ slug, domain, weight, logo, onChange }) => (
   <>
     <div>
       <label htmlFor="edit-domain">Domain</label>
@@ -32,6 +32,17 @@ const Companies = ({ slug, domain, weight, onChange }) => (
         type="number"
         value={weight}
         name="weight"
+        onChange={onChange}
+      />
+    </div>
+
+    <div>
+      <label htmlFor="edit-logo">Logo URL</label>
+      <Input
+        id="edit-logo"
+        type="url"
+        value={logo}
+        name="logo"
         onChange={onChange}
       />
     </div>
