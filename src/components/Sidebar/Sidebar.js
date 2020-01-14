@@ -168,6 +168,44 @@ class Sidebar extends Component {
                 })}
               </ul>
             </nav>
+
+            <nav hidden={true}>
+              <ul>
+                <li><NavLink to='/Cards'>Cards</NavLink></li>
+                <li>...</li>
+                <li><NavLink to='/elements/bootstrapui'>Elements/Bootstrapui</NavLink></li>
+                <li><NavLink to='/elements/buttons'>Elements/Buttons</NavLink></li>
+                <li><NavLink to='/elements/colors'>Elements/Colors</NavLink></li>
+                <li><NavLink to='/elements/grid'>Elements/Grid</NavLink></li>
+                <li><NavLink to='/elements/gridMasonry'>Elements/GridMasonry</NavLink></li>
+                <li><NavLink to='/elements/icons'>Elements/Icons</NavLink></li>
+                <li><NavLink to='/elements/lists'>Elements/Lists</NavLink></li>
+                <li><NavLink to='/elements/spinners'>Elements/Spinners</NavLink></li>
+                <li><NavLink to='/elements/swal'>Elements/Swal</NavLink></li>
+                <li><NavLink to='/elements/sweetalert'>Elements/Sweetalert</NavLink></li>
+                <li><NavLink to='/elements/toastify'>Elements/Toastify</NavLink></li>
+                <li><NavLink to='/elements/typography'>Elements/Typography</NavLink></li>
+                <li><NavLink to='/elements/utilities'>Elements/Utilities</NavLink></li>
+                <li><NavLink to='/elements/whiteframes'>Elements/Whiteframes</NavLink></li>
+                <li>...</li>
+                <li><NavLink to='/forms/advanced'>Forms/Advanced</NavLink></li>
+                <li><NavLink to='/forms/classic'>Forms/Classic</NavLink></li>
+                <li><NavLink to='/forms/dropzone'>Forms/Dropzone</NavLink></li>
+                <li><NavLink to='/forms/editor'>Forms/Editor</NavLink></li>
+                <li><NavLink to='/forms/material'>Forms/Material</NavLink></li>
+                <li><NavLink to='/forms/validation'>Forms/Validation</NavLink></li>
+                <li>...</li>
+                <li><NavLink to='/layouts/boxed'>Layouts/LayoutsBoxed</NavLink></li>
+                <li><NavLink to='/layouts/columns'>Layouts/LayoutsColumns</NavLink></li>
+                <li><NavLink to='/layouts/containers'>Layouts/LayoutsContainers</NavLink></li>
+                <li><NavLink to='/layouts/overlap'>Layouts/LayoutsOverlap</NavLink></li>
+                <li><NavLink to='/layouts/tabs'>Layouts/LayoutsTabs</NavLink></li>
+                <li>...</li>
+                <li><NavLink to='/tables/classic'>Tables/Classic</NavLink></li>
+                <li><NavLink to='/tables/datatable'>Tables/Datatable</NavLink></li>
+                <li><NavLink to='/tables/datagrid'>Tables/Datagrid</NavLink></li>
+              </ul>
+            </nav>
           </div>
         </aside>
       );

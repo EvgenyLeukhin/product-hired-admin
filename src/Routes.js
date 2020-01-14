@@ -30,6 +30,13 @@ const Roles     = lazy(() => import('./ph-admin/routes/Roles'));
 const Plans     = lazy(() => import('./ph-admin/routes/Plans'));
 const Profile   = lazy(() => import('./ph-admin/routes/Profile'));
 
+// centric-bootstrap-admin-template
+const Cards       = lazy(() => import('./views/Cards/Cards'));
+const Elements    = lazy(() => import('./views/Elements/Elements'));
+const Forms       = lazy(() => import('./views/Forms/Forms'));
+const Layouts     = lazy(() => import('./views/Layouts/Layouts'));
+const Tables      = lazy(() => import('./views/Tables/Tables'));
+
 
 const Routes = ({ location }) => {
   const animationName = 'rag-fadeIn';
@@ -73,6 +80,13 @@ const Routes = ({ location }) => {
                 <Route path="/roles"     component={waitFor(Roles)} />
                 <Route path="/plans"     component={waitFor(Plans)} />
                 <Route path="/profile"   component={waitFor(Profile)} />
+
+                {/* centric-bootstrap-admin-template */}
+                <Route path="/Cards"                  component={waitFor(Cards)} />
+                <Route path="/tables"                 component={waitFor(Tables)} />
+                <Route path="/layouts"                component={waitFor(Layouts)} />
+                <Route path="/forms"                  component={waitFor(Forms)} />
+                <Route path="/elements"               component={waitFor(Elements)} />
 
                 <Redirect to="/companies" />
               </Switch>

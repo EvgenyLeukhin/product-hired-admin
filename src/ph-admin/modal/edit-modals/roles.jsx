@@ -1,30 +1,35 @@
 import React from 'react';
-import { Input } from "reactstrap";
 
 const Roles = ({ slug, weight, onChange }) => (
-  <>
-    <div>
-      <label htmlFor="edit-slug">Slug</label>
-      <Input
-        id="edit-slug"
-        type="text"
-        value={slug}
-        name="slug"
-        onChange={onChange}
-      />
-    </div>
+  <fieldset>
+    <div className="form-group row">
+      <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-slug">Slug</label>
 
-    <div>
-      <label htmlFor="edit-weight">Weight</label>
-      <Input
-        id="edit-weight"
-        type="number"
-        value={weight}
-        name="weight"
-        onChange={onChange}
-      />
+      <div className="col-md-4">
+        <input
+          name="slug"
+          value={slug}
+          id="edit-slug"
+          onChange={onChange}
+          type="text"
+          className="form-control input-rounded"
+        />
+      </div>
+
+      <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-weight">Weight</label>
+
+      <div className="col-md-4">
+        <input
+          name="weight"
+          value={weight}
+          id="edit-weight"
+          onChange={onChange}
+          type="number"
+          className="form-control input-rounded"
+        />
+      </div>
     </div>
-  </>
+  </fieldset>
 );
 
 export default Roles;

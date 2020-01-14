@@ -1,5 +1,4 @@
 import React from 'react';
-import { Input } from "reactstrap";
 
 import Spinner from '../../../components/Spinner';
 
@@ -19,75 +18,87 @@ const Companies = props => {
   } = props;
 
   return (
-  <>
-    <div>
-      <label htmlFor="edit-domain">Domain</label>
-      <Input
-        id="edit-domain"
-        type="text"
-        value={domain}
-        name="domain"
-        onChange={onChange}
-      />
-    </div>
+    <>
+      <fieldset>
+        <div className="form-group row">
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-domain">Domain</label>
+          <div className="col-md-4">
+            <input
+              name="domain"
+              value={domain}
+              id="edit-domain"
+              onChange={onChange}
+              type="text"
+              className="form-control input-rounded"
+            />
+          </div>
 
-    <div>
-      <label htmlFor="edit-slug">Slug</label>
-      <Input
-        id="edit-slug"
-        type="text"
-        value={slug}
-        name="slug"
-        onChange={onChange}
-      />
-    </div>
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-slug">Slug</label>
+          <div className="col-md-4">
+            <input
+              name="slug"
+              value={slug}
+              id="edit-slug"
+              onChange={onChange}
+              type="text"
+              className="form-control input-rounded"
+            />
+          </div>
+        </div>
+      </fieldset>
 
-    <div>
-      <label htmlFor="edit-weight">Weight</label>
-      <Input
-        id="edit-weight"
-        type="number"
-        value={weight}
-        name="weight"
-        onChange={onChange}
-      />
-    </div>
+      <fieldset>
+        <div className="form-group row">
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-weight">Weight</label>
+          <div className="col-md-4">
+            <input
+              name="weight"
+              value={weight}
+              id="edit-weight"
+              onChange={onChange}
+              type="number"
+              className="form-control input-rounded"
+            />
+          </div>
+        </div>
+      </fieldset>
 
-    {/* empty space */}
-    <div />
+      <fieldset className="edit-container__images">
+        <div className="form-group row">
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-logo">Logo</label>
+          <div className="col-md-4 text-center">
+            { logoLoading ? <Spinner /> : <img className="logo" src={logo} alt="logo" /> }
 
-    <div className="image-container">
-      <label htmlFor="edit-logo">Logo</label>
-      <Input
-        // disabled
-        id="edit-logo"
-        type="url"
-        value={logo}
-        name="logo"
-        onChange={onChange}
-      />
+            <input
+              name="logo"
+              value={logo}
+              id="edit-logo"
+              onChange={onChange}
+              type="url"
+              className="form-control input-rounded"
+            />
 
-      { logoLoading ? <Spinner /> : <img className="logo" src={logo} alt="logo" /> }
+            <input type="file" ref={fileInputLogo} onChange={onUploadLogo} />
+          </div>
 
-      <input type="file" ref={fileInputLogo} onChange={onUploadLogo} />
-    </div>
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-cover">Cover</label>
+          <div className="col-md-4 text-center">
+            { coverLoading ? <Spinner /> : <img className="cover" src={cover} alt="cover" /> }
 
-    <div className="image-container">
-      <label htmlFor="edit-cover">Cover</label>
-      <Input
-        // disabled
-        id="edit-cover"
-        type="url"
-        value={cover}
-        name="cover"
-        onChange={onChange}
-      />
+            <input
+              name="cover"
+              value={cover}
+              id="edit-cover"
+              onChange={onChange}
+              type="url"
+              className="form-control input-rounded"
+            />
 
-      { coverLoading ? <Spinner /> : <img className="cover" src={cover} alt="cover" /> }
-
-      <input type="file" ref={fileInputCover} onChange={onUploadCover} />
-    </div>
-  </>
+            <input type="file" ref={fileInputCover} onChange={onUploadCover} />
+          </div>
+        </div>
+      </fieldset>
+    </>
   );
 }
 

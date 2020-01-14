@@ -110,6 +110,12 @@ class Table extends React.Component {
     });
   }
 
+  componentDidMount() {
+    document.addEventListener('keyup', e => {
+      if (e.keyCode === 27) this.setState({ modalIsOpen: false });
+    });
+  }
+
   render() {
     const idColumn = [
       {
