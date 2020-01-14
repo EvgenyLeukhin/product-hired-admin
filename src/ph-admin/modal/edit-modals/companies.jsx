@@ -1,7 +1,24 @@
 import React from 'react';
 import { Input } from "reactstrap";
 
-const Companies = ({ slug, domain, weight, logo, onChange }) => (
+import Spinner from '../../../components/Spinner';
+
+const Companies = props => {
+  const {
+    slug,
+    domain,
+    weight,
+    onChange,
+
+    // logo
+    logo, logoLoading, onUploadLogo, fileInputLogo,
+
+    // cover
+    cover, coverLoading, onUploadCover, fileInputCover,
+
+  } = props;
+
+  return (
   <>
     <div>
       <label htmlFor="edit-domain">Domain</label>
@@ -36,17 +53,42 @@ const Companies = ({ slug, domain, weight, logo, onChange }) => (
       />
     </div>
 
-    <div>
-      <label htmlFor="edit-logo">Logo URL</label>
+    {/* empty space */}
+    <div />
+
+    <div className="image-container">
+      <label htmlFor="edit-logo">Logo</label>
       <Input
+        // disabled
         id="edit-logo"
         type="url"
         value={logo}
         name="logo"
         onChange={onChange}
       />
+
+      { logoLoading ? <Spinner /> : <img className="logo" src={logo} alt="logo" /> }
+
+      <input type="file" ref={fileInputLogo} onChange={onUploadLogo} />
+    </div>
+
+    <div className="image-container">
+      <label htmlFor="edit-cover">Cover</label>
+      <Input
+        // disabled
+        id="edit-cover"
+        type="url"
+        value={cover}
+        name="cover"
+        onChange={onChange}
+      />
+
+      { coverLoading ? <Spinner /> : <img className="cover" src={cover} alt="cover" /> }
+
+      <input type="file" ref={fileInputCover} onChange={onUploadCover} />
     </div>
   </>
-);
+  );
+}
 
 export default Companies;

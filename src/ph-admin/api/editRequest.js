@@ -17,7 +17,7 @@ const editRequest = (state, dataPath) => {
 
   // companies //
   } else if (dataPath === 'companies') {
-    const { slug, domain, weight, logo } = state;
+    const { slug, domain, weight, logo, cover } = state;
     return axios.patch(
       path,
       {
@@ -26,6 +26,7 @@ const editRequest = (state, dataPath) => {
         "domain": domain,
         "weight": weight,
         "logo": logo,
+        "cover": cover,
         "id": id,
       },
       { headers }

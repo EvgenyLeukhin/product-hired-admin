@@ -45,6 +45,33 @@
       align-items: flex-start;
       margin-bottom: 15px;
 
+      &.image-container { min-height: 220px; }
+
+      .sk-chase {
+        margin: 50px auto;
+
+        .sk-chase-dot::before {
+          background-color: #6C7177;
+        }
+      }
+
+      .input-group {
+        margin-top: auto;
+
+        .btn { border-color: #cfd6db; }
+      }
+
+      img {
+        height: 100px;
+        margin: 10px auto;
+        border: 1px solid #ccc;
+
+        &.logo { width: 100px; }
+
+        &.cover { width: auto; }
+      }
+
+
       label {
         margin-bottom: 2px;
         color: #aaa;
@@ -84,6 +111,8 @@
   .ReactModal__edit {
     width: 96%;
     margin-left: -48%;
+    max-height: 90vh;
+    overflow-y: scroll;
 
     form {
       flex-direction: column;
