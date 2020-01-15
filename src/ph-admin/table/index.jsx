@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactTable from 'react-table';
-// import { Input } from 'debounce-input-decorator';
 
 import Modal from '../modal';
 import Alerts from '../alerts';
@@ -93,10 +92,23 @@ class Table extends React.Component {
           alertIsOpen: true
         });
 
-        setTimeout(() => {
-          this.setState({ alertIsOpen: false });
-          window.location.reload();
-        }, 2000);
+        const data = this.state.data;
+        for (let i = 0; i < data.length; i++) {
+          if (data[i].id === state.id) {
+            data[i] = state;
+          }
+        }
+        this.setState({
+          alertIsOpen: false,
+          data
+        })
+
+        console.log(state, dataPath);
+
+        // setTimeout(() => {
+        //   this.setState({ alertIsOpen: false });
+        //   window.location.reload();
+        // }, 2000);
     })
     .catch(error => console.log(error)) // TODO
   }
@@ -137,7 +149,7 @@ class Table extends React.Component {
         Cell: ({ original }) => (
           <div className="rt-custom__controls">
             <i className="ion-android-delete" onClick={this.deleteClick(original)} />
-            <i className="ion-edit" onClick={this.editClick(original)} />
+            <i className="ion-edit" onClick={this.editClick(original)}/>
           </div>
         )
       }
@@ -183,7 +195,10 @@ class Table extends React.Component {
 
               // axios -> getData
               .then(() => getData(state, dataPath, startOrder))
-              .then(data => this.setState({ data, loading: false }))
+              .then(data => {
+                this.setState({ data, loading: false })
+                console.log(data);
+              })
               .catch(error => console.log(error)) // TODO
           }}
         />
