@@ -17,7 +17,7 @@ const getData = (state, dataPath, startOrder) => {
   // inject where to filter
   filtered.forEach(i => {
     if (i.id === 'id') filter.where[i.id] = i.value
-    else               filter.where[i.id] = { 'like': i.value + '%' }
+    else               filter.where[i.id] = { 'like': '%' + i.value + '%' }
   });
 
   // inject order to filter

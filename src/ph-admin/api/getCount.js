@@ -15,7 +15,7 @@ const getCount = (state, dataPath) => {
   // we take filter inputs values and inject to request params
   filtered.forEach(i => {
     if (i.id === 'id') where[i.id] = i.value
-    else               where[i.id] = { 'like': i.value + '%' }
+    else               where[i.id] = { 'like': '%' + i.value + '%' }
   });
 
   // get-request for count
