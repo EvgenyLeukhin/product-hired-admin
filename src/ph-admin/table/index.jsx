@@ -80,7 +80,7 @@ class Table extends React.Component {
     });
   }
 
-  // (state, dataPath) from the edit.jsx
+  // state - state of modal (editing data)
   edit = (state, dataPath) => {
     editRequest(state, dataPath)
       .then(this.setState({ modalLoading: true }))
@@ -92,23 +92,24 @@ class Table extends React.Component {
           alertIsOpen: true
         });
 
-        const data = this.state.data;
+        // get current table-data from the state w\o editing change (when render only)
+        const { data } = this.state;
+
+        // find editing data in all data by id
         for (let i = 0; i < data.length; i++) {
           if (data[i].id === state.id) {
+            // inject editing data to table state
             data[i] = state;
           }
         }
-        this.setState({
-          alertIsOpen: false,
-          data
-        })
 
-        console.log(state, dataPath);
+        // change table state with editing data
+        this.setState({ data });
 
-        // setTimeout(() => {
-        //   this.setState({ alertIsOpen: false });
-        //   window.location.reload();
-        // }, 2000);
+        // close alert after 2 sec
+        setTimeout(() => {
+          this.setState({ alertIsOpen: false });
+        }, 2000);
     })
     .catch(error => console.log(error)) // TODO
   }
@@ -197,7 +198,6 @@ class Table extends React.Component {
               .then(() => getData(state, dataPath, startOrder))
               .then(data => {
                 this.setState({ data, loading: false })
-                console.log(data);
               })
               .catch(error => console.log(error)) // TODO
           }}
