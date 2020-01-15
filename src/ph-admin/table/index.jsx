@@ -42,8 +42,9 @@ class Table extends React.Component {
   }
 
   delete = () => {
+    const dataWitoutDeleted = [];
     const { dataPath } = this.props;
-    const { itemOriginal: { id } } = this.state;
+    const { data, itemOriginal: { id } } = this.state;
 
     // start modal-loader
     this.setState({ modalLoading: true });
@@ -51,7 +52,19 @@ class Table extends React.Component {
     deleteRequest(dataPath, id)
       // if delete ok
       .then(() => {
-        this.setState({ modalIsOpen: false, modalLoading: false })
+        for (let i = 0; i < data.length; i++) {
+          // skiping deleted item and forming new array without it
+          if (data[i].id !== id) {
+            // inject editing data to table state
+            dataWitoutDeleted.push(data[i]);
+          }
+        }
+        this.setState({
+          // set new data w\o deleted item
+          data: dataWitoutDeleted,
+          modalIsOpen: false,
+          modalLoading: false
+        })
       })
 
       // show alert and reload page with timeOut
@@ -60,7 +73,6 @@ class Table extends React.Component {
 
         setTimeout(() => {
           this.setState({ alertIsOpen: false });
-          window.location.reload();
         }, 2000);
       })
 
