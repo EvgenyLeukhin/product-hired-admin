@@ -67,7 +67,11 @@ const Companies = props => {
         <div className="form-group row">
           <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-logo">Logo</label>
           <div className="col-md-4 text-center">
-            { logoLoading ? <Spinner /> : <img className="logo" src={logo} alt="logo" /> }
+            {
+              logoLoading ? <Spinner /> : (
+                logo ? <img className="logo" src={logo} alt="logo" /> : <divc className="no-logo">No logo</divc>
+              )
+            }
 
             <input
               name="logo"
@@ -83,7 +87,11 @@ const Companies = props => {
 
           <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-cover">Cover</label>
           <div className="col-md-4 text-center">
-            { coverLoading ? <Spinner /> : <img className="cover" src={cover} alt="cover" /> }
+            {
+              coverLoading ? <Spinner /> : (
+                cover ? <img className="cover" src={cover} alt="cover" /> : <div className="no-cover">No cover</div>
+              )
+            }
 
             <input
               name="cover"
