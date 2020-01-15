@@ -32,7 +32,13 @@ class Skills extends React.Component {
       },
     ];
 
-    return <Table columns={columns} dataPath='skills' />;
+    return (
+      <Table
+        columns={columns}
+        dataPath='skills'
+        buttonText='skill'
+      />
+    );
   }
 }
 

@@ -3,6 +3,7 @@ import ReactTable from 'react-table';
 
 import Modal from '../modal';
 import Alerts from '../alerts';
+import AddButton from './AddButton';
 
 import getCount from '../api/getCount';
 import getData from '../api/getData';
@@ -126,13 +127,15 @@ class Table extends React.Component {
     .catch(error => console.log(error)) // TODO
   }
 
-  addClick = original => () => {
+  addClick = () => {
     // TODO
-    this.setState({
-      modalType: 'add',
-      modalIsOpen: true,
-      itemOriginal: original
-    });
+    alert('Add click - TODO');
+
+    // this.setState({
+    //   modalType: 'add',
+    //   modalIsOpen: true,
+    //   itemOriginal: original
+    // });
   }
 
   componentDidMount() {
@@ -168,12 +171,18 @@ class Table extends React.Component {
       }
     ];
 
-    const { columns, dataPath, startOrder } = this.props;
+    const { columns, dataPath, startOrder, buttonText } = this.props;
     const { loading, count, data, modalIsOpen, itemOriginal, modalType, modalLoading, alertIsOpen } = this.state;
 
     return (
       <div className={`${dataPath}-table`}>
         { alertIsOpen && <Alerts type={modalType} itemOriginal={itemOriginal} /> }
+
+        <AddButton
+          addClick={this.addClick}
+          text={buttonText}
+          loading={loading}
+        />
 
         <Modal
           type={modalType}

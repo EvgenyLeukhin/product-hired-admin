@@ -50,7 +50,13 @@ class Users extends React.Component {
       },
     ];
 
-    return <Table columns={columns} dataPath='users' />;
+    return (
+      <Table
+        columns={columns}
+        dataPath='users'
+        buttonText='user'
+      />
+    );
   }
 }
 

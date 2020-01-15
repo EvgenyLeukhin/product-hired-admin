@@ -25,7 +25,13 @@ class Plans extends React.Component {
       },
     ];
 
-    return <Table columns={columns} dataPath='plans' />;
+    return (
+      <Table
+        columns={columns}
+        dataPath='plans'
+        buttonText="plan"
+      />
+    );
   }
 }
 
