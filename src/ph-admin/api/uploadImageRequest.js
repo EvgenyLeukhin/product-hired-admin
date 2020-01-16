@@ -3,8 +3,8 @@ import axios from 'axios';
 import { API_URL, subUrl } from './apiUrl';
 import token from './getToken';
 
-const uploadLogoRequest = formData => {
-  return axios.post(`${API_URL}/${subUrl}/vacancies/logo`, formData, {
+const uploadImageRequest = (formData, id) => {
+  return axios.post(`${API_URL}/${subUrl}/users/${id}/uploadImage`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
       Authorization: token
@@ -12,4 +12,4 @@ const uploadLogoRequest = formData => {
   });
 }
 
-export default uploadLogoRequest;
+export default uploadImageRequest;

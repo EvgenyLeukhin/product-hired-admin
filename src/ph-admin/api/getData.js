@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import API_URL from './apiUrl';
+import { API_URL, subUrl } from './apiUrl';
 import token from './getToken';
 
 const getData = (state, dataPath, startOrder) => {
@@ -27,7 +27,7 @@ const getData = (state, dataPath, startOrder) => {
   });
 
   // get-request for data
-  return axios.get(`${API_URL}/${dataPath}`, {
+  return axios.get(`${API_URL}/${subUrl}/${dataPath}`, {
     params: { filter },
     headers: { Authorization: token },
   })

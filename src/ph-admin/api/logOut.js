@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-import API_URL from './apiUrl';
+import { API_URL, subUrl } from './apiUrl';
 import token from './getToken';
 
 const logOut = () => {
   return axios.post(
-    `${API_URL}/users/logout`, {},
+    `${API_URL}/${subUrl}/users/logout`, {},
     {
       headers: { Authorization: token }
     }

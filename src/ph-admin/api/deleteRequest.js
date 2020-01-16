@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-import API_URL from './apiUrl';
+import { API_URL, subUrl } from './apiUrl';
 import token from './getToken';
 
 const deleteRequest = (dataPath, id) => {
   return axios.delete(
-    `${API_URL}/${dataPath}/${id}`,
+    `${API_URL}/${subUrl}/${dataPath}/${id}`,
     {
       headers: { Authorization: token }
     })

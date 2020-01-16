@@ -10,7 +10,7 @@ import Skills from './edit-modals/skills';
 import Roles from './edit-modals/roles';
 import Plans from './edit-modals/plans';
 
-import API_URL from './../api/apiUrl';
+import { API_URL, subUrl } from './../api/apiUrl';
 import uploadLogoRequest from './../api/uploadLogoRequest';
 import uploadCoverRequest from './../api/uploadCoverRequest';
 
@@ -72,7 +72,7 @@ class EditModal extends React.Component {
     uploadLogoRequest(formData)
       .then(res => {
         this.setState({
-          logo: `${API_URL}/containers/logo/download/${res.data.name}`,
+          logo: `${API_URL}/${subUrl}/containers/logo/download/${res.data.name}`,
           logoLoading: false
         })
       })
@@ -98,7 +98,7 @@ class EditModal extends React.Component {
     uploadCoverRequest(formData)
       .then(res => {
         this.setState({
-          cover: `${API_URL}/containers/cover/download/${res.data.name}`,
+          cover: `${API_URL}/${subUrl}/containers/cover/download/${res.data.name}`,
           coverLoading: false
         })
       })

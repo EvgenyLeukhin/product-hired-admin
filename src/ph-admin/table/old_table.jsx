@@ -5,7 +5,7 @@ import axios from 'axios';
 
 import Modal from '../modal/old_modal';
 
-import API_URL from './../api/apiUrl';
+import { API_URL, subUrl } from './../api/apiUrl';
 
 import './styles.scss';
 
@@ -48,7 +48,7 @@ class ReactTableCustom extends React.Component {
 
     // delete request
     axios.delete(
-      `${API_URL}/${dataPath}/${id}`,
+      `${API_URL}/${subUrl}/${dataPath}/${id}`,
       {
         headers: { Authorization: token }
       })
@@ -179,7 +179,7 @@ class ReactTableCustom extends React.Component {
             const token = userData && userData.id;
 
             // fetch only count
-            axios.get(`${API_URL}//${dataPath}/count`, {
+            axios.get(`${API_URL}/${subUrl}/${dataPath}/count`, {
               // params for get count when we have filled filters
               params: { where: filter.where },
               headers: { Authorization: token },
@@ -193,7 +193,7 @@ class ReactTableCustom extends React.Component {
 
             // fetch data only for 1 page
             }).then(
-              axios.get(`${API_URL}/${dataPath}`, {
+              axios.get(`${API_URL}/${subUrl}/${dataPath}`, {
                 params: { filter },
                 headers: { Authorization: token }
 

@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-import API_URL from './apiUrl';
+import { API_URL, subUrl } from './apiUrl';
 import token from './getToken';
 
 const editRequest = (state, dataPath) => {
   const { id, name } = state;
   const headers = { Authorization: token };
-  const path = `${API_URL}/${dataPath}/${id}`;
+  const path = `${API_URL}/${subUrl}/${dataPath}/${id}`;
 
   // plans //
   if (dataPath === 'plans') {
