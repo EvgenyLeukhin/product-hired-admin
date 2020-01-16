@@ -48,7 +48,7 @@ div.ReactModal__edit {
         }
       }
 
-       input[type="file"] { margin-top: 15px; }
+      input[type="file"] { margin-top: 15px; }
 
       img {
         margin: 10px 0;
@@ -61,7 +61,7 @@ div.ReactModal__edit {
         &.cover { width: auto; }
       }
 
-      .no-logo {
+      .no-logo, .no-image {
         height: 110px;
         width: 110px;
         margin: auto;

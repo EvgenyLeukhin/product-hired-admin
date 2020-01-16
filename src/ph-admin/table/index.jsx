@@ -128,13 +128,13 @@ class Table extends React.Component {
   }
 
   addClick = () => {
+    const { buttonText } = this.props;
     // TODO
-    alert('Add click - TODO');
+    alert(`Add ${buttonText} - TODO`);
 
     // this.setState({
     //   modalType: 'add',
     //   modalIsOpen: true,
-    //   itemOriginal: original
     // });
   }
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import Spinner from '../../../components/Spinner';
 
 const Users = props => {
   const {
@@ -11,6 +12,10 @@ const Users = props => {
     created,
     modified,
     roles,
+    image,
+    imageLoading,
+    fileInputImage,
+    onUploadImage,
     onChange
   } = props;
 
@@ -110,11 +115,11 @@ const Users = props => {
         </div>
       </fieldset>
 
-      <fieldset>
+      <fieldset className="edit-container__images">
         <div className="form-group row">
           <label className="col-md-2 col-form-label text-bold text-right">User options</label>
 
-          <div className="col-lg-10">
+          <div className="col-lg-4">
             <div className="form-check">
                 <label className="edit-status">
                   <input
@@ -158,6 +163,26 @@ const Users = props => {
             </div>
           </div>
 
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-image">Avatar</label>
+
+          <div className="col-md-4 text-center">
+            {
+              imageLoading ? <Spinner /> : (
+                image ? <img className="image" src={image} alt="image" /> : <divc className="no-image">No image</divc>
+              )
+            }
+
+            <input
+              name="image"
+              value={image}
+              id="edit-image"
+              onChange={onChange}
+              type="url"
+              className="form-control input-rounded"
+            />
+
+            <input type="file" ref={fileInputImage} onChange={onUploadImage} />
+          </div>
         </div>
       </fieldset>
     </>
