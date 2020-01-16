@@ -13,12 +13,14 @@ import Plans from './edit-modals/plans';
 import { API_URL, subUrl } from './../api/apiUrl';
 import uploadLogoRequest from './../api/uploadLogoRequest';
 import uploadCoverRequest from './../api/uploadCoverRequest';
+import uploadImageRequest from './../api/uploadImageRequest';
 
 import './scss/edit.scss';
 
 class EditModal extends React.Component {
   fileInputLogo = React.createRef();
   fileInputCover = React.createRef();
+  fileInputImage = React.createRef();
 
   state = {
     id: null,
@@ -45,6 +47,10 @@ class EditModal extends React.Component {
     // cover
     cover: null,
     coverLoading: false,
+
+    // image
+    image: null,
+    imageLoading: false,
   }
 
   onChange = e => {
@@ -89,10 +95,10 @@ class EditModal extends React.Component {
     const formData = new FormData();
 
     // get image from the browser memory
-    const uploadcover = this.fileInputCover.current.files[0];
+    const uploadCover = this.fileInputCover.current.files[0];
 
     // append this file to form data
-    formData.append('file', uploadcover);
+    formData.append('file', uploadCover);
 
     // uploadLogoRequest
     uploadCoverRequest(formData)
@@ -100,6 +106,33 @@ class EditModal extends React.Component {
         this.setState({
           cover: `${API_URL}/${subUrl}/containers/cover/download/${res.data.name}`,
           coverLoading: false
+        })
+      })
+
+      // TODO
+      .catch(error => console.log(error))
+  }
+
+  onUploadImage = e => {
+    e.preventDefault();
+    this.setState({ imageLoading: true });
+    // add new form data
+    const formData = new FormData();
+
+    // get image from the browser memory
+    const uploadImage = this.fileInputImage.current.files[0];
+
+    // append this file to form data
+    formData.append('file', uploadImage);
+
+    const { id } = this.state;
+
+    // uploadLogoRequest
+    uploadImageRequest(formData, id)
+      .then(res => {
+        this.setState({
+          image: { url: `${API_URL}${res.data.file.url}` },
+          imageLoading: false
         })
       })
 
@@ -120,25 +153,26 @@ class EditModal extends React.Component {
     // 1. Get values from the prop itemOriginal
     const {
       itemOriginal: {
-        id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, roles, domain, logo, cover
+        id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, roles, domain, logo, cover, image
       }
     } = this.props;
 
     // 2. Set values to the state
     this.setState({
-      id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, roles, domain, logo, cover
+      id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, roles, domain, logo, cover, image
     });
   }
 
   render() {
     const { itemOriginal, dataPath, closeModal, modalLoading } = this.props;
-    // console.log(itemOriginal);
+    console.log(itemOriginal);
 
     // get data from the state to have onChange ability
     const {
       id, name, email, slug, weight, price, markers, surname, emailVerified, status, job_title, experience, roles,
-      created, modified, domain, logo, logoLoading, cover, coverLoading
+      created, modified, domain, logo, logoLoading, cover, coverLoading, image, imageLoading
     } = this.state;
+
 
     return (
       <section className="section-container edit-container">
@@ -200,6 +234,12 @@ class EditModal extends React.Component {
                     experience={experience}
                     onChange={this.onChange}
                     emailVerified={emailVerified}
+
+                    // image
+                    image={image}
+                    imageLoading={imageLoading}
+                    onUploadImage={this.onUploadImage}
+                    fileInputImage={this.fileInputImage}
                   />
                 )
               }

@@ -168,13 +168,13 @@ const Users = props => {
           <div className="col-md-4 text-center">
             {
               imageLoading ? <Spinner /> : (
-                image ? <img className="image" src={image} alt="image" /> : <divc className="no-image">No image</divc>
+                image && image.url ? <img className="image" src={image.url} alt="image" /> : <div className="no-image">No image</div>
               )
             }
 
             <input
               name="image"
-              value={image}
+              value={image && image.url}
               id="edit-image"
               onChange={onChange}
               type="url"

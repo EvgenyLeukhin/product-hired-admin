@@ -34,7 +34,17 @@ const editRequest = (state, dataPath) => {
 
   // users //
   } else if (dataPath === 'users') {
-    const { surname, email, emailVerified, adminVerified, status, job_title, experience } = state;
+    const {
+      surname,
+      email,
+      emailVerified,
+      adminVerified,
+      status,
+      job_title,
+      experience,
+      image
+    } = state;
+
     return axios.patch(
       path,
       {
@@ -45,7 +55,8 @@ const editRequest = (state, dataPath) => {
         "emailVerified": emailVerified,
         "status": status,
         "job_title": job_title,
-        "experience": experience
+        "experience": experience,
+        "image": image
       },
       { headers }
     )
