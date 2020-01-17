@@ -3,12 +3,12 @@ import React from 'react';
 import { Button } from "reactstrap";
 import Spinner from '../../components/Spinner';
 
-import Common from './parts/common';
-import Companies from './parts/companies';
-import Users from './parts/users';
-import Skills from './parts/skills';
-import Roles from './parts/roles';
-import Plans from './parts/plans';
+import Common from './add/common';
+import Companies from './add/companies';
+import Users from './add/users';
+import Skills from './add/skills';
+import Roles from './add/roles';
+import Plans from './add/plans';
 
 import { API_URL, subUrl } from './../api/apiUrl';
 import uploadLogoRequest from './../api/uploadLogoRequest';
@@ -143,12 +143,12 @@ class AddModal extends React.Component {
   }
 
   onSubmit = e => {
-    // e.preventDefault();
-    // const { state } = this;
-    // const { editRequest, dataPath } = this.props;
+    e.preventDefault();
+    const { state } = this;
+    const { addRequest, dataPath } = this.props;
 
     // // 3. editRequest func recieve current state of this component
-    // editRequest(state, dataPath);
+    addRequest(state, dataPath);
   }
 
   render() {
@@ -165,7 +165,7 @@ class AddModal extends React.Component {
       <section className="section-container edit-container">
         <span className="ion-close-round edit-container__close" onClick={closeModal} />
 
-        <h4 className="edit-container__title">Add new {text}</h4>
+        <h4 className="edit-container__title">Add {text}</h4>
 
         <div className="cardbox">
           <div className="cardbox-body">
@@ -244,7 +244,7 @@ class AddModal extends React.Component {
               {/* 6. Plans */}
               { dataPath === 'plans' && <Plans price={price} onChange={this.onChange} /> }
 
-              {/* {
+              {
                 modalLoading ? (
                   <div className="edit-container__is-loading">
                     <Spinner />
@@ -253,11 +253,11 @@ class AddModal extends React.Component {
                   <footer className="edit-container__buttons">
                     <>
                       <Button outline color="secondary" onClick={closeModal}>Cancel</Button>
-                      <Button outline color="primary" type="submit">Save</Button>
+                      <Button outline color="primary" type="submit">Add</Button>
                     </>
                   </footer>
                 )
-              } */}
+              }
 
             </form>
           </div>

@@ -7,6 +7,7 @@ import AddButton from './AddButton';
 
 import getCount from '../api/getCount';
 import getData from '../api/getData';
+import addRequest from '../api/addRequest';
 import editRequest from '../api/editRequest';
 import deleteRequest from '../api/deleteRequest';
 import customFiltering from '../table/customFiltering';
@@ -135,6 +136,29 @@ class Table extends React.Component {
     });
   }
 
+    // state - state of modal (editing data when submit form)
+    add = (state, dataPath) => {
+      addRequest(state, dataPath)
+        .then(this.setState({ modalLoading: true }))
+
+        .then(res => {
+          // add new item to table
+          console.log(res);
+
+          this.setState({
+            modalLoading: false,
+            modalIsOpen: false,
+            alertIsOpen: true
+          });
+
+          // close alert after 2 sec
+          setTimeout(() => {
+            this.setState({ alertIsOpen: false });
+          }, 2000);
+      })
+      .catch(error => console.log(error)) // TODO
+    }
+
   componentDidMount() {
     document.addEventListener('keyup', e => {
       if (e.keyCode === 27) this.setState({ modalIsOpen: false });
@@ -187,6 +211,7 @@ class Table extends React.Component {
           modalLoading={modalLoading}
           itemOriginal={itemOriginal}
           dataPath={dataPath}
+          addRequest={this.add}
           editRequest={this.edit}
           deleteRequest={this.delete}
           text={buttonText}

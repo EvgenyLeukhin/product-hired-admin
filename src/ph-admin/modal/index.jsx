@@ -15,6 +15,7 @@ const Modal = props => {
     modalIsOpen,
     closeModal,
     itemOriginal,
+    addRequest,
     editRequest,
     deleteRequest,
     modalLoading,
@@ -59,7 +60,7 @@ const Modal = props => {
               dataPath={dataPath}
               closeModal={closeModal}
               itemOriginal={itemOriginal}
-              deleteRequest={deleteRequest}
+              addRequest={addRequest}
               modalLoading={modalLoading}
             />
           )
