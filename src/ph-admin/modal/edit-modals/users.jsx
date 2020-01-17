@@ -12,6 +12,7 @@ const Users = props => {
     created,
     modified,
     roles,
+    admin,
     image,
     imageLoading,
     fileInputImage,
@@ -112,6 +113,16 @@ const Users = props => {
               className="form-control input-rounded"
             />
           </div>
+
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-experience">Roles</label>
+
+          <div className="col-md-4 roles">
+            {
+              roles.length ? roles.map(i => {
+                if (i.name) return <span>{`${i.name}`}&nbsp;</span>;
+              }) : <span>No roles</span>
+            }
+          </div>
         </div>
       </fieldset>
 
@@ -149,14 +160,20 @@ const Users = props => {
             </div>
 
             <div className="form-check">
-              <label className="edit-admin-status">
+              <label className="edit-admin">
                 <input
-                  name="admin-status"
-                  id="edit-admin-status"
+                  name="admin"
+                  id="edit-admin"
                   className="form-check-input"
                   type="checkbox"
-                  checked={roles.length && roles[0].name === 'admin' ? true : false} // w/o mapping
-                  disabled
+                  // checked={roles.length && roles[0].name === 'admin' ? true : false} // w/o mapping
+                  // checked={
+                  //   roles.length ? roles.map(i => {
+                  //     if (i.name === 'admin') return true;
+                  //   }) : false
+                  // }
+                  checked={admin}
+                  onChange={onChange}
                 />
                 Admin rights
               </label>

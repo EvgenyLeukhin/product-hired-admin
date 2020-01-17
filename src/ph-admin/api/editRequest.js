@@ -11,6 +11,7 @@ const editRequest = (state, dataPath) => {
   // plans //
   if (dataPath === 'plans') {
     const { price } = state;
+
     return axios.patch(
       path, { "name": name, "price": price, "id": id }, { headers }
     )
@@ -18,6 +19,7 @@ const editRequest = (state, dataPath) => {
   // companies //
   } else if (dataPath === 'companies') {
     const { slug, domain, weight, logo, cover } = state;
+
     return axios.patch(
       path,
       {
@@ -38,7 +40,7 @@ const editRequest = (state, dataPath) => {
       surname,
       email,
       emailVerified,
-      adminVerified,
+      admin,
       status,
       job_title,
       experience,
@@ -52,6 +54,7 @@ const editRequest = (state, dataPath) => {
         "name": name,
         "surname": surname,
         "email": email,
+        "admin": admin,
         "emailVerified": emailVerified,
         "status": status,
         "job_title": job_title,
@@ -64,6 +67,7 @@ const editRequest = (state, dataPath) => {
   // vacancy_roles //
   } else if (dataPath === 'vacancy_roles') {
     const { slug, weight } = state;
+
     return axios.patch(
       path,
       {
@@ -78,6 +82,7 @@ const editRequest = (state, dataPath) => {
   // skills //
   } else if (dataPath === 'skills') {
     const { slug, markers } = state;
+
     return axios.patch(
       path,
       {

@@ -30,7 +30,7 @@ div.ReactModal__edit {
       color: #ccc;
 
       &:hover { color: #6C7177; }
-     }
+    }
 
 
     &__images {
@@ -80,7 +80,7 @@ div.ReactModal__edit {
         align-items: center;
         background: #ccc;
       }
-     }
+    }
 
 
      &__is-loading {
@@ -115,6 +115,14 @@ div.ReactModal__edit {
       button { flex-basis: 20%; }
 
       .btn-outline-secondary { margin-right: 15px; }
+    }
+
+    .roles {
+      text-transform: capitalize;
+      display: flex;
+      align-items: center;
+
+      span { color: #007bff; }
     }
   }
 }

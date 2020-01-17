@@ -51,6 +51,8 @@ class EditModal extends React.Component {
     // image
     image: null,
     imageLoading: false,
+
+    admin: false,
   }
 
   onChange = e => {
@@ -161,16 +163,23 @@ class EditModal extends React.Component {
     this.setState({
       id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, roles, domain, logo, cover, image
     });
+
+    // check for admin rights
+    roles.length && roles.map(i => {
+      if (i.name === 'admin') {
+        this.setState({ admin: true });
+      }
+    });
   }
 
   render() {
     const { itemOriginal, dataPath, closeModal, modalLoading } = this.props;
-    console.log(itemOriginal);
+    // console.log('itemOriginal', itemOriginal);
 
     // get data from the state to have onChange ability
     const {
       id, name, email, slug, weight, price, markers, surname, emailVerified, status, job_title, experience, roles,
-      created, modified, domain, logo, logoLoading, cover, coverLoading, image, imageLoading
+      created, modified, domain, logo, logoLoading, cover, coverLoading, image, imageLoading, admin
     } = this.state;
 
 
@@ -226,6 +235,7 @@ class EditModal extends React.Component {
                   <Users
                     email={email}
                     roles={roles}
+                    admin={admin}
                     status={status}
                     surname={surname}
                     created={created}

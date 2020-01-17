@@ -93,7 +93,7 @@ class Table extends React.Component {
     });
   }
 
-  // state - state of modal (editing data)
+  // state - state of modal (editing data when submit form)
   edit = (state, dataPath) => {
     editRequest(state, dataPath)
       .then(this.setState({ modalLoading: true }))
@@ -128,14 +128,10 @@ class Table extends React.Component {
   }
 
   addClick = () => {
-    const { buttonText } = this.props;
-    // TODO
-    alert(`Add ${buttonText} - TODO`);
-
-    // this.setState({
-    //   modalType: 'add',
-    //   modalIsOpen: true,
-    // });
+    this.setState({
+      modalType: 'add',
+      modalIsOpen: true,
+    });
   }
 
   componentDidMount() {
