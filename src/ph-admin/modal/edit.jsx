@@ -53,6 +53,7 @@ class EditModal extends React.Component {
     imageLoading: false,
 
     admin: false,
+    adminObj: {}
   }
 
   onChange = e => {
@@ -60,6 +61,34 @@ class EditModal extends React.Component {
       this.setState({ [e.target.name]: e.target.checked })
     } else {
       this.setState({ [e.target.name]: e.target.value })
+    }
+  }
+
+  onChangeAdmin = e => {
+    const { id, admin } = this.state;
+
+    if (e.target.checked && !admin) {
+      // create template for injecting to roles[]
+      const adminObj = {
+        id,
+        name: 'admin',
+        description: null,
+        created:  new Date().toISOString(),
+        modified: new Date().toISOString()
+      };
+
+      this.setState(prevState => ({
+        admin: true,
+        // concat current roles[] with admin template
+        roles: prevState.roles.concat(adminObj)
+      }));
+
+    } else {
+      this.setState(prevState => ({
+        admin: false,
+        // delete admin item from roles[]
+        roles: prevState.roles.filter(i => i.name !== 'admin')
+      }));
     }
   }
 
@@ -164,12 +193,12 @@ class EditModal extends React.Component {
       id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, roles, domain, logo, cover, image
     });
 
-    // check for admin rights
+    // check for admin rights and save admin object if it is
     roles && roles.map(i => {
-      if (i.name === 'admin') {
-        this.setState({ admin: true });
-      }
+      if (i.name === 'admin') this.setState({ admin: true });
     });
+
+    console.log(roles);
   }
 
   render() {
@@ -243,6 +272,7 @@ class EditModal extends React.Component {
                     job_title={job_title}
                     experience={experience}
                     onChange={this.onChange}
+                    onChangeAdmin={this.onChangeAdmin}
                     emailVerified={emailVerified}
 
                     // image

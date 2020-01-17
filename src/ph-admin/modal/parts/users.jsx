@@ -17,7 +17,8 @@ const Users = props => {
     imageLoading,
     fileInputImage,
     onUploadImage,
-    onChange
+    onChange,
+    onChangeAdmin
   } = props;
 
   return (
@@ -119,7 +120,7 @@ const Users = props => {
           <div className="col-md-4 roles">
             {
               roles.length ? roles.map(i => {
-                if (i.name) return <span>{`${i.name}`}&nbsp;</span>;
+                return <span>{`${i.name} `}&nbsp;</span>;
               }) : <span>No roles</span>
             }
           </div>
@@ -142,7 +143,7 @@ const Users = props => {
               value={image && image.url}
               id="edit-image"
               onChange={onChange}
-              type="url"
+              type="text"
               className="form-control input-rounded"
             />
 
@@ -161,7 +162,7 @@ const Users = props => {
                   className="form-check-input"
                   type="checkbox"
                   checked={admin}
-                  onChange={onChange}
+                  onChange={onChangeAdmin}
                 />
                 Admin rights
               </label>
