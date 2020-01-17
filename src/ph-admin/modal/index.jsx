@@ -10,6 +10,7 @@ import './scss/common.scss';
 const Modal = props => {
   const {
     type,
+    text,
     dataPath,
     modalIsOpen,
     closeModal,
@@ -53,6 +54,8 @@ const Modal = props => {
           // add
           type === 'add' && (
             <AddModal
+              text={text}
+              dataPath={dataPath}
               closeModal={closeModal}
               itemOriginal={itemOriginal}
               deleteRequest={deleteRequest}

@@ -3,12 +3,12 @@ import React from 'react';
 import { Button } from "reactstrap";
 import Spinner from '../../components/Spinner';
 
-import Common from './edit-modals/common';
-import Companies from './edit-modals/companies';
-import Users from './edit-modals/users';
-import Skills from './edit-modals/skills';
-import Roles from './edit-modals/roles';
-import Plans from './edit-modals/plans';
+import Common from './parts/common';
+import Companies from './parts/companies';
+import Users from './parts/users';
+import Skills from './parts/skills';
+import Roles from './parts/roles';
+import Plans from './parts/plans';
 
 import { API_URL, subUrl } from './../api/apiUrl';
 import uploadLogoRequest from './../api/uploadLogoRequest';
@@ -165,7 +165,7 @@ class EditModal extends React.Component {
     });
 
     // check for admin rights
-    roles.length && roles.map(i => {
+    roles && roles.map(i => {
       if (i.name === 'admin') {
         this.setState({ admin: true });
       }

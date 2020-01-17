@@ -56,7 +56,7 @@ class Table extends React.Component {
         for (let i = 0; i < data.length; i++) {
           // skiping deleted item and forming new array without it
           if (data[i].id !== id) {
-            // inject editing data to table state
+            // push all data without deleted item to new array
             dataWitoutDeleted.push(data[i]);
           }
         }
@@ -131,6 +131,7 @@ class Table extends React.Component {
     this.setState({
       modalType: 'add',
       modalIsOpen: true,
+      alertIsOpen: false
     });
   }
 
@@ -188,6 +189,7 @@ class Table extends React.Component {
           dataPath={dataPath}
           editRequest={this.edit}
           deleteRequest={this.delete}
+          text={buttonText}
           closeModal={() => this.setState({ modalIsOpen: false })}
         />
 

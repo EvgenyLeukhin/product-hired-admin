@@ -128,9 +128,45 @@ const Users = props => {
 
       <fieldset className="edit-container__images">
         <div className="form-group row">
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-image">Avatar</label>
+
+          <div className="col-md-4 text-center">
+            {
+              imageLoading ? <Spinner /> : (
+                image && image.url ? <img className="image" src={image.url} alt="image" /> : <div className="no-image">No image</div>
+              )
+            }
+
+            <input
+              name="image"
+              value={image && image.url}
+              id="edit-image"
+              onChange={onChange}
+              type="url"
+              className="form-control input-rounded"
+            />
+
+            <input type="file" ref={fileInputImage} onChange={onUploadImage} />
+          </div>
+
+
           <label className="col-md-2 col-form-label text-bold text-right">User options</label>
 
           <div className="col-lg-4">
+            <div className="form-check">
+              <label className="edit-admin">
+                <input
+                  name="admin"
+                  id="edit-admin"
+                  className="form-check-input"
+                  type="checkbox"
+                  checked={admin}
+                  onChange={onChange}
+                />
+                Admin rights
+              </label>
+            </div>
+
             <div className="form-check">
                 <label className="edit-status">
                   <input
@@ -158,47 +194,6 @@ const Users = props => {
                 Email verified
               </label>
             </div>
-
-            <div className="form-check">
-              <label className="edit-admin">
-                <input
-                  name="admin"
-                  id="edit-admin"
-                  className="form-check-input"
-                  type="checkbox"
-                  // checked={roles.length && roles[0].name === 'admin' ? true : false} // w/o mapping
-                  // checked={
-                  //   roles.length ? roles.map(i => {
-                  //     if (i.name === 'admin') return true;
-                  //   }) : false
-                  // }
-                  checked={admin}
-                  onChange={onChange}
-                />
-                Admin rights
-              </label>
-            </div>
-          </div>
-
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-image">Avatar</label>
-
-          <div className="col-md-4 text-center">
-            {
-              imageLoading ? <Spinner /> : (
-                image && image.url ? <img className="image" src={image.url} alt="image" /> : <div className="no-image">No image</div>
-              )
-            }
-
-            <input
-              name="image"
-              value={image && image.url}
-              id="edit-image"
-              onChange={onChange}
-              type="url"
-              className="form-control input-rounded"
-            />
-
-            <input type="file" ref={fileInputImage} onChange={onUploadImage} />
           </div>
         </div>
       </fieldset>
