@@ -197,8 +197,6 @@ class EditModal extends React.Component {
     roles && roles.map(i => {
       if (i.name === 'admin') this.setState({ admin: true });
     });
-
-    console.log(roles);
   }
 
   render() {

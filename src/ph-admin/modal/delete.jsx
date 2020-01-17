@@ -5,12 +5,21 @@ import Spinner from '../../components/Spinner';
 
 import './scss/delete.scss';
 
-const DeleteModal = ({ itemOriginal, closeModal, deleteRequest, modalLoading }) => {
+const DeleteModal = ({ dataPath, itemOriginal, closeModal, deleteRequest, modalLoading }) => {
+  const { id, name, surname } = itemOriginal;
+
+  const title = () => {
+    if (dataPath === 'users') {
+      return <span>{id} - <b>{name} - {surname}</b>?</span>
+    } else {
+      return <span>{id} - <b>{name}</b>?</span>
+    }
+  }
   return (
     <>
       <div className='ReactModal__delete__title'>
         <span>Are you sure you want to delete </span> <br/>
-        {`"${itemOriginal.id}`} - <b>{`${itemOriginal.name}"?`}</b>
+        {title()}
       </div>
 
       {

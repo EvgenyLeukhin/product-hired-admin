@@ -33,6 +33,7 @@ const Modal = props => {
           // delete
           type === 'delete' && (
             <DeleteModal
+              dataPath={dataPath}
               closeModal={closeModal}
               itemOriginal={itemOriginal}
               deleteRequest={deleteRequest}
