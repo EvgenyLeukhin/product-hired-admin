@@ -251,10 +251,8 @@ class AddModal extends React.Component {
                   </div>
                 ) : (
                   <footer className="edit-container__buttons">
-                    <>
-                      <Button outline color="secondary" onClick={closeModal}>Cancel</Button>
-                      <Button outline color="primary" type="submit">Add</Button>
-                    </>
+                    <Button outline color="secondary" onClick={closeModal}>Cancel</Button>
+                    <Button outline color="primary" type="submit">Add</Button>
                   </footer>
                 )
               }

@@ -142,14 +142,17 @@ class Table extends React.Component {
         .then(this.setState({ modalLoading: true }))
 
         .then(res => {
-          // add new item to table
-          console.log(res);
+          const { data } = this.state;
+          const { startOrder } = this.props;
+          // add new item to state [data]
+          const newData = startOrder ? [res.data].concat(data) : data.concat(res.data);
 
-          this.setState({
-            modalLoading: false,
-            modalIsOpen: false,
-            alertIsOpen: true
-          });
+        this.setState({
+          modalLoading: false,
+          modalIsOpen: false,
+          alertIsOpen: true,
+          data: newData
+        })
 
           // close alert after 2 sec
           setTimeout(() => {
