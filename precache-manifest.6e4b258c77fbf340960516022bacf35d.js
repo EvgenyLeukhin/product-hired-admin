@@ -8,8 +8,8 @@ self.__precacheManifest = [
     "url": "/product-hired-admin/static/js/0.88e9bf0d.chunk.js"
   },
   {
-    "revision": "6a2b80d0b0ea01b28c57",
-    "url": "/product-hired-admin/static/js/1.6a2b80d0.chunk.js"
+    "revision": "4e2269966c5913c481bc",
+    "url": "/product-hired-admin/static/js/1.4e226996.chunk.js"
   },
   {
     "revision": "28df6ee7b407fd8a14b40bc01f4fd3ae",
@@ -76,8 +76,8 @@ self.__precacheManifest = [
     "url": "/product-hired-admin/static/media/ionicons.2c159d0d.woff"
   },
   {
-    "revision": "149f8bbe63732daa43ee",
-    "url": "/product-hired-admin/static/js/runtime~main.149f8bbe.js"
+    "revision": "b6f7f6242bcbf7484336",
+    "url": "/product-hired-admin/static/js/runtime~main.b6f7f624.js"
   },
   {
     "revision": "18eccfd25b2fbd004498",
@@ -108,7 +108,7 @@ self.__precacheManifest = [
     "url": "/product-hired-admin/static/js/18.480f7419.chunk.js"
   },
   {
-    "revision": "6a2b80d0b0ea01b28c57",
+    "revision": "4e2269966c5913c481bc",
     "url": "/product-hired-admin/static/css/1.89f4f190.chunk.css"
   },
   {
@@ -152,7 +152,7 @@ self.__precacheManifest = [
     "url": "/product-hired-admin/static/css/12.6dfd7726.chunk.css"
   },
   {
-    "revision": "0207a6c0005b2f9f888368a50de36eec",
+    "revision": "43d773ccb724d61bb054366d1ec63b29",
     "url": "/product-hired-admin/index.html"
   }
 ];
