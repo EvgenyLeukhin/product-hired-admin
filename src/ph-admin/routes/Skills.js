@@ -37,6 +37,7 @@ class Skills extends React.Component {
         columns={columns}
         dataPath='skills'
         buttonText='skill'
+        startOrder='id DESC'
       />
     );
   }

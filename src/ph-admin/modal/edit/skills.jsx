@@ -36,7 +36,7 @@ const Skills = ({ weight, slug, markers, onChange }) => (
 
         <div className="col-md-4">
           <input
-            name="aliases"
+            name="markers"
             value={markers}
             id="edit-aliases"
             onChange={onChange}

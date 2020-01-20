@@ -28,7 +28,7 @@ const addRequest = (state, dataPath) => {
         "domain": domain,
         "weight": weight,
         "logo": logo,
-        "cover": cover
+        "cover": cover,
       },
       { headers }
     )
@@ -57,7 +57,7 @@ const addRequest = (state, dataPath) => {
         "status": status,
         "job_title": job_title,
         "experience": experience,
-        "image": image
+        "image": image,
       },
       { headers }
     )
@@ -78,14 +78,15 @@ const addRequest = (state, dataPath) => {
 
   // skills //
   } else if (dataPath === 'skills') {
-    const { slug, markers } = state;
+    const { slug, markers, weight } = state;
 
     return axios.post(
       path,
       {
         "name": name,
+        "weight": weight,
         "slug": slug,
-        "markers": markers
+        "markers": markers,
       },
       { headers }
     )

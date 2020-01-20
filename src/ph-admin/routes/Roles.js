@@ -34,8 +34,8 @@ class Roles extends React.Component {
     return (
       <Table
         columns={columns}
-        dataPath='vacancy_roles'
         buttonText='role'
+        dataPath='vacancy_roles'
       />
     );
   }

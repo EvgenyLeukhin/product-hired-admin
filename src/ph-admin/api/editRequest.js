@@ -81,15 +81,16 @@ const editRequest = (state, dataPath) => {
 
   // skills //
   } else if (dataPath === 'skills') {
-    const { slug, markers } = state;
+    const { slug, markers, weight } = state;
 
     return axios.patch(
       path,
       {
+        "id": id,
         "name": name,
+        "weight": weight,
         "slug": slug,
         "markers": markers,
-        "id": id,
       },
       { headers }
     )

@@ -9,8 +9,6 @@ const Users = props => {
     experience,
     emailVerified,
     status,
-    created,
-    modified,
     roles,
     admin,
     image,
@@ -63,36 +61,6 @@ const Users = props => {
               value={job_title}
               id="edit-job_title"
               onChange={onChange}
-              type="text"
-              className="form-control input-rounded"
-            />
-          </div>
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <div className="form-group row">
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-created">Created</label>
-
-          <div className="col-md-4">
-            <input
-              name="created"
-              value={created && created.substring(0, 10)}
-              id="edit-created"
-              disabled
-              type="text"
-              className="form-control input-rounded"
-            />
-          </div>
-
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-modified">Modified</label>
-
-          <div className="col-md-4">
-            <input
-              name="modified"
-              value={modified && modified.substring(0, 10)}
-              id="edit-modified"
-              disabled
               type="text"
               className="form-control input-rounded"
             />

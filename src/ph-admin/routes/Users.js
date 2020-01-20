@@ -55,6 +55,7 @@ class Users extends React.Component {
         columns={columns}
         dataPath='users'
         buttonText='user'
+        startOrder='id DESC'
       />
     );
   }

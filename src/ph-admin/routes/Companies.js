@@ -49,8 +49,8 @@ class Companies extends React.Component {
 
     return (
       <Table
-        startOrder='id DESC'
         columns={columns}
+        startOrder='id DESC'
         dataPath='companies'
         buttonText="company"
       />
