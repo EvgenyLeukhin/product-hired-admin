@@ -7,6 +7,7 @@ const Roles = ({ slug, weight, onChange }) => (
 
       <div className="col-md-4">
         <input
+          required
           name="slug"
           value={slug}
           id="edit-slug"
@@ -20,6 +21,7 @@ const Roles = ({ slug, weight, onChange }) => (
 
       <div className="col-md-4">
         <input
+          required
           name="weight"
           value={weight}
           id="edit-weight"

@@ -24,6 +24,7 @@ const Companies = props => {
           <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-domain">Domain</label>
           <div className="col-md-4">
             <input
+              required
               name="domain"
               value={domain}
               id="edit-domain"
@@ -36,6 +37,7 @@ const Companies = props => {
           <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-slug">Slug</label>
           <div className="col-md-4">
             <input
+              required
               name="slug"
               value={slug}
               id="edit-slug"
@@ -52,6 +54,7 @@ const Companies = props => {
           <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-weight">Weight</label>
           <div className="col-md-4">
             <input
+              required
               name="weight"
               value={weight}
               id="edit-weight"
@@ -74,6 +77,7 @@ const Companies = props => {
             }
 
             <input
+              required
               name="logo"
               value={logo}
               id="edit-logo"
@@ -94,6 +98,7 @@ const Companies = props => {
             }
 
             <input
+              required
               name="cover"
               value={cover}
               id="edit-cover"

@@ -7,6 +7,7 @@ const Common = ({ name, onChange }) => (
 
       <div className="col-md-10">
         <input
+          required
           name="name"
           value={name}
           id="edit-name"

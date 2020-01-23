@@ -7,6 +7,7 @@ const Plans = ({ price, onChange }) => (
 
       <div className="col-md-2">
         <input
+          required
           name="price"
           value={price}
           id="edit-price"

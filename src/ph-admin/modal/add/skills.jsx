@@ -7,6 +7,7 @@ const Skills = ({ weight, slug, markers, onChange }) => (
         <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-weight">Weight</label>
         <div className="col-md-4">
           <input
+            required
             name="weight"
             value={weight}
             id="edit-weight"
@@ -19,6 +20,7 @@ const Skills = ({ weight, slug, markers, onChange }) => (
         <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-slug">Slug</label>
         <div className="col-md-4">
           <input
+            required
             name="slug"
             value={slug}
             id="edit-slug"
@@ -36,6 +38,7 @@ const Skills = ({ weight, slug, markers, onChange }) => (
 
         <div className="col-md-4">
           <input
+            required
             name="markers"
             value={markers}
             id="edit-aliases"
