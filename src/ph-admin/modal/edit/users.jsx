@@ -153,7 +153,7 @@ const Users = props => {
 
           <label className="col-md-2 col-form-label text-bold text-right">User options</label>
 
-          <div className="col-lg-4">
+          <div className="col-md-4">
             <div className="form-check">
               <label className="edit-admin">
                 <input

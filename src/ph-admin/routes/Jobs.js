@@ -23,7 +23,8 @@ class Jobs extends React.Component {
         sortable: false,
         filterable: false,
         Cell: ({ original }) => {
-          const companyName = original.company.name;
+          // console.log(original);
+          const companyName = original.name;
           return <div>{companyName || '...'}</div>
         },
       },

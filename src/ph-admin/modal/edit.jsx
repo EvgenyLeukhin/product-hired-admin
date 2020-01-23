@@ -6,6 +6,7 @@ import Spinner from '../../components/Spinner';
 import Common from './edit/common';
 import Companies from './edit/companies';
 import Users from './edit/users';
+import Jobs from './edit/jobs';
 import Skills from './edit/skills';
 import Roles from './edit/roles';
 import Plans from './edit/plans';
@@ -30,14 +31,17 @@ class EditModal extends React.Component {
     email: null,
     emailVerified: false,
     slug: null,
+    description: null,
     weight: null,
     price: null,
     markers: null,
     status: true,
     job_title: null,
     experience: null,
+    views: null,
     created: null,
     modified: null,
+    published: null,
     roles: [],
 
     // logo
@@ -184,13 +188,13 @@ class EditModal extends React.Component {
     // 1. Get values from the prop itemOriginal
     const {
       itemOriginal: {
-        id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, roles, domain, logo, cover, image
+        id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, roles, domain, logo, cover, image, description, published, views
       }
     } = this.props;
 
     // 2. Set values to the state
     this.setState({
-      id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, roles, domain, logo, cover, image
+      id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, roles, domain, logo, cover, image, description, published, views
     });
 
     // check for admin rights and save admin object if it is
@@ -206,7 +210,7 @@ class EditModal extends React.Component {
     // get data from the state to have onChange ability
     const {
       id, name, email, slug, weight, price, markers, surname, emailVerified, status, job_title, experience, roles,
-      created, modified, domain, logo, logoLoading, cover, coverLoading, image, imageLoading, admin
+      created, modified, domain, logo, logoLoading, cover, coverLoading, image, imageLoading, admin, description, published, views
     } = this.state;
 
 
@@ -232,7 +236,6 @@ class EditModal extends React.Component {
               {/* Common inputs */}
               <Common id={id} name={name} onChange={this.onChange} />
 
-              {/* 1. Companies --- */}
               {
                 dataPath === 'companies' && (
                   <Companies
@@ -256,7 +259,6 @@ class EditModal extends React.Component {
                 )
               }
 
-              {/* 2. Users +-- */}
               {
                 dataPath === 'users' && (
                   <Users
@@ -282,7 +284,30 @@ class EditModal extends React.Component {
                 )
               }
 
-              {/* 4. Skills +++ */}
+              {
+                dataPath === 'vacancies' && (
+                  <Jobs
+                    slug={slug}
+                    description={description}
+                    created={created} modified={modified} published={published}
+                    views={views}
+                    onChange={this.onChange}
+
+                    // logo
+                    logo={logo}
+                    logoLoading={logoLoading}
+                    onUploadLogo={this.onUploadLogo}
+                    fileInputLogo={this.fileInputLogo}
+
+                    // cover
+                    cover={cover}
+                    coverLoading={coverLoading}
+                    onUploadCover={this.onUploadCover}
+                    fileInputCover={this.fileInputCover}
+                  />
+                )
+              }
+
               {
                 dataPath === 'skills' && (
                   <Skills
@@ -294,14 +319,12 @@ class EditModal extends React.Component {
                 )
               }
 
-              {/* 5. Roles */}
               {
                 dataPath === 'vacancy_roles' && (
                   <Roles slug={slug} weight={weight} onChange={this.onChange} />
                 )
               }
 
-              {/* 6. Plans */}
               { dataPath === 'plans' && <Plans price={price} onChange={this.onChange} /> }
 
               {

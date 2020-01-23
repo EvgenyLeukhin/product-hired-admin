@@ -29,6 +29,7 @@ const Skills    = lazy(() => import('./ph-admin/routes/Skills'));
 const Roles     = lazy(() => import('./ph-admin/routes/Roles'));
 const Plans     = lazy(() => import('./ph-admin/routes/Plans'));
 const Profile   = lazy(() => import('./ph-admin/routes/Profile'));
+const Select   = lazy(() => import('./ph-admin/routes/Select'));
 
 // centric-bootstrap-admin-template
 const Cards       = lazy(() => import('./views/Cards/Cards'));
@@ -80,6 +81,7 @@ const Routes = ({ location }) => {
                 <Route path="/roles"     component={waitFor(Roles)} />
                 <Route path="/plans"     component={waitFor(Plans)} />
                 <Route path="/profile"   component={waitFor(Profile)} />
+                <Route path="/select"    component={waitFor(Select)} />
 
                 {/* centric-bootstrap-admin-template */}
                 <Route path="/Cards"                  component={waitFor(Cards)} />

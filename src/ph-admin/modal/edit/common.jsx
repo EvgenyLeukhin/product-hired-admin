@@ -6,7 +6,7 @@ const Common = ({ id, name, onChange }) => (
       <div className="form-group row">
         <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-id">Id</label>
 
-        <div className="col-md-4">
+        <div className="col-md-2">
           <input
             name="id"
             disabled
@@ -18,7 +18,7 @@ const Common = ({ id, name, onChange }) => (
           />
         </div>
 
-        <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-name">Name</label>
+        <label className="col-md-4 col-form-label text-bold text-right" htmlFor="edit-name">Name</label>
 
         <div className="col-md-4">
           <input
