@@ -111,12 +111,12 @@
 
 // backdrop to hide main content and dismiss sidebar
 .sidebar-layout-obfuscator {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     height: 100%;
     width: 100%;
-    z-index: 2;
+    z-index: 3;
     visibility: hidden;
     opacity: 0;
     background-color: rgba(0, 0, 0, 0.3);
