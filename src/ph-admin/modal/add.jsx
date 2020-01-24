@@ -3,24 +3,19 @@ import React from 'react';
 import { Button } from "reactstrap";
 import Spinner from '../../components/Spinner';
 
-import Common from './add/common';
 import Companies from './add/companies';
 import Users from './add/users';
 import Skills from './add/skills';
-import Roles from './add/roles';
-import Plans from './add/plans';
 
 import { API_URL, subUrl } from './../api/apiUrl';
 import uploadLogoRequest from './../api/uploadLogoRequest';
 import uploadCoverRequest from './../api/uploadCoverRequest';
-import uploadImageRequest from './../api/uploadImageRequest';
 
 import './scss/edit.scss';
 
 class AddModal extends React.Component {
   fileInputLogo = React.createRef();
   fileInputCover = React.createRef();
-  fileInputImage = React.createRef();
 
   state = {
     id: '',
@@ -48,10 +43,6 @@ class AddModal extends React.Component {
     // cover
     cover: '',
     coverLoading: false,
-
-    // image
-    image: '',
-    imageLoading: false,
 
     admin: false,
   }
@@ -116,39 +107,12 @@ class AddModal extends React.Component {
       .catch(error => console.log(error))
   }
 
-  onUploadImage = e => {
-    e.preventDefault();
-    this.setState({ imageLoading: true });
-    // add new form data
-    const formData = new FormData();
-
-    // get image from the browser memory
-    const uploadImage = this.fileInputImage.current.files[0];
-
-    // append this file to form data
-    formData.append('file', uploadImage);
-
-    const { id } = this.state;
-
-    // uploadLogoRequest
-    uploadImageRequest(formData, id)
-      .then(res => {
-        this.setState({
-          image: { url: `${API_URL}${res.data.file.url}` },
-          imageLoading: false
-        })
-      })
-
-      // TODO
-      .catch(error => console.log(error))
-  }
-
   onSubmit = e => {
     e.preventDefault();
     const { state } = this;
     const { addRequest, dataPath } = this.props;
 
-    // // 3. editRequest func recieve current state of this component
+    // 3. editRequest func recieve current state of this component
     addRequest(state, dataPath);
   }
 
@@ -157,11 +121,8 @@ class AddModal extends React.Component {
 
     // get data from the state to have onChange ability
     const {
-      id, name, email, slug, weight, price, markers, surname, emailVerified, status, job_title, experience, roles,
-      created, modified, domain, logo, logoLoading, cover, coverLoading, image, imageLoading, admin, password
+      name, email, slug, weight, price, markers, surname, domain, logo, logoLoading, cover, coverLoading, password
     } = this.state;
-
-    // console.log('add.jsx: ', emailVerified);
 
 
     return (
@@ -174,12 +135,13 @@ class AddModal extends React.Component {
           <div className="cardbox-body">
             <form action="" onSubmit={this.onSubmit}>
               {/* Common inputs */}
-              <Common id={id} name={name} onChange={this.onChange} />
+              {/* <Common id={id} name={name} onChange={this.onChange} /> */}
 
               {/* 1. Companies --- */}
               {
                 dataPath === 'companies' && (
                   <Companies
+                    name={name}
                     slug={slug}
                     domain={domain}
                     weight={weight}
@@ -204,32 +166,20 @@ class AddModal extends React.Component {
               {
                 dataPath === 'users' && (
                   <Users
+                    name={name}
                     email={email}
                     password={password}
-                    roles={roles}
-                    admin={admin}
-                    status={status}
                     surname={surname}
-                    created={created}
-                    modified={modified}
-                    job_title={job_title}
-                    experience={experience}
                     onChange={this.onChange}
-                    emailVerified={emailVerified}
-
-                    // image
-                    image={image}
-                    imageLoading={imageLoading}
-                    onUploadImage={this.onUploadImage}
-                    fileInputImage={this.fileInputImage}
                   />
                 )
               }
 
-              {/* 4. Skills +++ */}
+              {/* 4. Skills */}
               {
                 dataPath === 'skills' && (
                   <Skills
+                    name={name}
                     slug={slug}
                     weight={weight}
                     markers={markers}
@@ -237,16 +187,6 @@ class AddModal extends React.Component {
                   />
                 )
               }
-
-              {/* 5. Roles */}
-              {
-                dataPath === 'vacancy_roles' && (
-                  <Roles slug={slug} weight={weight} onChange={this.onChange} />
-                )
-              }
-
-              {/* 6. Plans */}
-              { dataPath === 'plans' && <Plans price={price} onChange={this.onChange} /> }
 
               {
                 modalLoading ? (

@@ -16,33 +16,8 @@ const addRequest = (state, dataPath) => {
 
   // 2. users //
   } else if (dataPath === 'users') {
-    const { password, surname, email, emailVerified, admin, status, job_title, experience, image } = state;
-
-    // console.log('addRequest.jsx: ', emailVerified);
-
-    // do not match the name or other field
-    return axios.post(
-      path,
-      {
-        name,
-        password,
-        surname,
-        email,
-        experience,
-        job_title,
-        status,
-
-        "emailVerified": emailVerified, // - not working
-        "admin": admin, // -
-        "image": image, // -
-        "skills": [],
-        "location": {
-          "fullName": ''
-        },
-        "roles": '',
-      },
-      { headers }
-    )
+    const { surname, password, email } = state;
+    return axios.post(path, { name, surname, password, email }, { headers })
 
   // 3. jobs //
 
