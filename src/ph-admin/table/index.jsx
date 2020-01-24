@@ -188,7 +188,11 @@ class Table extends React.Component {
         filterable: false,
         Cell: ({ original }) => (
           <div className="rt-custom__controls">
-            <i className="ion-android-delete" onClick={this.deleteClick(original)} />
+            {
+              dataPath !== 'plans' && dataPath !== 'vacancy_roles' && (
+                <i className="ion-android-delete" onClick={this.deleteClick(original)} />
+              )
+            }
             <i className="ion-edit" onClick={this.editClick(original)}/>
           </div>
         )
@@ -202,11 +206,15 @@ class Table extends React.Component {
       <div className={`${dataPath}-table`}>
         { alertIsOpen && <Alerts type={modalType} itemOriginal={itemOriginal} /> }
 
-        <AddButton
-          addClick={this.addClick}
-          text={buttonText}
-          loading={loading}
-        />
+        {
+          dataPath !== 'plans' && dataPath !== 'vacancy_roles' && (
+            <AddButton
+              addClick={this.addClick}
+              text={buttonText}
+              loading={loading}
+            />
+          )
+        }
 
         <Modal
           type={modalType}
