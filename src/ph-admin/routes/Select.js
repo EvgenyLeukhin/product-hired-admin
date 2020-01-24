@@ -30,7 +30,7 @@ class Select extends React.Component {
         },
         headers: { Authorization: token }
       }
-      ).then(res => console.log(res.data))
+      ).then(res => res.data)
   }
 
   handleInputChange = value => {
@@ -42,8 +42,10 @@ class Select extends React.Component {
       <AsyncSelect
         isMulti
         cacheOptions
-        // defaultOptions
+        defaultOptions
         loadOptions={this.loadOptions}
+        getOptionValue={o => o.id}
+        getOptionLabel={o => o.name}
         onChange={this.handleInputChange}
       />
     );

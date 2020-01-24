@@ -134,10 +134,8 @@ class AddModal extends React.Component {
         <div className="cardbox">
           <div className="cardbox-body">
             <form action="" onSubmit={this.onSubmit}>
-              {/* Common inputs */}
-              {/* <Common id={id} name={name} onChange={this.onChange} /> */}
 
-              {/* 1. Companies --- */}
+              {/* 1. Companies */}
               {
                 dataPath === 'companies' && (
                   <Companies
@@ -162,7 +160,7 @@ class AddModal extends React.Component {
                 )
               }
 
-              {/* 2. Users +-- */}
+              {/* 2. Users */}
               {
                 dataPath === 'users' && (
                   <Users
@@ -174,6 +172,10 @@ class AddModal extends React.Component {
                   />
                 )
               }
+
+              {/* 3. Jobs */}
+
+
 
               {/* 4. Skills */}
               {

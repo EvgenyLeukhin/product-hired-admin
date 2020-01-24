@@ -119,7 +119,7 @@ const Users = props => {
 
           <div className="col-md-4 roles">
             {
-              roles ? roles.map(i => {
+              roles && roles.length ? roles.map(i => {
                 return <span>{`${i.name} `}&nbsp;</span>;
               }) : <span>No roles</span>
             }

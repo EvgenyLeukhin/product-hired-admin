@@ -83,8 +83,8 @@ class EditModal extends React.Component {
 
       this.setState(prevState => ({
         admin: true,
-        // concat current roles[] with admin template
-        roles: prevState.roles.concat(adminObj)
+        // concat current roles[] with admin template or only adminObj
+        roles: prevState.roles ? prevState.roles.concat(adminObj) : [adminObj]
       }));
 
     } else {

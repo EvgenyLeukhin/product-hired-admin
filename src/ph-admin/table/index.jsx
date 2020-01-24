@@ -34,6 +34,15 @@ class Table extends React.Component {
     idValue: ''
   }
 
+  editAfterAdd = data => {
+    this.setState({
+      modalType: 'edit',
+      modalIsOpen: true,
+      itemOriginal: data,
+      alertIsOpen: false
+    });
+  }
+
   deleteClick = original => () => {
     this.setState({
       modalType: 'delete',
@@ -143,7 +152,7 @@ class Table extends React.Component {
 
         .then(res => {
           const { data } = this.state;
-          const { startOrder } = this.props;
+          const { startOrder, dataPath, history } = this.props;
           // add new item to state [data]
           const newData = startOrder ? [res.data].concat(data) : data.concat(res.data);
 
@@ -152,12 +161,18 @@ class Table extends React.Component {
           modalIsOpen: false,
           alertIsOpen: true,
           data: newData
-        })
+        });
 
-          // close alert after 2 sec
-          setTimeout(() => {
-            this.setState({ alertIsOpen: false });
-          }, 2000);
+        if (dataPath === 'users') {
+          const { data } = res;
+          this.editAfterAdd(data);
+        }
+
+        // close alert after 2 sec
+        setTimeout(() => {
+          this.setState({ alertIsOpen: false });
+        }, 2000);
+
       })
       .catch(error => console.log(error)) // TODO
     }
