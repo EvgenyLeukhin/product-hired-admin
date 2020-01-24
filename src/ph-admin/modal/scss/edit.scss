@@ -145,6 +145,8 @@ div.ReactModal__edit {
           display: inline-flex;
         }
       }
+
+      .roles { margin-top: 15px; }
     }
   }
 }
@@ -155,6 +157,17 @@ div.ReactModal__edit {
     .edit-container {
       &__buttons {
         button { flex-basis: 50%; }
+      }
+    }
+  }
+}
+
+@media (max-width: 575px) {
+  div.ReactModal__edit {
+    .edit-container {
+      .roles {
+        padding-left: 20px;
+        margin-top: 0;
       }
     }
   }

@@ -115,9 +115,9 @@ const Users = props => {
             />
           </div>
 
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-experience">Roles</label>
+          <label className="col-sm-2 col-form-label text-bold text-right" htmlFor="edit-experience">Roles</label>
 
-          <div className="col-md-4 roles">
+          <div className="col-sm-4 roles">
             {
               roles && roles.length ? roles.map(i => {
                 return <span>{`${i.name} `}&nbsp;</span>;
