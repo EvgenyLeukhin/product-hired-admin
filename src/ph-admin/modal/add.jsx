@@ -26,6 +26,7 @@ class AddModal extends React.Component {
     id: '',
     name: '',
     surname: '',
+    password: '',
     domain: '',
     email: '',
     emailVerified: false,
@@ -157,7 +158,7 @@ class AddModal extends React.Component {
     // get data from the state to have onChange ability
     const {
       id, name, email, slug, weight, price, markers, surname, emailVerified, status, job_title, experience, roles,
-      created, modified, domain, logo, logoLoading, cover, coverLoading, image, imageLoading, admin
+      created, modified, domain, logo, logoLoading, cover, coverLoading, image, imageLoading, admin, password
     } = this.state;
 
 
@@ -202,6 +203,7 @@ class AddModal extends React.Component {
                 dataPath === 'users' && (
                   <Users
                     email={email}
+                    password={password}
                     roles={roles}
                     admin={admin}
                     status={status}

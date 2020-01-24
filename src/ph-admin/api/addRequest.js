@@ -36,6 +36,7 @@ const addRequest = (state, dataPath) => {
   // users //
   } else if (dataPath === 'users') {
     const {
+      password,
       surname,
       email,
       emailVerified,
@@ -50,33 +51,28 @@ const addRequest = (state, dataPath) => {
       path,
       {
         "name": name, // do not match the name or other field
-        // "surname": surname,
-        // "email": email,
-        // "admin": admin,
-        // "emailVerified": emailVerified,
-        // "status": status,
-        // "job_title": job_title,
-        // "experience": experience,
-        // "image": image,
-        // "name": "Testtesttest",
-        "surname": "Test++",
-        "password": "TestTestTestTest++",
-        "adminVerified": false,
-        "status": true,
+        "password": password,
+        "surname": surname,
+        "email": email,
+        "experience": experience,
+        "job_title": job_title,
+        "status": status, // +
+        "emailVerified": emailVerified, // -
+        "admin": admin, // -
+        "image": image, // -
+
+        // static fields
+        // "admin": false,
+        // "emailVerified": false,
+        // "adminVerified": false,
+        // "password": "TestTestTestTest++",
+        // "status": true,
         "image": {
           "url": "/api/api/containers/undefined/download/e8b955b5-f9d7-4a91-944a-a6f113a40977_250.png",
           "color": 0,
           "person": 0,
         },
         "location_id": 22247,
-        "job_title": "Tester",
-        "experience": 1,
-        "email": "test2@mail.com",
-        "emailVerified": false,
-        // id: 1092,
-        // "created": "2020-01-23T03:37:57.995Z",
-        // "modified": "2020-01-23T03:37:57.995Z",
-        "admin": false,
         "imageUrl": "https://producthired.com/api/api/containers/undefined/download/e8b955b5-f9d7-4a91-944a-a6f113a40977_250.png",
       },
       { headers }

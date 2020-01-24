@@ -3,6 +3,7 @@ import Spinner from '../../../components/Spinner';
 
 const Users = props => {
   const {
+    password,
     surname,
     email,
     job_title,
@@ -21,6 +22,23 @@ const Users = props => {
 
   return (
     <>
+      <fieldset>
+        <div className="form-group row">
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-password">Password</label>
+
+          <div className="col-md-10">
+            <input
+              name="password"
+              value={password}
+              id="edit-password"
+              onChange={onChange}
+              type="password"
+              className="form-control input-rounded"
+            />
+          </div>
+        </div>
+      </fieldset>
+
       <fieldset>
         <div className="form-group row">
           <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-surname">Surname</label>

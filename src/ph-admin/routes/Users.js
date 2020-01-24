@@ -16,16 +16,25 @@ class Users extends React.Component {
         Cell: ({ original }) => {
           return (
             <>
-              <span style={{ color: !original.status ? '#dc3545' : 'rgb(0,203,131)' }}>● </span>
-              <span>{`${original.name} ${original.surname} ` || '...'}</span>
-              {
+              <span>{original.name || '...'}</span>
+              {/* <span style={{ color: !original.status ? '#dc3545' : 'rgb(0,203,131)' }}>● </span> */}
+              {/* <span>{`${original.name} ${original.surname} ` || '...'}</span> */}
+              {/* {
                 original.roles.map(i => {
                   return i.name === 'admin' && <span style={{ color: '#ccc'}}>{'[admin]'}</span>
                 })
-              }
+              } */}
             </>
           )
         },
+        Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+      },
+
+      {
+        Header: 'Surname',
+        accessor: 'surname',
+        style: { fontWeight: 'bold' },
+        Cell: ({ original }) => <span>{original.surname || '...'}</span>,
         Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
       },
 
@@ -45,6 +54,18 @@ class Users extends React.Component {
           <div style={{ textAlign: 'center' }} >
             <span>{original.created.substring(0, 10) || '...'}</span>
           </div>
+        ),
+        Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+      },
+
+      {
+        Header: 'Status',
+        accessor: 'status',
+        width: 70,
+        Cell: ({ original }) => (
+          <span style={{ color: original.status ? 'rgb(0,203,131)' : '#dc3545' }}>
+            {original.status ? 'Active' : 'Blocked'}
+          </span>
         ),
         Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
       },
