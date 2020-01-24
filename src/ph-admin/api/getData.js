@@ -3,6 +3,8 @@ import axios from 'axios';
 import { API_URL, subUrl } from './apiUrl';
 import token from './getToken';
 
+const headers = { Authorization: token };
+
 const getData = (state, dataPath, startOrder) => {
   const { pageSize, page, filtered, sorted } = state; // from own state of react-table
 
@@ -29,7 +31,7 @@ const getData = (state, dataPath, startOrder) => {
   // get-request for data
   return axios.get(`${API_URL}/${subUrl}/${dataPath}`, {
     params: { filter },
-    headers: { Authorization: token },
+    headers,
   })
     // return [data]
     .then(res => res.data)

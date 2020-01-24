@@ -3,60 +3,26 @@ import axios from 'axios';
 import { API_URL, subUrl } from './apiUrl';
 import token from './getToken';
 
+const headers = { Authorization: token };
+
 const addRequest = (state, dataPath) => {
   const { name } = state;
-  const headers = { Authorization: token };
   const path = `${API_URL}/${subUrl}/${dataPath}`;
 
-  // plans //
-  if (dataPath === 'plans') {
-    const { price } = state;
-
-    return axios.post(
-      path, { "name": name, "price": price }, { headers }
-    )
-
-  // companies //
-  } else if (dataPath === 'companies') {
+  // 1. companies //
+  if (dataPath === 'companies') {
     const { slug, domain, weight, logo, cover } = state;
+    return axios.post(path, { name, slug, domain, weight, logo, cover }, { headers })
 
-    return axios.post(
-      path,
-      {
-        "name": name,
-        "slug": slug,
-        "domain": domain,
-        "weight": weight,
-        "logo": logo,
-        "cover": cover,
-      },
-      { headers }
-    )
-
-  // users //
+  // 2. users //
   } else if (dataPath === 'users') {
-    const {
-      password,
-      surname,
-      email,
-      emailVerified,
-      admin,
-      status,
-      job_title,
-      experience,
-      image
-    } = state;
+    const { password, surname, email, emailVerified, admin, status, job_title, experience, image } = state;
 
+    // do not match the name or other field
     return axios.post(
       path,
-      {
-        "name": name, // do not match the name or other field
-        "password": password,
-        "surname": surname,
-        "email": email,
-        "experience": experience,
-        "job_title": job_title,
-        "status": status, // +
+      { name, password, surname, email, experience, job_title, status,
+
         "emailVerified": emailVerified, // -
         "admin": admin, // -
         "image": image, // -
@@ -65,8 +31,6 @@ const addRequest = (state, dataPath) => {
         // "admin": false,
         // "emailVerified": false,
         // "adminVerified": false,
-        // "password": "TestTestTestTest++",
-        // "status": true,
         "image": {
           "url": "/api/api/containers/undefined/download/e8b955b5-f9d7-4a91-944a-a6f113a40977_250.png",
           "color": 0,
@@ -78,34 +42,25 @@ const addRequest = (state, dataPath) => {
       { headers }
     )
 
-  // vacancy_roles //
-  } else if (dataPath === 'vacancy_roles') {
-    const { slug, weight } = state;
+  // 3. jobs //
 
-    return axios.post(
-      path,
-      {
-        "name": name,
-        "slug": slug,
-        "weight": weight,
-      },
-      { headers }
-    )
 
-  // skills //
+  // 4. skills //
   } else if (dataPath === 'skills') {
     const { slug, markers, weight } = state;
+    return axios.post(path, { name, weight, slug, markers }, { headers })
 
-    return axios.post(
-      path,
-      {
-        "name": name,
-        "weight": weight,
-        "slug": slug,
-        "markers": markers,
-      },
-      { headers }
-    )
+
+  // 5. vacancy_roles //
+  } else if (dataPath === 'vacancy_roles') {
+    const { slug, weight } = state;
+    return axios.post(path, { name, slug, weight }, { headers })
+
+
+  // 6. plans
+  } else if (dataPath === 'plans') {
+    const { price } = state;
+    return axios.post(path, { name, price }, { headers })
   }
 };
 

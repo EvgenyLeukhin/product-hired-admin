@@ -3,6 +3,8 @@ import axios from 'axios';
 import { API_URL, subUrl } from './apiUrl';
 import token from './getToken';
 
+const headers = { Authorization: token };
+
 // state - own react-table state
 // data-path - url-parh for request
 const getCount = (state, dataPath) => {
@@ -22,7 +24,7 @@ const getCount = (state, dataPath) => {
   return axios.get(`${API_URL}/${subUrl}/${dataPath}/count`, {
     // inject where to params
     params: { where },
-    headers: { Authorization: token },
+    headers
   })
     // return count (number)
     .then(res => res.data.count)
