@@ -9,6 +9,7 @@ const Skills = ({ name, weight, slug, markers, onChange }) => (
         <div className="col-md-4">
           <input
             required
+            autoComplete="off"
             name="name"
             value={name}
             id="edit-name"
@@ -22,6 +23,7 @@ const Skills = ({ name, weight, slug, markers, onChange }) => (
         <div className="col-md-4">
           <input
             required
+            autoComplete="off"
             name="weight"
             value={weight}
             id="edit-weight"
@@ -40,6 +42,7 @@ const Skills = ({ name, weight, slug, markers, onChange }) => (
         <div className="col-md-4">
           <input
             required
+            autoComplete="off"
             name="slug"
             value={slug}
             id="edit-slug"
@@ -53,6 +56,7 @@ const Skills = ({ name, weight, slug, markers, onChange }) => (
         <div className="col-md-4">
           <input
             required
+            autoComplete="off"
             name="markers"
             value={markers}
             id="edit-aliases"

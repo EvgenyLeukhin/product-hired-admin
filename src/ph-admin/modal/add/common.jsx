@@ -8,6 +8,7 @@ const Common = ({ name, onChange }) => (
       <div className="col-md-10">
         <input
           required
+          autoComplete="off"
           name="name"
           value={name}
           id="edit-name"

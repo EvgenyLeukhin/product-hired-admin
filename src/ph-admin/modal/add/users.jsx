@@ -8,6 +8,7 @@ const Users = ({ name, surname, password, email, onChange }) => (
         <div className="col-md-4">
           <input
             required
+            autoComplete="off"
             name="name"
             value={name}
             id="edit-name"
@@ -20,6 +21,8 @@ const Users = ({ name, surname, password, email, onChange }) => (
         <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-surname">Surname</label>
         <div className="col-md-4">
           <input
+            required
+            autoComplete="off"
             name="surname"
             value={surname}
             id="edit-surname"
@@ -36,6 +39,8 @@ const Users = ({ name, surname, password, email, onChange }) => (
         <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-password">Password</label>
         <div className="col-md-4">
           <input
+            required
+            autoComplete="off"
             name="password"
             value={password}
             id="edit-password"
@@ -48,6 +53,8 @@ const Users = ({ name, surname, password, email, onChange }) => (
         <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-email">Email</label>
         <div className="col-md-4">
           <input
+            required
+            autoComplete="off"
             name="email"
             value={email}
             id="edit-email"

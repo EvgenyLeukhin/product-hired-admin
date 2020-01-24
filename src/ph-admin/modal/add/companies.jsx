@@ -27,6 +27,7 @@ const Companies = props => {
           <div className="col-md-4">
             <input
               required
+              autoComplete="off"
               name="name"
               value={name}
               id="edit-name"
@@ -40,6 +41,7 @@ const Companies = props => {
           <div className="col-md-4">
             <input
               required
+              autoComplete="off"
               name="domain"
               value={domain}
               id="edit-domain"
@@ -57,6 +59,7 @@ const Companies = props => {
           <div className="col-md-4">
             <input
               required
+              autoComplete="off"
               name="slug"
               value={slug}
               id="edit-slug"
@@ -70,6 +73,7 @@ const Companies = props => {
           <div className="col-md-4">
             <input
               required
+              autoComplete="off"
               name="weight"
               value={weight}
               id="edit-weight"
@@ -93,6 +97,7 @@ const Companies = props => {
 
             <input
               required
+              autoComplete="off"
               name="logo"
               value={logo}
               id="edit-logo"
@@ -114,6 +119,7 @@ const Companies = props => {
 
             <input
               required
+              autoComplete="off"
               name="cover"
               value={cover}
               id="edit-cover"
