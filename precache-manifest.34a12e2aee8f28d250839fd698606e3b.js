@@ -8,8 +8,8 @@ self.__precacheManifest = [
     "url": "/product-hired-admin/static/js/0.d6cdd82b.chunk.js"
   },
   {
-    "revision": "4479e2800f86b70773ff",
-    "url": "/product-hired-admin/static/js/1.4479e280.chunk.js"
+    "revision": "2705056cd954bad891e1",
+    "url": "/product-hired-admin/static/js/1.2705056c.chunk.js"
   },
   {
     "revision": "e5abe067d01ffc25c194",
@@ -88,8 +88,8 @@ self.__precacheManifest = [
     "url": "/product-hired-admin/static/js/16.3e07e076.chunk.js"
   },
   {
-    "revision": "5bdbb0dd3909fdb8e073",
-    "url": "/product-hired-admin/static/js/runtime~main.5bdbb0dd.js"
+    "revision": "a0aa348d28ee40866900",
+    "url": "/product-hired-admin/static/js/runtime~main.a0aa348d.js"
   },
   {
     "revision": "4797939c263b38c1274a",
@@ -156,11 +156,11 @@ self.__precacheManifest = [
     "url": "/product-hired-admin/static/css/13.1ca68822.chunk.css"
   },
   {
-    "revision": "4479e2800f86b70773ff",
+    "revision": "2705056cd954bad891e1",
     "url": "/product-hired-admin/static/css/1.00462ab4.chunk.css"
   },
   {
-    "revision": "4c1c6cfe8d4486e1288683768b4e6ce2",
+    "revision": "0174a2dc132620174a5e1de1dedbe7bc",
     "url": "/product-hired-admin/index.html"
   }
 ];
