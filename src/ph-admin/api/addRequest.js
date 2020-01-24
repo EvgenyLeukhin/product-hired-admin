@@ -18,26 +18,28 @@ const addRequest = (state, dataPath) => {
   } else if (dataPath === 'users') {
     const { password, surname, email, emailVerified, admin, status, job_title, experience, image } = state;
 
+    // console.log('addRequest.jsx: ', emailVerified);
+
     // do not match the name or other field
     return axios.post(
       path,
-      { name, password, surname, email, experience, job_title, status,
+      {
+        name,
+        password,
+        surname,
+        email,
+        experience,
+        job_title,
+        status,
 
-        "emailVerified": emailVerified, // -
+        "emailVerified": emailVerified, // - not working
         "admin": admin, // -
         "image": image, // -
-
-        // static fields
-        // "admin": false,
-        // "emailVerified": false,
-        // "adminVerified": false,
-        "image": {
-          "url": "/api/api/containers/undefined/download/e8b955b5-f9d7-4a91-944a-a6f113a40977_250.png",
-          "color": 0,
-          "person": 0,
+        "skills": [],
+        "location": {
+          "fullName": ''
         },
-        "location_id": 22247,
-        "imageUrl": "https://producthired.com/api/api/containers/undefined/download/e8b955b5-f9d7-4a91-944a-a6f113a40977_250.png",
+        "roles": '',
       },
       { headers }
     )

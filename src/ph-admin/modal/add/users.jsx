@@ -20,6 +20,8 @@ const Users = props => {
     onChangeAdmin
   } = props;
 
+  // console.log('users.jsx: ', emailVerified);
+
   return (
     <>
       <fieldset>
@@ -101,7 +103,7 @@ const Users = props => {
             />
           </div>
 
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-experience">Roles</label>
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-experience">Roles ---</label>
 
           <div className="col-md-4 roles">
             {
@@ -115,7 +117,7 @@ const Users = props => {
 
       <fieldset className="edit-container__images">
         <div className="form-group row">
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-image">Avatar</label>
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-image">Avatar ---</label>
 
           <div className="col-md-4 text-center">
             {
@@ -150,7 +152,7 @@ const Users = props => {
                   checked={admin}
                   onChange={onChangeAdmin}
                 />
-                Admin rights
+                Admin rights ---
               </label>
             </div>
 
@@ -178,7 +180,7 @@ const Users = props => {
                   checked={emailVerified}
                   onChange={onChange}
                 />
-                Email verified
+                Email verified ---
               </label>
             </div>
           </div>

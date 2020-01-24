@@ -161,6 +161,8 @@ class AddModal extends React.Component {
       created, modified, domain, logo, logoLoading, cover, coverLoading, image, imageLoading, admin, password
     } = this.state;
 
+    // console.log('add.jsx: ', emailVerified);
+
 
     return (
       <section className="section-container edit-container">
