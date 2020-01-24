@@ -6,6 +6,15 @@
 @import '../Common/Mixins';
 
 .header-container {
+  .alert {
+    width: 90px;
+    left: 50%;
+    top: 9px;
+    margin-left: -45px;
+    margin-bottom: 0;
+  }
+
+
     position: relative;
     background-color: $header-bg;
     z-index: 1;
@@ -121,4 +130,10 @@
 
 .dropdown-menu {
   z-index: 100;
+}
+
+@media (max-width: 550px) {
+  .header-container {
+    .alert { top: 65px; }
+  }
 }
