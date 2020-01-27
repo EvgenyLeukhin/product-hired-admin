@@ -90,7 +90,7 @@ const Users = props => {
             />
           </div>
 
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-location">Location</label>
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-city">City</label>
 
           <div className="col-md-4">
             <Locations
