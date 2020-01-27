@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import { withHeaderTitle } from '../../components/Header/HeaderTitle';
 
-import getUserData from '../api/getUserData';
+import { getAdminUserData } from '../api/getUserData';
 
 import "../../views/Elements/List.scss";
 
@@ -20,7 +20,7 @@ class Profile extends Component {
   UNSAFE_componentWillMount() { this.props.setHeaderTitle('Profile') }
 
   componentDidMount() {
-    getUserData().then(res => {
+    getAdminUserData().then(res => {
       this.setState({
         name: `${res.name} ${res.surname}`,
         position: res.job_title,

@@ -11,10 +11,10 @@ import Skills from './edit/skills';
 import Roles from './edit/roles';
 import Plans from './edit/plans';
 
-import { API_URL, subUrl } from './../api/apiUrl';
-import uploadLogoRequest from './../api/uploadLogoRequest';
-import uploadCoverRequest from './../api/uploadCoverRequest';
-import uploadImageRequest from './../api/uploadImageRequest';
+import { API_URL, subUrl } from '../api/apiUrl';
+import uploadLogoRequest from '../api/uploadLogoRequest';
+import uploadCoverRequest from '../api/uploadCoverRequest';
+import uploadImageRequest from '../api/uploadImageRequest';
 
 import './scss/edit.scss';
 
@@ -43,6 +43,7 @@ class EditModal extends React.Component {
     modified: null,
     published: null,
     roles: [],
+    location: {},
 
     // logo
     logo: null,
@@ -57,7 +58,8 @@ class EditModal extends React.Component {
     imageLoading: false,
 
     admin: false,
-    adminObj: {}
+    adminObj: {},
+    userData: {}
   }
 
   onChange = e => {
@@ -95,6 +97,8 @@ class EditModal extends React.Component {
       }));
     }
   }
+
+  onChangeLocation = location => this.setState({ location })
 
   onUploadLogo = e => {
     e.preventDefault();
@@ -188,13 +192,13 @@ class EditModal extends React.Component {
     // 1. Get values from the prop itemOriginal
     const {
       itemOriginal: {
-        id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, roles, domain, logo, cover, image, description, published, views
+        id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, roles, domain, logo, cover, image, description, published, views, location
       }
     } = this.props;
 
     // 2. Set values to the state
     this.setState({
-      id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, roles, domain, logo, cover, image, description, published, views
+      id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, roles, domain, logo, cover, image, description, published, views, location
     });
 
     // check for admin rights and save admin object if it is
@@ -205,12 +209,12 @@ class EditModal extends React.Component {
 
   render() {
     const { itemOriginal, dataPath, closeModal, modalLoading } = this.props;
-    // console.log('itemOriginal', itemOriginal);
+    // console.log('itemOriginal edit.jsx:', itemOriginal);
 
     // get data from the state to have onChange ability
     const {
       id, name, email, slug, weight, price, markers, surname, emailVerified, status, job_title, experience, roles,
-      created, modified, domain, logo, logoLoading, cover, coverLoading, image, imageLoading, admin, description, published, views
+      created, modified, domain, logo, logoLoading, cover, coverLoading, image, imageLoading, admin, description, published, views, location
     } = this.state;
 
 
@@ -236,6 +240,7 @@ class EditModal extends React.Component {
               {/* Common inputs */}
               <Common id={id} name={name} onChange={this.onChange} />
 
+              {/* 1. Companies */}
               {
                 dataPath === 'companies' && (
                   <Companies
@@ -259,6 +264,7 @@ class EditModal extends React.Component {
                 )
               }
 
+              {/* 2. Users */}
               {
                 dataPath === 'users' && (
                   <Users
@@ -274,6 +280,8 @@ class EditModal extends React.Component {
                     onChange={this.onChange}
                     onChangeAdmin={this.onChangeAdmin}
                     emailVerified={emailVerified}
+                    location={location}
+                    onChangeLocation={this.onChangeLocation}
 
                     // image
                     image={image}
@@ -284,6 +292,7 @@ class EditModal extends React.Component {
                 )
               }
 
+              {/* 3. Jobs */}
               {
                 dataPath === 'vacancies' && (
                   <Jobs
@@ -308,6 +317,7 @@ class EditModal extends React.Component {
                 )
               }
 
+              {/* 4. Skills */}
               {
                 dataPath === 'skills' && (
                   <Skills
@@ -319,14 +329,13 @@ class EditModal extends React.Component {
                 )
               }
 
-              {
-                dataPath === 'vacancy_roles' && (
-                  <Roles slug={slug} weight={weight} onChange={this.onChange} />
-                )
-              }
+              {/* 5. Roles */}
+              { dataPath === 'vacancy_roles' && <Roles slug={slug} weight={weight} onChange={this.onChange} /> }
 
+              {/* 6. Plans */}
               { dataPath === 'plans' && <Plans price={price} onChange={this.onChange} /> }
 
+              {/* Buttons */}
               {
                 modalLoading ? (
                   <div className="edit-container__is-loading">
@@ -339,7 +348,6 @@ class EditModal extends React.Component {
                   </footer>
                 )
               }
-
             </form>
           </div>
         </div>

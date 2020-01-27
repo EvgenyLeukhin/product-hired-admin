@@ -13,20 +13,7 @@ class Users extends React.Component {
         Header: 'Name',
         accessor: 'name',
         style: { fontWeight: 'bold' },
-        Cell: ({ original }) => {
-          return (
-            <>
-              <span>{original.name || '...'}</span>
-              {/* <span style={{ color: !original.status ? '#dc3545' : 'rgb(0,203,131)' }}>● </span> */}
-              {/* <span>{`${original.name} ${original.surname} ` || '...'}</span> */}
-              {/* {
-                original.roles.map(i => {
-                  return i.name === 'admin' && <span style={{ color: '#ccc'}}>{'[admin]'}</span>
-                })
-              } */}
-            </>
-          )
-        },
+        Cell: ({ original }) => <span>{original.name || '...'}</span>,
         Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
       },
 
@@ -41,7 +28,7 @@ class Users extends React.Component {
       {
         Header: 'Email',
         accessor: 'email',
-        Cell: ({ original }) => <a href={`mailto:${original.email}`}>{original.email || '—'}</a>,
+        Cell: ({ original }) => <a href={`mailto:${original.email}`}>{original.email || '...'}</a>,
         Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
       },
 

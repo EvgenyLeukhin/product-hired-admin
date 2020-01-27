@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactTable from 'react-table';
 
-import Modal from '../modal';
+import Modal from '../modals';
 import Alerts from '../alerts';
 import AddButton from './AddButton';
 
@@ -145,8 +145,8 @@ class Table extends React.Component {
     });
   }
 
-    // state - state of modal (editing data when submit form)
-    add = (state, dataPath) => {
+  // state - state of modal (editing data when submit form)
+  add = (state, dataPath) => {
       addRequest(state, dataPath)
         .then(this.setState({ modalLoading: true }))
 
@@ -175,7 +175,7 @@ class Table extends React.Component {
 
       })
       .catch(error => console.log(error)) // TODO
-    }
+  }
 
   componentDidMount() {
     document.addEventListener('keyup', e => {

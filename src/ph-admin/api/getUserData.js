@@ -6,9 +6,12 @@ import userId from './getUserId';
 
 const headers = { Authorization: token };
 
-const getUserData = () => {
+export const getAdminUserData = () => {
   return axios.get(`${API_URL}/${subUrl}/users/${userId}`, { headers })
     .then(res => res.data)
 }
 
-export default getUserData;
+export const getUserData = userId => {
+  return axios.get(`${API_URL}/${subUrl}/users/${userId}`, { headers })
+    .then(res => res.data)
+}
