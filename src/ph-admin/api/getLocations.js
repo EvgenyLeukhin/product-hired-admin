@@ -5,16 +5,20 @@ import token from './getToken';
 
 const headers = { Authorization: token };
 
-const getLocations = () => {
+const getLocations = inputValue => {
   return axios.get(
     `${API_URL}/${subUrl}/locations`,
     {
       params: {
-
+        'filter': {
+          'where': {
+            'name': { 'like': `%${inputValue}%`}
+          }
+        }
       },
       headers
     }
-  );
+  )
 }
 
 export default getLocations;
