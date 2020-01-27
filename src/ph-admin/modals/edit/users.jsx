@@ -1,6 +1,8 @@
 import React from 'react';
 import Spinner from '../../../components/Spinner';
+
 import Locations from '../../selects/location';
+import Skills from '../../selects/skills';
 
 const Users = props => {
   const {
@@ -15,13 +17,15 @@ const Users = props => {
     roles,
     admin,
     location,
+    skills,
     image,
     imageLoading,
     fileInputImage,
     onUploadImage,
     onChange,
     onChangeAdmin,
-    onChangeLocation
+    onChangeLocation,
+    onChangeSkills
   } = props;
 
   const locationId = location && `${location.id} - ${location.alias_region} (${location.country})` || '';
@@ -96,6 +100,19 @@ const Users = props => {
             <Locations
               value={location}
               onChange={location => onChangeLocation(location)}
+            />
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div className="form-group row">
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-skills">Skills</label>
+
+          <div className="col-md-10">
+            <Skills
+              value={skills}
+              onChange={skills => onChangeSkills(skills)}
             />
           </div>
         </div>

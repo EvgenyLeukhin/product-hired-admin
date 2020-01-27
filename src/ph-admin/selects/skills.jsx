@@ -1,19 +1,19 @@
 import React from 'react';
 import AsyncSelect from 'react-select/async';
 
-import getLocations from './../api/getLocations';
+import getSkills from './../api/getSkills';
 
-class Locations extends React.Component {
+class Skills extends React.Component {
 
   // inputValue - what we are typing in select field
   loadOptions = inputValue => {
-    return getLocations(inputValue).then(res => res.data);
+    return getSkills(inputValue).then(res => res.data);
   }
 
   render() {
     return (
       <AsyncSelect
-        value={this.props.value}
+        isMulti={true}
         menuPlacement="auto"
         cacheOptions={true}
         defaultOptions={true}
@@ -30,11 +30,14 @@ class Locations extends React.Component {
 
         // onChange transfer to props
         onChange={this.props.onChange}
+
+        // value in props
+        value={this.props.value}
       />
     );
   }
 }
 
-export default Locations;
+export default Skills;
 
 

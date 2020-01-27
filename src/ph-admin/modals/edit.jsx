@@ -44,6 +44,7 @@ class EditModal extends React.Component {
     published: null,
     roles: [],
     location: {},
+    skills: [],
 
     // logo
     logo: null,
@@ -98,7 +99,8 @@ class EditModal extends React.Component {
     }
   }
 
-  onChangeLocation = location => this.setState({ location })
+  onChangeLocation = location => this.setState({ location });
+  onChangeSkills   = skills   => this.setState({ skills });
 
   onUploadLogo = e => {
     e.preventDefault();
@@ -192,13 +194,13 @@ class EditModal extends React.Component {
     // 1. Get values from the prop itemOriginal
     const {
       itemOriginal: {
-        id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, roles, domain, logo, cover, image, description, published, views, location
+        id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, roles, domain, logo, cover, image, description, published, views, location, skills
       }
     } = this.props;
 
     // 2. Set values to the state
     this.setState({
-      id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, roles, domain, logo, cover, image, description, published, views, location
+      id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, roles, domain, logo, cover, image, description, published, views, location, skills
     });
 
     // check for admin rights and save admin object if it is
@@ -214,7 +216,7 @@ class EditModal extends React.Component {
     // get data from the state to have onChange ability
     const {
       id, name, email, slug, weight, price, markers, surname, emailVerified, status, job_title, experience, roles,
-      created, modified, domain, logo, logoLoading, cover, coverLoading, image, imageLoading, admin, description, published, views, location
+      created, modified, domain, logo, logoLoading, cover, coverLoading, image, imageLoading, admin, description, published, views, location, skills
     } = this.state;
 
 
@@ -282,6 +284,8 @@ class EditModal extends React.Component {
                     emailVerified={emailVerified}
                     location={location}
                     onChangeLocation={this.onChangeLocation}
+                    skills={skills}
+                    onChangeSkills={this.onChangeSkills}
 
                     // image
                     image={image}
