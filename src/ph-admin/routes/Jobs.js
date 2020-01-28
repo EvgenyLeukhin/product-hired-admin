@@ -28,15 +28,15 @@ class Jobs extends React.Component {
         },
       },
 
-      {
-        Header: 'Location',
-        accessor: 'locations',
-        width: 200,
-        sortable: false,
-        filterable: false,
-        Cell: ({ original }) => <span>{original.locations.map(i => `${i.name} `)}</span>,
-        Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
-      },
+      // {
+      //   Header: 'Location',
+      //   accessor: 'locations',
+      //   width: 200,
+      //   sortable: false,
+      //   filterable: false,
+      //   Cell: ({ original }) => <span>{original.locations.map(i => `${i.name} `)}</span>,
+      //   Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+      // },
 
       {
         Header: 'Status',

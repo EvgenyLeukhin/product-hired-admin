@@ -5,7 +5,7 @@ import Spinner from '../../../components/Spinner';
 const Jobs = props => {
   const {
     slug,
-    description,
+    details,
     created,
     modified,
     published,
@@ -37,15 +37,15 @@ const Jobs = props => {
             />
           </div>
 
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-description">Description</label>
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-details">Details</label>
 
           <div className="col-md-4">
             <textarea
               rows={5}
               style={{ resize: 'none' }}
-              name="description"
-              value={description}
-              id="edit-description"
+              name="details"
+              value={details}
+              id="edit-details"
               onChange={onChange}
               className="form-control"
             />

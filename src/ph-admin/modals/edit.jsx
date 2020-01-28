@@ -31,7 +31,7 @@ class EditModal extends React.Component {
     email: '',
     emailVerified: false,
     slug: '',
-    description: '',
+    details: '',
     weight: null,
     price: null,
     markers: null,
@@ -194,13 +194,13 @@ class EditModal extends React.Component {
     // 1. Get values from the prop itemOriginal
     const {
       itemOriginal: {
-        id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, roles, domain, logo, cover, image, description, published, views, location, skills
+        id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, roles, domain, logo, cover, image, details, published, views, location, skills
       }
     } = this.props;
 
     // 2. Set values to the state
     this.setState({
-      id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, roles, domain, logo, cover, image, description, published, views, location, skills
+      id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, roles, domain, logo, cover, image, details, published, views, location, skills
     });
 
     // check for admin rights and save admin object if it is
@@ -216,7 +216,7 @@ class EditModal extends React.Component {
     // get data from the state to have onChange ability
     const {
       id, name, email, slug, weight, price, markers, surname, emailVerified, status, job_title, experience, roles,
-      created, modified, domain, logo, logoLoading, cover, coverLoading, image, imageLoading, admin, description, published, views, location, skills
+      created, modified, domain, logo, logoLoading, cover, coverLoading, image, imageLoading, admin, details, published, views, location, skills
     } = this.state;
 
 
@@ -301,7 +301,7 @@ class EditModal extends React.Component {
                 dataPath === 'vacancies' && (
                   <Jobs
                     slug={slug}
-                    description={description}
+                    details={details}
                     created={created} modified={modified} published={published}
                     views={views}
                     onChange={this.onChange}
