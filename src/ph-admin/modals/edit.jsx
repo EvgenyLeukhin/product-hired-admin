@@ -47,15 +47,15 @@ class EditModal extends React.Component {
     skills: [],
 
     // logo
-    logo: null,
+    logo: '',
     logoLoading: false,
 
     // cover
-    cover: null,
+    cover: '',
     coverLoading: false,
 
     // image
-    image: null,
+    image: '',
     imageLoading: false,
 
     admin: false,
@@ -302,9 +302,15 @@ class EditModal extends React.Component {
                   <Jobs
                     slug={slug}
                     details={details}
-                    created={created} modified={modified} published={published}
+                    skills={skills}
+                    created={created}
+                    modified={modified}
+                    published={published}
                     views={views}
+
                     onChange={this.onChange}
+                    onChangeLocation={this.onChangeLocation}
+                    onChangeSkills={this.onChangeSkills}
 
                     // logo
                     logo={logo}

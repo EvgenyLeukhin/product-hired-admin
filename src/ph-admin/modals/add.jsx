@@ -5,6 +5,7 @@ import Spinner from '../../components/Spinner';
 
 import Companies from './add/companies';
 import Users from './add/users';
+import Jobs from './add/jobs';
 import Skills from './add/skills';
 
 import { API_URL, subUrl } from './../api/apiUrl';
@@ -174,7 +175,14 @@ class AddModal extends React.Component {
               }
 
               {/* 3. Jobs */}
-
+              {
+                dataPath === 'vacancies' && (
+                  <Jobs
+                    name={name}
+                    onChange={this.onChange}
+                  />
+                )
+              }
 
 
               {/* 4. Skills */}

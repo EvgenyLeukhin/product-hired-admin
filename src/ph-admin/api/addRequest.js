@@ -20,6 +20,13 @@ const addRequest = (state, dataPath) => {
     return axios.post(path, { name, surname, password, email }, { headers })
 
   // 3. jobs //
+} else if (dataPath === 'vacancies') {
+  // const { surname, password, email } = state;
+  return axios.post(
+    path,
+    { name, },
+    { headers }
+  )
 
 
   // 4. skills //

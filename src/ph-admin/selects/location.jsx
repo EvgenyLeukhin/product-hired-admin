@@ -13,6 +13,7 @@ class Locations extends React.Component {
   render() {
     return (
       <AsyncSelect
+        isMulti={this.props.isMulti}
         value={this.props.value}
         menuPlacement="auto"
         cacheOptions={true}

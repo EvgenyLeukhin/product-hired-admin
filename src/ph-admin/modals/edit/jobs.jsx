@@ -1,16 +1,23 @@
 import React from 'react';
 
 import Spinner from '../../../components/Spinner';
+import Locations from '../../selects/location';
+import Skills from '../../selects/skills';
 
 const Jobs = props => {
   const {
     slug,
     details,
+    skills,
+    location,
     created,
     modified,
     published,
     views,
+
     onChange,
+    onChangeLocation,
+    onChangeSkills,
 
     // logo
     logo, logoLoading, onUploadLogo, fileInputLogo,
@@ -19,6 +26,8 @@ const Jobs = props => {
     cover, coverLoading, onUploadCover, fileInputCover,
 
   } = props;
+
+  // console.log(logo);
 
   return (
     <>
@@ -108,6 +117,33 @@ const Jobs = props => {
               disabled
               type="text"
               className="form-control input-rounded"
+            />
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div className="form-group row">
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-skills">Skills</label>
+
+          <div className="col-md-10">
+            <Skills
+              value={skills}
+              onChange={skills => onChangeSkills(skills)}
+            />
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div className="form-group row">
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-locations">Locations</label>
+
+          <div className="col-md-10">
+            <Locations
+              isMulti={true}
+              value={location}
+              onChange={location => onChangeLocation(location)}
             />
           </div>
         </div>

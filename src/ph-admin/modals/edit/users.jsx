@@ -98,6 +98,7 @@ const Users = props => {
 
           <div className="col-md-4">
             <Locations
+              isMulti={false}
               value={location}
               onChange={location => onChangeLocation(location)}
             />
