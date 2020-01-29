@@ -1,22 +1,26 @@
 import React from 'react';
 
 import Spinner from '../../../components/Spinner';
-import Locations from '../../selects/location';
+
+import Role from '../../selects/role';
 import Skills from '../../selects/skills';
+import { Locations } from '../../selects/location';
 
 const Jobs = props => {
   const {
     slug,
     details,
     skills,
-    location,
+    locations,
+    role,
     created,
     modified,
     published,
     views,
 
     onChange,
-    onChangeLocation,
+    onChangeRole,
+    onChangeLocations,
     onChangeSkills,
 
     // logo
@@ -124,6 +128,19 @@ const Jobs = props => {
 
       <fieldset>
         <div className="form-group row">
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-role">Role</label>
+
+          <div className="col-md-10">
+            <Role
+              value={role}
+              onChange={role => onChangeRole(role)}
+            />
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div className="form-group row">
           <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-skills">Skills</label>
 
           <div className="col-md-10">
@@ -141,9 +158,8 @@ const Jobs = props => {
 
           <div className="col-md-10">
             <Locations
-              isMulti={true}
-              value={location}
-              onChange={location => onChangeLocation(location)}
+              value={locations}
+              onChange={locations => onChangeLocations(locations)}
             />
           </div>
         </div>

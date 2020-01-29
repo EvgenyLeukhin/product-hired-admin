@@ -1,7 +1,7 @@
 import React from 'react';
 import Spinner from '../../../components/Spinner';
 
-import Locations from '../../selects/location';
+import { Location } from '../../selects/location';
 import Skills from '../../selects/skills';
 
 const Users = props => {
@@ -97,8 +97,7 @@ const Users = props => {
           <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-city">City</label>
 
           <div className="col-md-4">
-            <Locations
-              isMulti={false}
+            <Location
               value={location}
               onChange={location => onChangeLocation(location)}
             />

@@ -8,7 +8,6 @@ const headers = { Authorization: token };
 const editRequest = (state, dataPath) => {
   const { id, name } = state;
   const path = `${API_URL}/${subUrl}/${dataPath}/${id}`; // id don't need to pass into body if it is in url
-  const updateJobPath = `${API_URL}/${subUrl}/${dataPath}/${id}/updateJob`;
 
   // 1. companies //
   if (dataPath === 'companies') {
@@ -41,20 +40,20 @@ const editRequest = (state, dataPath) => {
 
   // 3. jobs //
   } else if (dataPath === 'vacancies') {
-    const { details, slug, logo, cover, skills, location, created, modified, published, views, } = state;
+    const { details, slug, logo, cover, skills, locations, role, created, modified, published, views, } = state;
     return axios.post(
-      updateJobPath,
+      `${path}/updateJob`,
       {
         // id,
         name,
         details,
         slug,
-        "logo": logo.split('/').pop(),   // cut logo url string to filename
-        "cover": cover.split('/').pop(), // cut cover url string to filename
-        // cover,
+        logo: logo ? logo.split('/').pop() : '',   // cut logo url string to filename
+        cover: cover ? cover.split('/').pop() : '', // cut cover url string to filename
         skills,
-        location,
-        "company":"google",
+        locations,
+        role,
+        company:"google",
         // "created": "2020-01-28T10:28:57.000Z",
         // "modified": "2020-01-28T11:24:33.864Z",
         // "published": "2020-01-01T10:26:41.000Z",
