@@ -41,6 +41,14 @@ const editRequest = (state, dataPath) => {
   // 3. jobs //
   } else if (dataPath === 'vacancies') {
     const { details, slug, logo, cover, skills, locations, role, created, modified, published, views, } = state;
+
+    // convert [ {skill1}, {skill2} ] to "skill1, skill2"
+    const skillsNames = [];
+    for (let i = 0; i < skills.length; i++) {
+      skillsNames.push(skills[i].name)
+    };
+    const skills_string = skillsNames.toString();
+
     return axios.post(
       `${path}/updateJob`,
       {
@@ -50,7 +58,7 @@ const editRequest = (state, dataPath) => {
         slug,
         logo: logo ? logo.split('/').pop() : '',   // cut logo url string to filename
         cover: cover ? cover.split('/').pop() : '', // cut cover url string to filename
-        skills,
+        skills_string,
         locations,
         role,
         company:"google",
