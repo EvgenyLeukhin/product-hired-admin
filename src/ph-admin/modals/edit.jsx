@@ -44,6 +44,7 @@ class EditModal extends React.Component {
     published: null,
     role: {},
     roles: [],
+    company: {},
     location: {},
     locations: [],
     skills: [],
@@ -102,7 +103,9 @@ class EditModal extends React.Component {
   }
 
   onChangeRole      = role      => this.setState({ role });
+  onChangeCompany   = company   => this.setState({ company });
   onChangeSkills    = skills    => this.setState({ skills });
+  onChangeLocation  = location  => this.setState({ location });
   onChangeLocations = locations => this.setState({ locations });
 
   onUploadLogo = e => {
@@ -197,13 +200,13 @@ class EditModal extends React.Component {
     // 1. Get values from the prop itemOriginal
     const {
       itemOriginal: {
-        id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, role, roles, domain, logo, cover, image, details, published, views, location, locations, skills
+        id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, role, roles, domain, logo, cover, image, details, published, views, location, locations, skills, company
       }
     } = this.props;
 
     // 2. Set values to the state
     this.setState({
-      id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, role, roles, domain, logo, cover, image, details, published, views, location, locations, skills
+      id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, role, roles, domain, logo, cover, image, details, published, views, location, locations, skills, company
     });
 
     // check for admin rights and save admin object if it is
@@ -214,12 +217,12 @@ class EditModal extends React.Component {
 
   render() {
     const { itemOriginal, dataPath, closeModal, modalLoading } = this.props;
-    console.log('itemOriginal edit.jsx:', itemOriginal);
-    console.log('state edit.jsx:', this.state);
+    // console.log('itemOriginal edit.jsx:', itemOriginal);
+    // console.log('state edit.jsx:', this.state);
 
     // get data from the state to have onChange ability
     const {
-      id, name, email, slug, weight, price, markers, surname, emailVerified, status, job_title, experience, role, roles, created, modified, domain, logo, logoLoading, cover, coverLoading, image, imageLoading, admin, details, published, views, location, locations, skills
+      id, name, email, slug, weight, price, markers, surname, emailVerified, status, job_title, experience, role, roles, created, modified, domain, logo, logoLoading, cover, coverLoading, image, imageLoading, admin, details, published, views, location, locations, skills, company
     } = this.state;
 
 
@@ -276,18 +279,18 @@ class EditModal extends React.Component {
                     email={email}
                     roles={roles}
                     admin={admin}
+                    skills={skills}
                     status={status}
                     surname={surname}
                     created={created}
+                    location={location}
                     modified={modified}
                     job_title={job_title}
                     experience={experience}
+                    emailVerified={emailVerified}
                     onChange={this.onChange}
                     onChangeAdmin={this.onChangeAdmin}
-                    emailVerified={emailVerified}
-                    location={location}
                     onChangeLocation={this.onChangeLocation}
-                    skills={skills}
                     onChangeSkills={this.onChangeSkills}
 
                     // image
@@ -304,6 +307,7 @@ class EditModal extends React.Component {
                 dataPath === 'vacancies' && (
                   <Jobs
                     role={role}
+                    company={company}
                     slug={slug}
                     details={details}
                     skills={skills}
@@ -315,6 +319,7 @@ class EditModal extends React.Component {
 
                     onChange={this.onChange}
                     onChangeRole={this.onChangeRole}
+                    onChangeCompany={this.onChangeCompany}
                     onChangeSkills={this.onChangeSkills}
                     onChangeLocations={this.onChangeLocations}
 
@@ -360,7 +365,11 @@ class EditModal extends React.Component {
                 ) : (
                   <footer className="edit-container__buttons">
                     <Button outline color="secondary" onClick={closeModal}>Cancel</Button>
-                    <Button outline color="primary" type="submit">Save</Button>
+                    {
+                      dataPath === 'vacancies'
+                        ? <Button disabled={!skills || !locations} outline color="primary" type="submit">Save</Button>
+                        : <Button outline color="primary" type="submit">Save</Button>
+                    }
                   </footer>
                 )
               }

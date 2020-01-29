@@ -5,9 +5,9 @@ import token from './getToken';
 
 const headers = { Authorization: token };
 
-const getSkills = inputValue => {
+const getCompanies = inputValue => {
   return axios.get(
-    `${API_URL}/${subUrl}/skills`,
+    `${API_URL}/${subUrl}/companies`,
     {
       params: {
         'filter': {
@@ -22,4 +22,4 @@ const getSkills = inputValue => {
   )
 }
 
-export default getSkills;
+export default getCompanies;

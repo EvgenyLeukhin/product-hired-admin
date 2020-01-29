@@ -17,7 +17,6 @@ class Location extends React.Component {
         menuPlacement="auto"
         cacheOptions={true}
         defaultOptions={true}
-        defaultInputValue={this.props.defaultInputValue}
 
         // load options request (always when onChange something)
         loadOptions={this.loadOptions}
@@ -35,9 +34,9 @@ class Location extends React.Component {
   }
 }
 
-class Locations extends React.Component {
 
-  // inputValue - what we are typing in select field
+
+class Locations extends React.Component {
   loadOptions = inputValue => {
     return getLocations(inputValue).then(res => res.data);
   }
@@ -50,18 +49,9 @@ class Locations extends React.Component {
         menuPlacement="auto"
         cacheOptions={true}
         defaultOptions={true}
-        defaultInputValue={this.props.defaultInputValue}
-
-        // load options request (always when onChange something)
         loadOptions={this.loadOptions}
-
-        // get options id from loadOptions
         getOptionValue={o => o.id}
-
-        // get option text from loadOptions
         getOptionLabel={o => o.name}
-
-        // onChange transfer to props
         onChange={this.props.onChange}
       />
     );

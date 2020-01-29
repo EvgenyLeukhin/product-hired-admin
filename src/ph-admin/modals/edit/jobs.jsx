@@ -3,6 +3,7 @@ import React from 'react';
 import Spinner from '../../../components/Spinner';
 
 import Role from '../../selects/role';
+import Company from '../../selects/company';
 import Skills from '../../selects/skills';
 import { Locations } from '../../selects/location';
 
@@ -12,6 +13,7 @@ const Jobs = props => {
     details,
     skills,
     locations,
+    company,
     role,
     created,
     modified,
@@ -22,6 +24,7 @@ const Jobs = props => {
     onChangeRole,
     onChangeLocations,
     onChangeSkills,
+    onChangeCompany,
 
     // logo
     logo, logoLoading, onUploadLogo, fileInputLogo,
@@ -38,7 +41,6 @@ const Jobs = props => {
       <fieldset>
         <div className="form-group row">
           <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-slug">Slug</label>
-
           <div className="col-md-4">
             <input
               name="slug"
@@ -51,7 +53,6 @@ const Jobs = props => {
           </div>
 
           <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-details">Details</label>
-
           <div className="col-md-4">
             <textarea
               rows={5}
@@ -69,8 +70,7 @@ const Jobs = props => {
       <fieldset>
         <div className="form-group row">
           <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-created">Created</label>
-
-          <div className="col-md-2">
+          <div className="col-md-4">
             <input
               name="created"
               value={created && created.substring(0, 10)}
@@ -81,9 +81,8 @@ const Jobs = props => {
             />
           </div>
 
-          <label className="col-md-4 col-form-label text-bold text-right" htmlFor="edit-modified">Modified</label>
-
-          <div className="col-md-2">
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-modified">Modified</label>
+          <div className="col-md-4">
             <input
               name="modified"
               value={modified && modified.substring(0, 10)}
@@ -99,8 +98,7 @@ const Jobs = props => {
       <fieldset>
         <div className="form-group row">
           <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-created">Published</label>
-
-          <div className="col-md-2">
+          <div className="col-md-4">
             <input
               name="published"
               value={published && published.substring(0, 10)}
@@ -111,9 +109,8 @@ const Jobs = props => {
             />
           </div>
 
-          <label className="col-md-4 col-form-label text-bold text-right" htmlFor="edit-views">Views</label>
-
-          <div className="col-md-2">
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-views">Views</label>
+          <div className="col-md-4">
             <input
               name="views"
               value={views}
@@ -129,11 +126,18 @@ const Jobs = props => {
       <fieldset>
         <div className="form-group row">
           <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-role">Role</label>
-
-          <div className="col-md-10">
+          <div className="col-md-4">
             <Role
               value={role}
               onChange={role => onChangeRole(role)}
+            />
+          </div>
+
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-company">Company</label>
+          <div className="col-md-4">
+            <Company
+              value={company}
+              onChange={company => onChangeCompany(company)}
             />
           </div>
         </div>
@@ -142,7 +146,6 @@ const Jobs = props => {
       <fieldset>
         <div className="form-group row">
           <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-skills">Skills</label>
-
           <div className="col-md-10">
             <Skills
               value={skills}
@@ -155,7 +158,6 @@ const Jobs = props => {
       <fieldset>
         <div className="form-group row">
           <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-locations">Locations</label>
-
           <div className="col-md-10">
             <Locations
               value={locations}
@@ -165,7 +167,7 @@ const Jobs = props => {
         </div>
       </fieldset>
 
-      <fieldset className="edit-container__images">
+      {/* <fieldset className="edit-container__images">
         <div className="form-group row">
           <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-logo">Logo</label>
           <div className="col-md-4 text-center">
@@ -207,7 +209,7 @@ const Jobs = props => {
             <input type="file" ref={fileInputCover} onChange={onUploadCover} />
           </div>
         </div>
-      </fieldset>
+      </fieldset> */}
     </>
   );
 }

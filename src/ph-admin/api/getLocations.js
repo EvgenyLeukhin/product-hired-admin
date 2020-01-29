@@ -13,7 +13,8 @@ const getLocations = inputValue => {
         'filter': {
           'where': {
             'name': { 'like': `%${inputValue}%`}
-          }
+          },
+          'limit': 50
         }
       },
       headers

@@ -40,7 +40,7 @@ const editRequest = (state, dataPath) => {
 
   // 3. jobs //
   } else if (dataPath === 'vacancies') {
-    const { details, slug, logo, cover, skills, locations, role, created, modified, published, views, } = state;
+    const { details, slug, logo, cover, skills, locations, role, company, created, modified, published, views, } = state;
 
     // convert [ {skill1}, {skill2} ] to "skill1, skill2"
     const skillsNames = [];
@@ -61,7 +61,8 @@ const editRequest = (state, dataPath) => {
         skills_string,
         locations,
         role,
-        company:"google",
+        company,
+        // company:"google",
         // "created": "2020-01-28T10:28:57.000Z",
         // "modified": "2020-01-28T11:24:33.864Z",
         // "published": "2020-01-01T10:26:41.000Z",

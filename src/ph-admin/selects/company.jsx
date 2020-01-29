@@ -1,17 +1,16 @@
 import React from 'react';
 import AsyncSelect from 'react-select/async';
 
-import getSkills from './../api/getSkills';
+import getCompanies from '../api/getCompanies';
 
-class Skills extends React.Component {
+class Company extends React.Component {
   loadOptions = inputValue => {
-    return getSkills(inputValue).then(res => res.data);
+    return getCompanies(inputValue).then(res => res.data);
   }
 
   render() {
     return (
       <AsyncSelect
-        isMulti={true}
         menuPlacement="auto"
         cacheOptions={true}
         defaultOptions={true}
@@ -25,6 +24,4 @@ class Skills extends React.Component {
   }
 }
 
-export default Skills;
-
-
+export default Company;
