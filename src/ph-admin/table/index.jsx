@@ -31,6 +31,7 @@ class Table extends React.Component {
 
     // alert //
     alertIsOpen: false,
+    errorText: '',
     idValue: ''
   }
 
@@ -90,9 +91,14 @@ class Table extends React.Component {
       // if error
       .catch(error => {
         console.log(error);
-        this.setState({ alertIsOpen: true, modalType: 'error' });
+        this.setState({
+          errorText: `${error}`,
+          modalLoading: false,
+          modalIsOpen: false,
+          alertIsOpen: true
+        });
       })
-  }
+    }
 
   editClick = original => () => {
     this.setState({
@@ -134,7 +140,17 @@ class Table extends React.Component {
           this.setState({ alertIsOpen: false });
         }, 2000);
     })
-    .catch(error => console.log(error)) // TODO
+
+    // if error
+    .catch(error => {
+      console.log(error);
+      this.setState({
+        errorText: `${error}`,
+        modalLoading: false,
+        modalIsOpen: false,
+        alertIsOpen: true
+      });
+    })
   }
 
   addClick = () => {
@@ -147,34 +163,44 @@ class Table extends React.Component {
 
   // state - state of modal (editing data when submit form)
   add = (state, dataPath) => {
-      addRequest(state, dataPath)
-        .then(this.setState({ modalLoading: true }))
+    addRequest(state, dataPath)
+      .then(this.setState({ modalLoading: true }))
 
-        .then(res => {
-          const { data } = this.state;
-          const { startOrder, dataPath, history } = this.props;
-          // add new item to state [data]
-          const newData = startOrder ? [res.data].concat(data) : data.concat(res.data);
+      .then(res => {
+        const { data } = this.state;
+        const { startOrder, dataPath, history } = this.props;
+        // add new item to state [data]
+        const newData = startOrder ? [res.data].concat(data) : data.concat(res.data);
 
-        this.setState({
-          modalLoading: false,
-          modalIsOpen: false,
-          alertIsOpen: true,
-          data: newData
-        });
+      this.setState({
+        modalLoading: false,
+        modalIsOpen: false,
+        alertIsOpen: true,
+        data: newData
+      });
 
-        if (dataPath === 'users') {
-          const { data } = res;
-          this.editAfterAdd(data);
-        }
+      if (dataPath === 'users') {
+        const { data } = res;
+        this.editAfterAdd(data);
+      }
 
-        // close alert after 2 sec
-        setTimeout(() => {
-          this.setState({ alertIsOpen: false });
-        }, 2000);
+      // close alert after 2 sec
+      setTimeout(() => {
+        this.setState({ alertIsOpen: false });
+      }, 2000);
 
-      })
-      .catch(error => console.log(error)) // TODO
+    })
+
+    // if error
+    .catch(error => {
+      console.log(error);
+      this.setState({
+        errorText: `${error}`,
+        modalLoading: false,
+        modalIsOpen: false,
+        alertIsOpen: true
+      });
+    })
   }
 
   componentDidMount() {
@@ -215,11 +241,11 @@ class Table extends React.Component {
     ];
 
     const { columns, dataPath, startOrder, buttonText } = this.props;
-    const { loading, count, data, modalIsOpen, itemOriginal, modalType, modalLoading, alertIsOpen } = this.state;
+    const { loading, count, data, modalIsOpen, itemOriginal, modalType, modalLoading, alertIsOpen, errorText } = this.state;
 
     return (
       <div className={`${dataPath}-table`}>
-        { alertIsOpen && <Alerts type={modalType} itemOriginal={itemOriginal} /> }
+        { alertIsOpen && <Alerts type={modalType} itemOriginal={itemOriginal} errorText={errorText} /> }
 
         {
           dataPath !== 'plans' && dataPath !== 'vacancy_roles' && (

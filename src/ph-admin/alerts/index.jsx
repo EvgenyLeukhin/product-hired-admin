@@ -1,40 +1,35 @@
 import React from 'react';
 import { Alert } from "reactstrap";
 
-const Alerts = ({ type, itemOriginal }) => {
-  return (
-    <>
-      {
-        // delete
-        type === 'delete' && (
-          <Alert color="danger">
-            {`"${itemOriginal.id}`} - <b>{`${itemOriginal.name}" is deleted`}</b>
-          </Alert>
-        ) ||
+const Alerts = ({ type, itemOriginal, errorText }) => {
 
-        // edit
-        type === 'edit' && (
-          <Alert color="warning">
-            {`"${itemOriginal.id}`} - <b>{`${itemOriginal.name}" is edited`}</b>
-          </Alert>
-        ) ||
+  // no-errors requests
+  if (!errorText) {
+    return (
+      <>
+        {
+          // delete //
+          type === 'delete' && (
+            <Alert color="danger">
+              {`"${itemOriginal.id}`} - <b>{`${itemOriginal.name}" is deleted`}</b>
+            </Alert>
+          ) ||
 
-        // add
-        type === 'add' && (
-          <Alert color="success">
-            New item is added
-          </Alert>
-        ) ||
+          // edit //
+          type === 'edit' && (
+            <Alert color="warning">
+              {`"${itemOriginal.id}`} - <b>{`${itemOriginal.name}" is edited`}</b>
+            </Alert>
+          ) ||
 
-        // error
-        type === 'error' && (
-          <Alert color="danger">
-            <b>Error</b>. Something is wrong!
-          </Alert>
-        )
-      }
-    </>
-  )
+          // add //
+          type === 'add' && <Alert color="success">New item is added</Alert>
+        }
+      </>
+    )
+
+  // if we have an error from any request
+  } else return <Alert color="danger">{errorText}</Alert>
 }
 
 export default Alerts;

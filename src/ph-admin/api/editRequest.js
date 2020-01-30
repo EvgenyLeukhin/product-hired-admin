@@ -62,12 +62,16 @@ const editRequest = (state, dataPath) => {
         locations,
         role,
         company,
+
+        // "seniority": 2,
+        // "experience_from": 2,
+        // "experience_up": 4,
+
         // company:"google",
         // "created": "2020-01-28T10:28:57.000Z",
         // "modified": "2020-01-28T11:24:33.864Z",
         // "published": "2020-01-01T10:26:41.000Z",
         // "paused": null,
-        // "vacancy_role": 3,
         // "seniority": 2,
         // "experience_from": 2,
         // "experience_up": 4,
@@ -80,7 +84,6 @@ const editRequest = (state, dataPath) => {
         // "source": null,
         // "source_id": null,
         // "status": null,
-        // "skills_string": null,
         // "logo": "ca5c6e1b-55cd-4067-9902-a3dcc2c62bdf_250.jpg",
         // "cover": "767a9ac9-a460-4fcc-9867-46a5576374e6_400.png",
         // "views": 4,
@@ -88,12 +91,8 @@ const editRequest = (state, dataPath) => {
         // "saved": false,
         // "applied": false,
         // "description": "A job at #Fly in 'Afak. Requires 2-4 years of experience and the following skills: AB Testing.",
-        // "slug": "162671-test-test-test",
         // "logoUrl": "https://producthired.com/api/api/containers/logo/download/ca5c6e1b-55cd-4067-9902-a3dcc2c62bdf_250.jpg",
         // "coverUrl": "https://producthired.com/api/api/containers/cover/download/767a9ac9-a460-4fcc-9867-46a5576374e6_400.png",
-        // "company": {},
-        // "skills": [],
-        // "locations": [],
         // "role": {
           //   "id": 3, "name": "Product Marketing Manager", "slug": "product-marketing-manager", "top": 1, "weight": 2698
           // }
