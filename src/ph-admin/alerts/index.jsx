@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Alert } from "reactstrap";
 
 const Alerts = ({ type, itemOriginal, errorText }) => {
+  const [visible, setVisible] = useState(true);
+
+  const onDismiss = () => setVisible(false);
 
   // no-errors requests
   if (!errorText) {
@@ -29,7 +32,7 @@ const Alerts = ({ type, itemOriginal, errorText }) => {
     )
 
   // if we have an error from any request
-  } else return <Alert color="danger">{errorText}</Alert>
+  } else return <Alert color="danger" isOpen={visible} toggle={onDismiss}>{errorText}</Alert>
 }
 
 export default Alerts;
