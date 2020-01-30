@@ -6,6 +6,7 @@ import Role from '../../selects/role';
 import Company from '../../selects/company';
 import Skills from '../../selects/skills';
 import { Locations } from '../../selects/location';
+import Editor from '../../selects/editor';
 
 const Jobs = props => {
   const {
@@ -25,6 +26,7 @@ const Jobs = props => {
     onChangeLocations,
     onChangeSkills,
     onChangeCompany,
+    onChangeDetails,
 
     // logo
     logo, logoLoading, onUploadLogo, fileInputLogo,
@@ -150,6 +152,18 @@ const Jobs = props => {
             <Skills
               value={skills}
               onChange={skills => onChangeSkills(skills)}
+            />
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div className="form-group row">
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-details">Details</label>
+          <div className="col-md-10">
+            <Editor
+              value={details}
+              onChange={e  => console.log(e)}
             />
           </div>
         </div>

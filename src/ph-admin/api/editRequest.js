@@ -61,7 +61,7 @@ const editRequest = (state, dataPath) => {
         skills_string,
         locations,
         role,
-        company,
+        company: company.name,
 
         // "seniority": 2,
         // "experience_from": 2,

@@ -107,6 +107,7 @@ class EditModal extends React.Component {
   onChangeSkills    = skills    => this.setState({ skills });
   onChangeLocation  = location  => this.setState({ location });
   onChangeLocations = locations => this.setState({ locations });
+  onChangeDetails   = details   => this.setState({ details });
 
   onUploadLogo = e => {
     e.preventDefault();
