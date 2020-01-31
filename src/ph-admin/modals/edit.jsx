@@ -233,13 +233,14 @@ class EditModal extends React.Component {
           }
       }))
       .then(user => this.setState({ user: user.data })
+      // TODO .catch()
     );
   }
 
   render() {
     const { itemOriginal, dataPath, closeModal, modalLoading } = this.props;
     // console.log('itemOriginal edit.jsx:', itemOriginal.user);
-    console.log('state edit.jsx:', this.state.user);
+    // console.log('state edit.jsx:', this.state.user);
 
     // get data from the state to have onChange ability
     const {
