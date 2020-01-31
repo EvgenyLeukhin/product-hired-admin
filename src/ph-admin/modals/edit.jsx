@@ -15,8 +15,7 @@ import { API_URL, subUrl } from '../api/apiUrl';
 import uploadLogoRequest from '../api/uploadLogoRequest';
 import uploadCoverRequest from '../api/uploadCoverRequest';
 import uploadImageRequest from '../api/uploadImageRequest';
-
-import './scss/edit.scss';
+import { getCurrentUser } from '../api/getUsers';
 
 class EditModal extends React.Component {
   fileInputLogo = React.createRef();
@@ -63,7 +62,8 @@ class EditModal extends React.Component {
 
     admin: false,
     adminObj: {},
-    userData: {},
+    user: {},
+    employer_id: null
   }
 
   onChange = e => {
@@ -104,11 +104,18 @@ class EditModal extends React.Component {
 
   onChangeRole      = role      => this.setState({ role });
   onChangeCompany   = company   => this.setState({ company });
-  onChangeUser      = user      => this.setState({ user });
   onChangeSkills    = skills    => this.setState({ skills });
   onChangeDetails   = details   => this.setState({ details });
   onChangeLocation  = location  => this.setState({ location });
   onChangeLocations = locations => this.setState({ locations });
+
+  onChangeUser = user => {
+    this.setState({
+      user,
+      employer_id: user.id // to save employer_id after editRequest
+    });
+  }
+
 
   onUploadLogo = e => {
     e.preventDefault();
@@ -202,29 +209,41 @@ class EditModal extends React.Component {
     // 1. Get values from the prop itemOriginal
     const {
       itemOriginal: {
-        id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, role, roles, domain, logo, cover, image, details, published, views, location, locations, skills, company
+        id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, role, roles, domain, logo, cover, image, details, published, views, location, locations, skills, company, employer_id
       }
     } = this.props;
 
     // 2. Set values to the state
     this.setState({
-      id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, role, roles, domain, logo, cover, image, details, published, views, location, locations, skills, company
+      id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, role, roles, domain, logo, cover, image, details, published, views, location, locations, skills, company, employer_id
     });
 
     // check for admin rights and save admin object if it is
     roles && roles.map(i => {
       if (i.name === 'admin') this.setState({ admin: true });
     });
+
+    // get current user of job
+    getCurrentUser(employer_id)
+      .then(this.setState({
+          // preloader
+          user: {
+            name: 'Loading ...',
+            surname: ''
+          }
+      }))
+      .then(user => this.setState({ user: user.data })
+    );
   }
 
   render() {
     const { itemOriginal, dataPath, closeModal, modalLoading } = this.props;
-    // console.log('itemOriginal edit.jsx:', itemOriginal.employer_id);
-    // console.log('state edit.jsx:', this.state);
+    // console.log('itemOriginal edit.jsx:', itemOriginal.user);
+    console.log('state edit.jsx:', this.state.user);
 
     // get data from the state to have onChange ability
     const {
-      id, name, email, slug, weight, price, markers, surname, emailVerified, status, job_title, experience, role, roles, created, modified, domain, logo, logoLoading, cover, coverLoading, image, imageLoading, admin, details, published, views, location, locations, skills, company
+      id, name, email, slug, weight, price, markers, surname, emailVerified, status, job_title, experience, role, roles, created, modified, domain, logo, logoLoading, cover, coverLoading, image, imageLoading, admin, details, published, views, location, locations, skills, company, user
     } = this.state;
 
 
@@ -312,6 +331,7 @@ class EditModal extends React.Component {
                     role={role}
                     logo={logo}
                     slug={slug}
+                    user={user}
                     views={views}
                     cover={cover}
                     skills={skills}
@@ -328,6 +348,7 @@ class EditModal extends React.Component {
                     onChangeCompany={this.onChangeCompany}
                     onChangeSkills={this.onChangeSkills}
                     onChangeDetails={this.onChangeDetails}
+                    onChangeUser={this.onChangeUser}
                     onChangeLocations={this.onChangeLocations}
 
                     // logo

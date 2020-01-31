@@ -2,6 +2,7 @@ import React from 'react';
 
 import Spinner from '../../../components/Spinner';
 
+import User from '../../selects/user';
 import Role from '../../selects/role';
 import Company from '../../selects/company';
 import Skills from '../../selects/skills';
@@ -20,6 +21,7 @@ const Jobs = props => {
     modified,
     published,
     views,
+    user,
 
     onChange,
     onChangeRole,
@@ -27,6 +29,7 @@ const Jobs = props => {
     onChangeSkills,
     onChangeCompany,
     onChangeDetails,
+    onChangeUser,
 
     // logo
     logo, logoLoading, onUploadLogo, fileInputLogo,
@@ -65,7 +68,7 @@ const Jobs = props => {
         <div className="form-group row">
           <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-user">User</label>
           <div className="col-md-4">
-            {/* <User value={user} onChange={onChangeUser} /> */}
+            <User value={user} onChange={onChangeUser} />
           </div>
 
           <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-role">Role</label>

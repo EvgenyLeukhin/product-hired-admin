@@ -13,7 +13,8 @@ const getUsers = inputValue => {
         'filter': {
           'where': {
             'name': { 'like': `%${inputValue}%`}
-          }
+          },
+          'limit': 50
         }
       },
       headers
@@ -21,4 +22,20 @@ const getUsers = inputValue => {
   )
 }
 
-export default getUsers;
+const getCurrentUser = employer_id => {
+  return axios.get(
+    `${API_URL}/${subUrl}/users`,
+    {
+      params: {
+        'filter': {
+          'where': {
+            'id': { 'like': `${employer_id}`}
+          },
+        }
+      },
+      headers
+    }
+  )
+}
+
+export { getUsers, getCurrentUser };
