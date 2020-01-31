@@ -54,17 +54,50 @@ const Jobs = props => {
             />
           </div>
 
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-details">Details</label>
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-company">Company</label>
           <div className="col-md-4">
-            <textarea
-              rows={5}
-              style={{ resize: 'none' }}
-              name="details"
-              value={details}
-              id="edit-details"
-              onChange={onChange}
-              className="form-control"
-            />
+            <Company value={company} onChange={onChangeCompany} />
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div className="form-group row">
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-user">User</label>
+          <div className="col-md-4">
+            {/* <User value={user} onChange={onChangeUser} /> */}
+          </div>
+
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-role">Role</label>
+          <div className="col-md-4">
+            <Role value={role} onChange={onChangeRole} />
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div className="form-group row">
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-locations">Locations</label>
+          <div className="col-md-10">
+            <Locations value={locations} onChange={onChangeLocations} />
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div className="form-group row">
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-skills">Skills</label>
+          <div className="col-md-10">
+            <Skills value={skills} onChange={onChangeSkills} />
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div className="form-group row">
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-details">Details</label>
+          <div className="col-md-10">
+            <Editor value={details} onChange={onChangeDetails} />
           </div>
         </div>
       </fieldset>
@@ -125,61 +158,7 @@ const Jobs = props => {
         </div>
       </fieldset>
 
-      <fieldset>
-        <div className="form-group row">
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-role">Role</label>
-          <div className="col-md-4">
-            <Role
-              value={role}
-              onChange={role => onChangeRole(role)}
-            />
-          </div>
 
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-company">Company</label>
-          <div className="col-md-4">
-            <Company
-              value={company}
-              onChange={company => onChangeCompany(company)}
-            />
-          </div>
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <div className="form-group row">
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-skills">Skills</label>
-          <div className="col-md-10">
-            <Skills
-              value={skills}
-              onChange={skills => onChangeSkills(skills)}
-            />
-          </div>
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <div className="form-group row">
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-details">Details</label>
-          <div className="col-md-10">
-            <Editor
-              value={details}
-              onChange={e  => console.log(e)}
-            />
-          </div>
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <div className="form-group row">
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-locations">Locations</label>
-          <div className="col-md-10">
-            <Locations
-              value={locations}
-              onChange={locations => onChangeLocations(locations)}
-            />
-          </div>
-        </div>
-      </fieldset>
 
       {/* <fieldset className="edit-container__images">
         <div className="form-group row">

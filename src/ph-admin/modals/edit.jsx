@@ -63,7 +63,7 @@ class EditModal extends React.Component {
 
     admin: false,
     adminObj: {},
-    userData: {}
+    userData: {},
   }
 
   onChange = e => {
@@ -104,10 +104,11 @@ class EditModal extends React.Component {
 
   onChangeRole      = role      => this.setState({ role });
   onChangeCompany   = company   => this.setState({ company });
+  onChangeUser      = user      => this.setState({ user });
   onChangeSkills    = skills    => this.setState({ skills });
+  onChangeDetails   = details   => this.setState({ details });
   onChangeLocation  = location  => this.setState({ location });
   onChangeLocations = locations => this.setState({ locations });
-  onChangeDetails   = details   => this.setState({ details });
 
   onUploadLogo = e => {
     e.preventDefault();
@@ -218,7 +219,7 @@ class EditModal extends React.Component {
 
   render() {
     const { itemOriginal, dataPath, closeModal, modalLoading } = this.props;
-    // console.log('itemOriginal edit.jsx:', itemOriginal);
+    // console.log('itemOriginal edit.jsx:', itemOriginal.employer_id);
     // console.log('state edit.jsx:', this.state);
 
     // get data from the state to have onChange ability
@@ -307,31 +308,34 @@ class EditModal extends React.Component {
               {
                 dataPath === 'vacancies' && (
                   <Jobs
+                    // fields
                     role={role}
-                    company={company}
+                    logo={logo}
                     slug={slug}
-                    details={details}
+                    views={views}
+                    cover={cover}
                     skills={skills}
-                    locations={locations}
+                    details={details}
+                    company={company}
                     created={created}
                     modified={modified}
+                    locations={locations}
                     published={published}
-                    views={views}
 
+                    // onChanges
                     onChange={this.onChange}
                     onChangeRole={this.onChangeRole}
                     onChangeCompany={this.onChangeCompany}
                     onChangeSkills={this.onChangeSkills}
+                    onChangeDetails={this.onChangeDetails}
                     onChangeLocations={this.onChangeLocations}
 
                     // logo
-                    logo={logo}
                     logoLoading={logoLoading}
                     onUploadLogo={this.onUploadLogo}
                     fileInputLogo={this.fileInputLogo}
 
                     // cover
-                    cover={cover}
                     coverLoading={coverLoading}
                     onUploadCover={this.onUploadCover}
                     fileInputCover={this.fileInputCover}

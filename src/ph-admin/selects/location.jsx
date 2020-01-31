@@ -11,9 +11,10 @@ class Location extends React.Component {
   }
 
   render() {
+    const { value, onChange } = this.props;
+
     return (
       <AsyncSelect
-        value={this.props.value}
         menuPlacement="auto"
         cacheOptions={true}
         defaultOptions={true}
@@ -21,14 +22,15 @@ class Location extends React.Component {
         // load options request (always when onChange something)
         loadOptions={this.loadOptions}
 
-        // get options id from loadOptions
+        // get options id from loadOptions ??? TODO, doesn't affects
         getOptionValue={o => o.id}
 
         // get option text from loadOptions
         getOptionLabel={o => o.name}
 
         // onChange transfer to props
-        onChange={this.props.onChange}
+        value={value}
+        onChange={onChange}
       />
     );
   }
@@ -42,17 +44,19 @@ class Locations extends React.Component {
   }
 
   render() {
+    const { value, onChange } = this.props;
+
     return (
       <AsyncSelect
         isMulti={true}
-        value={this.props.value}
+        value={value}
         menuPlacement="auto"
         cacheOptions={true}
         defaultOptions={true}
         loadOptions={this.loadOptions}
         getOptionValue={o => o.id}
         getOptionLabel={o => o.name}
-        onChange={this.props.onChange}
+        onChange={onChange}
       />
     );
   }

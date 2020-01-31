@@ -9,6 +9,8 @@ class Skills extends React.Component {
   }
 
   render() {
+    const { value, onChange } = this.props;
+
     return (
       <AsyncSelect
         isMulti={true}
@@ -18,8 +20,8 @@ class Skills extends React.Component {
         loadOptions={this.loadOptions}
         getOptionValue={o => o.id}
         getOptionLabel={o => o.name}
-        onChange={this.props.onChange}
-        value={this.props.value}
+        onChange={onChange}
+        value={value}
       />
     );
   }

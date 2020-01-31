@@ -3,12 +3,14 @@ import AsyncSelect from 'react-select/async';
 
 import getRoles from './../api/getRoles';
 
-class Roles extends React.Component {
+class Role extends React.Component {
   loadOptions = inputValue => {
     return getRoles(inputValue).then(res => res.data);
   }
 
   render() {
+    const { value, onChange } = this.props;
+
     return (
       <AsyncSelect
         menuPlacement="auto"
@@ -17,11 +19,11 @@ class Roles extends React.Component {
         loadOptions={this.loadOptions}
         getOptionValue={o => o.id}
         getOptionLabel={o => o.name}
-        onChange={this.props.onChange}
-        value={this.props.value}
+        onChange={onChange}
+        value={value}
       />
     );
   }
 }
 
-export default Roles;
+export default Role;
