@@ -8,6 +8,8 @@ import Company from '../../selects/company';
 import Skills from '../../selects/skills';
 import { Locations } from '../../selects/location';
 import Editor from '../../selects/editor';
+import Plan from '../../selects/plan';
+import Status from '../../selects/status';
 
 const Jobs = props => {
   const {
@@ -22,6 +24,8 @@ const Jobs = props => {
     published,
     views,
     user,
+    plan,
+    jobStatus,
 
     onChange,
     onChangeRole,
@@ -30,6 +34,8 @@ const Jobs = props => {
     onChangeCompany,
     onChangeDetails,
     onChangeUser,
+    onChangePlan,
+    onChangeStatus,
 
     // logo
     logo, logoLoading, onUploadLogo, fileInputLogo,
@@ -74,6 +80,20 @@ const Jobs = props => {
           <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-role">Role</label>
           <div className="col-md-4">
             <Role value={role} onChange={onChangeRole} />
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div className="form-group row">
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-plan">Plan</label>
+          <div className="col-md-4">
+            <Plan value={plan} onChange={onChangePlan} />
+          </div>
+
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-status">Status</label>
+          <div className="col-md-4">
+            <Status value={jobStatus} onChange={onChangeStatus} />
           </div>
         </div>
       </fieldset>
