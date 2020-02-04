@@ -121,14 +121,14 @@ class EditModal extends React.Component {
   onChangeUser = user => {
     this.setState({
       user,
-      employer_id: user.id // to save employer_id after editRequest
+      employer_id: user.id
     });
   }
 
   onChangePlan = plan => {
     this.setState({
       plan,
-      plan_id: plan.value // to save employer_id after editRequest
+      plan_id: plan.value
     });
   }
 
@@ -250,7 +250,7 @@ class EditModal extends React.Component {
       .then(this.setState({
           // preloader
           user: {
-            name: 'Loading ...',
+            name: '',
             surname: ''
           }
       }))
@@ -374,14 +374,13 @@ class EditModal extends React.Component {
               {
                 dataPath === 'vacancies' && (
                   <Jobs
-                    // fields
+                    // logo={logo}
+                    // cover={cover}
                     name={name}
                     role={role}
-                    logo={logo}
                     user={user}
                     plan={plan}
                     views={views}
-                    cover={cover}
                     skills={skills}
                     details={details}
                     company={company}
@@ -407,14 +406,14 @@ class EditModal extends React.Component {
                     onChangeSeniority={this.onChangeSeniority}
 
                     // logo
-                    logoLoading={logoLoading}
-                    onUploadLogo={this.onUploadLogo}
-                    fileInputLogo={this.fileInputLogo}
+                    // logoLoading={logoLoading}
+                    // onUploadLogo={this.onUploadLogo}
+                    // fileInputLogo={this.fileInputLogo}
 
                     // cover
-                    coverLoading={coverLoading}
-                    onUploadCover={this.onUploadCover}
-                    fileInputCover={this.fileInputCover}
+                    // coverLoading={coverLoading}
+                    // onUploadCover={this.onUploadCover}
+                    // fileInputCover={this.fileInputCover}
                   />
                 )
               }

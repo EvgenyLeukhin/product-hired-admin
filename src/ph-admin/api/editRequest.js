@@ -41,7 +41,8 @@ const editRequest = (state, dataPath) => {
   } else if (dataPath === 'vacancies') {
     const {
       details,
-      logo, cover,
+      logo,
+      cover,
       skills,
       locations,
       role,

@@ -179,7 +179,7 @@ class Table extends React.Component {
         data: newData
       });
 
-      if (dataPath === 'users') {
+      if (dataPath === 'users' || dataPath === 'vacancies') {
         const { data } = res;
         this.editAfterAdd(data);
       }

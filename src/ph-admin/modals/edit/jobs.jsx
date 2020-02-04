@@ -42,10 +42,10 @@ const Jobs = props => {
     onChangeSeniority,
 
     // logo
-    logo, logoLoading, onUploadLogo, fileInputLogo,
+    // logo, logoLoading, onUploadLogo, fileInputLogo,
 
     // cover
-    cover, coverLoading, onUploadCover, fileInputCover,
+    // cover, coverLoading, onUploadCover, fileInputCover,
 
   } = props;
 
@@ -68,9 +68,9 @@ const Jobs = props => {
             />
           </div>
 
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-company">Company</label>
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-status">Status</label>
           <div className="col-md-4">
-            <Company value={company} onChange={onChangeCompany} />
+            <Status value={jobStatus} onChange={onChangeStatus} />
           </div>
         </div>
       </fieldset>
@@ -96,9 +96,9 @@ const Jobs = props => {
             <Plan value={plan} onChange={onChangePlan} />
           </div>
 
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-status">Status</label>
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-company">Company</label>
           <div className="col-md-4">
-            <Status value={jobStatus} onChange={onChangeStatus} />
+            <Company value={company} onChange={onChangeCompany} />
           </div>
         </div>
       </fieldset>

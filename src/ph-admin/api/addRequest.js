@@ -20,13 +20,27 @@ const addRequest = (state, dataPath) => {
     return axios.post(path, { name, surname, password, email }, { headers })
 
   // 3. jobs //
-} else if (dataPath === 'vacancies') {
-  // const { surname, password, email } = state;
-  return axios.post(
-    path,
-    { name, },
-    { headers }
-  )
+  } else if (dataPath === 'vacancies') {
+    return axios.post(
+      path,
+      {
+        name,
+        details: '<p></p>',
+        vacancy_role: 1,
+        seniority: 1,
+        experience_from: 0,
+        experience_up: 1,
+        application_type: 0,
+        application_link: null,
+        employer_id: 1, // !!!!
+        plan_id: 1,
+        company_id: 1, // !!!!
+        hash: null,
+        status: 'draft',
+        companies: [],
+      },
+      { headers }
+    )
 
 
   // 4. skills //
