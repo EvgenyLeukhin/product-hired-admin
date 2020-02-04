@@ -46,6 +46,11 @@ class AddModal extends React.Component {
     coverLoading: false,
 
     admin: false,
+    company: {},
+    user: {
+      name: '',
+      surname: ''
+    }
   }
 
   onChange = e => {
@@ -117,12 +122,16 @@ class AddModal extends React.Component {
     addRequest(state, dataPath);
   }
 
+  onChangeCompany   = company   => this.setState({ company });
+  onChangeUser      = user      => this.setState({ user });
+
   render() {
     const { dataPath, closeModal, modalLoading, text } = this.props;
 
     // get data from the state to have onChange ability
     const {
-      name, email, slug, weight, price, markers, surname, domain, logo, logoLoading, cover, coverLoading, password
+      name, email, slug, weight, price, markers, surname, domain, logo, logoLoading, cover, coverLoading, password,
+      company, user
     } = this.state;
 
 
@@ -179,7 +188,11 @@ class AddModal extends React.Component {
                 dataPath === 'vacancies' && (
                   <Jobs
                     name={name}
+                    user={user}
+                    company={company}
                     onChange={this.onChange}
+                    onChangeUser={this.onChangeUser}
+                    onChangeCompany={this.onChangeCompany}
                   />
                 )
               }

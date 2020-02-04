@@ -21,6 +21,7 @@ const addRequest = (state, dataPath) => {
 
   // 3. jobs //
   } else if (dataPath === 'vacancies') {
+    const { company, user } = state;
     return axios.post(
       path,
       {
@@ -32,9 +33,9 @@ const addRequest = (state, dataPath) => {
         experience_up: 1,
         application_type: 0,
         application_link: null,
-        employer_id: 1, // !!!!
+        employer_id: user.id,
         plan_id: 1,
-        company_id: 1, // !!!!
+        company_id: company.id,
         hash: null,
         status: 'draft',
         companies: [],

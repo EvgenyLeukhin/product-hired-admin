@@ -248,11 +248,11 @@ class EditModal extends React.Component {
     // get current user of job
     getCurrentUser(employer_id)
       .then(this.setState({
-          // preloader
-          user: {
-            name: '',
-            surname: ''
-          }
+        // preloader
+        user: {
+          name: 'Loading ...',
+          surname: ''
+        }
       }))
       .then(user => this.setState({ user: user.data })
       // TODO .catch()
