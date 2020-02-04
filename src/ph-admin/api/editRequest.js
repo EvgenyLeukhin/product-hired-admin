@@ -12,7 +12,7 @@ const editRequest = (state, dataPath) => {
   // 1. companies //
   if (dataPath === 'companies') {
     const { slug, domain, weight, logo, cover } = state;
-    return axios.patch(path, { name, slug, domain, weight, logo, cover, id }, { headers })
+    return axios.patch(path, { name, slug, domain, weight, logo, cover }, { headers })
 
 
   // 2. users //
@@ -21,7 +21,6 @@ const editRequest = (state, dataPath) => {
     return axios.patch(
       path,
       {
-        id,
         name,
         surname,
         email,
@@ -54,9 +53,6 @@ const editRequest = (state, dataPath) => {
       experience_up,
       experience_from,
       created,
-      modified,
-      published,
-      views,
     } = state;
 
     // convert [ {skill1}, {skill2} ] to "skill1, skill2"
@@ -69,7 +65,6 @@ const editRequest = (state, dataPath) => {
     return axios.post(
       `${path}/updateJob`,
       {
-        // id,
         name,
         details,
         logo: logo ? logo.split('/').pop() : '',   // cut logo url string to filename
@@ -86,21 +81,15 @@ const editRequest = (state, dataPath) => {
         experience_up,
         created,
 
-
-        // "modified": "2020-01-28T11:24:33.864Z",
-        // "published": "2020-01-01T10:26:41.000Z",
         // "paused": null,
         // "application_type": 0,
         // "application_link": null,
         // "employer_id": 1120,
-        // "plan_id": null,
-        // "company_id": 9301,
         // "hash": null,
         // "source": null,
         // "source_id": null,
         // "logo": "ca5c6e1b-55cd-4067-9902-a3dcc2c62bdf_250.jpg",
         // "cover": "767a9ac9-a460-4fcc-9867-46a5576374e6_400.png",
-        // "views": 4,
         // "impressions": null,
         // "saved": false,
         // "applied": false,
@@ -118,19 +107,19 @@ const editRequest = (state, dataPath) => {
   // 4. skills //
   } else if (dataPath === 'skills') {
     const { slug, markers, weight } = state;
-    return axios.patch(path, { id, name, weight, slug, markers }, { headers })
+    return axios.patch(path, { name, weight, slug, markers }, { headers })
 
 
   // 5. vacancy_roles //
   } else if (dataPath === 'vacancy_roles') {
     const { slug, weight } = state;
-    return axios.patch(path, { id, name, slug, weight }, { headers })
+    return axios.patch(path, { name, slug, weight }, { headers })
 
 
   // 6. plans //
   } else if (dataPath === 'plans') {
     const { price } = state;
-    return axios.patch(path, { id, name, price }, { headers })
+    return axios.patch(path, { name, price }, { headers })
   }
 };
 

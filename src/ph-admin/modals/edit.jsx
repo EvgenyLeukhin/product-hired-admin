@@ -291,11 +291,11 @@ class EditModal extends React.Component {
         <span className="ion-close-round edit-container__close" onClick={closeModal} />
 
         {
-          dataPath === 'users' ? (
+          dataPath === 'users' && (
             <h4 className="edit-container__title">
               Edit&nbsp;<b>{`"${itemOriginal.id} - ${itemOriginal.name} ${itemOriginal.surname}"`}</b>
             </h4>
-          ) : (
+          ) || dataPath === 'vacancies' && (
             <h4 className="edit-container__title">
               Edit&nbsp;<b>{`"${itemOriginal.id} - ${itemOriginal.name}"`}</b>&nbsp;
               {
@@ -303,6 +303,10 @@ class EditModal extends React.Component {
                   <span className="views"> (<i className="ion-ios-eye" />&nbsp;{`${itemOriginal.views}`})</span>
                 ) : <span className="views"> (<i className="ion-ios-eye" />&nbsp;0)</span>
               }
+            </h4>
+          ) || (
+            <h4 className="edit-container__title">
+              Edit&nbsp;<b>{`"${itemOriginal.id} - ${itemOriginal.name}"`}</b>
             </h4>
           )
         }
