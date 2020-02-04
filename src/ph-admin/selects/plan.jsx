@@ -1,21 +1,14 @@
 import React from 'react';
 import Select from 'react-select';
 
-const options = [
-  { value: 1, label: 'Free' },
-  { value: 2, label: 'Bronze' },
-  { value: 3, label: 'Silver' },
-  { value: 4, label: 'Gold' },
-];
+import { planValues } from '../consts';
 
-const Plan = ({ value, onChange }) => {
-  return (
-    <Select
-      value={value}
-      onChange={onChange}
-      options={options}
-    />
-  );
-}
+const Plan = ({ value, onChange }) => (
+  <Select
+    value={value}
+    onChange={onChange}
+    options={planValues}
+  />
+);
 
 export default Plan;

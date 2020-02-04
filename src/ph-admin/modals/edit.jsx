@@ -16,6 +16,8 @@ import uploadCoverRequest from '../api/uploadCoverRequest';
 import uploadImageRequest from '../api/uploadImageRequest';
 import { getCurrentUser } from '../api/getUsers';
 
+import { planValues, statusValues, seniorityValues } from '../consts';
+
 class EditModal extends React.Component {
   fileInputLogo = React.createRef();
   fileInputCover = React.createRef();
@@ -65,7 +67,8 @@ class EditModal extends React.Component {
     employer_id: null,
     plan: {},
     plan_id: null,
-    jobStatus: ''
+    jobStatus: '',
+    seniority: null,
   }
 
   onChange = e => {
@@ -104,12 +107,14 @@ class EditModal extends React.Component {
     }
   }
 
+  // TODO - refactoring
   onChangeRole      = role      => this.setState({ role });
   onChangeCompany   = company   => this.setState({ company });
   onChangeSkills    = skills    => this.setState({ skills });
   onChangeDetails   = details   => this.setState({ details });
   onChangeLocation  = location  => this.setState({ location });
   onChangeLocations = locations => this.setState({ locations });
+  onChangeSeniority = seniority => this.setState({ seniority });
 
   onChangeUser = user => {
     this.setState({
@@ -131,7 +136,6 @@ class EditModal extends React.Component {
       status: jobStatus.value
     });
   }
-
 
   onUploadLogo = e => {
     e.preventDefault();
@@ -225,18 +229,18 @@ class EditModal extends React.Component {
     // 1. Get values from the prop itemOriginal
     const {
       itemOriginal: {
-        id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, role, roles, domain, logo, cover, image, details, published, views, location, locations, skills, company, employer_id, plan_id
+        id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, role, roles, domain, logo, cover, image, details, published, views, location, locations, skills, company, employer_id, plan_id, seniority
       }
     } = this.props;
 
     // 2. Set values to the state
     this.setState({
-      id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, role, roles, domain, logo, cover, image, details, published, views, location, locations, skills, company, employer_id, plan_id
+      id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, role, roles, domain, logo, cover, image, details, published, views, location, locations, skills, company, employer_id, plan_id, seniority
     });
 
     // check for admin rights and save admin object if it is
     roles && roles.map(i => {
-      if (i.name === 'admin') this.setState({ admin: true });
+      i.name === 'admin' && this.setState({ admin: true });
     });
 
     // get current user of job
@@ -252,36 +256,31 @@ class EditModal extends React.Component {
       // TODO .catch()
     );
 
-    // get current plan for job (optimize later)
-    plan_id && this.setState({
-      plan: {
-        value: plan_id,
-        label: plan_id === 1 && 'Free' ||
-               plan_id === 2 && 'Bronze' ||
-               plan_id === 3 && 'Silver' ||
-               plan_id === 4 && 'Gold'
-      }
-    })
+    // get current plan for job
+    plan_id && planValues.map(i => {
+      plan_id === i.value && this.setState({ plan: i });
+    });
 
-    // get current status for job (optimize later)
-    status && this.setState({
-      jobStatus: {
-        value: status,
-        label: status === 'public' && 'Public' ||
-               status === 'draft' && 'Draft' ||
-               status === 'expired' && 'Expired'
-      }
-    })
+
+    // get current status for job
+    status && statusValues.map(i => {
+      status === i.value && this.setState({ jobStatus: i });
+    });
+
+    // get current seniority for job
+    seniority && seniorityValues.map(i => {
+      seniority === i.value && this.setState({ seniority: i });
+    });
   }
 
   render() {
     const { itemOriginal, dataPath, closeModal, modalLoading } = this.props;
-    // console.log('itemOriginal edit.jsx:', itemOriginal);
-    // console.log('state edit.jsx:', this.state.user);
+    // console.log('itemOriginal edit.jsx:', itemOriginal.seniority);
+    // console.log('state.seniority edit.jsx:', this.state.seniority);
 
     // get data from the state to have onChange ability
     const {
-      id, name, email, slug, weight, price, markers, surname, emailVerified, status, job_title, experience, role, roles, created, modified, domain, logo, logoLoading, cover, coverLoading, image, imageLoading, admin, details, published, views, location, locations, skills, company, user, plan, jobStatus
+      name, email, slug, weight, price, markers, surname, emailVerified, status, job_title, experience, role, roles, created, modified, domain, logo, logoLoading, cover, coverLoading, image, imageLoading, admin, details, published, views, location, locations, skills, company, user, plan, jobStatus, seniority
     } = this.state;
 
 
@@ -369,6 +368,7 @@ class EditModal extends React.Component {
                     role={role}
                     logo={logo}
                     user={user}
+                    plan={plan}
                     views={views}
                     cover={cover}
                     skills={skills}
@@ -378,8 +378,8 @@ class EditModal extends React.Component {
                     modified={modified}
                     locations={locations}
                     published={published}
-                    plan={plan}
                     jobStatus={jobStatus}
+                    seniority={seniority}
 
                     // onChanges
                     onChange={this.onChange}
@@ -391,6 +391,7 @@ class EditModal extends React.Component {
                     onChangeLocations={this.onChangeLocations}
                     onChangePlan={this.onChangePlan}
                     onChangeStatus={this.onChangeStatus}
+                    onChangeSeniority={this.onChangeSeniority}
 
                     // logo
                     logoLoading={logoLoading}

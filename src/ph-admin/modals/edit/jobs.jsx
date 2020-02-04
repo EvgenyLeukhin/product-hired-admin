@@ -2,14 +2,15 @@ import React from 'react';
 
 import Spinner from '../../../components/Spinner';
 
-import User from '../../selects/user';
-import Role from '../../selects/role';
-import Company from '../../selects/company';
-import Skills from '../../selects/skills';
+import User          from '../../selects/user';
+import Role          from '../../selects/role';
+import Company       from '../../selects/company';
+import Skills        from '../../selects/skills';
+import Editor        from '../../selects/editor';
+import Plan          from '../../selects/plan';
+import Status        from '../../selects/status';
+import Seniority     from '../../selects/seniority';
 import { Locations } from '../../selects/location';
-import Editor from '../../selects/editor';
-import Plan from '../../selects/plan';
-import Status from '../../selects/status';
 
 const Jobs = props => {
   const {
@@ -26,6 +27,7 @@ const Jobs = props => {
     user,
     plan,
     jobStatus,
+    seniority,
 
     onChange,
     onChangeRole,
@@ -36,6 +38,7 @@ const Jobs = props => {
     onChangeUser,
     onChangePlan,
     onChangeStatus,
+    onChangeSeniority,
 
     // logo
     logo, logoLoading, onUploadLogo, fileInputLogo,
@@ -101,6 +104,15 @@ const Jobs = props => {
 
       <fieldset>
         <div className="form-group row">
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-seniority">Seniority</label>
+          <div className="col-md-4">
+            <Seniority value={seniority} onChange={onChangeSeniority} />
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div className="form-group row">
           <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-locations">Locations</label>
           <div className="col-md-10">
             <Locations value={locations} onChange={onChangeLocations} />
@@ -128,7 +140,7 @@ const Jobs = props => {
 
       <fieldset>
         <div className="form-group row">
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-created">Created</label>
+          {/* <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-created">Created</label>
           <div className="col-md-4">
             <input
               disabled
@@ -138,9 +150,9 @@ const Jobs = props => {
               id="edit-created"
               className="form-control input-rounded"
             />
-          </div>
+          </div> */}
 
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-modified">Modified</label>
+          {/* <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-modified">Modified</label>
           <div className="col-md-4">
             <input
               disabled
@@ -150,13 +162,13 @@ const Jobs = props => {
               id="edit-modified"
               className="form-control input-rounded"
             />
-          </div>
+          </div> */}
         </div>
       </fieldset>
 
       <fieldset>
         <div className="form-group row">
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-created">Published</label>
+          {/* <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-created">Published</label>
           <div className="col-md-4">
             <input
               disabled
@@ -166,9 +178,9 @@ const Jobs = props => {
               id="edit-published"
               className="form-control input-rounded"
             />
-          </div>
+          </div> */}
 
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-views">Views</label>
+          {/* <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-views">Views</label>
           <div className="col-md-4">
             <input
               disabled
@@ -178,7 +190,7 @@ const Jobs = props => {
               id="edit-views"
               className="form-control input-rounded"
             />
-          </div>
+          </div> */}
         </div>
       </fieldset>
 

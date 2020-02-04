@@ -40,7 +40,7 @@ const editRequest = (state, dataPath) => {
 
   // 3. jobs //
   } else if (dataPath === 'vacancies') {
-    const { details, slug, logo, cover, skills, locations, role, company, user, plan, jobStatus, created, modified, published, views, } = state;
+    const { details, slug, logo, cover, skills, locations, role, company, user, plan, jobStatus, seniority, created, modified, published, views, } = state;
 
     // convert [ {skill1}, {skill2} ] to "skill1, skill2"
     const skillsNames = [];
@@ -48,7 +48,6 @@ const editRequest = (state, dataPath) => {
       skillsNames.push(skills[i].name)
     };
     const skills_string = skillsNames.toString();
-    console.log(plan);
 
     return axios.post(
       `${path}/updateJob`,
@@ -66,6 +65,7 @@ const editRequest = (state, dataPath) => {
         employer_id: user.id,
         plan_id: plan.value,
         status: jobStatus.value,
+        seniority: seniority.value,
 
         // "seniority": 2,
         // "experience_from": 2,
