@@ -3,7 +3,6 @@ import React from 'react';
 import { Button } from "reactstrap";
 import Spinner from '../../components/Spinner';
 
-import Common from './edit/common';
 import Companies from './edit/companies';
 import Users from './edit/users';
 import Jobs from './edit/jobs';
@@ -305,13 +304,11 @@ class EditModal extends React.Component {
         <div className="cardbox">
           <div className="cardbox-body">
             <form action="" onSubmit={this.onSubmit}>
-              {/* Common inputs */}
-              <Common id={id} name={name} onChange={this.onChange} />
-
               {/* 1. Companies */}
               {
                 dataPath === 'companies' && (
                   <Companies
+                    name={name}
                     slug={slug}
                     domain={domain}
                     weight={weight}
@@ -336,6 +333,7 @@ class EditModal extends React.Component {
               {
                 dataPath === 'users' && (
                   <Users
+                    name={name}
                     email={email}
                     roles={roles}
                     admin={admin}
@@ -367,9 +365,9 @@ class EditModal extends React.Component {
                 dataPath === 'vacancies' && (
                   <Jobs
                     // fields
+                    name={name}
                     role={role}
                     logo={logo}
-                    slug={slug}
                     user={user}
                     views={views}
                     cover={cover}
@@ -411,6 +409,7 @@ class EditModal extends React.Component {
               {
                 dataPath === 'skills' && (
                   <Skills
+                    name={name}
                     slug={slug}
                     weight={weight}
                     markers={markers}
@@ -420,10 +419,23 @@ class EditModal extends React.Component {
               }
 
               {/* 5. Roles */}
-              { dataPath === 'vacancy_roles' && <Roles slug={slug} weight={weight} onChange={this.onChange} /> }
+              {
+                dataPath === 'vacancy_roles' && (
+                  <Roles
+                    name={name}
+                    slug={slug}
+                    weight={weight}
+                    onChange={this.onChange}
+                  />
+                )
+              }
 
               {/* 6. Plans */}
-              { dataPath === 'plans' && <Plans price={price} onChange={this.onChange} /> }
+              {
+                dataPath === 'plans' && (
+                  <Plans name={name} price={price} onChange={this.onChange} />
+                )
+              }
 
               {/* Buttons */}
               {

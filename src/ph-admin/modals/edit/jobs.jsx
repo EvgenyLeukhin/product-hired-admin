@@ -13,7 +13,7 @@ import Status from '../../selects/status';
 
 const Jobs = props => {
   const {
-    slug,
+    name,
     details,
     skills,
     locations,
@@ -51,14 +51,15 @@ const Jobs = props => {
     <>
       <fieldset>
         <div className="form-group row">
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-slug">Slug</label>
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-name">Job title</label>
+
           <div className="col-md-4">
             <input
-              name="slug"
-              value={slug}
-              id="edit-slug"
+              name="name"
+              type="text"
+              value={name}
+              id="edit-name"
               onChange={onChange}
-              type="textarea"
               className="form-control input-rounded"
             />
           </div>
@@ -130,11 +131,11 @@ const Jobs = props => {
           <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-created">Created</label>
           <div className="col-md-4">
             <input
+              disabled
+              type="text"
               name="created"
               value={created && created.substring(0, 10)}
               id="edit-created"
-              disabled
-              type="text"
               className="form-control input-rounded"
             />
           </div>
@@ -142,11 +143,11 @@ const Jobs = props => {
           <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-modified">Modified</label>
           <div className="col-md-4">
             <input
+              disabled
+              type="text"
               name="modified"
               value={modified && modified.substring(0, 10)}
               id="edit-modified"
-              disabled
-              type="text"
               className="form-control input-rounded"
             />
           </div>
@@ -158,11 +159,11 @@ const Jobs = props => {
           <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-created">Published</label>
           <div className="col-md-4">
             <input
+              disabled
+              type="text"
               name="published"
               value={published && published.substring(0, 10)}
               id="edit-published"
-              disabled
-              type="text"
               className="form-control input-rounded"
             />
           </div>
@@ -170,11 +171,11 @@ const Jobs = props => {
           <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-views">Views</label>
           <div className="col-md-4">
             <input
+              disabled
+              type="text"
               name="views"
               value={views}
               id="edit-views"
-              disabled
-              type="text"
               className="form-control input-rounded"
             />
           </div>

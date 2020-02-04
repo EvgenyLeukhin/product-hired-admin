@@ -4,6 +4,7 @@ import Spinner from '../../../components/Spinner';
 
 const Companies = props => {
   const {
+    name,
     slug,
     domain,
     weight,
@@ -21,6 +22,18 @@ const Companies = props => {
     <>
       <fieldset>
         <div className="form-group row">
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-name">Company name</label>
+          <div className="col-md-4">
+            <input
+              name="name"
+              value={name}
+              id="edit-name"
+              onChange={onChange}
+              type="text"
+              className="form-control input-rounded"
+            />
+          </div>
+
           <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-domain">Domain</label>
           <div className="col-md-4">
             <input
@@ -32,7 +45,11 @@ const Companies = props => {
               className="form-control input-rounded"
             />
           </div>
+        </div>
+      </fieldset>
 
+      <fieldset>
+        <div className="form-group row">
           <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-slug">Slug</label>
           <div className="col-md-4">
             <input
@@ -44,11 +61,7 @@ const Companies = props => {
               className="form-control input-rounded"
             />
           </div>
-        </div>
-      </fieldset>
 
-      <fieldset>
-        <div className="form-group row">
           <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-weight">Weight</label>
           <div className="col-md-4">
             <input

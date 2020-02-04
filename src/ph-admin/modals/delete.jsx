@@ -10,7 +10,7 @@ const DeleteModal = ({ dataPath, itemOriginal, closeModal, deleteRequest, modalL
 
   const title = () => {
     if (dataPath === 'users') {
-      return <span>{id} - <b>{name} - {surname}</b>?</span>
+      return <span>{id} - <b>{name} {surname}</b>?</span>
     } else {
       return <span>{id} - <b>{name}</b>?</span>
     }

@@ -6,6 +6,7 @@ import Skills from '../../selects/skills';
 
 const Users = props => {
   const {
+    name,
     surname,
     email,
     job_title,
@@ -34,28 +35,26 @@ const Users = props => {
     <>
       <fieldset>
         <div className="form-group row">
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-surname">Surname</label>
-
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-name">Name</label>
           <div className="col-md-4">
             <input
-              name="surname"
-              value={surname}
-              id="edit-surname"
-              onChange={onChange}
+              name="name"
               type="text"
+              value={name}
+              id="edit-name"
+              onChange={onChange}
               className="form-control input-rounded"
             />
           </div>
 
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-email">Email</label>
-
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-surname">Surname</label>
           <div className="col-md-4">
             <input
-              name="email"
-              value={email}
-              id="edit-email"
+              type="text"
+              name="surname"
+              value={surname}
+              id="edit-surname"
               onChange={onChange}
-              type="email"
               className="form-control input-rounded"
             />
           </div>
@@ -64,15 +63,28 @@ const Users = props => {
 
       <fieldset>
         <div className="form-group row">
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-email">Email</label>
+
+          <div className="col-md-4">
+            <input
+              name="email"
+              type="email"
+              value={email}
+              id="edit-email"
+              onChange={onChange}
+              className="form-control input-rounded"
+            />
+          </div>
+
           <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-job_title">Job title</label>
 
-          <div className="col-md-10">
+          <div className="col-md-4">
             <input
+              type="text"
               name="job_title"
               value={job_title}
               id="edit-job_title"
               onChange={onChange}
-              type="text"
               className="form-control input-rounded"
             />
           </div>
@@ -86,10 +98,10 @@ const Users = props => {
           <div className="col-md-4">
             <input
               disabled
+              type="text"
               name="location_id"
               value={locationId}
               id="edit-location_id"
-              type="text"
               className="form-control input-rounded"
             />
           </div>

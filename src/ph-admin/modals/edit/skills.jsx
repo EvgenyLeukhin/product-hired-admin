@@ -1,29 +1,30 @@
 import React from 'react';
 
-const Skills = ({ weight, slug, markers, onChange }) => (
+const Skills = ({ name, weight, slug, markers, onChange }) => (
   <>
     <fieldset>
       <div className="form-group row">
-        <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-weight">Weight</label>
+        <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-name">Skill name</label>
+
         <div className="col-md-4">
           <input
-            name="weight"
-            value={weight}
-            id="edit-weight"
+            name="name"
+            type="text"
+            value={name}
+            id="edit-name"
             onChange={onChange}
-            type="number"
             className="form-control input-rounded"
           />
         </div>
 
-        <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-slug">Slug</label>
+        <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-weight">Weight</label>
         <div className="col-md-4">
           <input
-            name="slug"
-            value={slug}
-            id="edit-slug"
+            name="weight"
+            type="number"
+            value={weight}
+            id="edit-weight"
             onChange={onChange}
-            type="text"
             className="form-control input-rounded"
           />
         </div>
@@ -32,15 +33,26 @@ const Skills = ({ weight, slug, markers, onChange }) => (
 
     <fieldset>
       <div className="form-group row">
-        <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-aliases">Aliases</label>
-
+        <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-slug">Slug</label>
         <div className="col-md-4">
           <input
+            name="slug"
+            type="text"
+            value={slug}
+            id="edit-slug"
+            onChange={onChange}
+            className="form-control input-rounded"
+          />
+        </div>
+
+        <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-aliases">Aliases</label>
+        <div className="col-md-4">
+          <input
+            type="text"
             name="markers"
             value={markers}
             id="edit-aliases"
             onChange={onChange}
-            type="text"
             className="form-control input-rounded"
           />
         </div>
