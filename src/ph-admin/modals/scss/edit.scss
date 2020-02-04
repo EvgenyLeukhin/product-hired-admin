@@ -15,6 +15,17 @@ div.ReactModal__edit {
       margin-bottom: 10px;
       font-weight: normal;
       padding-right: 15px;
+
+      .views {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: #9e9e9e;
+        height: 14px;
+        line-height: 14px;
+        color: #909399;
+        white-space: nowrap;
+      }
     }
 
 

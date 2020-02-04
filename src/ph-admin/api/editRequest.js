@@ -40,7 +40,24 @@ const editRequest = (state, dataPath) => {
 
   // 3. jobs //
   } else if (dataPath === 'vacancies') {
-    const { details, slug, logo, cover, skills, locations, role, company, user, plan, jobStatus, seniority, created, modified, published, views, } = state;
+    const {
+      details,
+      logo, cover,
+      skills,
+      locations,
+      role,
+      company,
+      user,
+      plan,
+      jobStatus,
+      seniority,
+      experience_up,
+      experience_from,
+      created,
+      modified,
+      published,
+      views,
+    } = state;
 
     // convert [ {skill1}, {skill2} ] to "skill1, skill2"
     const skillsNames = [];
@@ -55,7 +72,6 @@ const editRequest = (state, dataPath) => {
         // id,
         name,
         details,
-        slug,
         logo: logo ? logo.split('/').pop() : '',   // cut logo url string to filename
         cover: cover ? cover.split('/').pop() : '', // cut cover url string to filename
         skills_string,
@@ -66,19 +82,14 @@ const editRequest = (state, dataPath) => {
         plan_id: plan.value,
         status: jobStatus.value,
         seniority: seniority.value,
+        experience_from,
+        experience_up,
+        created,
 
-        // "seniority": 2,
-        // "experience_from": 2,
-        // "experience_up": 4,
 
-        // company:"google",
-        // "created": "2020-01-28T10:28:57.000Z",
         // "modified": "2020-01-28T11:24:33.864Z",
         // "published": "2020-01-01T10:26:41.000Z",
         // "paused": null,
-        // "seniority": 2,
-        // "experience_from": 2,
-        // "experience_up": 4,
         // "application_type": 0,
         // "application_link": null,
         // "employer_id": 1120,
@@ -87,7 +98,6 @@ const editRequest = (state, dataPath) => {
         // "hash": null,
         // "source": null,
         // "source_id": null,
-        // "status": null,
         // "logo": "ca5c6e1b-55cd-4067-9902-a3dcc2c62bdf_250.jpg",
         // "cover": "767a9ac9-a460-4fcc-9867-46a5576374e6_400.png",
         // "views": 4,
@@ -100,16 +110,6 @@ const editRequest = (state, dataPath) => {
         // "role": {
           //   "id": 3, "name": "Product Marketing Manager", "slug": "product-marketing-manager", "top": 1, "weight": 2698
           // }
-
-          // slug,
-          // description,
-          // created,
-          // modified,
-          // published,
-          // views,
-
-
-          // slug, // не нужен
         },
         { headers }
         )

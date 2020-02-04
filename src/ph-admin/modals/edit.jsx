@@ -69,6 +69,8 @@ class EditModal extends React.Component {
     plan_id: null,
     jobStatus: '',
     seniority: null,
+    experience_up: null,
+    experience_from: null,
   }
 
   onChange = e => {
@@ -229,13 +231,13 @@ class EditModal extends React.Component {
     // 1. Get values from the prop itemOriginal
     const {
       itemOriginal: {
-        id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, role, roles, domain, logo, cover, image, details, published, views, location, locations, skills, company, employer_id, plan_id, seniority
+        id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, role, roles, domain, logo, cover, image, details, published, views, location, locations, skills, company, employer_id, plan_id, seniority, experience_up, experience_from
       }
     } = this.props;
 
     // 2. Set values to the state
     this.setState({
-      id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, role, roles, domain, logo, cover, image, details, published, views, location, locations, skills, company, employer_id, plan_id, seniority
+      id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, role, roles, domain, logo, cover, image, details, published, views, location, locations, skills, company, employer_id, plan_id, seniority, experience_up, experience_from
     });
 
     // check for admin rights and save admin object if it is
@@ -275,12 +277,12 @@ class EditModal extends React.Component {
 
   render() {
     const { itemOriginal, dataPath, closeModal, modalLoading } = this.props;
-    // console.log('itemOriginal edit.jsx:', itemOriginal.seniority);
+    // console.log('itemOriginal edit.jsx:', itemOriginal.experience_up);
     // console.log('state.seniority edit.jsx:', this.state.seniority);
 
     // get data from the state to have onChange ability
     const {
-      name, email, slug, weight, price, markers, surname, emailVerified, status, job_title, experience, role, roles, created, modified, domain, logo, logoLoading, cover, coverLoading, image, imageLoading, admin, details, published, views, location, locations, skills, company, user, plan, jobStatus, seniority
+      name, email, slug, weight, price, markers, surname, emailVerified, status, job_title, experience, role, roles, created, modified, domain, logo, logoLoading, cover, coverLoading, image, imageLoading, admin, details, published, views, location, locations, skills, company, user, plan, jobStatus, seniority, experience_up, experience_from
     } = this.state;
 
 
@@ -291,11 +293,16 @@ class EditModal extends React.Component {
         {
           dataPath === 'users' ? (
             <h4 className="edit-container__title">
-              Edit <b>{`"${itemOriginal.id} - ${itemOriginal.name} ${itemOriginal.surname}"`}</b>
+              Edit&nbsp;<b>{`"${itemOriginal.id} - ${itemOriginal.name} ${itemOriginal.surname}"`}</b>
             </h4>
           ) : (
             <h4 className="edit-container__title">
-              Edit <b>{`"${itemOriginal.id} - ${itemOriginal.name}"`}</b>
+              Edit&nbsp;<b>{`"${itemOriginal.id} - ${itemOriginal.name}"`}</b>&nbsp;
+              {
+                itemOriginal.views ? (
+                  <span className="views"> (<i className="ion-ios-eye" />&nbsp;{`${itemOriginal.views}`})</span>
+                ) : <span className="views"> (<i className="ion-ios-eye" />&nbsp;0)</span>
+              }
             </h4>
           )
         }
@@ -380,6 +387,8 @@ class EditModal extends React.Component {
                     published={published}
                     jobStatus={jobStatus}
                     seniority={seniority}
+                    experience_up={experience_up}
+                    experience_from={experience_from}
 
                     // onChanges
                     onChange={this.onChange}

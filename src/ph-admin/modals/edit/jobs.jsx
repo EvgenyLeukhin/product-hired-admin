@@ -23,11 +23,12 @@ const Jobs = props => {
     created,
     modified,
     published,
-    views,
     user,
     plan,
     jobStatus,
     seniority,
+    experience_up,
+    experience_from,
 
     onChange,
     onChangeRole,
@@ -108,6 +109,18 @@ const Jobs = props => {
           <div className="col-md-4">
             <Seniority value={seniority} onChange={onChangeSeniority} />
           </div>
+
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-created">Created</label>
+          <div className="col-md-4">
+            <input
+              type="date"
+              name="created"
+              id="edit-created"
+              value={created && created.substring(0, 10)}
+              onChange={onChange}
+              className="form-control input-rounded"
+            />
+          </div>
         </div>
       </fieldset>
 
@@ -140,19 +153,41 @@ const Jobs = props => {
 
       <fieldset>
         <div className="form-group row">
-          {/* <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-created">Created</label>
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-experience_from">Experience from</label>
+
           <div className="col-md-4">
             <input
-              disabled
-              type="text"
-              name="created"
-              value={created && created.substring(0, 10)}
-              id="edit-created"
-              className="form-control input-rounded"
-            />
-          </div> */}
+                min={0}
+                max={30}
+                type="number"
+                onChange={onChange}
+                name="experience_from"
+                value={experience_from}
+                id="edit-experience_from"
+                className="form-control input-rounded"
+              />
+          </div>
 
-          {/* <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-modified">Modified</label>
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-experience_up">Experience to</label>
+
+          <div className="col-md-4">
+            <input
+                min={0}
+                max={30}
+                type="number"
+                onChange={onChange}
+                name="experience_up"
+                value={experience_up}
+                id="edit-experience_up"
+                className="form-control input-rounded"
+              />
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div className="form-group row">
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-modified">Modified</label>
           <div className="col-md-4">
             <input
               disabled
@@ -162,13 +197,9 @@ const Jobs = props => {
               id="edit-modified"
               className="form-control input-rounded"
             />
-          </div> */}
-        </div>
-      </fieldset>
+          </div>
 
-      <fieldset>
-        <div className="form-group row">
-          {/* <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-created">Published</label>
+          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-created">Published</label>
           <div className="col-md-4">
             <input
               disabled
@@ -178,22 +209,9 @@ const Jobs = props => {
               id="edit-published"
               className="form-control input-rounded"
             />
-          </div> */}
-
-          {/* <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-views">Views</label>
-          <div className="col-md-4">
-            <input
-              disabled
-              type="text"
-              name="views"
-              value={views}
-              id="edit-views"
-              className="form-control input-rounded"
-            />
-          </div> */}
+          </div>
         </div>
       </fieldset>
-
 
 
       {/* <fieldset className="edit-container__images">
