@@ -179,21 +179,9 @@ class Table extends React.Component {
         data: newData
       });
 
-      if (dataPath === 'users') {
-        this.editAfterAdd(res.data);
-
-
-      // fix later
-      } else if (dataPath === 'vacancies') {
-        this.setState({
-          modalIsOpen: true,
-          modalLoading: true,
-        });
-
-        setTimeout(() => {
-          this.editAfterAdd(res.data);
-          this.setState({ modalLoading: false });
-        }, 2000);
+      if (dataPath === 'users' || dataPath === 'vacancies') {
+        const { data } = res;
+        this.editAfterAdd(data);
       }
 
       // close alert after 2 sec

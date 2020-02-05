@@ -265,9 +265,8 @@ class EditModal extends React.Component {
           surname: ''
         }
       }))
-      .then(user => this.setState({ user: user.data })
+      .then(user => this.setState({ user: user.data }));
       // TODO .catch()
-    );
 
     // get current plan for job
     plan_id && planValues.map(i => {
