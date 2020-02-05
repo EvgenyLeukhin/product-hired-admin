@@ -17,16 +17,18 @@ class Jobs extends React.Component {
         Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
       },
 
-      // {
-      //   Header: 'Company',
-      //   accessor: 'company',
-      //   sortable: false,
-      //   filterable: false,
-      //   Cell: ({ original }) => {
-      //     const companyName = original.company.name;
-      //     return <div>{companyName || '...'}</div>
-      //   },
-      // },
+      {
+        Header: 'Company',
+        accessor: 'company',
+        sortable: false,
+        filterable: false,
+        Cell: ({ original }) => {
+          // fix it later
+          if (original.company) {
+            return <div>{original.company.name}</div>
+          } else return <div>...</div>
+        },
+      },
 
       // {
       //   Header: 'Location',
