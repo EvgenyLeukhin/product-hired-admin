@@ -15,6 +15,7 @@ import uploadLogoRequest from '../api/uploadLogoRequest';
 import uploadCoverRequest from '../api/uploadCoverRequest';
 import uploadImageRequest from '../api/uploadImageRequest';
 import { getCurrentUser } from '../api/getUsers';
+import { getCompany } from '../api/getCompanies';
 
 import { planValues, statusValues, seniorityValues } from '../consts';
 
@@ -231,7 +232,7 @@ class EditModal extends React.Component {
     // 1. Get values from the prop itemOriginal
     const {
       itemOriginal: {
-        id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, role, roles, domain, logo, cover, image, details, published, views, location, locations, skills, company, employer_id, plan_id, seniority, experience_up, experience_from
+        id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, role, roles, domain, logo, cover, image, details, published, views, location, locations, skills, company, employer_id, plan_id, seniority, experience_up, experience_from, company_id
       }
     } = this.props;
 
@@ -245,10 +246,20 @@ class EditModal extends React.Component {
       i.name === 'admin' && this.setState({ admin: true });
     });
 
+    // company_id && console.log(company_id);
+
+    // get current company
+    company_id && getCompany(company_id)
+      // preloader
+      .then(this.setState({
+        company: { name: 'Loading ...' }
+      }))
+      .then(res => this.setState({ company: res.data }))
+
     // get current user of job
     getCurrentUser(employer_id)
+      // preloader
       .then(this.setState({
-        // preloader
         user: {
           name: 'Loading ...',
           surname: ''
@@ -277,8 +288,8 @@ class EditModal extends React.Component {
 
   render() {
     const { itemOriginal, dataPath, closeModal, modalLoading } = this.props;
-    // console.log('itemOriginal edit.jsx:', itemOriginal.experience_up);
-    // console.log('state.seniority edit.jsx:', this.state.seniority);
+    // console.log('itemOriginal edit.jsx:', itemOriginal);
+    // console.log('state.company edit.jsx:', this.state.company);
 
     // get data from the state to have onChange ability
     const {

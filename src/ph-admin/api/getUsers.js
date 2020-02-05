@@ -31,6 +31,7 @@ const getCurrentUser = employer_id => {
           'where': {
             'id': { 'like': `${employer_id}`}
           },
+          'limit': 1
         }
       },
       headers

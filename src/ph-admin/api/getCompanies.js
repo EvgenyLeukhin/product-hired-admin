@@ -22,4 +22,21 @@ const getCompanies = inputValue => {
   )
 }
 
-export default getCompanies;
+const getCompany = inputValue => {
+  return axios.get(
+    `${API_URL}/${subUrl}/companies`,
+    {
+      params: {
+        'filter': {
+          'where': {
+            'id': { 'like': `${inputValue}`}
+          },
+          'limit': 1
+        }
+      },
+      headers
+    }
+  )
+}
+
+export { getCompanies, getCompany };

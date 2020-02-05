@@ -1,7 +1,7 @@
 import React from 'react';
 import AsyncSelect from 'react-select/async';
 
-import getCompanies from '../api/getCompanies';
+import { getCompanies } from '../api/getCompanies';
 
 class Company extends React.Component {
   loadOptions = inputValue => {
