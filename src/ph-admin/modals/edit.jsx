@@ -52,10 +52,12 @@ class EditModal extends React.Component {
 
     // logo
     logo: '',
+    logoSwitcher: false,
     logoLoading: false,
 
     // cover
     cover: '',
+    coverSwitcher: false,
     coverLoading: false,
 
     // image
@@ -142,7 +144,10 @@ class EditModal extends React.Component {
 
   onUploadLogo = e => {
     e.preventDefault();
-    this.setState({ logoLoading: true });
+    this.setState({
+      logoLoading: true,
+      logoSwitcher: true
+    });
 
     // add new form data
     const formData = new FormData();
@@ -168,7 +173,10 @@ class EditModal extends React.Component {
 
   onUploadCover = e => {
     e.preventDefault();
-    this.setState({ coverLoading: true });
+    this.setState({
+      coverLoading: true,
+      coverSwitcher: true
+    });
 
     // add new form data
     const formData = new FormData();
@@ -292,7 +300,7 @@ class EditModal extends React.Component {
 
     // get data from the state to have onChange ability
     const {
-      name, email, slug, weight, price, markers, surname, emailVerified, status, job_title, experience, role, roles, created, modified, domain, logo, logoLoading, cover, coverLoading, image, imageLoading, admin, details, published, views, location, locations, skills, company, user, plan, jobStatus, seniority, experience_up, experience_from
+      name, email, slug, weight, price, markers, surname, emailVerified, status, job_title, experience, role, roles, created, modified, domain, logo, logoLoading, cover, coverLoading, image, imageLoading, admin, details, published, views, location, locations, skills, company, user, plan, jobStatus, seniority, experience_up, experience_from, logoSwitcher, coverSwitcher
     } = this.state;
 
 
@@ -384,8 +392,6 @@ class EditModal extends React.Component {
               {
                 dataPath === 'vacancies' && (
                   <Jobs
-                    // logo={logo}
-                    // cover={cover}
                     name={name}
                     role={role}
                     user={user}
@@ -416,14 +422,18 @@ class EditModal extends React.Component {
                     onChangeSeniority={this.onChangeSeniority}
 
                     // logo
-                    // logoLoading={logoLoading}
-                    // onUploadLogo={this.onUploadLogo}
-                    // fileInputLogo={this.fileInputLogo}
+                    logo={logo}
+                    logoSwitcher={logoSwitcher}
+                    logoLoading={logoLoading}
+                    onUploadLogo={this.onUploadLogo}
+                    fileInputLogo={this.fileInputLogo}
 
                     // cover
-                    // coverLoading={coverLoading}
-                    // onUploadCover={this.onUploadCover}
-                    // fileInputCover={this.fileInputCover}
+                    cover={cover}
+                    coverSwitcher={coverSwitcher}
+                    coverLoading={coverLoading}
+                    onUploadCover={this.onUploadCover}
+                    fileInputCover={this.fileInputCover}
                   />
                 )
               }

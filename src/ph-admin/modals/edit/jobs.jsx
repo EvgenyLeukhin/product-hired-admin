@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { API_URL, subUrl } from './../../api/apiUrl';
+
 import Spinner from '../../../components/Spinner';
 
 import User          from '../../selects/user';
@@ -42,14 +44,26 @@ const Jobs = props => {
     onChangeSeniority,
 
     // logo
-    // logo, logoLoading, onUploadLogo, fileInputLogo,
+    logo, logoSwitcher, logoLoading, onUploadLogo, fileInputLogo,
 
     // cover
-    // cover, coverLoading, onUploadCover, fileInputCover,
+    cover, coverSwitcher, coverLoading, onUploadCover, fileInputCover,
 
   } = props;
 
-  // console.log(logo);
+  let logoUrl = `${API_URL}/${subUrl}/containers/logo/download/${logo}`;
+  let coverUrl = `${API_URL}/${subUrl}/containers/cover/download/${cover}`;
+
+  // fix problem with open item after additing image
+  if (!logoSwitcher && logo && logo.includes('http')) {
+    const logoSplit = logo.split('/').pop();
+    logoUrl = `${API_URL}/${subUrl}/containers/logo/download/${logoSplit}`;
+  }
+
+  if (!coverSwitcher && cover && cover.includes('http')) {
+    const coverSplit = cover.split('/').pop();
+    coverUrl = `${API_URL}/${subUrl}/containers/cover/download/${coverSplit}`;
+  }
 
   return (
     <>
@@ -172,14 +186,14 @@ const Jobs = props => {
 
           <div className="col-md-4">
             <input
-                min={0}
-                max={30}
-                type="number"
-                onChange={onChange}
-                name="experience_up"
-                value={experience_up}
-                id="edit-experience_up"
-                className="form-control input-rounded"
+              min={0}
+              max={30}
+              type="number"
+              onChange={onChange}
+              name="experience_up"
+              value={experience_up}
+              id="edit-experience_up"
+              className="form-control input-rounded"
               />
           </div>
         </div>
@@ -214,22 +228,28 @@ const Jobs = props => {
       </fieldset>
 
 
-      {/* <fieldset className="edit-container__images">
+      <fieldset className="edit-container__images">
         <div className="form-group row">
           <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-logo">Logo</label>
           <div className="col-md-4 text-center">
             {
-              logoLoading ? <Spinner /> : (
-                logo ? <img className="logo" src={logo} alt="logo" /> : <divc className="no-logo">No logo</divc>
+              !logoSwitcher ? (
+                logo ? <img className="logo" src={logoUrl} alt="logo" />
+                     : <div className="no-logo">No logo</div>
+              ) : (
+                logoLoading ? <Spinner /> : (
+                  logo && <img className="logo" src={logo} alt="logo" />
+                )
               )
             }
 
             <input
+              disabled
               name="logo"
               value={logo}
               id="edit-logo"
               onChange={onChange}
-              type="url"
+              type="text"
               className="form-control input-rounded"
             />
 
@@ -239,24 +259,30 @@ const Jobs = props => {
           <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-cover">Cover</label>
           <div className="col-md-4 text-center">
             {
-              coverLoading ? <Spinner /> : (
-                cover ? <img className="cover" src={cover} alt="cover" /> : <div className="no-cover">No cover</div>
+              !coverSwitcher ? (
+                cover ? <img className="cover" src={coverUrl} alt="cover" />
+                      : <div className="no-cover">No cover</div>
+              ) : (
+                coverLoading ? <Spinner /> : (
+                  cover && <img className="cover" src={cover} alt="cover" />
+                )
               )
             }
 
             <input
+              disabled
               name="cover"
               value={cover}
               id="edit-cover"
               onChange={onChange}
-              type="url"
+              type="text"
               className="form-control input-rounded"
             />
 
             <input type="file" ref={fileInputCover} onChange={onUploadCover} />
           </div>
         </div>
-      </fieldset> */}
+      </fieldset>
     </>
   );
 }
