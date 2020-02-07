@@ -15,6 +15,7 @@ const Jobs = ({
 
         <div className="col-md-10">
           <input
+            required
             name="name"
             type="text"
             value={name}
@@ -35,7 +36,10 @@ const Jobs = ({
 
         <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-name">User</label>
         <div className="col-md-4">
-          <User value={user} onChange={onChangeUser} />
+          <User
+            value={user}
+            onChange={onChangeUser}
+          />
         </div>
       </div>
     </fieldset>

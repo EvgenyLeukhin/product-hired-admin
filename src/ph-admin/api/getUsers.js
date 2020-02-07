@@ -12,7 +12,10 @@ const getUsers = inputValue => {
       params: {
         'filter': {
           'where': {
-            'name': { 'like': `%${inputValue}%`}
+            'or': [
+              { 'name':  { 'like': `%${inputValue}%`} },
+              { 'email': { 'like': `%${inputValue}%`} }
+            ]
           },
           'limit': 50
         }

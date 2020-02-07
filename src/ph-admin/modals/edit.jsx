@@ -270,7 +270,8 @@ class EditModal extends React.Component {
       .then(this.setState({
         user: {
           name: 'Loading ...',
-          surname: ''
+          surname: '',
+          email: ''
         }
       }))
       .then(user => this.setState({ user: user.data }));
@@ -480,9 +481,20 @@ class EditModal extends React.Component {
                   <footer className="edit-container__buttons">
                     <Button outline color="secondary" onClick={closeModal}>Cancel</Button>
                     {
-                      dataPath === 'vacancies'
-                        ? <Button disabled={!skills || !locations} outline color="primary" type="submit">Save</Button>
-                        : <Button outline color="primary" type="submit">Save</Button>
+                      dataPath === 'vacancies' && (
+                        <Button
+                          disabled={!skills || !locations || !role}
+                          outline color="primary"
+                          type="submit">Save</Button>
+
+                      ) || dataPath === 'users' && (
+                        <Button
+                          disabled={!skills || !location}
+                          outline
+                          color="primary"
+                          type="submit">Save</Button>
+
+                      ) || <Button outline color="primary" type="submit">Save</Button>
                     }
                   </footer>
                 )

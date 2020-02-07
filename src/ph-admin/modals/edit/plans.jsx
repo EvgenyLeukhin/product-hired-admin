@@ -6,6 +6,7 @@ const Plans = ({ name, price, onChange }) => (
       <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-name">Plan</label>
       <div className="col-md-4">
         <input
+          required
           name="name"
           type="text"
           value={name}
@@ -18,6 +19,7 @@ const Plans = ({ name, price, onChange }) => (
       <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-price">Price</label>
       <div className="col-md-4">
         <input
+          required
           name="price"
           type="number"
           value={price}

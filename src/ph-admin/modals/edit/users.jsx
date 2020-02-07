@@ -38,6 +38,7 @@ const Users = props => {
           <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-name">Name</label>
           <div className="col-md-4">
             <input
+              required
               name="name"
               type="text"
               value={name}
@@ -50,6 +51,7 @@ const Users = props => {
           <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-surname">Surname</label>
           <div className="col-md-4">
             <input
+              required
               type="text"
               name="surname"
               value={surname}
@@ -67,6 +69,7 @@ const Users = props => {
 
           <div className="col-md-4">
             <input
+              required
               name="email"
               type="email"
               value={email}
@@ -80,6 +83,7 @@ const Users = props => {
 
           <div className="col-md-4">
             <input
+              required
               type="text"
               name="job_title"
               value={job_title}
@@ -136,10 +140,10 @@ const Users = props => {
 
           <div className="col-md-4">
             <input
+              disabled
               name="created"
               value={created && created.substring(0, 10)}
               id="edit-created"
-              disabled
               type="text"
               className="form-control input-rounded"
             />
@@ -149,10 +153,10 @@ const Users = props => {
 
           <div className="col-md-4">
             <input
+              disabled
               name="modified"
               value={modified && modified.substring(0, 10)}
               id="edit-modified"
-              disabled
               type="text"
               className="form-control input-rounded"
             />
@@ -166,6 +170,7 @@ const Users = props => {
 
           <div className="col-md-4">
             <input
+              required
               name="experience"
               value={experience}
               id="edit-experience"

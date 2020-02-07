@@ -19,7 +19,7 @@ class User extends React.Component {
         defaultOptions={true}
         loadOptions={this.loadOptions}
         getOptionValue={o => o.id}
-        getOptionLabel={o => `${o.name} ${o.surname}`}
+        getOptionLabel={o => `${o.name} ${o.surname} ${o.email}`}
         onChange={onChange}
         value={value}
       />

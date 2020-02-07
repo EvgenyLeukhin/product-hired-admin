@@ -7,6 +7,7 @@ const Roles = ({ name, slug, weight, onChange }) => (
         <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-name">Role</label>
         <div className="col-md-4">
           <input
+            required
             name="name"
             type="text"
             value={name}
@@ -19,6 +20,7 @@ const Roles = ({ name, slug, weight, onChange }) => (
         <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-slug">Slug</label>
         <div className="col-md-4">
           <input
+            required
             name="slug"
             type="text"
             value={slug}
