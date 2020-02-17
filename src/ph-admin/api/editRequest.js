@@ -113,8 +113,8 @@ const editRequest = (state, dataPath) => {
 
   // 5. vacancy_roles //
   } else if (dataPath === 'vacancy_roles') {
-    const { slug, weight } = state;
-    return axios.patch(path, { name, slug, weight }, { headers })
+    const { slug, weight, keywords, negative } = state;
+    return axios.patch(path, { name, slug, weight, keywords, negative }, { headers })
 
 
   // 6. plans //

@@ -6,6 +6,7 @@ const Skills = ({ name, weight, slug, markers, onChange }) => (
       <div className="form-group row">
         <div className="col-md-5">
           <label htmlFor="edit-name">Skill</label>
+
           <input
             name="name"
             type="text"

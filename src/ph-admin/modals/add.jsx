@@ -131,8 +131,7 @@ class AddModal extends React.Component {
 
     // get data from the state to have onChange ability
     const {
-      name, email, slug, weight, price, markers, surname, domain, logo, logoLoading, cover, coverLoading, password,
-      company, user
+      name, email, slug, weight, price, markers, surname, domain, logo, logoLoading, cover, coverLoading, password, company, user,
     } = this.state;
 
 

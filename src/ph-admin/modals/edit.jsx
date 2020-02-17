@@ -74,6 +74,8 @@ class EditModal extends React.Component {
     seniority: null,
     experience_up: null,
     experience_from: null,
+    keywords: '',
+    negative: ''
   }
 
   onChange = e => {
@@ -240,13 +242,13 @@ class EditModal extends React.Component {
     // 1. Get values from the prop itemOriginal
     const {
       itemOriginal: {
-        id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, role, roles, domain, logo, cover, image, details, published, views, location, locations, skills, company, employer_id, plan_id, seniority, experience_up, experience_from, company_id
+        id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, role, roles, domain, logo, cover, image, details, published, views, location, locations, skills, company, employer_id, plan_id, seniority, experience_up, experience_from, company_id, keywords, negative
       }
     } = this.props;
 
     // 2. Set values to the state
     this.setState({
-      id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, role, roles, domain, logo, cover, image, details, published, views, location, locations, skills, company, employer_id, plan_id, seniority, experience_up, experience_from
+      id, name, surname, email, slug, weight, price, markers, emailVerified, status, job_title, experience, created, modified, role, roles, domain, logo, cover, image, details, published, views, location, locations, skills, company, employer_id, plan_id, seniority, experience_up, experience_from, keywords, negative
     });
 
     // check for admin rights and save admin object if it is
@@ -301,7 +303,7 @@ class EditModal extends React.Component {
 
     // get data from the state to have onChange ability
     const {
-      name, email, slug, weight, price, markers, surname, emailVerified, status, job_title, experience, role, roles, created, modified, domain, logo, logoLoading, cover, coverLoading, image, imageLoading, admin, details, published, views, location, locations, skills, company, user, plan, jobStatus, seniority, experience_up, experience_from, logoSwitcher, coverSwitcher
+      name, email, slug, weight, price, markers, surname, emailVerified, status, job_title, experience, role, roles, created, modified, domain, logo, logoLoading, cover, coverLoading, image, imageLoading, admin, details, published, views, location, locations, skills, company, user, plan, jobStatus, seniority, experience_up, experience_from, logoSwitcher, coverSwitcher, keywords, negative
     } = this.state;
 
 
@@ -459,6 +461,8 @@ class EditModal extends React.Component {
                     name={name}
                     slug={slug}
                     weight={weight}
+                    keywords={keywords}
+                    negative={negative}
                     onChange={this.onChange}
                   />
                 )
