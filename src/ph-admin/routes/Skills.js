@@ -18,6 +18,13 @@ class Skills extends React.Component {
       },
 
       {
+        Header: 'Slug',
+        accessor: 'slug',
+        Cell: ({ original }) => <div>{original.slug || '...'}</div>,
+        Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+      },
+
+      {
         Header: 'Aliases',
         accessor: 'markers',
         Cell: ({ original }) => <div>{original.markers || '...'}</div>,
@@ -25,11 +32,13 @@ class Skills extends React.Component {
       },
 
       {
-        Header: 'Slug',
-        accessor: 'slug',
-        Cell: ({ original }) => <div>{original.slug || '...'}</div>,
+        Header: 'Weight',
+        accessor: 'weight',
+        width: 60,
+        Cell: ({ original }) => <div>{original.weight || '...'}</div>,
         Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
       },
+
     ];
 
     return (

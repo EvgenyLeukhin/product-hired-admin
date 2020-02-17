@@ -4,9 +4,8 @@ const Skills = ({ name, weight, slug, markers, onChange }) => (
   <>
     <fieldset>
       <div className="form-group row">
-        <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-name">Skill name</label>
-
-        <div className="col-md-4">
+        <div className="col-md-5">
+          <label htmlFor="edit-name">Skill</label>
           <input
             name="name"
             type="text"
@@ -17,24 +16,9 @@ const Skills = ({ name, weight, slug, markers, onChange }) => (
           />
         </div>
 
-        <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-weight">Weight</label>
-        <div className="col-md-4">
-          <input
-            name="weight"
-            type="number"
-            value={weight}
-            id="edit-weight"
-            onChange={onChange}
-            className="form-control input-rounded"
-          />
-        </div>
-      </div>
-    </fieldset>
+        <div className="col-md-5">
+          <label htmlFor="edit-slug">Slug</label>
 
-    <fieldset>
-      <div className="form-group row">
-        <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-slug">Slug</label>
-        <div className="col-md-4">
           <input
             name="slug"
             type="text"
@@ -45,15 +29,29 @@ const Skills = ({ name, weight, slug, markers, onChange }) => (
           />
         </div>
 
-        <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-aliases">Aliases</label>
-        <div className="col-md-4">
+        <div className="col-md-2">
+          <label htmlFor="edit-weight">Weight</label>
+
           <input
+            name="weight"
+            type="number"
+            value={weight}
+            id="edit-weight"
+            onChange={onChange}
+            className="form-control input-rounded"
+          />
+        </div>
+
+        <div className="col-md-12">
+          <label htmlFor="edit-aliases">Aliases</label>
+
+          <textarea
             type="text"
             name="markers"
             value={markers}
             id="edit-aliases"
             onChange={onChange}
-            className="form-control input-rounded"
+            className="form-control"
           />
         </div>
       </div>

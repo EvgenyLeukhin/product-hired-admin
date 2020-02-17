@@ -4,9 +4,9 @@ const Skills = ({ name, weight, slug, markers, onChange }) => (
   <>
     <fieldset>
       <div className="form-group row">
-        <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-name">Name</label>
+        <div className="col-md-5">
+          <label htmlFor="edit-name">Name</label>
 
-        <div className="col-md-4">
           <input
             required
             autoComplete="off"
@@ -19,27 +19,9 @@ const Skills = ({ name, weight, slug, markers, onChange }) => (
           />
         </div>
 
-        <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-weight">Weight</label>
-        <div className="col-md-4">
-          <input
-            required
-            autoComplete="off"
-            name="weight"
-            value={weight}
-            id="edit-weight"
-            onChange={onChange}
-            type="number"
-            className="form-control input-rounded"
-          />
-        </div>
+        <div className="col-md-5">
+          <label htmlFor="edit-slug">Slug</label>
 
-      </div>
-    </fieldset>
-
-    <fieldset>
-      <div className="form-group row">
-        <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-slug">Slug</label>
-        <div className="col-md-4">
           <input
             required
             autoComplete="off"
@@ -52,9 +34,25 @@ const Skills = ({ name, weight, slug, markers, onChange }) => (
           />
         </div>
 
-        <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-aliases">Aliases</label>
-        <div className="col-md-4">
+        <div className="col-md-2">
+          <label htmlFor="edit-weight">Weight</label>
+
           <input
+            required
+            autoComplete="off"
+            name="weight"
+            value={weight}
+            id="edit-weight"
+            onChange={onChange}
+            type="number"
+            className="form-control input-rounded"
+          />
+        </div>
+
+        <div className="col-md-12">
+          <label htmlFor="edit-aliases">Aliases</label>
+
+          <textarea
             required
             autoComplete="off"
             name="markers"
@@ -62,7 +60,7 @@ const Skills = ({ name, weight, slug, markers, onChange }) => (
             id="edit-aliases"
             onChange={onChange}
             type="text"
-            className="form-control input-rounded"
+            className="form-control"
           />
         </div>
       </div>
