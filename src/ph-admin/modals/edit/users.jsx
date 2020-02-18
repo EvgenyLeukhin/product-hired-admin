@@ -29,211 +29,153 @@ const Users = props => {
     onChangeSkills
   } = props;
 
-  const locationId = location && `${location.id} - ${location.alias_region} (${location.country})` || '';
+  const locationId = location && `${location.alias_region} [${location.id} - ${location.country}]` || '';
 
   return (
-    <>
-      <fieldset>
-        <div className="form-group row">
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-name">Name</label>
-          <div className="col-md-4">
-            <input
-              required
-              name="name"
-              type="text"
-              value={name}
-              id="edit-name"
-              onChange={onChange}
-              className="form-control input-rounded"
-            />
-          </div>
+    <fieldset>
+      <div className="form-group row">
+        <div className="col-md-3">
+          <div className="form-group__row">
+            <div className="col-md-12  edit-image">
+              <label htmlFor="edit-image">Profile photo</label>
 
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-surname">Surname</label>
-          <div className="col-md-4">
-            <input
-              required
-              type="text"
-              name="surname"
-              value={surname}
-              id="edit-surname"
-              onChange={onChange}
-              className="form-control input-rounded"
-            />
-          </div>
-        </div>
-      </fieldset>
+              {
+                imageLoading ? <Spinner /> : (
+                  image && image.url ? <img className="image" src={image.url} alt="image" /> : <div className="no-image">No image</div>
+                )
+              }
 
-      <fieldset>
-        <div className="form-group row">
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-email">Email</label>
-
-          <div className="col-md-4">
-            <input
-              required
-              name="email"
-              type="email"
-              value={email}
-              id="edit-email"
-              onChange={onChange}
-              className="form-control input-rounded"
-            />
-          </div>
-
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-job_title">Job title</label>
-
-          <div className="col-md-4">
-            <input
-              required
-              type="text"
-              name="job_title"
-              value={job_title}
-              id="edit-job_title"
-              onChange={onChange}
-              className="form-control input-rounded"
-            />
-          </div>
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <div className="form-group row">
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-location_id">Location ID</label>
-
-          <div className="col-md-4">
-            <input
-              disabled
-              type="text"
-              name="location_id"
-              value={locationId}
-              id="edit-location_id"
-              className="form-control input-rounded"
-            />
-          </div>
-
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-city">City</label>
-
-          <div className="col-md-4">
-            <Location
-              value={location}
-              onChange={location => onChangeLocation(location)}
-            />
-          </div>
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <div className="form-group row">
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-skills">Skills</label>
-
-          <div className="col-md-10">
-            <Skills
-              value={skills}
-              onChange={skills => onChangeSkills(skills)}
-            />
-          </div>
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <div className="form-group row">
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-created">Created</label>
-
-          <div className="col-md-4">
-            <input
-              disabled
-              name="created"
-              value={created && created.substring(0, 10)}
-              id="edit-created"
-              type="text"
-              className="form-control input-rounded"
-            />
-          </div>
-
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-modified">Modified</label>
-
-          <div className="col-md-4">
-            <input
-              disabled
-              name="modified"
-              value={modified && modified.substring(0, 10)}
-              id="edit-modified"
-              type="text"
-              className="form-control input-rounded"
-            />
-          </div>
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <div className="form-group row">
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-experience">Experience</label>
-
-          <div className="col-md-4">
-            <input
-              required
-              name="experience"
-              value={experience}
-              id="edit-experience"
-              onChange={onChange}
-              type="number"
-              className="form-control input-rounded"
-            />
-          </div>
-
-          <label className="col-sm-2 col-form-label text-bold text-right" htmlFor="edit-experience">Roles</label>
-
-          <div className="col-sm-4 roles">
-            {
-              roles && roles.length ? roles.map(i => {
-                return <span>{`${i.name} `}&nbsp;</span>;
-              }) : <span>No roles</span>
-            }
-          </div>
-        </div>
-      </fieldset>
-
-      <fieldset className="edit-container__images">
-        <div className="form-group row">
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-image">Avatar</label>
-
-          <div className="col-md-4 text-center">
-            {
-              imageLoading ? <Spinner /> : (
-                image && image.url ? <img className="image" src={image.url} alt="image" /> : <div className="no-image">No image</div>
-              )
-            }
-
-            <input
-              name="image"
-              value={image && image.url}
-              id="edit-image"
-              onChange={onChange}
-              type="text"
-              className="form-control input-rounded"
-            />
-
-            <input type="file" ref={fileInputImage} onChange={onUploadImage} />
-          </div>
-
-
-          <label className="col-md-2 col-form-label text-bold text-right">User options</label>
-
-          <div className="col-md-4">
-            <div className="form-check">
-              <label className="edit-admin">
-                <input
-                  name="admin"
-                  id="edit-admin"
-                  className="form-check-input"
-                  type="checkbox"
-                  checked={admin}
-                  onChange={onChangeAdmin}
-                />
-                Admin rights
-              </label>
+              <input
+                id="edit-image"
+                type="file"
+                ref={fileInputImage}
+                onChange={onUploadImage}
+              />
             </div>
 
-            <div className="form-check">
+
+            <div className="col-md-12">
+              <label htmlFor="edit-created">Created</label>
+
+              <input
+                disabled
+                name="created"
+                value={created && created.substring(0, 10)}
+                id="edit-created"
+                type="text"
+                className="form-control"
+              />
+            </div>
+
+
+            <div className="col-md-12">
+              <label htmlFor="edit-modified">Modified</label>
+
+              <input
+                disabled
+                name="modified"
+                value={modified && modified.substring(0, 10)}
+                id="edit-modified"
+                type="text"
+                className="form-control"
+              />
+            </div>
+
+            <div className="col-md-12 roles-container">
+              <span>Roles: </span>
+              <span style={{ color: '#007bff' }}>
+                {
+                  roles && roles.length ? roles.map(i => {
+                    return <span>{`${i.name} `}&nbsp;</span>;
+                  }) : <span>no roles</span>
+                }
+              </span>
+            </div>
+          </div>
+        </div>
+
+
+        <div className="col-md-9">
+          <div className="row form-group__row">
+            {/* name */}
+            <div className="col-md-4">
+              <label htmlFor="edit-name">Name</label>
+
+              <input
+                required
+                name="name"
+                type="text"
+                value={name}
+                id="edit-name"
+                onChange={onChange}
+                className="form-control"
+              />
+            </div>
+            {/* surname */}
+            <div className="col-md-4">
+              <label htmlFor="edit-surname">Surname</label>
+
+              <input
+                required
+                type="text"
+                name="surname"
+                value={surname}
+                id="edit-surname"
+                onChange={onChange}
+                className="form-control"
+              />
+            </div>
+            {/* location */}
+            <div className="col-md-4">
+              <label htmlFor="edit-city">Location</label>
+
+              <Location
+                id="edit-city"
+                value={location}
+                onChange={location => onChangeLocation(location)}
+              />
+              <span style={{ fontWeight: 'normal', color: '#007bff', paddingLeft: 10 }}>{locationId}</span>
+            </div>
+
+
+
+            {/* email */}
+            <div className="col-md-4">
+              <label htmlFor="edit-email">Email</label>
+
+              <input
+                required
+                name="email"
+                type="email"
+                value={email}
+                id="edit-email"
+                onChange={onChange}
+                className="form-control"
+              />
+            </div>
+            {/* email verified */}
+            <div className="col-md-4">
+              <label className="empty-label">&nbsp;</label>
+
+              <div className="form-check">
+                <label className="edit-emailVerified">
+                  <input
+                    name="emailVerified"
+                    id="edit-emailVerified"
+                    className="form-check-input"
+                    type="checkbox"
+                    checked={emailVerified}
+                    onChange={onChange}
+                  />
+                    Email verified
+                </label>
+              </div>
+            </div>
+            {/* active status */}
+            <div className="col-md-4">
+              <label className="empty-label">&nbsp;</label>
+
+              <div className="form-check">
                 <label className="edit-status">
                   <input
                     name="status"
@@ -246,24 +188,75 @@ const Users = props => {
                   Active status
                 </label>
               </div>
-
-            <div className="form-check">
-              <label className="edit-emailVerified">
-                <input
-                  name="emailVerified"
-                  id="edit-emailVerified"
-                  className="form-check-input"
-                  type="checkbox"
-                  checked={emailVerified}
-                  onChange={onChange}
-                />
-                Email verified
-              </label>
             </div>
+
+
+
+            {/* skills */}
+            <div className="col-md-12">
+              <label htmlFor="edit-skills">Skills</label>
+
+              <Skills
+                value={skills}
+                onChange={skills => onChangeSkills(skills)}
+              />
+            </div>
+
+
+
+            {/* job title */}
+            <div className="col-md-4">
+              <label htmlFor="edit-job_title">Job title</label>
+
+              <input
+                required
+                type="text"
+                name="job_title"
+                value={job_title}
+                id="edit-job_title"
+                onChange={onChange}
+                className="form-control"
+              />
+            </div>
+            {/* experience */}
+            <div className="col-md-4">
+              <label htmlFor="edit-experience">Experience</label>
+
+              <input
+                required
+                name="experience"
+                value={experience}
+                id="edit-experience"
+                onChange={onChange}
+                type="number"
+                className="form-control"
+              />
+            </div>
+
+            {/* admin rights */}
+            <div className="col-md-4">
+              <label className="empty-label">&nbsp;</label>
+
+              <div className="form-check">
+                <label className="edit-admin">
+                  <input
+                    name="admin"
+                    id="edit-admin"
+                    className="form-check-input"
+                    type="checkbox"
+                    checked={admin}
+                    onChange={onChangeAdmin}
+                  />
+                  Admin rights
+                </label>
+              </div>
+            </div>
+
           </div>
         </div>
-      </fieldset>
-    </>
+
+      </div>
+    </fieldset>
   )
 };
 

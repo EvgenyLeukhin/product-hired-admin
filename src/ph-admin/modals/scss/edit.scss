@@ -9,6 +9,15 @@ div.ReactModal__edit {
   .edit-container {
     position: relative;
 
+    .roles-container {
+      margin-top: 25px;
+
+      & > span:first-child {
+        font-weight: bold;
+        padding-left: 10px;
+      }
+    }
+
     fieldset {
       padding-bottom: 0;
       margin-bottom: 0;
@@ -20,9 +29,53 @@ div.ReactModal__edit {
         font-weight: bold;
         padding-left: 12px;
         margin-bottom: 3px;
+
+        &.empty-label { margin-top: 5px; }
       }
 
       & > div { margin-bottom: 15px; }
+
+      &__row {
+        & > div { margin-bottom: 15px; }
+
+        .edit-image {
+          display: flex;
+          flex-direction: column;
+          min-height: 270px;
+
+          .image {
+            width: 100%;
+            max-width: 200px;
+            margin-bottom: 5px;
+          }
+
+          .no-image {
+            height: 110px;
+            width: 110px;
+            margin: auto;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #ccc;
+          }
+
+          .sk-chase {
+            margin-top: 80px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 80px;
+
+            .sk-chase-dot:before {
+              background-color: #000;
+            }
+          }
+
+          input {
+            margin-top: auto;
+          }
+        }
+      }
     }
 
     &__title {
@@ -164,12 +217,40 @@ div.ReactModal__edit {
   div.ReactModal__edit {
 
     .edit-container {
+      .roles-container {
+        & > span:first-child {
+          padding-left: 5px;
+        }
+      }
+
       .form-group {
         & > div { margin-bottom: 5px; }
+
+        &__row {
+          & > div { margin-bottom: 5px; }
+
+          .edit-image {
+            min-height: 180px;
+
+            .image { max-width: 100px; }
+
+            .no-image {
+              height: 100px;
+              width: 100px;
+            }
+
+            .sk-chase {
+              margin-top: 40px;
+              margin-bottom: 40px;
+            }
+          }
+        }
 
         label {
           margin-top: 15px;
           display: inline-flex;
+
+          &.empty-label { display: none; }
         }
       }
 

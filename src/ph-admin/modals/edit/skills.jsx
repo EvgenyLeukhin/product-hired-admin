@@ -13,7 +13,7 @@ const Skills = ({ name, weight, slug, markers, onChange }) => (
             value={name}
             id="edit-name"
             onChange={onChange}
-            className="form-control input-rounded"
+            className="form-control"
           />
         </div>
 
@@ -26,7 +26,7 @@ const Skills = ({ name, weight, slug, markers, onChange }) => (
             value={slug}
             id="edit-slug"
             onChange={onChange}
-            className="form-control input-rounded"
+            className="form-control"
           />
         </div>
 
@@ -39,7 +39,7 @@ const Skills = ({ name, weight, slug, markers, onChange }) => (
             value={weight}
             id="edit-weight"
             onChange={onChange}
-            className="form-control input-rounded"
+            className="form-control"
           />
         </div>
 

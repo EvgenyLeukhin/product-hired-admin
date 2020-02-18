@@ -3,8 +3,9 @@ import React from 'react';
 const Plans = ({ name, price, onChange }) => (
   <fieldset>
     <div className="form-group row">
-      <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-name">Plan</label>
-      <div className="col-md-4">
+      <div className="col-md-6">
+        <label htmlFor="edit-price">Plan</label>
+
         <input
           required
           name="name"
@@ -12,12 +13,14 @@ const Plans = ({ name, price, onChange }) => (
           value={name}
           id="edit-name"
           onChange={onChange}
-          className="form-control input-rounded"
+          className="form-control"
         />
       </div>
 
-      <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-price">Price</label>
-      <div className="col-md-4">
+
+      <div className="col-md-6">
+        <label htmlFor="edit-price">Price</label>
+
         <input
           required
           name="price"
@@ -25,7 +28,7 @@ const Plans = ({ name, price, onChange }) => (
           value={price}
           id="edit-price"
           onChange={onChange}
-          className="form-control input-rounded"
+          className="form-control"
         />
       </div>
     </div>

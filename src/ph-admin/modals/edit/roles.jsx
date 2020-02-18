@@ -14,7 +14,7 @@ const Roles = ({ name, slug, weight, keywords, negative, onChange }) => (
             value={name}
             id="edit-name"
             onChange={onChange}
-            className="form-control input-rounded"
+            className="form-control"
           />
         </div>
 
@@ -28,7 +28,7 @@ const Roles = ({ name, slug, weight, keywords, negative, onChange }) => (
             value={slug}
             id="edit-slug"
             onChange={onChange}
-            className="form-control input-rounded"
+            className="form-control"
           />
         </div>
 
@@ -41,7 +41,7 @@ const Roles = ({ name, slug, weight, keywords, negative, onChange }) => (
             value={weight}
             id="edit-weight"
             onChange={onChange}
-            className="form-control input-rounded"
+            className="form-control"
           />
         </div>
 
@@ -49,6 +49,7 @@ const Roles = ({ name, slug, weight, keywords, negative, onChange }) => (
           <label htmlFor="edit-keywords">Search Phrases, comma-separated</label>
 
           <textarea
+            rows={3}
             type="text"
             name="keywords"
             value={keywords}
@@ -62,6 +63,7 @@ const Roles = ({ name, slug, weight, keywords, negative, onChange }) => (
           <label htmlFor="edit-negative">Stop-Words, comma-separated</label>
 
           <textarea
+            rows={3}
             type="text"
             name="negative"
             value={negative}
