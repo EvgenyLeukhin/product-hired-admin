@@ -134,7 +134,7 @@ const Users = props => {
                 value={location}
                 onChange={location => onChangeLocation(location)}
               />
-              <span style={{ fontWeight: 'normal', color: '#007bff', paddingLeft: 10 }}>{locationId}</span>
+              <span className="location-id">{locationId}</span>
             </div>
 
 
