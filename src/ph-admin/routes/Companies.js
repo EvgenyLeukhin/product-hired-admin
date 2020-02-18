@@ -44,6 +44,14 @@ class Companies extends React.Component {
         accessor: 'slug',
         Cell: ({ original }) => <div>{original.slug || '...'}</div>,
         Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+      },
+
+      {
+        Header: 'Weight',
+        accessor: 'weight',
+        width: 60,
+        Cell: ({ original }) => <div>{original.weight || '...'}</div>,
+        Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
       }
     ];
 

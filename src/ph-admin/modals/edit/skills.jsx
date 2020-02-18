@@ -47,6 +47,7 @@ const Skills = ({ name, weight, slug, markers, onChange }) => (
           <label htmlFor="edit-aliases">Aliases</label>
 
           <textarea
+            rows={3}
             type="text"
             name="markers"
             value={markers}
