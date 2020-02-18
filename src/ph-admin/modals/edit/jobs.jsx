@@ -66,224 +66,216 @@ const Jobs = props => {
   }
 
   return (
-    <>
-      <fieldset>
-        <div className="form-group row">
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-name">Job title</label>
+    <fieldset>
+      <div className="form-group row">
 
-          <div className="col-md-4">
-            <input
-              name="name"
-              type="text"
-              value={name}
-              id="edit-name"
-              onChange={onChange}
-              className="form-control input-rounded"
-            />
-          </div>
-
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-status">Status</label>
-          <div className="col-md-4">
-            <Status value={jobStatus} onChange={onChangeStatus} />
-          </div>
+        {/* name */}
+        <div className="col-md-6">
+          <label htmlFor="edit-name">Job title</label>
+          <input
+            name="name"
+            type="text"
+            value={name}
+            id="edit-name"
+            onChange={onChange}
+            className="form-control"
+          />
         </div>
-      </fieldset>
 
-      <fieldset>
-        <div className="form-group row">
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-user">User</label>
-          <div className="col-md-4">
-            <User value={user} onChange={onChangeUser} />
-          </div>
 
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-role">Role</label>
-          <div className="col-md-4">
-            <Role value={role} onChange={onChangeRole} />
-          </div>
+        {/* plan */}
+        <div className="col-md-3">
+          <label htmlFor="edit-plan">Plan</label>
+          <Plan value={plan} onChange={onChangePlan} />
         </div>
-      </fieldset>
 
-      <fieldset>
-        <div className="form-group row">
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-plan">Plan</label>
-          <div className="col-md-4">
-            <Plan value={plan} onChange={onChangePlan} />
-          </div>
 
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-company">Company</label>
-          <div className="col-md-4">
-            <Company value={company} onChange={onChangeCompany} />
-          </div>
+        {/* jobStatus */}
+        <div className="col-md-3">
+          <label htmlFor="edit-status">Status</label>
+          <Status value={jobStatus} onChange={onChangeStatus} />
         </div>
-      </fieldset>
 
-      <fieldset>
-        <div className="form-group row">
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-seniority">Seniority</label>
-          <div className="col-md-4">
-            <Seniority value={seniority} onChange={onChangeSeniority} />
-          </div>
 
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-created">Created</label>
-          <div className="col-md-4">
-            <input
-              type="date"
-              name="created"
-              id="edit-created"
-              value={created && created.substring(0, 10)}
-              onChange={onChange}
-              className="form-control input-rounded"
-            />
-          </div>
+        {/* created */}
+        <div className="col-md-4">
+          <label htmlFor="edit-created">Created</label>
+          <input
+            type="date"
+            name="created"
+            id="edit-created"
+            value={created && created.substring(0, 10)}
+            onChange={onChange}
+            className="form-control"
+          />
         </div>
-      </fieldset>
 
-      <fieldset>
-        <div className="form-group row">
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-locations">Locations</label>
-          <div className="col-md-10">
-            <Locations value={locations} onChange={onChangeLocations} />
-          </div>
+
+        {/* published */}
+        <div className="col-md-4">
+          <label htmlFor="edit-created">Published</label>
+          <input
+            disabled
+            type="text"
+            name="published"
+            value={published && published.substring(0, 10)}
+            id="edit-published"
+            className="form-control"
+          />
         </div>
-      </fieldset>
 
-      <fieldset>
-        <div className="form-group row">
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-skills">Skills</label>
-          <div className="col-md-10">
-            <Skills value={skills} onChange={onChangeSkills} />
-          </div>
+
+        {/* modified */}
+        <div className="col-md-4">
+          <label htmlFor="edit-modified">Modified</label>
+          <input
+            disabled
+            type="text"
+            name="modified"
+            value={modified && modified.substring(0, 10)}
+            id="edit-modified"
+            className="form-control"
+          />
         </div>
-      </fieldset>
 
-      <fieldset>
-        <div className="form-group row">
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-details">Details</label>
-          <div className="col-md-10">
-            <Editor value={details} onChange={onChangeDetails} />
-          </div>
+
+        {/* user */}
+        <div className="col-md-4">
+          <label htmlFor="edit-user">User</label>
+          <User value={user} onChange={onChangeUser} />
         </div>
-      </fieldset>
 
-      <fieldset>
-        <div className="form-group row">
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-experience_from">Experience from</label>
 
-          <div className="col-md-4">
-            <input
-                min={0}
-                max={30}
-                type="number"
-                onChange={onChange}
-                name="experience_from"
-                value={experience_from}
-                id="edit-experience_from"
-                className="form-control input-rounded"
-              />
-          </div>
-
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-experience_up">Experience to</label>
-
-          <div className="col-md-4">
-            <input
-              min={0}
-              max={30}
-              type="number"
-              onChange={onChange}
-              name="experience_up"
-              value={experience_up}
-              id="edit-experience_up"
-              className="form-control input-rounded"
-              />
-          </div>
+        {/* company */}
+        <div className="col-md-3">
+          <label htmlFor="edit-company">Company</label>
+          <Company value={company} onChange={onChangeCompany} />
         </div>
-      </fieldset>
 
-      <fieldset>
-        <div className="form-group row">
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-modified">Modified</label>
-          <div className="col-md-4">
-            <input
-              disabled
-              type="text"
-              name="modified"
-              value={modified && modified.substring(0, 10)}
-              id="edit-modified"
-              className="form-control input-rounded"
-            />
-          </div>
 
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-created">Published</label>
-          <div className="col-md-4">
-            <input
-              disabled
-              type="text"
-              name="published"
-              value={published && published.substring(0, 10)}
-              id="edit-published"
-              className="form-control input-rounded"
-            />
-          </div>
+        {/* locations */}
+        <div className="col-md-5">
+          <label htmlFor="edit-locations">Locations</label>
+          <Locations value={locations} onChange={onChangeLocations} />
         </div>
-      </fieldset>
 
 
-      <fieldset className="edit-container__images">
-        <div className="form-group row">
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-logo">Logo</label>
-          <div className="col-md-4 text-center">
-            {
-              !logoSwitcher ? (
-                logo ? <img className="logo" src={logoUrl} alt="logo" />
-                     : <div className="no-logo">No logo</div>
-              ) : (
-                logoLoading ? <Spinner /> : (
-                  logo && <img className="logo" src={logo} alt="logo" />
-                )
+        {/* role */}
+        <div className="col-md-3">
+          <label htmlFor="edit-role">Role</label>
+          <Role value={role} onChange={onChangeRole} />
+        </div>
+
+
+        {/* experience_from */}
+        <div className="col-md-2">
+          <label htmlFor="edit-experience_from">Experience from</label>
+          <input
+            min={0}
+            max={30}
+            type="number"
+            onChange={onChange}
+            name="experience_from"
+            value={experience_from}
+            id="edit-experience_from"
+            className="form-control"
+          />
+        </div>
+
+
+        {/* experience_up */}
+        <div className="col-md-2">
+          <label htmlFor="edit-experience_up">Experience to</label>
+
+          <input
+            min={0}
+            max={30}
+            type="number"
+            onChange={onChange}
+            name="experience_up"
+            value={experience_up}
+            id="edit-experience_up"
+            className="form-control"
+          />
+        </div>
+
+
+        {/* seniority */}
+        <div className="col-md-5">
+          <label htmlFor="edit-seniority">Seniority</label>
+          <Seniority value={seniority} onChange={onChangeSeniority} />
+        </div>
+
+
+        {/* skills */}
+        <div className="col-md-12">
+          <label htmlFor="edit-skills">Skills</label>
+          <Skills value={skills} onChange={onChangeSkills} />
+        </div>
+
+
+        {/* logo */}
+        <div className="col-md-6  edit-logo">
+          <label htmlFor="edit-logo">Logo</label>
+          {
+            !logoSwitcher ? (
+              logo ? <img className="logo" src={logoUrl} alt="logo" />
+                  : <div className="no-logo">No logo</div>
+            ) : (
+              logoLoading ? <Spinner /> : (
+                logo && <img className="logo" src={logo} alt="logo" />
               )
-            }
-
-            <input
-              disabled
-              name="logo"
-              value={logo}
-              id="edit-logo"
-              onChange={onChange}
-              type="text"
-              className="form-control input-rounded"
-            />
-
-            <input type="file" ref={fileInputLogo} onChange={onUploadLogo} />
-          </div>
-
-          <label className="col-md-2 col-form-label text-bold text-right" htmlFor="edit-cover">Cover</label>
-          <div className="col-md-4 text-center">
-            {
-              !coverSwitcher ? (
-                cover ? <img className="cover" src={coverUrl} alt="cover" />
-                      : <div className="no-cover">No cover</div>
-              ) : (
-                coverLoading ? <Spinner /> : (
-                  cover && <img className="cover" src={cover} alt="cover" />
-                )
-              )
-            }
-
-            <input
-              disabled
-              name="cover"
-              value={cover}
-              id="edit-cover"
-              onChange={onChange}
-              type="text"
-              className="form-control input-rounded"
-            />
-
-            <input type="file" ref={fileInputCover} onChange={onUploadCover} />
-          </div>
+            )
+          }
+          <input type="file" ref={fileInputLogo} onChange={onUploadLogo} />
         </div>
-      </fieldset>
-    </>
+
+
+        {/* cover */}
+        <div className="col-md-6  edit-cover">
+          <label htmlFor="edit-cover">Cover</label>
+          {
+            !coverSwitcher ? (
+              cover ? <img className="cover" src={coverUrl} alt="cover" />
+                    : <div className="no-cover">No cover</div>
+            ) : (
+              coverLoading ? <Spinner /> : (
+                cover && <img className="cover" src={cover} alt="cover" />
+              )
+            )
+          }
+          <input type="file" ref={fileInputCover} onChange={onUploadCover} />
+        </div>
+
+
+        {/* details */}
+        <div className="col-md-12">
+          <label htmlFor="edit-details">Details</label>
+          <Editor value={details} onChange={onChangeDetails} />
+        </div>
+      </div>
+    </fieldset>
+
+    //         <input
+    //           disabled
+    //           name="logo"
+    //           value={logo}
+    //           id="edit-logo"
+    //           onChange={onChange}
+    //           type="text"
+    //           className="form-control"
+    //         />
+
+
+    //         <input
+    //           disabled
+    //           name="cover"
+    //           value={cover}
+    //           id="edit-cover"
+    //           onChange={onChange}
+    //           type="text"
+    //           className="form-control"
+    //         />
   );
 }
 
