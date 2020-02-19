@@ -1,11 +1,11 @@
 import React from "react";
 
-import { withHeaderTitle } from '../../components/Header/HeaderTitle';
-import Table from '../../ph-admin/table';
+import { withHeaderTitle } from '../../../components/Header/HeaderTitle';
+import Table from '../../table';
 
-import customFiltering from '../table/customFiltering';
+import customFiltering from '../../table/customFiltering';
 
-import noLogo from './../../img/no-logo.jpg';
+import noLogo from './no-logo.jpg';
 
 class Companies extends React.Component {
   UNSAFE_componentWillMount() { this.props.setHeaderTitle('Companies') }

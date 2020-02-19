@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 
-import { withHeaderTitle } from '../../components/Header/HeaderTitle';
+import { withHeaderTitle } from '../../../components/Header/HeaderTitle';
 
-import { getAdminUserData } from '../api/getUserData';
+import { getAdminUserData } from '../../api/getUserData';
 
-import "../../views/Elements/List.scss";
+import "../../../views/Elements/List.scss";
 
 class Profile extends Component {
   state = {

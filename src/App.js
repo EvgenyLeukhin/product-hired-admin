@@ -5,7 +5,7 @@ import { HashRouter as Router } from 'react-router-dom';
 import './Vendor';
 
 // App Routes
-import Routes from './Routes';
+import Routes from './ph-admin/routes';
 
 import './components/Ripple/Ripple.init.js';
 
