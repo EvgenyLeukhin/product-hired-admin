@@ -11,7 +11,7 @@ const EditModal = ({
 }) => {
 
   return (
-    <Modal isOpen={isOpen}>
+    <Modal isOpen={isOpen} modalLoading={modalLoading} closeModal={closeModal}>
       <section className="section-container edit-container">
         <h4 className="edit-container__title">
           Edit&nbsp;<b>{`"${original.id} - ${original.name}"`}</b>
