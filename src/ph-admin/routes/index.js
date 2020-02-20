@@ -22,7 +22,7 @@ const waitFor = Tag => props => <Tag {...props} />;
 const Users     = lazy(() => import('./Users/'));
 const Companies = lazy(() => import('./Companies/'));
 const Jobs      = lazy(() => import('./Jobs/'));
-const Skills    = lazy(() => import('./Skills/'));
+const Skills    = lazy(() => import('./Skills/index.jsx'));
 const Roles     = lazy(() => import('./Roles/index.jsx'));
 const Plans     = lazy(() => import('./Plans/index.jsx'));
 const Profile   = lazy(() => import('./UserProfile/'));
