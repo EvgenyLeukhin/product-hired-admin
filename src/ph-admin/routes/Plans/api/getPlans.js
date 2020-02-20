@@ -1,14 +1,15 @@
 import axios from 'axios';
 
 import { API_URL, subUrl } from './../../../api/apiUrl';
-import token from './../../../api/getToken';
-
-const headers = { Authorization: token };
 
 const getPlans = () => {
+  const token = JSON.parse(localStorage.getItem('ph-admin-user-data')).id;
+
   return axios.get(
     `${API_URL}/${subUrl}/plans`,
-    { headers }
+    {
+      headers: { Authorization: token }
+    }
   );
 }
 

@@ -1,9 +1,14 @@
 import React from 'react';
 import Modal from '../../components/Modal';
 
+import Spinner from '../../../components/Spinner';
 import { Button } from "reactstrap";
 
-const EditModal = ({ name, price, original, isOpen, closeModal, onChange, onSubmit }) => {
+const EditModal = ({
+  name, price, original, // fields
+  isOpen, closeModal, onChange, onSubmit, modalLoading
+}) => {
+
   return (
     <Modal isOpen={isOpen}>
       <section className="section-container edit-container">
@@ -19,7 +24,7 @@ const EditModal = ({ name, price, original, isOpen, closeModal, onChange, onSubm
               <fieldset>
                 <div className="form-group row">
                   <div className="col-md-6">
-                    <label htmlFor="edit-price">Plan</label>
+                    <label htmlFor="edit-name">Plan</label>
 
                     <input
                       required
@@ -38,6 +43,7 @@ const EditModal = ({ name, price, original, isOpen, closeModal, onChange, onSubm
 
                     <input
                       required
+                      min={0}
                       name="price"
                       type="number"
                       value={price}
@@ -49,10 +55,18 @@ const EditModal = ({ name, price, original, isOpen, closeModal, onChange, onSubm
                 </div>
               </fieldset>
 
-              <footer className="edit-container__buttons">
-                <Button outline color="secondary" onClick={closeModal}>Cancel</Button>
-                <Button outline color="primary" type="submit">Save</Button>
-              </footer>
+              {
+                modalLoading ? (
+                  <div className="edit-container__is-loading">
+                    <Spinner />
+                  </div>
+                ) : (
+                  <footer className="edit-container__buttons">
+                    <Button outline color="secondary" onClick={closeModal}>Cancel</Button>
+                    <Button outline color="primary" type="submit">Save</Button>
+                  </footer>
+                )
+              }
             </form>
           </div>
         </div>

@@ -1,18 +1,18 @@
 import axios from 'axios';
-
 import { API_URL, subUrl } from './../../../api/apiUrl';
-import token from './../../../api/getToken';
-
-const headers = { Authorization: token };
-
 
 const editRequest = (id, name, price) => {
-  const path = `${API_URL}/${subUrl}/plans/${id}`;
+  const token = JSON.parse(localStorage.getItem('ph-admin-user-data')).id;
 
   return axios.patch(
-    path,
-    { name, price },
-    { headers }
+    `${API_URL}/${subUrl}/plans/${id}`,
+    {
+      name,
+      price
+    },
+    {
+      headers: { Authorization: token }
+    }
   );
 }
 

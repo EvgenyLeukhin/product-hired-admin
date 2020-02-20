@@ -1,6 +1,7 @@
 import React from "react";
 
 import Table from '../../components/Table';
+import Alerts from '../../components/Alerts';
 import EditModal from './edit';
 
 import { withHeaderTitle } from '../../../components/Header/HeaderTitle';
@@ -17,31 +18,41 @@ class Plans extends React.Component {
   state = {
     // table
     plans: [], // array of objects
-    loading: false,
+    tableLoading: false,
+
+    // alert
+    alertIsOpen: false,
+    alertType: '',
+    alertErrorText: '',
 
     // edit
-    editModal: false,
+    editModalIsOpen: false,
+    modalLoading: false,
     original: {},
-    id: null, // number
-    name: '', // string
-    price: null, // number
+    id: null,
+    name: '',
+    price: null,
   }
 
   // get values from original react-table (original.id, original.name, original.price)
   editClick = original => () => {
     this.setState({
-      editModal: true,
+      editModalIsOpen: true,
       original,
       id: original.id,
       name: original.name,
       price: original.price,
+      alertIsOpen: false
     });
   }
 
   onChange = e => this.setState({ [e.target.name]: e.target.value });
+  closeModal = () => !this.state.modalLoading && this.setState({ editModalIsOpen: false });
 
   editSubmit = e => {
     e.preventDefault();
+
+    this.setState({ modalLoading: true });
 
     // get edit values
     const { id, name, price } = this.state;
@@ -58,26 +69,83 @@ class Plans extends React.Component {
             plans[i] = { id, name, price };
           }
         }
+
         this.setState({
           plans, // new plans with edited item
-          editModal: false,
+          modalLoading: false,
+          editModalIsOpen: false,
+          alertType: 'edit',
+          alertIsOpen: true
         });
+
+        // close alert after 2 sec
+        setTimeout(() => {
+          this.setState({ alertIsOpen: false });
+        }, 2000);
+      })
+
+      .catch(error => {
+        // redirect to login if 401 (request, response)
+        if (error.response.status === 401) {
+          localStorage.removeItem('ph-admin-user-data');
+          this.props.history.push('/login');
+
+        } else {
+          this.setState({
+            modalLoading: false,
+            editModalIsOpen: false,
+            alertType: 'error',
+            alertIsOpen: true,
+            alertErrorText: `${error}`
+          });
+        }
       })
   }
 
 
   componentDidMount() {
-    this.setState({ loading: true });
+    this.setState({ tableLoading: true });
 
     // getPlans request
-    getPlans().then(res => {
-      this.setState({ plans: res.data, loading: false });
-    })
+    getPlans()
+      .then(res => this.setState({ plans: res.data, tableLoading: false }))
+
+      .catch(error => {
+        // redirect to login if 401 (request, response)
+        if (error.response.status === 401) {
+          localStorage.removeItem('ph-admin-user-data');
+          this.props.history.push('/login');
+
+        } else {
+          this.setState({
+            modalLoading: false,
+            alertType: 'error',
+            alertIsOpen: true,
+            alertErrorText: `${error}`
+          });
+        }
+      })
+
+    // close modal on Escape
+    document.addEventListener('keyup', e => e.keyCode === 27 && this.closeModal());
   }
+  componentWillUnmount() { document.removeEventListener('keyup', e => e.keyCode === 27) }
 
 
   render() {
-    const { plans, loading, editModal, name, price, original } = this.state;
+    const {
+      // table
+      tableLoading, original,
+
+      // fields
+      name, price, plans,
+
+      // modals
+      editModalIsOpen, modalLoading,
+
+      // alerts
+      alertIsOpen, alertType, alertErrorText
+    } = this.state;
 
     const controlsColumn = [
       {
@@ -95,22 +163,26 @@ class Plans extends React.Component {
 
     return (
       <div className="plans-page">
+        { alertIsOpen && <Alerts type={alertType} original={original} errorText={alertErrorText} /> }
+
         <EditModal
+          // fields
           name={name}
           price={price}
           original={original}
-          isOpen={editModal}
-          closeModal={() => this.setState({ editModal: false })}
+
+          isOpen={editModalIsOpen}
+          modalLoading={modalLoading}
+          closeModal={this.closeModal}
           onChange={this.onChange}
           onSubmit={this.editSubmit}
         />
 
         <Table
-          manual={false}
           data={plans}
-          columns={columns}
+          manual={false}
+          loading={tableLoading}
           columns={[...columns, ...controlsColumn]}
-          loading={loading}
         />
       </div>
     )
