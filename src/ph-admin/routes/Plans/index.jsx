@@ -2,14 +2,14 @@ import React from "react";
 
 import Table from '../../components/Table';
 import Alerts from '../../components/Alerts';
-import EditModal from './edit';
+import EditPlans from './edit';
 
 import { withHeaderTitle } from '../../../components/Header/HeaderTitle';
 
 import getPlans from './api/getPlans';
-import columns from './columns';
+import editPlan from './api/editPlan';
 
-import editRequest from './api/editRequest';
+import columns from './columns';
 
 
 class Plans extends React.Component {
@@ -58,7 +58,7 @@ class Plans extends React.Component {
 
     // get edit values
     const { id, name, price } = this.state;
-    editRequest(id, name, price)
+    editPlan(id, name, price)
 
       .then(() => {
         // get current table-data from the state w\o editing change (when render only)
@@ -167,7 +167,7 @@ class Plans extends React.Component {
       <div className="plans-page">
         { alertIsOpen && <Alerts type={alertType} original={original} errorText={alertErrorText} /> }
 
-        <EditModal
+        <EditPlans
           // fields
           name={name}
           price={price}

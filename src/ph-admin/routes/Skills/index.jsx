@@ -2,14 +2,17 @@ import React from "react";
 
 import Table from '../../components/Table';
 import Alerts from '../../components/Alerts';
-import EditModal from './edit';
+import EditSkills from './edit';
+import DeleteSkills from './delete';
 
 import { withHeaderTitle } from '../../../components/Header/HeaderTitle';
 
 import getSkills from './api/getSkills';
+import editSkill from './api/editSkill';
+import deleteSkill from './api/deleteSkill';
+
 import columns from './columns';
 
-import editRequest from './api/editRequest';
 
 
 class Skills extends React.Component {
@@ -19,16 +22,18 @@ class Skills extends React.Component {
     // table
     skills: [], // array of objects
     tableLoading: false,
+    original: {},
 
     // alert
     alertIsOpen: false,
     alertType: '',
     alertErrorText: '',
 
-    // edit
+    // modals
+    addModalIsOpen: false,
     editModalIsOpen: false,
+    deleteModalIsOpen: false,
     modalLoading: false,
-    original: {},
 
     // fields
     id: null,
@@ -38,32 +43,22 @@ class Skills extends React.Component {
     weight: null,
   }
 
+  // addClick
+  // addSubmit
+
   // get values from original react-table (original.id, original.name, original.price)
   editClick = original => () => {
     this.setState({
-      editModalIsOpen: true,
       original,
+      editModalIsOpen: true,
       id: original.id,
       name: original.name,
       slug: original.slug,
       markers: original.markers,
       weight: original.weight,
-      alertIsOpen: false
+      alertIsOpen: false,
     });
   }
-
-  deleteClick = original => () => {
-    alert(original.id);
-    // this.setState({
-    //   modalType: 'delete',
-    //   modalIsOpen: true,
-    //   itemOriginal: original,
-    //   alertIsOpen: false
-    // });
-  }
-
-  onChange = e => this.setState({ [e.target.name]: e.target.value });
-  closeModal = () => !this.state.modalLoading && this.setState({ editModalIsOpen: false });
 
   editSubmit = e => {
     e.preventDefault();
@@ -72,7 +67,7 @@ class Skills extends React.Component {
 
     // get edit values
     const { id, name, slug, markers, weight } = this.state;
-    editRequest(id, name, slug, markers, weight)
+    editSkill(id, name, slug, markers, weight)
 
       .then(() => {
         // get current table-data from the state w\o editing change (when render only)
@@ -118,6 +113,23 @@ class Skills extends React.Component {
       })
   }
 
+  deleteClick = original => () => {
+    this.setState({
+      original,
+      deleteModalIsOpen: true
+    });
+  }
+
+  deleteSubmit = () => {
+    alert(123);
+  }
+
+  onChange = e => this.setState({ [e.target.name]: e.target.value });
+  closeEditModal   = () => !this.state.modalLoading && this.setState({ editModalIsOpen: false });
+  closeDeleteModal = () => !this.state.modalLoading && this.setState({ deleteModalIsOpen: false });
+
+
+
 
   componentDidMount() {
     this.setState({ tableLoading: true });
@@ -143,7 +155,7 @@ class Skills extends React.Component {
       })
 
     // close modal on Escape
-    document.addEventListener('keyup', e => e.keyCode === 27 && this.closeModal());
+    document.addEventListener('keyup', e => e.keyCode === 27 && this.closeEditModal());
   }
   componentWillUnmount() { document.removeEventListener('keyup', e => e.keyCode === 27) }
 
@@ -157,7 +169,7 @@ class Skills extends React.Component {
       name, slug, markers, weight,
 
       // modals
-      editModalIsOpen, modalLoading,
+      editModalIsOpen, modalLoading, deleteModalIsOpen,
 
       // alerts
       alertIsOpen, alertType, alertErrorText
@@ -182,7 +194,7 @@ class Skills extends React.Component {
       <div className="roles-page">
         { alertIsOpen && <Alerts type={alertType} original={original} errorText={alertErrorText} /> }
 
-        <EditModal
+        <EditSkills
           // fields
           name={name}
           slug={slug}
@@ -192,9 +204,17 @@ class Skills extends React.Component {
 
           isOpen={editModalIsOpen}
           modalLoading={modalLoading}
-          closeModal={this.closeModal}
+          closeModal={this.closeEditModal}
           onChange={this.onChange}
           onSubmit={this.editSubmit}
+        />
+
+        <DeleteSkills
+          isOpen={deleteModalIsOpen}
+          modalLoading={modalLoading}
+          closeModal={this.closeDeleteModal}
+          original={original}
+          deleteSubmit={this.deleteSubmit}
         />
 
         <Table

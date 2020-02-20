@@ -1,16 +1,16 @@
 import React from 'react';
-import Modal from '../../components/Modal';
+import EditModal from '../../components/Modal/EditModal';
 
 import Spinner from '../../../components/Spinner';
 import { Button } from "reactstrap";
 
-const EditModal = ({
+const EditPlans = ({
   name, price, original, // fields
   isOpen, closeModal, onChange, onSubmit, modalLoading
 }) => {
 
   return (
-    <Modal isOpen={isOpen} modalLoading={modalLoading} closeModal={closeModal}>
+    <EditModal isOpen={isOpen} modalLoading={modalLoading} closeModal={closeModal}>
       <section className="section-container edit-container">
         <h4 className="edit-container__title">
           Edit&nbsp;<b>{`"${original.id} - ${original.name}"`}</b>
@@ -71,8 +71,8 @@ const EditModal = ({
           </div>
         </div>
       </section>
-    </Modal>
+    </EditModal>
   );
 }
 
-export default EditModal;
+export default EditPlans;

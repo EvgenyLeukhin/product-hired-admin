@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { API_URL, subUrl } from './../../../api/apiUrl';
+import { API_URL, subUrl } from '../../../api/apiUrl';
 
-const editRequest = (id, name, price) => {
+const editPlan = (id, name, price) => {
   const token = JSON.parse(localStorage.getItem('ph-admin-user-data')).id;
 
   return axios.patch(
@@ -16,4 +16,4 @@ const editRequest = (id, name, price) => {
   );
 }
 
-export default editRequest;
+export default editPlan;

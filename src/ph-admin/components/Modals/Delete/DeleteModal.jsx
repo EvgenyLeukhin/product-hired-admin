@@ -3,7 +3,7 @@ import ReactModal from 'react-modal';
 
 import './styles.scss';
 
-const Modal = props => {
+const DeleteModal = props => {
   const { isOpen, modalLoading, closeModal } = props;
 
   return (
@@ -12,7 +12,7 @@ const Modal = props => {
       ariaHideApp={false}
       isOpen={isOpen}
       overlayClassName="ReactModal__Overlay"
-      className={`ReactModal ReactModal__edit`}
+      className={`ReactModal ReactModal__delete`}
       onRequestClose={modalLoading ? false : closeModal}
     >
       {props.children}
@@ -20,4 +20,4 @@ const Modal = props => {
   )
 }
 
-export default Modal;
+export default DeleteModal;

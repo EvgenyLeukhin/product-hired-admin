@@ -2,14 +2,15 @@ import React from "react";
 
 import Table from '../../components/Table';
 import Alerts from '../../components/Alerts';
-import EditModal from './edit';
+import EditRoles from './edit';
 
 import { withHeaderTitle } from '../../../components/Header/HeaderTitle';
 
 import getRoles from './api/getRoles';
+import editRole from './api/editRole';
+
 import columns from './columns';
 
-import editRequest from './api/editRequest';
 
 
 class Roles extends React.Component {
@@ -64,7 +65,7 @@ class Roles extends React.Component {
 
     // get edit values
     const { id, name, slug, weight, keywords, negative } = this.state;
-    editRequest(id, name, slug, weight, keywords, negative)
+    editRole(id, name, slug, weight, keywords, negative)
 
       .then(() => {
         // get current table-data from the state w\o editing change (when render only)
@@ -173,7 +174,7 @@ class Roles extends React.Component {
       <div className="roles-page">
         { alertIsOpen && <Alerts type={alertType} original={original} errorText={alertErrorText} /> }
 
-        <EditModal
+        <EditRoles
           // fields
           name={name}
           slug={slug}
