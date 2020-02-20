@@ -6,18 +6,18 @@ import EditModal from './edit';
 
 import { withHeaderTitle } from '../../../components/Header/HeaderTitle';
 
-import getPlans from './api/getPlans';
+import getRoles from './api/getRoles';
 import columns from './columns';
 
 import editRequest from './api/editRequest';
 
 
-class Plans extends React.Component {
-  UNSAFE_componentWillMount() { this.props.setHeaderTitle('Plans') }
+class Roles extends React.Component {
+  UNSAFE_componentWillMount() { this.props.setHeaderTitle('Roles') }
 
   state = {
     // table
-    plans: [], // array of objects
+    roles: [], // array of objects
     tableLoading: false,
 
     // alert
@@ -33,7 +33,10 @@ class Plans extends React.Component {
     // fields
     id: null,
     name: '',
-    price: null,
+    slug: '',
+    weight: null,
+    keywords: '',
+    negative: ''
   }
 
   // get values from original react-table (original.id, original.name, original.price)
@@ -43,7 +46,10 @@ class Plans extends React.Component {
       original,
       id: original.id,
       name: original.name,
-      price: original.price,
+      slug: original.slug,
+      weight: original.weight,
+      keywords: original.keywords,
+      negative: original.negative,
       alertIsOpen: false
     });
   }
@@ -57,23 +63,23 @@ class Plans extends React.Component {
     this.setState({ modalLoading: true });
 
     // get edit values
-    const { id, name, price } = this.state;
-    editRequest(id, name, price)
+    const { id, name, slug, weight, keywords, negative } = this.state;
+    editRequest(id, name, slug, weight, keywords, negative)
 
       .then(() => {
         // get current table-data from the state w\o editing change (when render only)
-        const { plans } = this.state;
+        const { roles } = this.state;
 
         // find editing data in all data by id
-        for (let i = 0; i < plans.length; i++) {
-          if (plans[i].id === id) {
+        for (let i = 0; i < roles.length; i++) {
+          if (roles[i].id === id) {
             // inject editing data to table state
-            plans[i] = { id, name, price };
+            roles[i] = { id, name, slug, weight, keywords, negative };
           }
         }
 
         this.setState({
-          plans, // new plans with edited item
+          roles, // new roles with edited item
           modalLoading: false,
           editModalIsOpen: false,
           alertType: 'edit',
@@ -108,9 +114,9 @@ class Plans extends React.Component {
   componentDidMount() {
     this.setState({ tableLoading: true });
 
-    // getPlans request
-    getPlans()
-      .then(res => this.setState({ plans: res.data, tableLoading: false }))
+    // getRoles request
+    getRoles()
+      .then(res => this.setState({ roles: res.data, tableLoading: false }))
 
       .catch(error => {
         // redirect to login if 401 (request, response)
@@ -137,10 +143,10 @@ class Plans extends React.Component {
   render() {
     const {
       // table
-      tableLoading, original,
+      tableLoading, original, roles,
 
       // fields
-      name, price, plans,
+      name, slug, weight, keywords, negative,
 
       // modals
       editModalIsOpen, modalLoading,
@@ -164,13 +170,16 @@ class Plans extends React.Component {
     ];
 
     return (
-      <div className="plans-page">
+      <div className="roles-page">
         { alertIsOpen && <Alerts type={alertType} original={original} errorText={alertErrorText} /> }
 
         <EditModal
           // fields
           name={name}
-          price={price}
+          slug={slug}
+          weight={weight}
+          keywords={keywords}
+          negative={negative}
           original={original}
 
           isOpen={editModalIsOpen}
@@ -181,7 +190,7 @@ class Plans extends React.Component {
         />
 
         <Table
-          data={plans}
+          data={roles}
           manual={false}
           loading={tableLoading}
           columns={[...columns, ...controlsColumn]}
@@ -191,4 +200,4 @@ class Plans extends React.Component {
   }
 }
 
-export default withHeaderTitle(Plans);
+export default withHeaderTitle(Roles);

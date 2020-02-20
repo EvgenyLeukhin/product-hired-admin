@@ -1,0 +1,119 @@
+import React from 'react';
+import Modal from '../../components/Modal';
+
+import Spinner from '../../../components/Spinner';
+import { Button } from "reactstrap";
+
+
+const EditModal = ({
+  name, slug, weight, keywords, negative, original, // fields
+  isOpen, closeModal, onChange, onSubmit, modalLoading
+}) => {
+
+  return (
+    <Modal isOpen={isOpen}>
+      <section className="section-container edit-container">
+        <h4 className="edit-container__title">
+          Edit&nbsp;<b>{`"${original.id} - ${original.name}"`}</b>
+        </h4>
+
+        <span className="ion-close-round edit-container__close" onClick={closeModal} />
+
+        <div className="cardbox">
+          <div className="cardbox-body">
+            <form action="" onSubmit={onSubmit}>
+
+            <fieldset>
+              <div className="form-group row">
+                <div className="col-md-5">
+                  <label htmlFor="edit-name">Role</label>
+
+                  <input
+                    required
+                    name="name"
+                    type="text"
+                    value={name}
+                    id="edit-name"
+                    onChange={onChange}
+                    className="form-control"
+                  />
+                </div>
+
+                <div className="col-md-5">
+                  <label htmlFor="edit-slug">Slug</label>
+
+                  <input
+                    required
+                    name="slug"
+                    type="text"
+                    value={slug}
+                    id="edit-slug"
+                    onChange={onChange}
+                    className="form-control"
+                  />
+                </div>
+
+                <div className="col-md-2">
+                  <label htmlFor="edit-weight">Weight</label>
+
+                  <input
+                    name="weight"
+                    type="number"
+                    value={weight}
+                    id="edit-weight"
+                    onChange={onChange}
+                    className="form-control"
+                  />
+                </div>
+
+                <div className="col-md-6">
+                  <label htmlFor="edit-keywords">Search Phrases, comma-separated</label>
+
+                  <textarea
+                    rows={3}
+                    type="text"
+                    name="keywords"
+                    value={keywords}
+                    id="edit-keywords"
+                    onChange={onChange}
+                    className="form-control"
+                  />
+                </div>
+
+                <div className="col-md-6">
+                  <label htmlFor="edit-negative">Stop-Words, comma-separated</label>
+
+                  <textarea
+                    rows={3}
+                    type="text"
+                    name="negative"
+                    value={negative}
+                    id="edit-negative"
+                    onChange={onChange}
+                    className="form-control"
+                  />
+                </div>
+              </div>
+            </fieldset>
+
+              {
+                modalLoading ? (
+                  <div className="edit-container__is-loading">
+                    <Spinner />
+                  </div>
+                ) : (
+                  <footer className="edit-container__buttons">
+                    <Button outline color="secondary" onClick={closeModal}>Cancel</Button>
+                    <Button outline color="primary" type="submit">Save</Button>
+                  </footer>
+                )
+              }
+            </form>
+          </div>
+        </div>
+      </section>
+    </Modal>
+  );
+}
+
+export default EditModal;

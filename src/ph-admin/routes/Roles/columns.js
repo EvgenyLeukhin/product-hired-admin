@@ -9,12 +9,10 @@ const columns = [
     Cell: ({ original }) => <div>{original.id || '...'}</div>
   },
   {
-    Header: 'Plan',
+    Header: 'Role',
     accessor: 'name',
     style: { fontWeight: 'bold' },
     Cell: ({ original }) => <div>{original.name || '...'}</div>,
-
-    // uppercase and substring filtering
     filterMethod: (filter, row) => {
       const id = filter.pivotId || filter.id;
       return (
@@ -24,9 +22,22 @@ const columns = [
     }
   },
   {
-    Header: 'Price',
-    accessor: 'price',
-    Cell: ({ original }) => <div>{`$${original.price}`}</div> || '...'
+    Header: 'Slug',
+    accessor: 'slug',
+    Cell: ({ original }) => <div>{original.slug || '...'}</div>,
+    filterMethod: (filter, row) => {
+      const id = filter.pivotId || filter.id;
+      return (
+        row[id] !== undefined ?
+          String(row[id].toLowerCase()).includes(filter.value.toLowerCase()) : true
+      );
+    }
+  },
+  {
+    Header: 'Weight',
+    accessor: 'weight',
+    width: 60,
+    Cell: ({ original }) => <div>{original.weight || '...'}</div>,
   },
 ];
 
