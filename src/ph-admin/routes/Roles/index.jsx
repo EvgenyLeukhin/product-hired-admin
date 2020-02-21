@@ -2,7 +2,7 @@ import React from "react";
 
 import Table from '../../components/Table';
 import Alerts from '../../components/Alerts';
-import EditRoles from './edit';
+import EditRole from './edit';
 
 import { withHeaderTitle } from '../../../components/Header/HeaderTitle';
 
@@ -174,7 +174,7 @@ class Roles extends React.Component {
       <div className="roles-page">
         { alertIsOpen && <Alerts type={alertType} original={original} errorText={alertErrorText} /> }
 
-        <EditRoles
+        <EditRole
           // fields
           name={name}
           slug={slug}

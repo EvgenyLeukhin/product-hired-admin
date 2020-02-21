@@ -33,7 +33,6 @@
 }
 
 // add, edit common styles
-div.ReactModal__add,
 div.ReactModal__edit {
   width: auto;
   top: 75px;
@@ -41,7 +40,6 @@ div.ReactModal__edit {
   right: 15px;
   left: 255px;
 
-  .add-container,
   .edit-container {
     position: relative;
 
@@ -122,15 +120,12 @@ div.ReactModal__edit {
 }
 
 @media (max-width: 991px) {
-  div.ReactModal__add,
   div.ReactModal__edit { left: 15px; }
 }
 
 @media (max-width: 767px) {
-  div.ReactModal__add,
   div.ReactModal__edit {
 
-    .add-container,
     .edit-container {
       .form-group {
         & > div { margin-bottom: 5px; }
@@ -145,7 +140,6 @@ div.ReactModal__edit {
 }
 
 @media (max-width: 600px) {
-  div.ReactModal__add,
   div.ReactModal__edit {
     .add-container,
     .edit-container {

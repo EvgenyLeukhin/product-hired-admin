@@ -2,7 +2,7 @@ import React from "react";
 
 import Table from '../../components/Table';
 import Alerts from '../../components/Alerts';
-import EditPlans from './edit';
+import EditPlan from './edit';
 
 import { withHeaderTitle } from '../../../components/Header/HeaderTitle';
 
@@ -167,7 +167,7 @@ class Plans extends React.Component {
       <div className="plans-page">
         { alertIsOpen && <Alerts type={alertType} original={original} errorText={alertErrorText} /> }
 
-        <EditPlans
+        <EditPlan
           // fields
           name={name}
           price={price}

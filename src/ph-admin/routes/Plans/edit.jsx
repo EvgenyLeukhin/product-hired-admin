@@ -1,12 +1,12 @@
 import React from 'react';
-import EditModal from '../../components/Modal/EditModal';
+import EditModal from '../../components/Modals/Edit/EditModal';
 
 import Spinner from '../../../components/Spinner';
 import { Button } from "reactstrap";
 
-const EditPlans = ({
-  name, price, original, // fields
-  isOpen, closeModal, onChange, onSubmit, modalLoading
+const EditPlan = ({
+  name, price, original,                                // fields
+  isOpen, closeModal, onChange, onSubmit, modalLoading  // modal settings
 }) => {
 
   return (
@@ -44,6 +44,7 @@ const EditPlans = ({
                     <input
                       required
                       min={0}
+                      max={10000}
                       name="price"
                       type="number"
                       value={price}
@@ -75,4 +76,4 @@ const EditPlans = ({
   );
 }
 
-export default EditPlans;
+export default EditPlan;

@@ -22,20 +22,3 @@
     }
   }
 }
-
-.add-button {
-  min-width: 112px;
-  position: fixed;
-  z-index: 2;
-  top: 16px;
-  right: 110px;
-
-  &.is-loading {
-    pointer-events: none;
-
-    &:hover {
-      border-color: #0062cc;
-      background-color: #0069d9;
-    }
-  }
-}

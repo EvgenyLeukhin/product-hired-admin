@@ -1,21 +1,21 @@
 import axios from 'axios';
-
 import { API_URL, subUrl } from '../../../api/apiUrl';
 
-const getSkills = () => {
+const addSkill = (name, slug, weight, markers) => {
   const token = JSON.parse(localStorage.getItem('ph-admin-user-data')).id;
 
-  return axios.get(
+  return axios.post(
     `${API_URL}/${subUrl}/skills`,
     {
-      params: {
-        filter: {
-          order: 'id DESC'
-        }
-      },
+      name,
+      slug,
+      weight,
+      markers
+    },
+    {
       headers: { Authorization: token }
     }
   );
 }
 
-export default getSkills;
+export default addSkill;

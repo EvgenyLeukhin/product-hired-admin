@@ -1,13 +1,13 @@
 import React from 'react';
-import EditModal from '../../components/Modal/EditModal';
+import EditModal from '../../components/Modals/Edit/EditModal';
 
 import Spinner from '../../../components/Spinner';
 import { Button } from "reactstrap";
 
 
-const EditRoles = ({
-  name, slug, weight, keywords, negative, original, // fields
-  isOpen, closeModal, onChange, onSubmit, modalLoading
+const EditRole = ({
+  name, slug, weight, keywords, negative, original,       // fields
+  isOpen, closeModal, onChange, onSubmit, modalLoading    // modal settings
 }) => {
 
   return (
@@ -57,6 +57,8 @@ const EditRoles = ({
                   <label htmlFor="edit-weight">Weight</label>
 
                   <input
+                    min={0}
+                    max={999}
                     name="weight"
                     type="number"
                     value={weight}
@@ -116,4 +118,4 @@ const EditRoles = ({
   );
 }
 
-export default EditRoles;
+export default EditRole;
