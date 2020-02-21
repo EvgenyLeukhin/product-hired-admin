@@ -277,11 +277,11 @@ class Settings extends Component {
 
                     <hr/>
 
-                    <p>Change language</p>
+                    {/* <p>Change language</p>
                     <CustomInput type="select" id="select-lang" onChange={this.setSelectedLanguage} name="customSelect" value={this.state.selectedLang}>
                         <option value="en">English</option>
                         <option value="es">Spanish</option>
-                    </CustomInput>
+                    </CustomInput> */}
                 </ModalBody>
             </Modal>
         );
