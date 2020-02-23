@@ -49,22 +49,22 @@ class Companies extends React.Component {
 
 //   onChange = e => this.setState({ [e.target.name]: e.target.value });
 
-//   catchErrors = error => {
-//     // redirect to login if 401 (request, response)
-//     if (error.response.status === 401) {
-//       localStorage.removeItem('ph-admin-user-data');
-//       this.props.history.push('/login');
+  catchErrors = error => {
+    // redirect to login if 401 (request, response)
+    if (error.response.status === 401) {
+      localStorage.removeItem('ph-admin-user-data');
+      this.props.history.push('/login');
 
-//     } else {
-//       this.setState({
-//         modalLoading: false,
-//         addModalIsOpen: false, editModalIsOpen: false, deleteModalIsOpen: false, // close modals
-//         alertType: 'error',
-//         alertIsOpen: true,
-//         alertErrorText: `${error}`
-//       });
-//     }
-//   }
+    } else {
+      this.setState({
+        modalLoading: false,
+        addModalIsOpen: false, editModalIsOpen: false, deleteModalIsOpen: false, // close modals
+        alertType: 'error',
+        alertIsOpen: true,
+        alertErrorText: `${error}`
+      });
+    }
+  }
 
 //   addClick = () => {
 //     this.setState({
@@ -243,13 +243,14 @@ class Companies extends React.Component {
 
             // count request
             getCompaniesCount(state)
-              .then(count => {
-                this.setState({ companiesCount: Math.ceil(count / state.pageSize) })
+              .then(res => {
+                this.setState({ companiesCount: Math.ceil(res.data.count / state.pageSize) })
 
                 // data request
                 getCompanies(state)
-                  .then(companies => this.setState({ companies, tableLoading: false }))
+                  .then(res => this.setState({ companies: res.data, tableLoading: false }))
               })
+              .catch(error => this.catchErrors(error));
           }}
         />
       </div>

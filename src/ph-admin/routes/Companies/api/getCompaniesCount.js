@@ -25,8 +25,6 @@ const getCompaniesCount = state => {
     params: { where },
     headers: { Authorization: token } // backend doesn't check it
   })
-    // return count (number)
-    .then(res => res.data.count)
 };
 
 export default getCompaniesCount;

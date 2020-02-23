@@ -32,8 +32,6 @@ const getCompanies = state => {
     params: { filter },
     headers: { Authorization: token } // backend doesn't check it
   })
-    // return [data]
-    .then(res => res.data)
 };
 
 export default getCompanies;
