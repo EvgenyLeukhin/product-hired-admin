@@ -95,6 +95,12 @@ const EditRole = ({
                     className="form-control"
                   />
                 </div>
+
+                {/* <div className="col-md-12">
+                  <label htmlFor="edit-skills">Recommended Skills</label>
+
+
+                </div> */}
               </div>
             </fieldset>
 

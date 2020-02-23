@@ -36,6 +36,25 @@ class Plans extends React.Component {
     price: null,
   }
 
+  onChange = e => this.setState({ [e.target.name]: e.target.value });
+
+  catchErrors = error => {
+    // redirect to login if 401 (request, response)
+    if (error.response.status === 401) {
+      localStorage.removeItem('ph-admin-user-data');
+      this.props.history.push('/login');
+
+    } else {
+      this.setState({
+        modalLoading: false,
+        addModalIsOpen: false, editModalIsOpen: false, deleteModalIsOpen: false, // close modals
+        alertType: 'error',
+        alertIsOpen: true,
+        alertErrorText: `${error}`
+      });
+    }
+  }
+
   // get values from original react-table (original.id, original.name, original.price)
   editClick = original => () => {
     this.setState({
@@ -48,7 +67,6 @@ class Plans extends React.Component {
     });
   }
 
-  onChange = e => this.setState({ [e.target.name]: e.target.value });
   closeModal = () => !this.state.modalLoading && this.setState({ editModalIsOpen: false });
 
   editSubmit = e => {
@@ -86,22 +104,7 @@ class Plans extends React.Component {
         }, 2000);
       })
 
-      .catch(error => {
-        // redirect to login if 401 (request, response)
-        if (error.response.status === 401) {
-          localStorage.removeItem('ph-admin-user-data');
-          this.props.history.push('/login');
-
-        } else {
-          this.setState({
-            modalLoading: false,
-            editModalIsOpen: false,
-            alertType: 'error',
-            alertIsOpen: true,
-            alertErrorText: `${error}`
-          });
-        }
-      })
+      .catch(error => this.catchErrors(error));
   }
 
 
@@ -111,22 +114,7 @@ class Plans extends React.Component {
     // getPlans request
     getPlans()
       .then(res => this.setState({ plans: res.data, tableLoading: false }))
-
-      .catch(error => {
-        // redirect to login if 401 (request, response)
-        if (error.response.status === 401) {
-          localStorage.removeItem('ph-admin-user-data');
-          this.props.history.push('/login');
-
-        } else {
-          this.setState({
-            modalLoading: false,
-            alertType: 'error',
-            alertIsOpen: true,
-            alertErrorText: `${error}`
-          });
-        }
-      })
+      .catch(error => this.catchErrors(error));
 
     // close modal on Escape
     document.addEventListener('keyup', e => e.keyCode === 27 && this.closeModal());

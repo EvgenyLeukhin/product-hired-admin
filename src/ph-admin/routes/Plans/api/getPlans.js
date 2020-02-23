@@ -8,7 +8,7 @@ const getPlans = () => {
   return axios.get(
     `${API_URL}/${subUrl}/plans`,
     {
-      headers: { Authorization: token }
+      headers: { Authorization: token } // backend doesn't check it
     }
   );
 }

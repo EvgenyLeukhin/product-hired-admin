@@ -9,11 +9,9 @@ const getSkills = () => {
     `${API_URL}/${subUrl}/skills`,
     {
       params: {
-        filter: {
-          order: 'id DESC'
-        }
+        filter: { order: 'id DESC' }
       },
-      headers: { Authorization: token }
+      headers: { Authorization: token } // backend doesn't check it
     }
   );
 }

@@ -8,7 +8,7 @@ const getRoles = () => {
   return axios.get(
     `${API_URL}/${subUrl}/vacancy_roles`,
     {
-      headers: { Authorization: token }
+      headers: { Authorization: token } // backend doesn't check it
     }
   );
 }
