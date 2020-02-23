@@ -19,8 +19,8 @@ import User from '../../views/User/User';
 /* Used to render a lazy component with react-router */
 const waitFor = Tag => props => <Tag {...props} />;
 
+const Companies = lazy(() => import('./Companies/index.jsx'));
 const Users     = lazy(() => import('./Users/'));
-const Companies = lazy(() => import('./Companies/'));
 const Jobs      = lazy(() => import('./Jobs/'));
 const Skills    = lazy(() => import('./Skills/index.jsx'));
 const Roles     = lazy(() => import('./Roles/index.jsx'));
