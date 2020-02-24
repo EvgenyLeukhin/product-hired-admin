@@ -112,7 +112,7 @@ const EditRole = ({
                 ) : (
                   <footer className="edit-container__buttons">
                     <Button outline color="secondary" onClick={closeModal}>Cancel</Button>
-                    <Button outline color="primary" type="submit">Save</Button>
+                    <Button disabled={!name || !slug}outline color="primary" type="submit">Save</Button>
                   </footer>
                 )
               }

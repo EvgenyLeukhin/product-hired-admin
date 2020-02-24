@@ -5,12 +5,11 @@ import Spinner from '../../../components/Spinner';
 import { Button } from "reactstrap";
 
 
-const EditSkill = ({
+const EditCompany = ({
   name, domain, slug, weight, logo, cover, original, // fields
 
-  fileInputLogo, logoLoading, onUploadLogo, // logo
-  fileInputCover, coverLoading, onUploadCover, // cover
-
+  fileInputLogo, logoLoading, onUploadLogo,          // logo
+  fileInputCover, coverLoading, onUploadCover,       // cover
 
   isOpen, closeModal, onChange, onSubmit, modalLoading
 }) => {
@@ -136,7 +135,7 @@ const EditSkill = ({
                 ) : (
                   <footer className="edit-container__buttons">
                     <Button outline color="secondary" onClick={closeModal}>Cancel</Button>
-                    <Button outline color="primary" type="submit">Save</Button>
+                    <Button disabled={!name || !slug || logoLoading || coverLoading} outline color="primary" type="submit">Save</Button>
                   </footer>
                 )
               }
@@ -148,4 +147,4 @@ const EditSkill = ({
   );
 }
 
-export default EditSkill;
+export default EditCompany;

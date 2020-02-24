@@ -2,6 +2,7 @@ import React from "react";
 import ReactModal from 'react-modal';
 
 import './styles.scss';
+import './logo-cover.scss';
 
 const AddModal = props => {
   const { isOpen, modalLoading, closeModal } = props;

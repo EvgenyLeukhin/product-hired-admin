@@ -121,7 +121,7 @@ class Companies extends React.Component {
     this.setState({
       addModalIsOpen: true,
       alertIsOpen: false,
-      name: '', slug: '', weight: null, markers: '' // reset fields
+      name: '', domain: '', slug: '', weight: null, logo: '', cover: ''
     });
   }
 
@@ -307,6 +307,18 @@ class Companies extends React.Component {
         <AddCompany
           // fields
           name={name} domain={domain} slug={slug} weight={weight} logo={logo} cover={cover}
+
+          // logo
+          logo={logo}
+          logoLoading={logoLoading}
+          fileInputLogo={this.fileInputLogo} // input type="file" logo-refernce
+          onUploadLogo={this.onUploadLogo}
+
+          // cover
+          cover={cover}
+          coverLoading={coverLoading}
+          fileInputCover={this.fileInputCover} // input type="file" cover-refernce
+          onUploadCover={this.onUploadCover}
 
           isOpen={addModalIsOpen}
           modalLoading={modalLoading}

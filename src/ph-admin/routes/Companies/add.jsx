@@ -5,15 +5,19 @@ import Spinner from '../../../components/Spinner';
 import { Button } from "reactstrap";
 
 
-const AddSkill = ({
-  name, slug, weight, markers, // fields
+const AddCompany = ({
+  name, domain, slug, weight, logo, cover,     // fields
+
+  fileInputLogo, logoLoading, onUploadLogo,    // logo
+  fileInputCover, coverLoading, onUploadCover, // cover
+
   isOpen, closeModal, onChange, onSubmit, modalLoading
 }) => {
 
   return (
     <AddModal isOpen={isOpen} modalLoading={modalLoading} closeModal={closeModal}>
       <section className="section-container add-container">
-        <h4 className="add-container__title">Add skill</h4>
+        <h4 className="add-container__title">Add company</h4>
 
         <span className="ion-close-round add-container__close" onClick={closeModal} />
 
@@ -21,64 +25,105 @@ const AddSkill = ({
           <div className="cardbox-body">
             <form action="" onSubmit={onSubmit}>
 
-            <fieldset>
-              <div className="form-group row">
-                <div className="col-md-5">
-                  <label htmlFor="add-name">Skill</label>
+              <fieldset>
+                <div className="form-group row">
+                  <div className="col-md-6">
+                    <label htmlFor="add-name">Company name</label>
 
-                  <input
-                    name="name"
-                    type="text"
-                    value={name}
-                    id="add-name"
-                    onChange={onChange}
-                    className="form-control"
-                  />
+                    <input
+                      name="name"
+                      value={name}
+                      id="add-name"
+                      onChange={onChange}
+                      type="text"
+                      className="form-control"
+                    />
+                  </div>
+
+                  <div className="col-md-6">
+                    <label htmlFor="add-domain">Domain</label>
+
+                    <input
+                      name="domain"
+                      value={domain}
+                      id="add-domain"
+                      onChange={onChange}
+                      type="text"
+                      className="form-control"
+                    />
+                  </div>
+
+                  <div className="col-md-6">
+                    <label htmlFor="add-slug">Slug</label>
+
+                    <input
+                      name="slug"
+                      value={slug}
+                      id="add-slug"
+                      onChange={onChange}
+                      type="text"
+                      className="form-control"
+                    />
+                  </div>
+
+                  <div className="col-md-6">
+                    <label htmlFor="add-weight">Weight</label>
+
+                    <input
+                      name="weight"
+                      value={weight}
+                      id="add-weight"
+                      onChange={onChange}
+                      type="number"
+                      className="form-control"
+                    />
+                  </div>
+
+                  <div className="col-md-6  add-logo">
+                    <label htmlFor="add-logo">Logo</label>
+
+                    {
+                      logoLoading ? <Spinner /> : (
+                        logo ? <img className="logo" src={logo} alt="logo" /> : <div className="no-logo">No logo</div>
+                      )
+                    }
+
+                    <input
+                      name="logo"
+                      value={logo}
+                      id="add-logo"
+                      onChange={onChange}
+                      type="url"
+                      className="form-control"
+                      placeholder="Paste image URL or load file"
+                    />
+
+                    <input type="file" ref={fileInputLogo} onChange={onUploadLogo} />
+                  </div>
+
+                  <div className="col-md-6  add-cover">
+                    <label htmlFor="add-cover">Cover</label>
+
+                    {
+                      coverLoading ? <Spinner /> : (
+                        cover ? <img className="cover" src={cover} alt="cover" /> : <div className="no-cover">No cover</div>
+                      )
+                    }
+
+                    <input
+                      name="cover"
+                      value={cover}
+                      id="add-cover"
+                      onChange={onChange}
+                      type="url"
+                      className="form-control"
+                      placeholder="Paste image URL or load file"
+                    />
+
+                    <input type="file" ref={fileInputCover} onChange={onUploadCover} />
+                  </div>
                 </div>
-
-                <div className="col-md-5">
-                  <label htmlFor="add-slug">Slug</label>
-
-                  <input
-                    name="slug"
-                    type="text"
-                    value={slug}
-                    id="add-slug"
-                    onChange={onChange}
-                    className="form-control"
-                  />
-                </div>
-
-                <div className="col-md-2">
-                  <label htmlFor="add-weight">Weight</label>
-
-                  <input
-                    min={0}
-                    max={999}
-                    name="weight"
-                    type="number"
-                    value={weight}
-                    id="add-weight"
-                    onChange={onChange}
-                    className="form-control"
-                  />
-                </div>
-
-                <div className="col-md-12">
-                  <label htmlFor="add-aliases">Aliases</label>
-
-                  <textarea
-                    rows={3}
-                    type="text"
-                    name="markers"
-                    value={markers}
-                    id="add-aliases"
-                    onChange={onChange}
-                    className="form-control"
-                  />
-                </div>
-              </div>
-            </fieldset>
+              </fieldset>
 
               {
                 modalLoading ? (
@@ -88,7 +133,7 @@ const AddSkill = ({
                 ) : (
                   <footer className="add-container__buttons">
                     <Button outline color="secondary" onClick={closeModal}>Cancel</Button>
-                    <Button outline color="primary" type="submit">Save</Button>
+                    <Button disabled={!name || !slug || logoLoading || coverLoading} outline color="primary" type="submit">Save</Button>
                   </footer>
                 )
               }
@@ -100,4 +145,4 @@ const AddSkill = ({
   );
 }
 
-export default AddSkill;
+export default AddCompany;
