@@ -1,19 +1,24 @@
 import React from "react";
 
-import Table from '../../components/Table';
-// import Alerts from '../../components/Alerts';
-// import AddButton from '../../components/AddButton';
-// import AddCompany from './add';
-// import EditCompany from './edit';
-// import DeleteCompany from './delete';
+import Table         from '../../components/Table';
+import Alerts        from '../../components/Alerts';
+import AddButton     from '../../components/AddButton';
+import AddCompany    from './add';
+import EditCompany   from './edit';
+import DeleteCompany from './delete';
+
 
 import { withHeaderTitle } from '../../../components/Header/HeaderTitle';
+import { API_URL, subUrl } from '../../api/apiUrl';
 
-import getCompanies from './api/getCompanies';
+// api
+import getCompanies      from './api/getCompanies';
 import getCompaniesCount from './api/getCompaniesCount';
-// import addCompany from './api/addCompany';
-// import editCompany from './api/editCompany';
-// import deleteCompany from './api/deleteCompany';
+import addCompany        from './api/addCompany';
+import editCompany       from './api/editCompany';
+import deleteCompany     from './api/deleteCompany';
+import uploadLogo        from './api/uploadLogo';
+import uploadCover       from './api/uploadCover';
 
 import columns from './columns';
 
@@ -21,33 +26,79 @@ import columns from './columns';
 class Companies extends React.Component {
   UNSAFE_componentWillMount() { this.props.setHeaderTitle('Companies') }
 
+  fileInputLogo  = React.createRef();
+  fileInputCover = React.createRef();
+
   state = {
     // table
     companies: [], // array of objects
     companiesCount: null,
     tableLoading: false,
-//     original: {},
+    original: {},
 
-//     // alert
-//     alertIsOpen: false,
-//     alertType: '',
-//     alertErrorText: '',
+    // alert
+    alertIsOpen: false,
+    alertType: '',
+    alertErrorText: '',
 
-//     // modals
-//     addModalIsOpen: false,
-//     editModalIsOpen: false,
-//     deleteModalIsOpen: false,
-//     modalLoading: false,
+    // modals
+    addModalIsOpen: false,
+    editModalIsOpen: false,
+    deleteModalIsOpen: false,
+    modalLoading: false,
 
-//     // fields
-//     id: null,
-//     name: '',
-//     slug: '',
-//     weight: null,
-//     markers: '',
+    // fields
+    id: null,
+    name: '',
+    slug: '',
+    domain: '',
+    weight: null,
+    logo: '', logoLoading: false,
+    cover: '', coverLoading: false,
   }
 
-//   onChange = e => this.setState({ [e.target.name]: e.target.value });
+  onChange = e => this.setState({ [e.target.name]: e.target.value });
+
+  onUploadLogo = e => {
+    e.preventDefault();
+    this.setState({ logoLoading: true });
+
+    // create a new form data
+    const formData = new FormData();
+
+    // get image from the browser memory
+    const uploadLogoFile = this.fileInputLogo.current.files[0];
+
+    // append this file to form data
+    formData.append('file', uploadLogoFile);
+
+    // uploadLogoRequest
+    uploadLogo(formData)
+      .then(res => {
+        this.setState({
+          logo: `${API_URL}/${subUrl}/containers/logo/download/${res.data.name}`,
+          logoLoading: false
+        })
+      })
+      .catch(error => this.catchErrors(error));
+  }
+
+  onUploadCover = e => {
+    e.preventDefault();
+    this.setState({ coverLoading: true });
+    const formData = new FormData();
+    const uploadCoverFile = this.fileInputCover.current.files[0];
+    formData.append('file', uploadCoverFile);
+
+    uploadCover(formData)
+      .then(res => {
+        this.setState({
+          cover: `${API_URL}/${subUrl}/containers/cover/download/${res.data.name}`,
+          coverLoading: false
+        })
+      })
+      .catch(error => this.catchErrors(error));
+  }
 
   catchErrors = error => {
     // redirect to login if 401 (request, response)
@@ -66,138 +117,137 @@ class Companies extends React.Component {
     }
   }
 
-//   addClick = () => {
-//     this.setState({
-//       addModalIsOpen: true,
-//       alertIsOpen: false,
-//       name: '', slug: '', weight: null, markers: '' // reset fields
-//     });
-//   }
+  addClick = () => {
+    this.setState({
+      addModalIsOpen: true,
+      alertIsOpen: false,
+      name: '', slug: '', weight: null, markers: '' // reset fields
+    });
+  }
 
-//   addSubmit = e => {
-//     e.preventDefault();
+  addSubmit = e => {
+    e.preventDefault();
 
-//     this.setState({ modalLoading: true });
-//     const { name, slug, weight, markers, companies } = this.state;
+    this.setState({ modalLoading: true });
+    const { name, domain, slug, weight, logo, cover, companies } = this.state;
 
-//     addCompany(name, slug, weight, markers)   // order must be like inside addSkill method
-//       .then(res => {
+    addCompany(name, domain, slug, weight, logo, cover)   // order must be like inside addSkill method
+      .then(res => {
 
-//         const newData = [res.data].concat(companies);
+        const newData = [res.data].concat(companies);
 
-//         this.setState({
-//           modalLoading: false,
-//           addModalIsOpen: false,
-//           alertType: 'add',
-//           alertIsOpen: true,
-//           companies: newData
-//         });
+        this.setState({
+          modalLoading: false,
+          addModalIsOpen: false,
+          alertType: 'add',
+          alertIsOpen: true,
+          companies: newData
+        });
 
-//         // close alert after 2 sec
-//         setTimeout(() => {
-//           this.setState({ alertIsOpen: false });
-//         }, 2000);
-//       })
+        // close alert after 2 sec
+        setTimeout(() => {
+          this.setState({ alertIsOpen: false });
+        }, 2000);
+      })
 
-//       .catch(error => this.catchErrors(error));
-//   }
+      .catch(error => this.catchErrors(error));
+  }
 
-//   editClick = original => () => {
-//     this.setState({
-//       original,
-//       alertIsOpen: false,
-//       editModalIsOpen: true,
+  editClick = original => () => {
+    this.setState({
+      original,
+      alertIsOpen: false,
+      editModalIsOpen: true,
 
-//       // get values from original react-table (original.id, original.name, original.price)
-//       id: original.id,
-//       name: original.name,
-//       slug: original.slug,
-//       markers: original.markers,
-//       weight: original.weight,
-//     });
-//   }
+      // get values from original react-table (original.id, original.name, original.price)
+      id: original.id,
+      name: original.name,
+      domain: original.domain,
+      slug: original.slug,
+      weight: original.weight,
+      logo: original.logo,
+      cover: original.cover,
+    });
+  }
 
-//   editSubmit = e => {
-//     e.preventDefault();
+  editSubmit = e => {
+    e.preventDefault();
 
-//     this.setState({ modalLoading: true });
+    this.setState({ modalLoading: true });
 
-//     // get edit values
-//     const { id, name, slug, markers, weight } = this.state;
-//     editCompany(id, name, slug, markers, weight)
+    // get edit values
+    const { id, name, domain, slug, weight, logo, cover } = this.state;
+    editCompany(id, name, domain, slug, weight, logo, cover)
 
-//       .then(() => {
-//         // get current table-data from the state w\o editing change (when render only)
-//         const { companies } = this.state;
+      .then(() => {
+        // get current table-data from the state w\o editing change (when render only)
+        const { companies } = this.state;
 
-//         // find editing data in all data by id
-//         for (let i = 0; i < companies.length; i++) {
-//           if (companies[i].id === id) {
-//             // inject editing data to table state
-//             companies[i] = { id, name, slug, markers, weight };
-//           }
-//         }
+        // find editing data in all data by id
+        for (let i = 0; i < companies.length; i++) {
+          if (companies[i].id === id) {
+            // inject editing data to table state
+            companies[i] = { id, name, domain, slug, weight, logo, cover };
+          }
+        }
 
-//         this.setState({
-//           companies, // new roles with edited item
-//           modalLoading: false,
-//           editModalIsOpen: false,
-//           alertType: 'edit',
-//           alertIsOpen: true
-//         });
+        this.setState({
+          companies, // new roles with edited item
+          modalLoading: false,
+          editModalIsOpen: false,
+          alertType: 'edit',
+          alertIsOpen: true
+        });
 
-//         // close alert after 2 sec
-//         setTimeout(() => {
-//           this.setState({ alertIsOpen: false });
-//         }, 2000);
-//       })
+        // close alert after 2 sec
+        setTimeout(() => {
+          this.setState({ alertIsOpen: false });
+        }, 2000);
+      })
 
-//       .catch(error => this.catchErrors(error));
-//   }
+      .catch(error => this.catchErrors(error));
+  }
 
-//   deleteClick = original => () => {
-//     this.setState({
-//       original,
-//       deleteModalIsOpen: true
-//     });
-//   }
+  deleteClick = original => () => {
+    this.setState({ original, deleteModalIsOpen: true });
+  }
 
-//   deleteSubmit = () => {
-//     const dataWitoutDeleted = [];
-//     const { companies, original: { id } } = this.state;
+  deleteSubmit = () => {
+    const dataWitoutDeleted = [];
+    const { companies, original: { id } } = this.state;
 
-//     this.setState({ modalLoading: true });
+    this.setState({ modalLoading: true });
 
-//     deleteCompany(id)
-//       // if delete ok
-//       .then(() => {
-//         for (let i = 0; i < companies.length; i++) {
-//           // skiping deleted item and forming new array without it
-//           if (companies[i].id !== id) {
-//             // push all data without deleted item to new array
-//             dataWitoutDeleted.push(companies[i]);
-//           }
-//         }
-//         this.setState({
-//           // set new data w\o deleted item
-//           companies: dataWitoutDeleted,
-//           deleteModalIsOpen: false,
-//           modalLoading: false
-//         })
-//       })
-//       .catch(error => this.catchErrors(error));
-//   }
+    deleteCompany(id)
+      // if delete ok
+      .then(() => {
+        for (let i = 0; i < companies.length; i++) {
+          // skiping deleted item and forming new array without it
+          if (companies[i].id !== id) {
+            // push all data without deleted item to new array
+            dataWitoutDeleted.push(companies[i]);
+          }
+        }
+        this.setState({
+          // set new data w\o deleted item
+          companies: dataWitoutDeleted,
+          deleteModalIsOpen: false,
+          modalLoading: false
+        })
+      })
+      .catch(error => this.catchErrors(error));
+  }
 
-//   closeAddModal    = () => !this.state.modalLoading && this.setState({ addModalIsOpen:    false });
-//   closeEditModal   = () => !this.state.modalLoading && this.setState({ editModalIsOpen:   false });
-//   closeDeleteModal = () => !this.state.modalLoading && this.setState({ deleteModalIsOpen: false });
+  closeAddModal    = () => !this.state.modalLoading && this.setState({ addModalIsOpen:    false });
+  closeEditModal   = () => !this.state.modalLoading && this.setState({ editModalIsOpen:   false });
+  closeDeleteModal = () => !this.state.modalLoading && this.setState({ deleteModalIsOpen: false });
 
-//   componentDidMount() {
+  componentDidMount() {
+    // close modal on Escape
+    document.addEventListener('keyup', e => e.keyCode === 27 && this.closeEditModal());
+  }
 
-//     // close modal on Escape
-//     document.addEventListener('keyup', e => e.keyCode === 27 && this.closeEditModal());
-//   }
-//   componentWillUnmount() { document.removeEventListener('keyup', e => e.keyCode === 27) }
+  componentWillUnmount() { document.removeEventListener('keyup', e => e.keyCode === 27) }
 
 
   render() {
@@ -206,7 +256,10 @@ class Companies extends React.Component {
       tableLoading, original, companies, companiesCount,
 
       // fields
-      name, slug, weight, markers,
+      name, domain, slug, weight, logo, cover,
+
+      // logo & cover
+      logoLoading, coverLoading,
 
       // modals
       addModalIsOpen, editModalIsOpen, modalLoading, deleteModalIsOpen,
@@ -223,8 +276,8 @@ class Companies extends React.Component {
         filterable: false,
         Cell: ({ original }) => (
           <div className="rt-custom__controls">
-            {/* <i className="ion-android-delete" onClick={this.deleteClick(original)} /> */}
-            {/* <i className="ion-edit" onClick={this.editClick(original)} /> */}
+            <i className="ion-android-delete" onClick={this.deleteClick(original)} />
+            <i className="ion-edit" onClick={this.editClick(original)} />
           </div>
         )
       }
@@ -232,10 +285,66 @@ class Companies extends React.Component {
 
     return (
       <div className="companies-page">
+        { alertIsOpen && <Alerts type={alertType} original={original} errorText={alertErrorText} /> }
+
+
+        <AddButton
+          text="company"
+          loading={modalLoading}
+          addClick={this.addClick}
+        />
+
+
+        <DeleteCompany
+          isOpen={deleteModalIsOpen}
+          modalLoading={modalLoading}
+          closeModal={this.closeDeleteModal}
+          original={original}
+          deleteSubmit={this.deleteSubmit}
+        />
+
+
+        <AddCompany
+          // fields
+          name={name} domain={domain} slug={slug} weight={weight} logo={logo} cover={cover}
+
+          isOpen={addModalIsOpen}
+          modalLoading={modalLoading}
+          closeModal={this.closeAddModal}
+          onChange={this.onChange}
+          onSubmit={this.addSubmit}
+        />
+
+
+        <EditCompany
+          // fields
+          original={original}
+          name={name} domain={domain} slug={slug} weight={weight}
+
+          // logo
+          logo={logo}
+          logoLoading={logoLoading}
+          fileInputLogo={this.fileInputLogo} // input type="file" logo-refernce
+          onUploadLogo={this.onUploadLogo}
+
+          // cover
+          cover={cover}
+          coverLoading={coverLoading}
+          fileInputCover={this.fileInputCover} // input type="file" cover-refernce
+          onUploadCover={this.onUploadCover}
+
+          isOpen={editModalIsOpen}
+          modalLoading={modalLoading}
+          closeModal={this.closeEditModal}
+          onChange={this.onChange}
+          onSubmit={this.editSubmit}
+        />
+
+
         <Table
           manual={true}
-          pages={companiesCount}
           data={companies}
+          pages={companiesCount}
           loading={tableLoading}
           columns={[...columns, ...controlsColumn]}
           onFetchData={state => {
@@ -249,8 +358,8 @@ class Companies extends React.Component {
                 // data request
                 getCompanies(state)
                   .then(res => this.setState({ companies: res.data, tableLoading: false }))
-              })
-              .catch(error => this.catchErrors(error));
+                  .catch(error => this.catchErrors(error));
+              }).catch(error => this.catchErrors(error));
           }}
         />
       </div>
@@ -259,45 +368,3 @@ class Companies extends React.Component {
 }
 
 export default withHeaderTitle(Companies);
-
-
-//         { alertIsOpen && <Alerts type={alertType} original={original} errorText={alertErrorText} /> }
-
-//         <AddButton
-//           text="company"
-//           loading={modalLoading}
-//           addClick={this.addClick}
-//         />
-
-//         <AddCompany
-//           // fields
-//           name={name} slug={slug} weight={weight} markers={markers}
-
-//           isOpen={addModalIsOpen}
-//           modalLoading={modalLoading}
-//           closeModal={this.closeAddModal}
-//           onChange={this.onChange}
-//           onSubmit={this.addSubmit}
-//         />
-
-//         <EditCompany
-//           // fields
-//           original={original}
-//           name={name} slug={slug} weight={weight} markers={markers}
-
-//           isOpen={editModalIsOpen}
-//           modalLoading={modalLoading}
-//           closeModal={this.closeEditModal}
-//           onChange={this.onChange}
-//           onSubmit={this.editSubmit}
-//         />
-
-//         <DeleteCompany
-//           isOpen={deleteModalIsOpen}
-//           modalLoading={modalLoading}
-//           closeModal={this.closeDeleteModal}
-//           original={original}
-//           deleteSubmit={this.deleteSubmit}
-//         />
-
-

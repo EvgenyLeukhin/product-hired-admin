@@ -6,7 +6,12 @@ import { Button } from "reactstrap";
 
 
 const EditSkill = ({
-  name, slug, weight, markers, original, // fields
+  name, domain, slug, weight, logo, cover, original, // fields
+
+  fileInputLogo, logoLoading, onUploadLogo, // logo
+  fileInputCover, coverLoading, onUploadCover, // cover
+
+
   isOpen, closeModal, onChange, onSubmit, modalLoading
 }) => {
 
@@ -23,64 +28,105 @@ const EditSkill = ({
           <div className="cardbox-body">
             <form action="" onSubmit={onSubmit}>
 
-            <fieldset>
-              <div className="form-group row">
-                <div className="col-md-5">
-                  <label htmlFor="edit-name">Skill</label>
+              <fieldset>
+                <div className="form-group row">
+                  <div className="col-md-6">
+                    <label htmlFor="edit-name">Company name</label>
 
-                  <input
-                    name="name"
-                    type="text"
-                    value={name}
-                    id="edit-name"
-                    onChange={onChange}
-                    className="form-control"
-                  />
+                    <input
+                      name="name"
+                      value={name}
+                      id="edit-name"
+                      onChange={onChange}
+                      type="text"
+                      className="form-control"
+                    />
+                  </div>
+
+                  <div className="col-md-6">
+                    <label htmlFor="edit-domain">Domain</label>
+
+                    <input
+                      name="domain"
+                      value={domain}
+                      id="edit-domain"
+                      onChange={onChange}
+                      type="text"
+                      className="form-control"
+                    />
+                  </div>
+
+                  <div className="col-md-6">
+                    <label htmlFor="edit-slug">Slug</label>
+
+                    <input
+                      name="slug"
+                      value={slug}
+                      id="edit-slug"
+                      onChange={onChange}
+                      type="text"
+                      className="form-control"
+                    />
+                  </div>
+
+                  <div className="col-md-6">
+                    <label htmlFor="edit-weight">Weight</label>
+
+                    <input
+                      name="weight"
+                      value={weight}
+                      id="edit-weight"
+                      onChange={onChange}
+                      type="number"
+                      className="form-control"
+                    />
+                  </div>
+
+                  <div className="col-md-6  edit-logo">
+                    <label htmlFor="edit-logo">Logo</label>
+
+                    {
+                      logoLoading ? <Spinner /> : (
+                        logo ? <img className="logo" src={logo} alt="logo" /> : <div className="no-logo">No logo</div>
+                      )
+                    }
+
+                    <input
+                      name="logo"
+                      value={logo}
+                      id="edit-logo"
+                      onChange={onChange}
+                      type="url"
+                      className="form-control"
+                      placeholder="Paste image URL or load file"
+                    />
+
+                    <input type="file" ref={fileInputLogo} onChange={onUploadLogo} />
+                  </div>
+
+                  <div className="col-md-6  edit-cover">
+                    <label htmlFor="edit-cover">Cover</label>
+
+                    {
+                      coverLoading ? <Spinner /> : (
+                        cover ? <img className="cover" src={cover} alt="cover" /> : <div className="no-cover">No cover</div>
+                      )
+                    }
+
+                    <input
+                      name="cover"
+                      value={cover}
+                      id="edit-cover"
+                      onChange={onChange}
+                      type="url"
+                      className="form-control"
+                      placeholder="Paste image URL or load file"
+                    />
+
+                    <input type="file" ref={fileInputCover} onChange={onUploadCover} />
+                  </div>
                 </div>
-
-                <div className="col-md-5">
-                  <label htmlFor="edit-slug">Slug</label>
-
-                  <input
-                    name="slug"
-                    type="text"
-                    value={slug}
-                    id="edit-slug"
-                    onChange={onChange}
-                    className="form-control"
-                  />
-                </div>
-
-                <div className="col-md-2">
-                  <label htmlFor="edit-weight">Weight</label>
-
-                  <input
-                    min={0}
-                    max={999}
-                    name="weight"
-                    type="number"
-                    value={weight}
-                    id="edit-weight"
-                    onChange={onChange}
-                    className="form-control"
-                  />
-                </div>
-
-                <div className="col-md-12">
-                  <label htmlFor="edit-aliases">Aliases</label>
-
-                  <textarea
-                    rows={3}
-                    type="text"
-                    name="markers"
-                    value={markers}
-                    id="edit-aliases"
-                    onChange={onChange}
-                    className="form-control"
-                  />
-                </div>
-              </div>
-            </fieldset>
+              </fieldset>
 
               {
                 modalLoading ? (

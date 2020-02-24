@@ -1,13 +1,15 @@
 import axios from 'axios';
+
 import { API_URL, subUrl } from '../../../api/apiUrl';
 
-const addCompany = (name, domain, slug, weight, logo, cover) => {
+
+const uploadLogo = formData => {
   const token = JSON.parse(localStorage.getItem('ph-admin-user-data')).id;
 
   return axios.post(
-    `${API_URL}/${subUrl}/companies`,
+    `${API_URL}/${subUrl}/vacancies/logo`,
 
-    { name, domain, slug, weight, logo, cover },
+    formData,
 
     {
       headers: { Authorization: token }
@@ -15,4 +17,4 @@ const addCompany = (name, domain, slug, weight, logo, cover) => {
   );
 }
 
-export default addCompany;
+export default uploadLogo;
