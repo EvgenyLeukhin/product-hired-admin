@@ -6,12 +6,12 @@ import { Button } from "reactstrap";
 
 
 const AddCompany = ({
-  name, domain, slug, weight, logo, cover,     // fields
+  name, domain, slug, weight, logo, cover,                  // fields
 
-  fileInputLogo, logoLoading, onUploadLogo,    // logo
-  fileInputCover, coverLoading, onUploadCover, // cover
+  fileInputLogo, logoLoading, onUploadLogo, deleteLogo,     // logo
+  fileInputCover, coverLoading, onUploadCover, deleteCover, // cover
 
-  isOpen, closeModal, onChange, onSubmit, modalLoading, deleteLogo, deleteCover
+  isOpen, closeModal, onChange, onSubmit, modalLoading, generateSlug
 }) => {
 
   return (
@@ -56,14 +56,22 @@ const AddCompany = ({
                   <div className="col-md-6">
                     <label htmlFor="add-slug">Slug</label>
 
-                    <input
-                      name="slug"
-                      value={slug}
-                      id="add-slug"
-                      onChange={onChange}
-                      type="text"
-                      className="form-control"
-                    />
+                    <div className="input-group">
+                      <input
+                        name="slug"
+                        value={slug}
+                        id="add-slug"
+                        onChange={onChange}
+                        type="text"
+                        className="form-control"
+                      />
+
+                      <div className="input-group-append">
+                        <button className="btn btn-dark" type="button" onClick={generateSlug} disabled={!name}>
+                          Generate
+                        </button>
+                      </div>
+                    </div>
                   </div>
 
                   <div className="col-md-6">
@@ -79,53 +87,77 @@ const AddCompany = ({
                     />
                   </div>
 
-                  <div className="col-md-6  add-logo">
-                    <label htmlFor="add-logo">Logo</label>
+                  <div className="col-md-6">
+                    <div className="add-logo">
+                      <label htmlFor="add-logo">Logo</label>
+                      {
+                        logoLoading ? <Spinner /> : (
+                          logo ? <img className="logo" src={logo} alt="logo" /> : <div className="no-logo">No logo</div>
+                        )
+                      }
+                      <input id="add-logo" type="file" ref={fileInputLogo} onChange={onUploadLogo} />
+                    </div>
 
-                    { logo && <div className="delete" onClick={deleteLogo} /> }
+                    <div className="add-logo-url">
+                      <label htmlFor="add-logo-url">Logo URL</label>
 
-                    {
-                      logoLoading ? <Spinner /> : (
-                        logo ? <img className="logo" src={logo} alt="logo" /> : <div className="no-logo">No logo</div>
-                      )
-                    }
+                      <div className="input-group">
+                        <input
+                          name="logo"
+                          value={logo}
+                          id="add-logo-url"
+                          onChange={onChange}
+                          type="url"
+                          className="form-control"
+                          placeholder="Please, paste logo URL or load file"
+                        />
 
-                    <input
-                      name="logo"
-                      value={logo}
-                      id="add-logo"
-                      onChange={onChange}
-                      type="url"
-                      className="form-control"
-                      placeholder="Please, paste image URL or load file"
-                    />
+                        <div className="input-group-append">
+                          <button className="btn btn-dark" type="button" onClick={deleteLogo} disabled={!logo}>
+                            Clear
+                          </button>
+                        </div>
+                      </div>
 
-                    <input type="file" ref={fileInputLogo} onChange={onUploadLogo} />
+                    </div>
                   </div>
 
-                  <div className="col-md-6  add-cover">
-                    <label htmlFor="add-cover">Cover</label>
 
-                    { cover && <div className="delete" onClick={deleteCover} /> }
+                  <div className="col-md-6">
+                    <div className="add-cover">
+                      <label htmlFor="add-cover">Cover</label>
+                      {
+                        coverLoading ? <Spinner /> : (
+                          cover ? <img className="cover" src={cover} alt="cover" /> : <div className="no-cover">No cover</div>
+                        )
+                      }
+                      <input id="add-cover" type="file" ref={fileInputCover} onChange={onUploadCover} />
+                    </div>
 
-                    {
-                      coverLoading ? <Spinner /> : (
-                        cover ? <img className="cover" src={cover} alt="cover" /> : <div className="no-cover">No cover</div>
-                      )
-                    }
+                    <div className="add-cover-url">
+                      <label htmlFor="add-cover-url">Cover URL</label>
 
-                    <input
-                      name="cover"
-                      value={cover}
-                      id="add-cover"
-                      onChange={onChange}
-                      type="url"
-                      className="form-control"
-                      placeholder="Please, paste image URL or load file"
-                    />
+                      <div className="input-group">
+                        <input
+                          name="cover"
+                          value={cover}
+                          id="add-cover-url"
+                          onChange={onChange}
+                          type="url"
+                          className="form-control"
+                          placeholder="Please, paste cover URL or load file"
+                        />
 
-                    <input type="file" ref={fileInputCover} onChange={onUploadCover} />
+                        <div className="input-group-append">
+                          <button className="btn btn-dark" type="button" onClick={deleteCover} disabled={!cover}>
+                            Clear
+                          </button>
+                        </div>
+                      </div>
+
+                    </div>
                   </div>
+
                 </div>
               </fieldset>
 

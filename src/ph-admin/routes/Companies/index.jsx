@@ -121,7 +121,8 @@ class Companies extends React.Component {
     this.setState({
       addModalIsOpen: true,
       alertIsOpen: false,
-      name: '', domain: '', slug: '', weight: null, logo: '', cover: ''
+      name: '', domain: '', slug: '', weight: null, logo: '', cover: '',
+      logoLoading: false, coverLoading: false
     });
   }
 
@@ -158,6 +159,7 @@ class Companies extends React.Component {
       original,
       alertIsOpen: false,
       editModalIsOpen: true,
+      logoLoading: false, coverLoading: false,
 
       // get values from original react-table (original.id, original.name, original.price)
       id: original.id,
