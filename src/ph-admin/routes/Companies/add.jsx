@@ -11,7 +11,7 @@ const AddCompany = ({
   fileInputLogo, logoLoading, onUploadLogo,    // logo
   fileInputCover, coverLoading, onUploadCover, // cover
 
-  isOpen, closeModal, onChange, onSubmit, modalLoading
+  isOpen, closeModal, onChange, onSubmit, modalLoading, deleteLogo, deleteCover
 }) => {
 
   return (
@@ -82,6 +82,8 @@ const AddCompany = ({
                   <div className="col-md-6  add-logo">
                     <label htmlFor="add-logo">Logo</label>
 
+                    { logo && <div className="delete" onClick={deleteLogo} /> }
+
                     {
                       logoLoading ? <Spinner /> : (
                         logo ? <img className="logo" src={logo} alt="logo" /> : <div className="no-logo">No logo</div>
@@ -95,7 +97,7 @@ const AddCompany = ({
                       onChange={onChange}
                       type="url"
                       className="form-control"
-                      placeholder="Paste image URL or load file"
+                      placeholder="Please, paste image URL or load file"
                     />
 
                     <input type="file" ref={fileInputLogo} onChange={onUploadLogo} />
@@ -103,6 +105,8 @@ const AddCompany = ({
 
                   <div className="col-md-6  add-cover">
                     <label htmlFor="add-cover">Cover</label>
+
+                    { cover && <div className="delete" onClick={deleteCover} /> }
 
                     {
                       coverLoading ? <Spinner /> : (
@@ -117,7 +121,7 @@ const AddCompany = ({
                       onChange={onChange}
                       type="url"
                       className="form-control"
-                      placeholder="Paste image URL or load file"
+                      placeholder="Please, paste image URL or load file"
                     />
 
                     <input type="file" ref={fileInputCover} onChange={onUploadCover} />

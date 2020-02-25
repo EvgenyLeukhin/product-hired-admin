@@ -3,6 +3,7 @@ div.ReactModal__add {
     .add-logo,
     .add-cover {
       display: flex;
+      position: relative;
       flex-direction: column;
       min-height: 200px;
 
@@ -18,6 +19,24 @@ div.ReactModal__add {
       input[type="url"] {
         margin-top: auto;
         margin-bottom: 10px;
+      }
+
+      .delete {
+        position: absolute;
+        z-index: 1;
+        background-image: url(./close-outline.svg);
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        top: 27px;
+        right: 15px;
+        width: 15px;
+        height: 15px;
+        opacity: .5;
+        cursor: pointer;
+        transition: all 0.23s;
+
+        &:hover { opacity: 1; }
       }
     }
 

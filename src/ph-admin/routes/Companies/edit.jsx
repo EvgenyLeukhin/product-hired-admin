@@ -11,7 +11,7 @@ const EditCompany = ({
   fileInputLogo, logoLoading, onUploadLogo,          // logo
   fileInputCover, coverLoading, onUploadCover,       // cover
 
-  isOpen, closeModal, onChange, onSubmit, modalLoading, deleteClick
+  isOpen, closeModal, onChange, onSubmit, modalLoading, deleteClick, deleteLogo, deleteCover
 }) => {
 
   return (
@@ -84,6 +84,8 @@ const EditCompany = ({
                   <div className="col-md-6  edit-logo">
                     <label htmlFor="edit-logo">Logo</label>
 
+                    { logo && <div className="delete" onClick={deleteLogo} /> }
+
                     {
                       logoLoading ? <Spinner /> : (
                         logo ? <img className="logo" src={logo} alt="logo" /> : <div className="no-logo">No logo</div>
@@ -97,7 +99,7 @@ const EditCompany = ({
                       onChange={onChange}
                       type="url"
                       className="form-control"
-                      placeholder="Paste image URL or load file"
+                      placeholder="Please, paste image URL or load file"
                     />
 
                     <input type="file" ref={fileInputLogo} onChange={onUploadLogo} />
@@ -105,6 +107,8 @@ const EditCompany = ({
 
                   <div className="col-md-6  edit-cover">
                     <label htmlFor="edit-cover">Cover</label>
+
+                    { cover && <div className="delete" onClick={deleteCover} /> }
 
                     {
                       coverLoading ? <Spinner /> : (
@@ -119,7 +123,7 @@ const EditCompany = ({
                       onChange={onChange}
                       type="url"
                       className="form-control"
-                      placeholder="Paste image URL or load file"
+                      placeholder="Please, paste image URL or load file"
                     />
 
                     <input type="file" ref={fileInputCover} onChange={onUploadCover} />

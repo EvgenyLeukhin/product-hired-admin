@@ -3,10 +3,10 @@ import React from "react";
 import Table         from '../../components/Table';
 import Alerts        from '../../components/Alerts';
 import AddButton     from '../../components/AddButton';
+
 import AddCompany    from './add';
 import EditCompany   from './edit';
 import DeleteCompany from './delete';
-
 
 import { withHeaderTitle } from '../../../components/Header/HeaderTitle';
 import { API_URL, subUrl } from '../../api/apiUrl';
@@ -59,6 +59,23 @@ class Companies extends React.Component {
 
   onChange = e => this.setState({ [e.target.name]: e.target.value });
 
+  catchErrors = error => {
+    // redirect to login if 401 (request, response)
+    if (error.response.status === 401) {
+      localStorage.removeItem('ph-admin-user-data');
+      this.props.history.push('/login');
+
+    } else {
+      this.setState({
+        modalLoading: false,
+        addModalIsOpen: false, editModalIsOpen: false, deleteModalIsOpen: false, // close modals
+        alertType: 'error',
+        alertIsOpen: true,
+        alertErrorText: `${error}`
+      });
+    }
+  }
+
   onUploadLogo = e => {
     e.preventDefault();
     this.setState({ logoLoading: true });
@@ -98,23 +115,6 @@ class Companies extends React.Component {
         })
       })
       .catch(error => this.catchErrors(error));
-  }
-
-  catchErrors = error => {
-    // redirect to login if 401 (request, response)
-    if (error.response.status === 401) {
-      localStorage.removeItem('ph-admin-user-data');
-      this.props.history.push('/login');
-
-    } else {
-      this.setState({
-        modalLoading: false,
-        addModalIsOpen: false, editModalIsOpen: false, deleteModalIsOpen: false, // close modals
-        alertType: 'error',
-        alertIsOpen: true,
-        alertErrorText: `${error}`
-      });
-    }
   }
 
   addClick = () => {
@@ -247,6 +247,10 @@ class Companies extends React.Component {
       .catch(error => this.catchErrors(error));
   }
 
+  deleteLogo  = () => this.setState({ logo: '' });
+
+  deleteCover = () => this.setState({ cover: '' });
+
   closeAddModal    = () => !this.state.modalLoading && this.setState({ addModalIsOpen:    false });
   closeEditModal   = () => !this.state.modalLoading && this.setState({ editModalIsOpen:   false });
   closeDeleteModal = () => !this.state.modalLoading && this.setState({ deleteModalIsOpen: false });
@@ -329,11 +333,16 @@ class Companies extends React.Component {
           fileInputCover={this.fileInputCover} // input type="file" cover-refernce
           onUploadCover={this.onUploadCover}
 
+          // modal
           isOpen={addModalIsOpen}
           modalLoading={modalLoading}
           closeModal={this.closeAddModal}
+
+          // actions
           onChange={this.onChange}
           onSubmit={this.addSubmit}
+          deleteLogo={this.deleteLogo}
+          deleteCover={this.deleteCover}
         />
 
 
@@ -354,12 +363,17 @@ class Companies extends React.Component {
           fileInputCover={this.fileInputCover} // input type="file" cover-refernce
           onUploadCover={this.onUploadCover}
 
+          // modal
           isOpen={editModalIsOpen}
           modalLoading={modalLoading}
           closeModal={this.closeEditModal}
+
+          // actions
           onChange={this.onChange}
           onSubmit={this.editSubmit}
           deleteClick={this.deleteClick(original)}
+          deleteLogo={this.deleteLogo}
+          deleteCover={this.deleteCover}
         />
 
 
