@@ -179,9 +179,18 @@ class Skills extends React.Component {
         this.setState({
           // set new data w\o deleted item
           skills: dataWitoutDeleted,
+          editModalIsOpen: false,
           deleteModalIsOpen: false,
-          modalLoading: false
+          modalLoading: false,
+
+          // show alert
+          alertType: 'delete', alertIsOpen: true
         })
+
+        // close alert after 2 sec
+        setTimeout(() => {
+          this.setState({ alertIsOpen: false });
+        }, 2000);
       })
       .catch(error => this.catchErrors(error));
   }
@@ -265,6 +274,7 @@ class Skills extends React.Component {
           closeModal={this.closeEditModal}
           onChange={this.onChange}
           onSubmit={this.editSubmit}
+          deleteClick={this.deleteClick(original)}
         />
 
         <DeleteSkill

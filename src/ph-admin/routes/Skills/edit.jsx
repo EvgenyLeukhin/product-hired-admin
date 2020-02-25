@@ -7,7 +7,7 @@ import { Button } from "reactstrap";
 
 const EditSkill = ({
   name, slug, weight, markers, original, // fields
-  isOpen, closeModal, onChange, onSubmit, modalLoading
+  isOpen, closeModal, onChange, onSubmit, modalLoading, deleteClick
 }) => {
 
   return (
@@ -89,6 +89,7 @@ const EditSkill = ({
                   </div>
                 ) : (
                   <footer className="edit-container__buttons">
+                    <Button outline color="danger" onClick={deleteClick}>Delete</Button>
                     <Button outline color="secondary" onClick={closeModal}>Cancel</Button>
                     <Button outline color="primary" type="submit">Save</Button>
                   </footer>

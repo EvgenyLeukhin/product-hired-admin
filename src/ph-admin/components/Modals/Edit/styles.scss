@@ -142,17 +142,6 @@ div.ReactModal__edit {
   }
 }
 
-@media (max-width: 600px) {
-  div.ReactModal__edit {
-    .add-container,
-    .edit-container {
-      &__buttons {
-        button { flex-basis: 50%; }
-      }
-    }
-  }
-}
-
 
 // portal
 .ReactModal__Portal__edit {

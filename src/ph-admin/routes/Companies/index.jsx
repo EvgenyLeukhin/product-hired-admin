@@ -233,8 +233,16 @@ class Companies extends React.Component {
           companies: dataWitoutDeleted,
           editModalIsOpen: false,
           deleteModalIsOpen: false,
-          modalLoading: false
+          modalLoading: false,
+
+          // show alert
+          alertType: 'delete', alertIsOpen: true
         })
+
+        // close alert after 2 sec
+        setTimeout(() => {
+          this.setState({ alertIsOpen: false });
+        }, 2000);
       })
       .catch(error => this.catchErrors(error));
   }
