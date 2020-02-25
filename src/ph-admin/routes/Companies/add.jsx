@@ -67,7 +67,12 @@ const AddCompany = ({
                       />
 
                       <div className="input-group-append">
-                        <button className="btn btn-dark" type="button" onClick={generateSlug} disabled={!name}>
+                        <button
+                          className="btn btn-dark"
+                          type="button"
+                          onClick={generateSlug}
+                          disabled={!name || slug}
+                        >
                           Generate
                         </button>
                       </div>

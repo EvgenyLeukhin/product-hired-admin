@@ -1,4 +1,5 @@
 import React from "react";
+import slugify from 'slugify';
 
 import Table         from '../../components/Table';
 import Alerts        from '../../components/Alerts';
@@ -257,6 +258,13 @@ class Companies extends React.Component {
   closeEditModal   = () => !this.state.modalLoading && this.setState({ editModalIsOpen:   false });
   closeDeleteModal = () => !this.state.modalLoading && this.setState({ deleteModalIsOpen: false });
 
+  generateSlug = () => {
+    const { name } = this.state;
+    this.setState({
+      slug: slugify(name, { replacement: '-', lower: true })
+    });
+  }
+
   componentDidMount() {
     // close modal on Escape
     document.addEventListener('keyup', e => e.keyCode === 27 && this.closeEditModal());
@@ -345,6 +353,7 @@ class Companies extends React.Component {
           onSubmit={this.addSubmit}
           deleteLogo={this.deleteLogo}
           deleteCover={this.deleteCover}
+          generateSlug={this.generateSlug}
         />
 
 
@@ -376,6 +385,7 @@ class Companies extends React.Component {
           deleteClick={this.deleteClick(original)}
           deleteLogo={this.deleteLogo}
           deleteCover={this.deleteCover}
+          generateSlug={this.generateSlug}
         />
 
 
