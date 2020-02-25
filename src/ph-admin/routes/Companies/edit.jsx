@@ -11,7 +11,7 @@ const EditCompany = ({
   fileInputLogo, logoLoading, onUploadLogo,          // logo
   fileInputCover, coverLoading, onUploadCover,       // cover
 
-  isOpen, closeModal, onChange, onSubmit, modalLoading
+  isOpen, closeModal, onChange, onSubmit, modalLoading, deleteClick
 }) => {
 
   return (
@@ -134,6 +134,7 @@ const EditCompany = ({
                   </div>
                 ) : (
                   <footer className="edit-container__buttons">
+                    <Button outline color="danger" onClick={deleteClick}>Delete</Button>
                     <Button outline color="secondary" onClick={closeModal}>Cancel</Button>
                     <Button disabled={!name || !slug || logoLoading || coverLoading} outline color="primary" type="submit">Save</Button>
                   </footer>

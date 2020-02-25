@@ -112,7 +112,10 @@ div.ReactModal__edit {
       margin-top: 20px;
       border-top: 1px solid #ddd;
 
-      button { flex-basis: 20%; }
+      button {
+        flex-basis: 20%;
+        &.btn-outline-danger { margin-right: auto; }
+      }
 
       .btn-outline-secondary { margin-right: 15px; }
     }
@@ -147,5 +150,13 @@ div.ReactModal__edit {
         button { flex-basis: 50%; }
       }
     }
+  }
+}
+
+
+// portal
+.ReactModal__Portal__edit {
+  .ReactModal__Overlay {
+    z-index: 20;
   }
 }

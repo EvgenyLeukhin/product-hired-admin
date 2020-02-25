@@ -83,7 +83,7 @@ class Login extends Component {
             setTimeout(() => {
               const { history } = this.props;
               history.push('/companies');
-              window.location.reload(); // fix problem with getCount after login
+              // window.location.reload(); // fix problem with getCount after login
 
             }, 1000);
 

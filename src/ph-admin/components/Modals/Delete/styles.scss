@@ -42,3 +42,11 @@
     .sk-chase-dot::before { background-color: #dc3545; }
   }
 }
+
+
+// portal
+.ReactModal__Portal__delete {
+  .ReactModal__Overlay {
+    z-index: 30;
+  }
+}

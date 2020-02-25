@@ -14,6 +14,7 @@ const AddModal = props => {
       isOpen={isOpen}
       overlayClassName="ReactModal__Overlay"
       className={`ReactModal ReactModal__add`}
+      portalClassName={'ReactModal__Portal__add'}
       onRequestClose={modalLoading ? false : closeModal}
     >
       {props.children}

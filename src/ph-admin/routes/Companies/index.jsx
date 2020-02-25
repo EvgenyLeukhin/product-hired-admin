@@ -231,6 +231,7 @@ class Companies extends React.Component {
         this.setState({
           // set new data w\o deleted item
           companies: dataWitoutDeleted,
+          editModalIsOpen: false,
           deleteModalIsOpen: false,
           modalLoading: false
         })
@@ -350,6 +351,7 @@ class Companies extends React.Component {
           closeModal={this.closeEditModal}
           onChange={this.onChange}
           onSubmit={this.editSubmit}
+          deleteClick={this.deleteClick(original)}
         />
 
 
