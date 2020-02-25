@@ -60,7 +60,10 @@ div.ReactModal__add {
         align-self: center;
         height: 100px;
 
-        &.cover { width: auto; }
+        &.cover {
+          width: 100%;
+          object-fit: cover;
+       }
       }
     }
   }
