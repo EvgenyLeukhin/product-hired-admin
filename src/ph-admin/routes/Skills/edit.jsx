@@ -7,7 +7,7 @@ import { Button } from "reactstrap";
 
 const EditSkill = ({
   name, slug, weight, markers, original, // fields
-  isOpen, closeModal, onChange, onSubmit, modalLoading, deleteClick
+  isOpen, closeModal, onChange, onSubmit, modalLoading, deleteClick, generateSlug
 }) => {
 
   return (
@@ -41,14 +41,28 @@ const EditSkill = ({
                 <div className="col-md-5">
                   <label htmlFor="edit-slug">Slug</label>
 
-                  <input
-                    name="slug"
-                    type="text"
-                    value={slug}
-                    id="edit-slug"
-                    onChange={onChange}
-                    className="form-control"
-                  />
+                  <div className="input-group">
+                    <input
+                      required
+                      name="slug"
+                      type="text"
+                      value={slug}
+                      id="edit-slug"
+                      onChange={onChange}
+                      className="form-control"
+                    />
+
+                    <div className="input-group-append">
+                      <button
+                        className="btn btn-dark"
+                        type="button"
+                        onClick={generateSlug}
+                        disabled={!name || slug}
+                      >
+                        Generate
+                      </button>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="col-md-2">

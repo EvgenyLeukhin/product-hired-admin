@@ -6,8 +6,8 @@ import { Button } from "reactstrap";
 
 
 const EditRole = ({
-  name, slug, weight, keywords, negative, original,       // fields
-  isOpen, closeModal, onChange, onSubmit, modalLoading    // modal settings
+  name, slug, weight, keywords, negative, original,                  // fields
+  isOpen, closeModal, onChange, onSubmit, modalLoading, generateSlug // modal
 }) => {
 
   return (
@@ -42,15 +42,28 @@ const EditRole = ({
                 <div className="col-md-5">
                   <label htmlFor="edit-slug">Slug</label>
 
-                  <input
-                    required
-                    name="slug"
-                    type="text"
-                    value={slug}
-                    id="edit-slug"
-                    onChange={onChange}
-                    className="form-control"
-                  />
+                  <div className="input-group">
+                    <input
+                      required
+                      name="slug"
+                      type="text"
+                      value={slug}
+                      id="edit-slug"
+                      onChange={onChange}
+                      className="form-control"
+                    />
+
+                    <div className="input-group-append">
+                      <button
+                        className="btn btn-dark"
+                        type="button"
+                        onClick={generateSlug}
+                        disabled={!name || slug}
+                      >
+                        Generate
+                      </button>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="col-md-2">

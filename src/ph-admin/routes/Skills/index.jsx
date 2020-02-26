@@ -1,4 +1,5 @@
 import React from "react";
+import slugify from 'slugify';
 
 import Table from '../../components/Table';
 import Alerts from '../../components/Alerts';
@@ -199,6 +200,13 @@ class Skills extends React.Component {
   closeEditModal   = () => !this.state.modalLoading && this.setState({ editModalIsOpen:   false });
   closeDeleteModal = () => !this.state.modalLoading && this.setState({ deleteModalIsOpen: false });
 
+  generateSlug = () => {
+    const { name } = this.state;
+    this.setState({
+      slug: slugify(name, { replacement: '-', lower: true })
+    });
+  }
+
   componentDidMount() {
     this.setState({ tableLoading: true });
 
@@ -262,6 +270,7 @@ class Skills extends React.Component {
           closeModal={this.closeAddModal}
           onChange={this.onChange}
           onSubmit={this.addSubmit}
+          generateSlug={this.generateSlug}
         />
 
         <EditSkill
@@ -275,6 +284,7 @@ class Skills extends React.Component {
           onChange={this.onChange}
           onSubmit={this.editSubmit}
           deleteClick={this.deleteClick(original)}
+          generateSlug={this.generateSlug}
         />
 
         <DeleteSkill

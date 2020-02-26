@@ -1,4 +1,5 @@
 import React from "react";
+import slugify from 'slugify';
 
 import Table from '../../components/Table';
 import Alerts from '../../components/Alerts';
@@ -10,7 +11,6 @@ import getRoles from './api/getRoles';
 import editRole from './api/editRole';
 
 import columns from './columns';
-
 
 
 class Roles extends React.Component {
@@ -113,6 +113,13 @@ class Roles extends React.Component {
       .catch(error => this.catchErrors(error));
   }
 
+  generateSlug = () => {
+    const { name } = this.state;
+    this.setState({
+      slug: slugify(name, { replacement: '-', lower: true })
+    });
+  }
+
 
   componentDidMount() {
     this.setState({ tableLoading: true });
@@ -175,6 +182,7 @@ class Roles extends React.Component {
           closeModal={this.closeModal}
           onChange={this.onChange}
           onSubmit={this.editSubmit}
+          generateSlug={this.generateSlug}
         />
 
         <Table

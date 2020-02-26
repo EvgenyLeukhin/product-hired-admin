@@ -7,7 +7,7 @@ import { Button } from "reactstrap";
 
 const AddSkill = ({
   name, slug, weight, markers, // fields
-  isOpen, closeModal, onChange, onSubmit, modalLoading
+  isOpen, closeModal, onChange, onSubmit, modalLoading, generateSlug
 }) => {
 
   return (
@@ -39,14 +39,28 @@ const AddSkill = ({
                 <div className="col-md-5">
                   <label htmlFor="add-slug">Slug</label>
 
-                  <input
-                    name="slug"
-                    type="text"
-                    value={slug}
-                    id="add-slug"
-                    onChange={onChange}
-                    className="form-control"
-                  />
+                  <div className="input-group">
+                    <input
+                      required
+                      name="slug"
+                      type="text"
+                      value={slug}
+                      id="add-slug"
+                      onChange={onChange}
+                      className="form-control"
+                    />
+
+                    <div className="input-group-append">
+                      <button
+                        className="btn btn-dark"
+                        type="button"
+                        onClick={generateSlug}
+                        disabled={!name || slug}
+                      >
+                        Generate
+                      </button>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="col-md-2">
