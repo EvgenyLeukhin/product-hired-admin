@@ -20,7 +20,7 @@ import User from '../../views/User/User';
 const waitFor = Tag => props => <Tag {...props} />;
 
 const Companies = lazy(() => import('./Companies/index.jsx'));
-const Users     = lazy(() => import('./Users/index.jsx'));
+const Users     = lazy(() => import('./Users/'));
 const Jobs      = lazy(() => import('./Jobs/'));
 const Skills    = lazy(() => import('./Skills/index.jsx'));
 const Roles     = lazy(() => import('./Roles/index.jsx'));

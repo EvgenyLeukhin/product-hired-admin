@@ -18,8 +18,8 @@ div.ReactModal__edit {
       input[type="file"].input-file-custom { display: none; }
       label.input-file-label {
         display: inline-block;
+        min-width: 110px;
         margin-top: auto;
-        margin-left: auto;
         margin-right: auto;
         margin-bottom: 10px;
         padding-left: 10px;
@@ -36,7 +36,6 @@ div.ReactModal__edit {
       }
 
       img {
-        margin: 10px 0;
         border: 1px solid #ccc;
         height: 110px;
 
@@ -46,8 +45,8 @@ div.ReactModal__edit {
       .no-logo {
         height: 110px;
         width: 110px;
-        margin-left: auto;
         margin-right: auto;
+        margin-left: 0;
         margin-bottom: 10px;
         display: flex;
         justify-content: center;
@@ -67,10 +66,9 @@ div.ReactModal__edit {
       }
 
       img {
-        margin: 10px 0;
         border: 1px solid #ccc;
         align-self: center;
-        height: 100px;
+        height: 110px;
 
         &.cover {
            width: 100%;
@@ -82,10 +80,10 @@ div.ReactModal__edit {
 }
 
 @media (max-width: 767px) {
-  div.ReactModal__add {
-    .add-container {
-      .add-logo, .add-cover {
-        min-height: 220px;
+  div.ReactModal__edit {
+    .edit-container {
+      .edit-logo, .edit-cover {
+        min-height: 210px;
       }
     }
   }
