@@ -157,7 +157,8 @@ class Skills extends React.Component {
   deleteClick = original => () => {
     this.setState({
       original,
-      deleteModalIsOpen: true
+      deleteModalIsOpen: true,
+      alertIsOpen: false,
     });
   }
 

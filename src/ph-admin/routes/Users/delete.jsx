@@ -5,14 +5,14 @@ import Spinner from '../../../components/Spinner';
 import { Button } from "reactstrap";
 
 
-const DeleteSkill = ({ isOpen, modalLoading, closeModal, original, deleteSubmit }) => (
+const DeleteUser = ({ isOpen, modalLoading, closeModal, original, deleteSubmit }) => (
   <DeleteModal isOpen={isOpen} modalLoading={modalLoading} closeModal={closeModal}>
     <section className="section-container delete-container">
       <span className="ion-close-round ReactModal__delete__close" onClick={closeModal} />
 
       <div className='ReactModal__delete__title'>
         <span>Are you sure you want to delete </span> <br/>
-        <span>{original.id} - <b>{original.name}</b>?</span>
+        <span>{original.id} - <b>{`${original.name} ${original.surname}`}</b>?</span>
       </div>
 
       {
@@ -32,4 +32,4 @@ const DeleteSkill = ({ isOpen, modalLoading, closeModal, original, deleteSubmit 
 );
 
 
-export default DeleteSkill;
+export default DeleteUser;

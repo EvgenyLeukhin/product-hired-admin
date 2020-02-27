@@ -5,35 +5,30 @@ import Table         from '../../components/Table';
 import Alerts        from '../../components/Alerts';
 import AddButton     from '../../components/AddButton';
 
-import AddCompany    from './add';
-import EditCompany   from './edit';
-import DeleteCompany from './delete';
+import AddUser    from './add';
+import EditUser   from './edit';
+import DeleteUser from './delete';
 
 import { withHeaderTitle } from '../../../components/Header/HeaderTitle';
 import { API_URL, subUrl } from '../../api/apiUrl';
 
 // api
-import getCompanies      from './api/getCompanies';
-import getCompaniesCount from './api/getCompaniesCount';
-import addCompany        from './api/addCompany';
-import editCompany       from './api/editCompany';
-import deleteCompany     from './api/deleteCompany';
-import uploadLogo        from './api/uploadLogo';
-import uploadCover       from './api/uploadCover';
+import getUsers      from './api/getUsers';
+import getUsersCount from './api/getUsersCount';
+import addUser       from './api/addUser';
+import editUser      from './api/editUser';
+import deleteUser    from './api/deleteUser';
 
 import columns from './columns';
 
 
-class Companies extends React.Component {
-  UNSAFE_componentWillMount() { this.props.setHeaderTitle('Companies') }
-
-  fileInputLogo  = React.createRef();
-  fileInputCover = React.createRef();
+class Users extends React.Component {
+  UNSAFE_componentWillMount() { this.props.setHeaderTitle('Users') }
 
   state = {
     // table
-    companies: [], // array of objects
-    companiesCount: null,
+    users: [], // array of objects
+    usersCount: null,
     tableLoading: false,
     original: {},
 
@@ -51,11 +46,44 @@ class Companies extends React.Component {
     // fields
     id: null,
     name: '',
-    slug: '',
-    domain: '',
-    weight: null,
-    logo: '', logoLoading: false,
-    cover: '', coverLoading: false,
+    surname: '',
+    password: '',
+    email: '',
+    job_title: '',
+    emailVerified: false,
+    admin: false,
+    status: true,
+    experience: null,
+    image: '',
+    location: {},
+    skills: [],
+    created: '',
+    modified: '',
+
+    // image
+    imageLoading: false,
+
+    // roles: [],
+    // admin: null,
+
+    // skills: [],
+    // status: null,
+    // created={created}
+    // location={location}
+    // modified={modified}
+    // job_title={job_title}
+    // experience={experience}
+    // emailVerified={emailVerified}
+    // onChange={this.onChange}
+    // onChangeAdmin={this.onChangeAdmin}
+    // onChangeLocation={this.onChangeLocation}
+    // onChangeSkills={this.onChangeSkills}
+
+    // // image
+    // image={image}
+    // imageLoading={imageLoading}
+    // onUploadImage={this.onUploadImage}
+    // fileInputImage={this.fileInputImage}
   }
 
   onChange = e => this.setState({ [e.target.name]: e.target.value });
@@ -77,53 +105,11 @@ class Companies extends React.Component {
     }
   }
 
-  onUploadLogo = e => {
-    e.preventDefault();
-    this.setState({ logoLoading: true });
-
-    // create a new form data
-    const formData = new FormData();
-
-    // get image from the browser memory
-    const uploadLogoFile = this.fileInputLogo.current.files[0];
-
-    // append this file to form data
-    formData.append('file', uploadLogoFile);
-
-    // uploadLogoRequest
-    uploadLogo(formData)
-      .then(res => {
-        this.setState({
-          logo: `${API_URL}/${subUrl}/containers/logo/download/${res.data.name}`,
-          logoLoading: false
-        })
-      })
-      .catch(error => this.catchErrors(error));
-  }
-
-  onUploadCover = e => {
-    e.preventDefault();
-    this.setState({ coverLoading: true });
-    const formData = new FormData();
-    const uploadCoverFile = this.fileInputCover.current.files[0];
-    formData.append('file', uploadCoverFile);
-
-    uploadCover(formData)
-      .then(res => {
-        this.setState({
-          cover: `${API_URL}/${subUrl}/containers/cover/download/${res.data.name}`,
-          coverLoading: false
-        })
-      })
-      .catch(error => this.catchErrors(error));
-  }
-
   addClick = () => {
     this.setState({
       addModalIsOpen: true,
       alertIsOpen: false,
-      name: '', domain: '', slug: '', weight: null, logo: '', cover: '',
-      logoLoading: false, coverLoading: false
+      name: '', surname: '', password: '', email: null // add fields
     });
   }
 
@@ -131,28 +117,32 @@ class Companies extends React.Component {
     e.preventDefault();
 
     this.setState({ modalLoading: true });
-    const { name, domain, slug, weight, logo, cover, companies } = this.state;
+    const { name, surname, password, email, users } = this.state;
 
-    addCompany(name, domain, slug, weight, logo, cover)   // order must be like inside addSkill method
+    addUser(name, surname, password, email)   // order must be like inside addSkill method
       .then(res => {
 
-        const newData = [res.data].concat(companies);
+        const newData = [res.data].concat(users);
 
         this.setState({
           modalLoading: false,
           addModalIsOpen: false,
-          alertType: 'add',
-          alertIsOpen: true,
-          companies: newData
+          users: newData
         });
 
-        // close alert after 2 sec
-        setTimeout(() => {
-          this.setState({ alertIsOpen: false });
-        }, 2000);
+        this.editAfterAdd(res.data);
       })
 
       .catch(error => this.catchErrors(error));
+  }
+
+  editAfterAdd = data => {
+    this.setState({
+      addModalIsOpen: false,
+      editModalIsOpen: true,
+      original: data,
+      alertIsOpen: false
+    });
   }
 
   editClick = original => () => {
@@ -161,15 +151,21 @@ class Companies extends React.Component {
       alertIsOpen: false,
       editModalIsOpen: true,
       logoLoading: false, coverLoading: false,
-
       // get values from original react-table (original.id, original.name, original.price)
       id: original.id,
       name: original.name,
-      domain: original.domain,
-      slug: original.slug,
-      weight: original.weight,
-      logo: original.logo,
-      cover: original.cover,
+      surname: original.surname,
+      email: original.email,
+      job_title: original.job_title,
+      emailVerified: original.emailVerified,
+      admin: original.admin,
+      status: original.status,
+      experience: original.experience,
+      image: original.image,
+      location: original.location,
+      skills: original.skills,
+      created: original.created,
+      modified: original.modified,
     });
   }
 
@@ -179,23 +175,22 @@ class Companies extends React.Component {
     this.setState({ modalLoading: true });
 
     // get edit values
-    const { id, name, domain, slug, weight, logo, cover } = this.state;
-    editCompany(id, name, domain, slug, weight, logo, cover)
-
+    const { id, name, surname, email, job_title, emailVerified, admin, status, experience, image, location, skills, created, modified } = this.state;
+    editUser(id, name, surname, email, job_title, emailVerified, admin, status, experience, image, location, skills, created, modified)
       .then(() => {
         // get current table-data from the state w\o editing change (when render only)
-        const { companies } = this.state;
+        const { users } = this.state;
 
         // find editing data in all data by id
-        for (let i = 0; i < companies.length; i++) {
-          if (companies[i].id === id) {
+        for (let i = 0; i < users.length; i++) {
+          if (users[i].id === id) {
             // inject editing data to table state
-            companies[i] = { id, name, domain, slug, weight, logo, cover };
+            users[i] = { id, name, surname, email, job_title, emailVerified, admin, status, experience, image, location, skills, created, modified };
           }
         }
 
         this.setState({
-          companies, // new roles with edited item
+          users, // new user with edited item
           modalLoading: false,
           editModalIsOpen: false,
           alertType: 'edit',
@@ -217,23 +212,23 @@ class Companies extends React.Component {
 
   deleteSubmit = () => {
     const dataWitoutDeleted = [];
-    const { companies, original: { id } } = this.state;
+    const { users, original: { id } } = this.state;
 
     this.setState({ modalLoading: true });
 
-    deleteCompany(id)
+    deleteUser(id)
       // if delete ok
       .then(() => {
-        for (let i = 0; i < companies.length; i++) {
+        for (let i = 0; i < users.length; i++) {
           // skiping deleted item and forming new array without it
-          if (companies[i].id !== id) {
+          if (users[i].id !== id) {
             // push all data without deleted item to new array
-            dataWitoutDeleted.push(companies[i]);
+            dataWitoutDeleted.push(users[i]);
           }
         }
         this.setState({
           // set new data w\o deleted item
-          companies: dataWitoutDeleted,
+          users: dataWitoutDeleted,
           editModalIsOpen: false,
           deleteModalIsOpen: false,
           modalLoading: false,
@@ -250,20 +245,9 @@ class Companies extends React.Component {
       .catch(error => this.catchErrors(error));
   }
 
-  deleteLogo  = () => this.setState({ logo: '' });
-
-  deleteCover = () => this.setState({ cover: '' });
-
   closeAddModal    = () => !this.state.modalLoading && this.setState({ addModalIsOpen:    false });
   closeEditModal   = () => !this.state.modalLoading && this.setState({ editModalIsOpen:   false });
   closeDeleteModal = () => !this.state.modalLoading && this.setState({ deleteModalIsOpen: false });
-
-  generateSlug = () => {
-    const { name } = this.state;
-    this.setState({
-      slug: slugify(name, { replacement: '-', lower: true })
-    });
-  }
 
   componentDidMount() {
     // close modal on Escape
@@ -272,17 +256,16 @@ class Companies extends React.Component {
 
   componentWillUnmount() { document.removeEventListener('keyup', e => e.keyCode === 27) }
 
-
   render() {
     const {
       // table
-      tableLoading, original, companies, companiesCount,
+      tableLoading, original, users, usersCount,
 
       // fields
-      name, domain, slug, weight, logo, cover,
+      name, surname, password, email, job_title, emailVerified, admin, status, experience, image, location, skills, created, modified,
 
-      // logo & cover
-      logoLoading, coverLoading,
+      // image
+      imageLoading,
 
       // modals
       addModalIsOpen, editModalIsOpen, modalLoading, deleteModalIsOpen,
@@ -307,18 +290,16 @@ class Companies extends React.Component {
     ];
 
     return (
-      <div className="companies-page">
+      <div className="users-page">
         { alertIsOpen && <Alerts type={alertType} original={original} errorText={alertErrorText} /> }
 
-
         <AddButton
-          text="company"
+          text="user"
           loading={modalLoading}
           addClick={this.addClick}
         />
 
-
-        <DeleteCompany
+        <DeleteUser
           isOpen={deleteModalIsOpen}
           modalLoading={modalLoading}
           closeModal={this.closeDeleteModal}
@@ -326,22 +307,9 @@ class Companies extends React.Component {
           deleteSubmit={this.deleteSubmit}
         />
 
-
-        <AddCompany
+        <AddUser
           // fields
-          name={name} domain={domain} slug={slug} weight={weight} logo={logo} cover={cover}
-
-          // logo
-          logo={logo}
-          logoLoading={logoLoading}
-          fileInputLogo={this.fileInputLogo} // input type="file" logo-refernce
-          onUploadLogo={this.onUploadLogo}
-
-          // cover
-          cover={cover}
-          coverLoading={coverLoading}
-          fileInputCover={this.fileInputCover} // input type="file" cover-refernce
-          onUploadCover={this.onUploadCover}
+          name={name} surname={surname} password={password} email={email}
 
           // modal
           isOpen={addModalIsOpen}
@@ -351,28 +319,17 @@ class Companies extends React.Component {
           // actions
           onChange={this.onChange}
           onSubmit={this.addSubmit}
-          deleteLogo={this.deleteLogo}
-          deleteCover={this.deleteCover}
-          generateSlug={this.generateSlug}
         />
 
-
-        <EditCompany
+        <EditUser
           // fields
           original={original}
-          name={name} domain={domain} slug={slug} weight={weight}
-
-          // logo
-          logo={logo}
-          logoLoading={logoLoading}
-          fileInputLogo={this.fileInputLogo} // input type="file" logo-refernce
-          onUploadLogo={this.onUploadLogo}
-
-          // cover
-          cover={cover}
-          coverLoading={coverLoading}
-          fileInputCover={this.fileInputCover} // input type="file" cover-refernce
-          onUploadCover={this.onUploadCover}
+          name={name} surname={surname} job_title={job_title}
+          email={email} emailVerified={emailVerified}
+          admin={admin} status={status} experience={experience}
+          image={image}
+          skills={skills} location={location}
+          created={created} modified={modified}
 
           // modal
           isOpen={editModalIsOpen}
@@ -383,29 +340,25 @@ class Companies extends React.Component {
           onChange={this.onChange}
           onSubmit={this.editSubmit}
           deleteClick={this.deleteClick(original)}
-          deleteLogo={this.deleteLogo}
-          deleteCover={this.deleteCover}
-          generateSlug={this.generateSlug}
         />
-
 
         <Table
           manual={true}
-          data={companies}
-          pages={companiesCount}
+          data={users}
+          pages={usersCount}
           loading={tableLoading}
           columns={[...columns, ...controlsColumn]}
           onFetchData={state => {
             this.setState({ tableLoading: true });
 
             // count request
-            getCompaniesCount(state)
+            getUsersCount(state)
               .then(res => {
-                this.setState({ companiesCount: Math.ceil(res.data.count / state.pageSize) })
+                this.setState({ usersCount: Math.ceil(res.data.count / state.pageSize) })
 
                 // data request
-                getCompanies(state)
-                  .then(res => this.setState({ companies: res.data, tableLoading: false }))
+                getUsers(state)
+                  .then(res => this.setState({ users: res.data, tableLoading: false }))
                   .catch(error => this.catchErrors(error));
               }).catch(error => this.catchErrors(error));
           }}
@@ -415,4 +368,4 @@ class Companies extends React.Component {
   }
 }
 
-export default withHeaderTitle(Companies);
+export default withHeaderTitle(Users);

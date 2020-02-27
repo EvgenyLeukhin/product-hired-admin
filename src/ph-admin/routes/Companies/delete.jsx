@@ -5,7 +5,7 @@ import Spinner from '../../../components/Spinner';
 import { Button } from "reactstrap";
 
 
-const DeleteSkills = ({ isOpen, modalLoading, closeModal, original, deleteSubmit }) => (
+const DeleteCompany = ({ isOpen, modalLoading, closeModal, original, deleteSubmit }) => (
   <DeleteModal isOpen={isOpen} modalLoading={modalLoading} closeModal={closeModal}>
     <section className="section-container delete-container">
       <span className="ion-close-round ReactModal__delete__close" onClick={closeModal} />
@@ -32,4 +32,4 @@ const DeleteSkills = ({ isOpen, modalLoading, closeModal, original, deleteSubmit
 );
 
 
-export default DeleteSkills;
+export default DeleteCompany;
