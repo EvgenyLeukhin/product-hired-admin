@@ -100,7 +100,17 @@ const AddCompany = ({
                           logo ? <img className="logo" src={logo} alt="logo" /> : <div className="no-logo">No logo</div>
                         )
                       }
-                      <input id="add-logo" type="file" ref={fileInputLogo} onChange={onUploadLogo} />
+                      <input
+                        id="add-logo"
+                        type="file"
+                        className="input-file-custom"
+                        ref={fileInputLogo}
+                        onChange={onUploadLogo}
+                      />
+                      <label htmlFor="add-logo" className="input-file-label  btn btn-dark">
+                        <i className="ion-image" />&nbsp;
+                        <span>Load logo</span>
+                      </label>
                     </div>
 
                     <div className="add-logo-url">
@@ -136,7 +146,17 @@ const AddCompany = ({
                           cover ? <img className="cover" src={cover} alt="cover" /> : <div className="no-cover">No cover</div>
                         )
                       }
-                      <input id="add-cover" type="file" ref={fileInputCover} onChange={onUploadCover} />
+                      <input
+                        id="add-cover"
+                        type="file"
+                        className="input-file-custom"
+                        ref={fileInputCover}
+                        onChange={onUploadCover}
+                      />
+                      <label htmlFor="add-cover" className="input-file-label  btn btn-dark">
+                        <i className="ion-image" />&nbsp;
+                        <span>Load cover</span>
+                      </label>
                     </div>
 
                     <div className="add-cover-url">

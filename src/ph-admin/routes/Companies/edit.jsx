@@ -103,7 +103,17 @@ const EditCompany = ({
                           logo ? <img className="logo" src={logo} alt="logo" /> : <div className="no-logo">No logo</div>
                         )
                       }
-                      <input id="edit-logo" type="file" ref={fileInputLogo} onChange={onUploadLogo} />
+                      <input
+                        id="edit-logo"
+                        type="file"
+                        className="input-file-custom"
+                        ref={fileInputLogo}
+                        onChange={onUploadLogo}
+                      />
+                      <label htmlFor="edit-logo" className="input-file-label  btn btn-dark">
+                        <i className="ion-image" />&nbsp;
+                        <span>Load logo</span>
+                      </label>
                     </div>
 
                     <div className="edit-logo-url">
@@ -139,7 +149,17 @@ const EditCompany = ({
                           cover ? <img className="cover" src={cover} alt="cover" /> : <div className="no-cover">No cover</div>
                         )
                       }
-                      <input id="edit-cover" type="file" ref={fileInputCover} onChange={onUploadCover} />
+                      <input
+                        id="edit-cover"
+                        type="file"
+                        className="input-file-custom"
+                        ref={fileInputCover}
+                        onChange={onUploadCover}
+                      />
+                      <label htmlFor="edit-cover" className="input-file-label  btn btn-dark">
+                        <i className="ion-image" />&nbsp;
+                        <span>Load cover</span>
+                      </label>
                     </div>
 
                     <div className="edit-cover-url">

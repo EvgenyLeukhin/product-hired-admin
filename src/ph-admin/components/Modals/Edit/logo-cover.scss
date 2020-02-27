@@ -15,20 +15,32 @@ div.ReactModal__edit {
         .sk-chase-dot:before { background-color: #000; }
       }
 
-      input[type="file"] {
+      input[type="file"].input-file-custom { display: none; }
+      label.input-file-label {
+        display: inline-block;
         margin-top: auto;
+        margin-left: auto;
+        margin-right: auto;
         margin-bottom: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+        cursor: pointer;
+        span { font-weight: normal; }
       }
     }
 
     .edit-logo {
+      .sk-chase {
+        margin-left: 50px;
+        margin-right: 0;
+      }
+
       img {
         margin: 10px 0;
         border: 1px solid #ccc;
-        align-self: center;
-        height: 100px;
+        height: 110px;
 
-        &.logo { width: 100px; }
+        &.logo { width: 110px; }
       }
 
       .no-logo {
@@ -64,6 +76,16 @@ div.ReactModal__edit {
            width: 100%;
            object-fit: cover;
         }
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  div.ReactModal__add {
+    .add-container {
+      .add-logo, .add-cover {
+        min-height: 220px;
       }
     }
   }
