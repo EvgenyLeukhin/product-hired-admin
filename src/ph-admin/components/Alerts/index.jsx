@@ -4,6 +4,9 @@ import { Alert } from "reactstrap";
 const Alerts = ({ type, original, errorText }) => {
   const [visible, setVisible] = useState(true);
   const onDismiss = () => setVisible(false);
+  const name = original.surname
+    ? `${original.name} ${original.surname} is edited`
+    : `${original.name} is edited`;
 
   return (
     <>
@@ -14,14 +17,14 @@ const Alerts = ({ type, original, errorText }) => {
         // edit //
         type === 'edit' && (
           <Alert color="warning">
-            {`"${original.id}`} - <b>{`${original.name}" is edited`}</b>
+            {`"${original.id}`} - <b>{name}</b>
           </Alert>
         ) ||
 
         // delete //
         type === 'delete' && (
           <Alert color="danger">
-            {`"${original.id}`} - <b>{`${original.name}" is deleted`}</b>
+            {`"${original.id}`} - <b>{name}</b>
           </Alert>
         ) ||
 
