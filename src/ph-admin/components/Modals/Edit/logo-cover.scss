@@ -1,5 +1,6 @@
 div.ReactModal__edit {
   .edit-container {
+    .edit-image,
     .edit-logo,
     .edit-cover {
       display: flex;
@@ -29,6 +30,7 @@ div.ReactModal__edit {
       }
     }
 
+    .edit-image,
     .edit-logo {
       .sk-chase {
         margin-left: 50px;
@@ -39,10 +41,11 @@ div.ReactModal__edit {
         border: 1px solid #ccc;
         height: 110px;
 
-        &.logo { width: 110px; }
+        &.logo, &.image { width: 110px; }
       }
 
-      .no-logo {
+      .no-logo,
+      .no-image {
         height: 110px;
         width: 110px;
         margin-right: auto;
@@ -52,6 +55,35 @@ div.ReactModal__edit {
         justify-content: center;
         align-items: center;
         background: #ccc;
+      }
+    }
+
+    .edit-image {
+      label {
+        &.input-file-label { margin-left: auto; }
+        &.edit-image__label {
+          padding-left: 0;
+          margin-left: auto;
+          margin-right: auto;
+        }
+      }
+
+      .no-image {
+        height: 120px;
+        width: 120px;
+        margin-left: auto;
+      }
+
+      img.image {
+        height: 120px;
+        width: 120px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .sk-chase {
+        margin-left: auto;
+        margin-right: auto;
       }
     }
 
@@ -82,7 +114,9 @@ div.ReactModal__edit {
 @media (max-width: 767px) {
   div.ReactModal__edit {
     .edit-container {
-      .edit-logo, .edit-cover {
+      .edit-logo,
+      .edit-image,
+      .edit-cover {
         min-height: 210px;
       }
     }

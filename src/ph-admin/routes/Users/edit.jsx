@@ -4,18 +4,23 @@ import EditModal from '../../components/Modals/Edit/EditModal';
 import Spinner from '../../../components/Spinner';
 import { Button } from "reactstrap";
 
+import './edit.scss';
+
 
 const EditUser = ({
   // fields
-  original, name, surname, email, job_title, emailVerified, admin, status, experience, image, location, skills,
+  original, name, surname, email, job_title, emailVerified, admin, status, experience, location, skills, created, modified,
+
+  // image
+  image, imageLoading, fileInputImage, onUploadImage, deleteImage, onChangeImage,
 
   isOpen, closeModal, onChange, onSubmit, modalLoading, deleteClick
 }) => {
 
-  console.log(original); // original
+  // console.log(original); // original
   return (
     <EditModal isOpen={isOpen} modalLoading={modalLoading} closeModal={closeModal}>
-      <section className="section-container edit-container">
+      <section className="section-container edit-container edit-user">
         <h4 className="edit-container__title">
           Edit&nbsp;<b>{`"${original.id} - ${original.name} ${original.surname}"`}</b>
         </h4>
@@ -28,64 +33,193 @@ const EditUser = ({
 
               <fieldset>
                 <div className="form-group row">
-                  <div className="col-md-6">
-                    <label htmlFor="edit-name">Name</label>
+                  <div className="col-md-3  edit-user__left">
+                    <div className="edit-image">
+                      <label htmlFor="edit-image" className="edit-image__label">Profile photo</label>
+                      {
+                        imageLoading ? <Spinner /> : (
+                          image.url ? <img className="image" src={`${image.url}`} alt="image" /> : <div className="no-image">No image</div>
+                        )
+                      }
+                      <input
+                        id="edit-image"
+                        type="file"
+                        className="input-file-custom"
+                        ref={fileInputImage}
+                        onChange={onUploadImage}
+                      />
+                      <label htmlFor="edit-image" className="input-file-label  btn btn-dark">
+                        <i className="ion-image" />&nbsp;
+                        <span>Choose a file</span>
+                      </label>
+                    </div>
 
-                    <input
-                      required
-                      name="name"
-                      value={name}
-                      id="edit-name"
-                      onChange={onChange}
-                      type="text"
-                      className="form-control"
-                    />
-                  </div>
+                      {/* <div className="edit-image-url">
+                        <label htmlFor="edit-image-url">Image URL</label>
+
+                        <div className="input-group">
+                          <input
+                            name="image"
+                            value={image.url}
+                            id="edit-image-url"
+                            onChange={onChangeImage}
+                            type="url"
+                            className="form-control"
+                            placeholder="Please, paste image URL or load file"
+                          />
+
+                          <div className="input-group-append">
+                            <button className="btn btn-dark" type="button" onClick={deleteImage} disabled={!image.url}>
+                              Clear
+                            </button>
+                          </div>
+                        </div>
+
+                      </div> */}
+                      <div className="created">
+                        <label htmlFor="edit-created">Created</label>
+                        <input
+                          disabled
+                          name="created"
+                          value={created && created.substring(0, 10)}
+                          id="edit-created"
+                          type="text"
+                          className="form-control"
+                        />
+                      </div>
+
+                      <div className="modified">
+                        <label htmlFor="edit-modified">Modified</label>
+                        <input
+                          disabled
+                          name="modified"
+                          value={modified && modified.substring(0, 10)}
+                          id="edit-modified"
+                          type="text"
+                          className="form-control"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="col-md-9  edit-user__right">
+                      <div className="row">
+                        <div className="col-md-4">
+                          <label htmlFor="edit-name">Name</label>
+
+                          <input
+                            required
+                            name="name"
+                            value={name}
+                            id="edit-name"
+                            onChange={onChange}
+                            type="text"
+                            className="form-control"
+                          />
+                        </div>
 
 
-                  <div className="col-md-6">
-                    <label htmlFor="edit-name">Surname</label>
+                        <div className="col-md-4">
+                          <label htmlFor="edit-name">Last name</label>
 
-                    <input
-                      required
-                      name="surname"
-                      value={surname}
-                      id="edit-surname"
-                      onChange={onChange}
-                      type="text"
-                      className="form-control"
-                    />
-                  </div>
-
-
-                  <div className="col-md-6">
-                    <label htmlFor="edit-email">Email</label>
-
-                    <input
-                      required
-                      name="email"
-                      value={email}
-                      id="edit-email"
-                      onChange={onChange}
-                      type="text"
-                      className="form-control"
-                    />
-                  </div>
+                          <input
+                            required
+                            name="surname"
+                            value={surname}
+                            id="edit-surname"
+                            onChange={onChange}
+                            type="text"
+                            className="form-control"
+                          />
+                        </div>
 
 
-                  <div className="col-md-6">
-                    <label htmlFor="edit-job_title">Job title</label>
+                        <div className="col-md-4">
+                          <label htmlFor="edit-name">Location</label>
+                        </div>
 
-                    <input
-                      required
-                      name="job_title"
-                      value={job_title}
-                      id="edit-job_title"
-                      onChange={onChange}
-                      type="text"
-                      className="form-control"
-                    />
-                  </div>
+
+
+                        <div className="col-md-4">
+                          <label htmlFor="edit-email">Email</label>
+
+                          <input
+                            required
+                            name="email"
+                            value={email}
+                            id="edit-email"
+                            onChange={onChange}
+                            type="text"
+                            className="form-control"
+                          />
+                        </div>
+
+
+                        <div className="col-md-4">
+                          <label htmlFor="edit-email">Email verified</label>
+                        </div>
+
+
+                        <div className="col-md-4">
+                          <label htmlFor="edit-email">User activity</label>
+                        </div>
+
+                        <div className="col-md-12">
+                          <label htmlFor="edit-email">Skills</label>
+                        </div>
+
+                        <div className="col-md-4">
+                          <label htmlFor="edit-email">Current company</label>
+                        </div>
+
+
+                        <div className="col-md-4">
+                          <label htmlFor="edit-job_title">Job title</label>
+
+                          <input
+                            required
+                            name="job_title"
+                            value={job_title}
+                            id="edit-job_title"
+                            onChange={onChange}
+                            type="text"
+                            className="form-control"
+                          />
+                        </div>
+
+
+                        <div className="col-md-4">
+                          <label htmlFor="edit-email">Product role</label>
+                        </div>
+
+                        <div className="col-md-4">
+                          <label htmlFor="edit-email">Seniority</label>
+                        </div>
+
+                        <div className="col-md-2">
+                          <label htmlFor="edit-experience">Experience</label>
+
+                          <input
+                            required
+                            name="experience"
+                            value={experience}
+                            id="edit-experience"
+                            onChange={onChange}
+                            type="number"
+                            className="form-control"
+                          />
+                        </div>
+
+                        <div className="col-md-6">
+                          <label htmlFor="edit-email">Main reason for using ProductHired</label>
+                        </div>
+
+                        <div className="col-md-6">
+                          <label htmlFor="edit-email">Notifications</label>
+                        </div>
+                      </div>
+
+                    </div>
+
                 </div>
               </fieldset>
 

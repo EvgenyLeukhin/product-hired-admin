@@ -1,0 +1,15 @@
+.edit-user {
+  &__left {
+    .edit-image { margin-bottom: 15px; }
+    .created { margin-bottom: 15px; }
+    .modified { margin-bottom: 15px; }
+  }
+
+  &__right {
+    .row {
+      & > div {
+        margin-bottom: 15px;
+      }
+    }
+  }
+}

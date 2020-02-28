@@ -18,12 +18,15 @@ import getUsersCount from './api/getUsersCount';
 import addUser       from './api/addUser';
 import editUser      from './api/editUser';
 import deleteUser    from './api/deleteUser';
+import uploadImage   from './api/uploadImage';
 
 import columns from './columns';
 
 
 class Users extends React.Component {
   UNSAFE_componentWillMount() { this.props.setHeaderTitle('Users') }
+
+  fileInputImage  = React.createRef();
 
   state = {
     // table
@@ -54,13 +57,13 @@ class Users extends React.Component {
     admin: false,
     status: true,
     experience: null,
-    image: '',
     location: {},
     skills: [],
     created: '',
     modified: '',
 
     // image
+    image: { url: '' },
     imageLoading: false,
 
     // roles: [],
@@ -68,25 +71,22 @@ class Users extends React.Component {
 
     // skills: [],
     // status: null,
-    // created={created}
     // location={location}
-    // modified={modified}
-    // job_title={job_title}
     // experience={experience}
     // emailVerified={emailVerified}
     // onChange={this.onChange}
     // onChangeAdmin={this.onChangeAdmin}
     // onChangeLocation={this.onChangeLocation}
     // onChangeSkills={this.onChangeSkills}
-
-    // // image
-    // image={image}
-    // imageLoading={imageLoading}
-    // onUploadImage={this.onUploadImage}
-    // fileInputImage={this.fileInputImage}
   }
 
   onChange = e => this.setState({ [e.target.name]: e.target.value });
+
+  onChangeImage = e => {
+    this.setState({
+      image: { url: `${e.target.value}`}
+    });
+  }
 
   catchErrors = error => {
     // redirect to login if 401 (request, response)
@@ -206,6 +206,33 @@ class Users extends React.Component {
       .catch(error => this.catchErrors(error));
   }
 
+  onUploadImage = e => {
+    e.preventDefault();
+    this.setState({ imageLoading: true });
+
+    // create a new form data
+    const formData = new FormData();
+    const { id } = this.state;
+
+    // get image from the browser memory
+    const uploadImageFile = this.fileInputImage.current.files[0];
+
+    // append this file to form data
+    formData.append('file', uploadImageFile);
+
+    // uploadImageRequest
+    uploadImage(formData, id)
+      .then(res => {
+        this.setState({
+          image: {
+            url: `${API_URL}${res.data.file.url}`
+          },
+          imageLoading: false
+        })
+      })
+      .catch(error => this.catchErrors(error));
+  }
+
   deleteClick = original => () => {
     this.setState({ original, deleteModalIsOpen: true, alertIsOpen: false });
   }
@@ -245,6 +272,12 @@ class Users extends React.Component {
       .catch(error => this.catchErrors(error));
   }
 
+  deleteImage  = () => {
+    this.setState({
+      image: { url: '' }
+    });
+  }
+
   closeAddModal    = () => !this.state.modalLoading && this.setState({ addModalIsOpen:    false });
   closeEditModal   = () => !this.state.modalLoading && this.setState({ editModalIsOpen:   false });
   closeDeleteModal = () => !this.state.modalLoading && this.setState({ deleteModalIsOpen: false });
@@ -262,10 +295,10 @@ class Users extends React.Component {
       tableLoading, original, users, usersCount,
 
       // fields
-      name, surname, password, email, job_title, emailVerified, admin, status, experience, image, location, skills, created, modified,
+      name, surname, password, email, job_title, emailVerified, admin, status, experience, location, skills, created, modified,
 
       // image
-      imageLoading,
+      image, imageLoading,
 
       // modals
       addModalIsOpen, editModalIsOpen, modalLoading, deleteModalIsOpen,
@@ -324,12 +357,25 @@ class Users extends React.Component {
         <EditUser
           // fields
           original={original}
-          name={name} surname={surname} job_title={job_title}
-          email={email} emailVerified={emailVerified}
-          admin={admin} status={status} experience={experience}
+          name={name}
+          surname={surname}
+          job_title={job_title}
+          email={email}
+          emailVerified={emailVerified}
+          admin={admin}
+          status={status}
+          experience={experience}
+          skills={skills}
+          location={location}
+          created={created}
+          modified={modified}
+
+          // image
           image={image}
-          skills={skills} location={location}
-          created={created} modified={modified}
+          imageLoading={imageLoading}
+          fileInputImage={this.fileInputImage}
+          onUploadImage={this.onUploadImage}
+          deleteImage={this.deleteImage}
 
           // modal
           isOpen={editModalIsOpen}
@@ -338,6 +384,7 @@ class Users extends React.Component {
 
           // actions
           onChange={this.onChange}
+          onChangeImage={this.onChangeImage}
           onSubmit={this.editSubmit}
           deleteClick={this.deleteClick(original)}
         />
