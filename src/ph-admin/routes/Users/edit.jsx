@@ -1,4 +1,6 @@
 import React from 'react';
+import isEmpty from 'lodash/isEmpty';
+
 import EditModal from '../../components/Modals/Edit/EditModal';
 
 import Spinner from '../../../components/Spinner';
@@ -40,7 +42,7 @@ const EditUser = ({
                       <label htmlFor="edit-image" className="edit-image__label">Profile photo</label>
                       {
                         imageLoading ? <Spinner /> : (
-                          image.url ? <img className="image" src={`${image.url}`} alt="image" /> : <div className="no-image">No image</div>
+                          (!isEmpty(image) && image.url) ? <img className="image" src={`${image.url}`} alt="image" /> : <div className="no-image">No image</div>
                         )
                       }
                       <input
@@ -62,7 +64,7 @@ const EditUser = ({
                       <div className="input-group">
                         <input
                           name="image"
-                          value={image.url}
+                          value={(!isEmpty(image) && image.url) ? image.url : ''}
                           id="edit-image-url"
                           onChange={onChangeImage}
                           type="url"
@@ -71,7 +73,14 @@ const EditUser = ({
                         />
 
                         <div className="input-group-append">
-                          <button className="btn btn-dark" type="button" onClick={deleteImage} disabled={!image.url}>Clear</button>
+                          <button
+                            className="btn btn-dark"
+                            type="button"
+                            onClick={deleteImage}
+                            disabled={!isEmpty(image) && !image.url}
+                          >
+                            Clear
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -285,6 +294,8 @@ const EditUser = ({
 
                         <input
                           required
+                          min={0}
+                          max={50}
                           name="experience"
                           value={experience}
                           id="edit-experience"

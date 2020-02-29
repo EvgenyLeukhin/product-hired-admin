@@ -5,8 +5,8 @@ const Alerts = ({ type, original, errorText }) => {
   const [visible, setVisible] = useState(true);
   const onDismiss = () => setVisible(false);
   const name = original.surname
-    ? `${original.name} ${original.surname} is edited`
-    : `${original.name} is edited`;
+    ? `${original.name} ${original.surname}`
+    : `${original.name}`;
 
   return (
     <>
@@ -17,14 +17,14 @@ const Alerts = ({ type, original, errorText }) => {
         // edit //
         type === 'edit' && (
           <Alert color="warning">
-            {`"${original.id}`} - <b>{name}</b>
+            {`"${original.id}`} - <b>{name} is edited</b>
           </Alert>
         ) ||
 
         // delete //
         type === 'delete' && (
           <Alert color="danger">
-            {`"${original.id}`} - <b>{name}</b>
+            {`"${original.id}`} - <b>{name} is deleted</b>
           </Alert>
         ) ||
 

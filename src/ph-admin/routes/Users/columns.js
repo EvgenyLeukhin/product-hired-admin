@@ -21,7 +21,7 @@ const columns = [
   },
 
   {
-    Header: 'Surname',
+    Header: 'Last name',
     accessor: 'surname',
     style: { fontWeight: 'bold' },
     Cell: ({ original }) => <span>{original.surname || '...'}</span>,
@@ -31,7 +31,16 @@ const columns = [
   {
     Header: 'Email',
     accessor: 'email',
-    Cell: ({ original }) => <a href={`mailto:${original.email}`}>{original.email || '...'}</a>,
+    Cell: ({ original }) => {
+      return (
+        <a
+          href={`mailto:${original.email}`}
+          onClick={e => e.stopPropagation()}
+        >
+          {original.email || '...'}
+        </a>
+      );
+    },
     Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
   },
 

@@ -22,6 +22,8 @@ import uploadImage   from './api/uploadImage';
 
 import columns from './columns';
 
+import './table.scss';
+
 
 class Users extends React.Component {
   UNSAFE_componentWillMount() { this.props.setHeaderTitle('Users') }
@@ -64,16 +66,11 @@ class Users extends React.Component {
     modified: '',
 
     // image
-    image: { url: '',icon: '', color: '' },
+    image: { url: '', icon: '', color: '' },
     imageLoading: false,
 
     // skills: [],
-    // status: null,
     // location={location}
-    // experience={experience}
-    // emailVerified={emailVerified}
-    // onChange={this.onChange}
-    // onChangeAdmin={this.onChangeAdmin}
     // onChangeLocation={this.onChangeLocation}
     // onChangeSkills={this.onChangeSkills}
   }
@@ -109,11 +106,17 @@ class Users extends React.Component {
     }
   }
 
+  // reset state fields
   addClick = () => {
     this.setState({
       addModalIsOpen: true,
       alertIsOpen: false,
-      name: '', surname: '', password: '', email: null // add fields
+      // reset fields
+      name: '', surname: '', password: '', email: '', // add fields
+      job_title: '', emailVerified: false,
+      status: true, experience: null,
+      image: { url: '', icon: '', color: '' },
+      location: {}, skills: [], created: null, modified: null,
     });
   }
 
@@ -131,10 +134,11 @@ class Users extends React.Component {
         this.setState({
           modalLoading: false,
           addModalIsOpen: false,
-          users: newData
+          users: newData,
         });
 
         this.editAfterAdd(res.data);
+        console.log(res.data);
       })
 
       .catch(error => this.catchErrors(error));
@@ -144,12 +148,19 @@ class Users extends React.Component {
     this.setState({
       addModalIsOpen: false,
       editModalIsOpen: true,
-      original: data,
+      id: data.id,
+      name: data.name,
+      surname: data.surname,
+      email: data.email,
+      created: data.created,
+      modified: data.modified,
       alertIsOpen: false
     });
   }
 
-  editClick = original => () => {
+  // reset original fields to the state fields
+  editClick = original => e => {
+    e.stopPropagation();
     // copy fiels to the state
     this.setState({
       original,
@@ -243,7 +254,8 @@ class Users extends React.Component {
       .catch(error => this.catchErrors(error));
   }
 
-  deleteClick = original => () => {
+  deleteClick = original => e => {
+    e.stopPropagation();
     this.setState({ original, deleteModalIsOpen: true, alertIsOpen: false });
   }
 
@@ -405,6 +417,17 @@ class Users extends React.Component {
           pages={usersCount}
           loading={tableLoading}
           columns={[...columns, ...controlsColumn]}
+          getTdProps={(state, rowInfo, column, instance) => {
+            return {
+              onClick: e => {
+                if (rowInfo !== undefined) {
+                  const { original } = rowInfo;
+                  return this.editClick(original)(e);
+                } else return null;
+              }
+            }
+          }}
+
           onFetchData={state => {
             this.setState({ tableLoading: true });
 

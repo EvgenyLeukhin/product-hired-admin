@@ -36,6 +36,7 @@
     "jquery.flot.tooltip": "github:krzysu/flot.tooltip",
     "jszip": "3.1.5",
     "loaders.css": "0.1.2",
+    "lodash": "^4.17.15",
     "masonry-layout": "4.2.2",
     "match-sorter": "^4.0.2",
     "material-colors": "1.2.6",
