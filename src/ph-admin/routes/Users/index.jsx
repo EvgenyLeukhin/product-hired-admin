@@ -55,6 +55,7 @@ class Users extends React.Component {
     job_title: '',
     emailVerified: false,
     admin: false,
+    roles: [],
     status: true,
     experience: null,
     location: {},
@@ -63,11 +64,8 @@ class Users extends React.Component {
     modified: '',
 
     // image
-    image: { url: '' },
+    image: { url: '',icon: '', color: '' },
     imageLoading: false,
-
-    // roles: [],
-    // admin: null,
 
     // skills: [],
     // status: null,
@@ -80,7 +78,13 @@ class Users extends React.Component {
     // onChangeSkills={this.onChangeSkills}
   }
 
-  onChange = e => this.setState({ [e.target.name]: e.target.value });
+  onChange = e => {
+    if (e.target.type === 'checkbox') {
+      this.setState({ [e.target.name]: e.target.checked })
+    } else {
+      this.setState({ [e.target.name]: e.target.value })
+    }
+  }
 
   onChangeImage = e => {
     this.setState({
@@ -146,6 +150,7 @@ class Users extends React.Component {
   }
 
   editClick = original => () => {
+    // copy fiels to the state
     this.setState({
       original,
       alertIsOpen: false,
@@ -157,8 +162,7 @@ class Users extends React.Component {
       surname: original.surname,
       email: original.email,
       job_title: original.job_title,
-      emailVerified: original.emailVerified,
-      admin: original.admin,
+      emailVerified: original.emailVerified ? true : false,
       status: original.status,
       experience: original.experience,
       image: original.image,
@@ -166,6 +170,12 @@ class Users extends React.Component {
       skills: original.skills,
       created: original.created,
       modified: original.modified,
+    });
+
+    // check for admin rights
+    const { roles } = original;
+    roles && roles.map(i => {
+      i.name === 'admin' && this.setState({ admin: true });
     });
   }
 
