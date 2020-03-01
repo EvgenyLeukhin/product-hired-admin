@@ -1,4 +1,5 @@
 import React from 'react';
+import Select from 'react-select';
 import AsyncSelect from 'react-select/async';
 
 import isEmpty from 'lodash/isEmpty';
@@ -10,6 +11,7 @@ import { Button } from "reactstrap";
 
 import getSkills    from './api/getSkills';
 import getLocations from './api/getLocations';
+import seniorityOptions from './api/seniorityOptions';
 
 
 import './edit.scss';
@@ -17,15 +19,15 @@ import './edit.scss';
 
 const EditUser = ({
   // fields
-  original, name, surname, email, job_title, emailVerified, admin, status, experience, location, skills, created, modified, emailSettings, emailJobApplication, emailMarketing,
+  original, name, surname, email, job_title, emailVerified, admin, status, experience, location, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority,
 
   // image
   image, imageLoading, fileInputImage, onUploadImage, deleteImage, onChangeImage,
 
-  isOpen, closeModal, onChange, onSubmit, modalLoading, deleteClick, onChangeSkills, onChangeLocation
+  isOpen, closeModal, onChange, onSubmit, modalLoading, deleteClick, onChangeSkills, onChangeLocation, onChangeSeniority
 }) => {
 
-  console.log(original); // original
+  console.log(seniority); // original
   return (
     <EditModal isOpen={isOpen} modalLoading={modalLoading} closeModal={closeModal}>
       <section className="section-container edit-container edit-user">
@@ -314,6 +316,11 @@ const EditUser = ({
 
                       <div className="col-md-4">
                         <label htmlFor="edit-email">Seniority</label>
+                        <Select
+                          value={seniority}
+                          onChange={onChangeSeniority}
+                          options={seniorityOptions}
+                        />
                       </div>
 
 

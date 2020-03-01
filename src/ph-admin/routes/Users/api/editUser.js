@@ -19,6 +19,7 @@ const editUser = state => {
     emailSettings,
     emailJobApplication,
     emailMarketing,
+    seniority
   } = state;
 
   return axios.patch(
@@ -39,6 +40,7 @@ const editUser = state => {
       emailSettings,
       emailJobApplication,
       emailMarketing,
+      seniority_id: seniority.value,
     },
 
     {

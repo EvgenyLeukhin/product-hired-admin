@@ -19,6 +19,7 @@ import addUser       from './api/addUser';
 import editUser      from './api/editUser';
 import deleteUser    from './api/deleteUser';
 import uploadImage   from './api/uploadImage';
+import seniorityOptions   from './api/seniorityOptions';
 
 import columns from './columns';
 
@@ -67,6 +68,7 @@ class Users extends React.Component {
     emailSettings: true,
     emailJobApplication: true,
     emailMarketing: true,
+    seniority: { value: null, label: '' },
 
     // image
     image: { url: '', icon: '', color: '' },
@@ -92,8 +94,9 @@ class Users extends React.Component {
     });
   }
 
-  onChangeSkills   = skills   => this.setState({ skills });
-  onChangeLocation = location => this.setState({ location });
+  onChangeSkills   = skills     => this.setState({ skills });
+  onChangeLocation = location   => this.setState({ location });
+  onChangeSeniority = seniority => this.setState({ seniority });
 
   catchErrors = error => {
     // redirect to login if 401 (request, response)
@@ -172,6 +175,7 @@ class Users extends React.Component {
   // reset original fields to the state fields
   editClick = original => e => {
     e.stopPropagation();
+
     // copy fiels to the state
     this.setState({
       original,
@@ -197,6 +201,12 @@ class Users extends React.Component {
       emailMarketing: original.emailMarketing,
     });
 
+    // get seniority_id and setState in object with label
+    const { seniority_id } = original;
+    seniority_id && seniorityOptions.map(i => {
+      seniority_id === i.value && this.setState({ seniority: { value: seniority_id, label: i.label } });
+    });
+
     // check for admin rights
     const { roles } = original;
     roles && roles.map(i => {
@@ -211,7 +221,7 @@ class Users extends React.Component {
 
     // get edit values
     const { state } = this;
-    const { id, name, surname, email, job_title, emailVerified, admin, status, experience, image, location, skills, created, modified, emailSettings, emailJobApplication, emailMarketing } = this.state;
+    const { id, name, surname, email, job_title, emailVerified, admin, status, experience, image, location, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority } = this.state;
 
     editUser(state)
       .then(() => {
@@ -222,7 +232,7 @@ class Users extends React.Component {
         for (let i = 0; i < users.length; i++) {
           if (users[i].id === id) {
             // inject editing data to table state
-            users[i] = { id, name, surname, email, job_title, emailVerified, admin, status, experience, image, location, skills, created, modified, emailSettings, emailJobApplication, emailMarketing };
+            users[i] = { id, name, surname, email, job_title, emailVerified, admin, status, experience, image, location, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority };
           }
         }
 
@@ -333,7 +343,7 @@ class Users extends React.Component {
       tableLoading, original, users, usersCount,
 
       // fields
-      name, surname, password, email, job_title, emailVerified, admin, status, experience, location, skills, created, modified, emailSettings, emailJobApplication, emailMarketing,
+      name, surname, password, email, job_title, emailVerified, admin, status, experience, location, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority,
 
       // image
       image, imageLoading,
@@ -410,6 +420,7 @@ class Users extends React.Component {
           emailSettings={emailSettings}
           emailJobApplication={emailJobApplication}
           emailMarketing={emailMarketing}
+          seniority={seniority}
 
           // image
           image={image}
@@ -430,6 +441,7 @@ class Users extends React.Component {
           deleteClick={this.deleteClick(original)}
           onChangeSkills={this.onChangeSkills}
           onChangeLocation={this.onChangeLocation}
+          onChangeSeniority={this.onChangeSeniority}
         />
 
         <Table
