@@ -1,8 +1,25 @@
 import axios from 'axios';
 import { API_URL, subUrl } from '../../../api/apiUrl';
 
-const editUser = (id, name, surname, email, job_title, emailVerified, admin, status, experience, image, location, skills) => {
+const editUser = state => {
   const token = JSON.parse(localStorage.getItem('ph-admin-user-data')).id;
+  const {
+    id,
+    name,
+    surname,
+    email,
+    job_title,
+    emailVerified,
+    admin,
+    status,
+    experience,
+    image,
+    location,
+    skills,
+    emailSettings,
+    emailJobApplication,
+    emailMarketing,
+  } = state;
 
   return axios.patch(
     `${API_URL}/${subUrl}/users/${id}`,
@@ -18,7 +35,10 @@ const editUser = (id, name, surname, email, job_title, emailVerified, admin, sta
       experience,
       image,
       location,
-      skills
+      skills,
+      emailSettings,
+      emailJobApplication,
+      emailMarketing,
     },
 
     {

@@ -1,4 +1,6 @@
 import React from 'react';
+import AsyncSelect from 'react-select/async';
+
 import isEmpty from 'lodash/isEmpty';
 
 import EditModal from '../../components/Modals/Edit/EditModal';
@@ -6,17 +8,21 @@ import EditModal from '../../components/Modals/Edit/EditModal';
 import Spinner from '../../../components/Spinner';
 import { Button } from "reactstrap";
 
+import getSkills    from './api/getSkills';
+import getLocations from './api/getLocations';
+
+
 import './edit.scss';
 
 
 const EditUser = ({
   // fields
-  original, name, surname, email, job_title, emailVerified, admin, status, experience, location, skills, created, modified,
+  original, name, surname, email, job_title, emailVerified, admin, status, experience, location, skills, created, modified, emailSettings, emailJobApplication, emailMarketing,
 
   // image
   image, imageLoading, fileInputImage, onUploadImage, deleteImage, onChangeImage,
 
-  isOpen, closeModal, onChange, onSubmit, modalLoading, deleteClick
+  isOpen, closeModal, onChange, onSubmit, modalLoading, deleteClick, onChangeSkills, onChangeLocation
 }) => {
 
   console.log(original); // original
@@ -174,8 +180,18 @@ const EditUser = ({
 
                       <div className="col-md-4">
                         <label htmlFor="edit-name">Location</label>
-                      </div>
+                        <AsyncSelect
+                          menuPlacement="auto"
+                          cacheOptions={true}
+                          defaultOptions={true}
+                          loadOptions={inputValue => getLocations(inputValue).then(res => res.data)}
+                          getOptionValue={o => o.id}
+                          getOptionLabel={o => `${o.name} (${o.country})`}
+                          value={location}
+                          onChange={onChangeLocation}
+                        />
 
+                      </div>
 
 
                       <div className="col-md-4">
@@ -254,11 +270,21 @@ const EditUser = ({
                             }
                           </label>
                         </div>
-
                       </div>
 
                       <div className="col-md-12">
                         <label htmlFor="edit-email">Skills</label>
+                        <AsyncSelect
+                          isMulti={true}
+                          menuPlacement="auto"
+                          cacheOptions={true}
+                          defaultOptions={true}
+                          loadOptions={inputValue => getSkills(inputValue).then(res => res.data)}
+                          getOptionValue={o => o.id}
+                          getOptionLabel={o => o.name}
+                          onChange={onChangeSkills}
+                          value={skills}
+                        />
                       </div>
 
                       <div className="col-md-4">
@@ -285,9 +311,11 @@ const EditUser = ({
                         <label htmlFor="edit-email">Product role</label>
                       </div>
 
+
                       <div className="col-md-4">
                         <label htmlFor="edit-email">Seniority</label>
                       </div>
+
 
                       <div className="col-md-2">
                         <label htmlFor="edit-experience">Experience</label>
@@ -305,12 +333,70 @@ const EditUser = ({
                         />
                       </div>
 
+
                       <div className="col-md-6">
                         <label htmlFor="edit-email">Main reason for using ProductHired</label>
                       </div>
 
-                      <div className="col-md-6">
-                        <label htmlFor="edit-email">Notifications</label>
+
+                      <div className="col-md-9  notifications">
+                        <label>Notifications</label>
+
+                        <div className="custom-control custom-checkbox">
+                          <input
+                            type="checkbox"
+                            className="custom-control-input"
+                            id="edit-emailSettings"
+                            name="emailSettings"
+                            checked={emailSettings}
+                            onChange={onChange}
+                          />
+                          <label
+                            className="custom-control-label"
+                            htmlFor="edit-emailSettings"
+                            style={{ fontWeight: 'normal' }}
+                          >
+                            When account settings have been modified
+                          </label>
+                        </div>
+
+
+                        <div className="custom-control custom-checkbox">
+                          <input
+                            type="checkbox"
+                            className="custom-control-input"
+                            id="edit-emailJobApplication"
+                            name="emailJobApplication"
+                            checked={emailJobApplication}
+                            onChange={onChange}
+                          />
+                          <label
+                            className="custom-control-label"
+                            htmlFor="edit-emailJobApplication"
+                            style={{ fontWeight: 'normal' }}
+                          >
+                            When job settings has been viewed
+                          </label>
+                        </div>
+
+
+                        <div className="custom-control custom-checkbox">
+                          <input
+                            type="checkbox"
+                            className="custom-control-input"
+                            id="edit-emailMarketing"
+                            name="emailMarketing"
+                            checked={emailMarketing}
+                            onChange={onChange}
+                          />
+                          <label
+                            className="custom-control-label"
+                            htmlFor="edit-emailMarketing"
+                            style={{ fontWeight: 'normal' }}
+                          >
+                            Allow receiving marketing emails
+                          </label>
+                        </div>
                       </div>
                     </div>
                   </div>

@@ -5,11 +5,16 @@
     .modified { margin-bottom: 15px; }
   }
 
+
   &__right {
-    .row {
-      & > div {
-        margin-bottom: 15px;
+    .notifications {
+      .custom-checkbox {
+        padding-left: 35px;
       }
+    }
+
+    .row {
+      & > div { margin-bottom: 15px; }
     }
   }
 
@@ -17,5 +22,19 @@
     display: flex;
     align-items: center;
     margin-top: 6px;
+  }
+}
+
+@media (max-width: 767px) {
+  .edit-user {
+    &__right {
+      .notifications {
+        .custom-checkbox {
+          input.custom-control-input + label.custom-control-label {
+            margin-top: 5px;
+          }
+        }
+      }
+    }
   }
 }
