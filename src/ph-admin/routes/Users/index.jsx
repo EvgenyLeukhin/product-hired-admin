@@ -148,6 +148,10 @@ class Users extends React.Component {
     this.setState({
       addModalIsOpen: false,
       editModalIsOpen: true,
+      // save data to original
+      original: data,
+
+      // save filled inputs
       id: data.id,
       name: data.name,
       surname: data.surname,
