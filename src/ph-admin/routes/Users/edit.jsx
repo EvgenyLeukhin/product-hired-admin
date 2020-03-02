@@ -19,7 +19,7 @@ import './edit.scss';
 
 const EditUser = ({
   // fields
-  original, name, surname, email, job_title, emailVerified, admin, status, experience, location, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority, seniority_id,
+  original, name, surname, email, job_title, emailVerified, admin, status, experience, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority, seniority_id, location, location_id,
 
   // image
   image, imageLoading, fileInputImage, onUploadImage, deleteImage, onChangeImage,
@@ -27,7 +27,7 @@ const EditUser = ({
   isOpen, closeModal, onChange, onSubmit, modalLoading, deleteClick, onChangeSkills, onChangeLocation, onChangeSeniority
 }) => {
 
-  // console.log(seniority, seniority_id); // original
+  console.log(location_id, location); // original
 
   return (
     <EditModal isOpen={isOpen} modalLoading={modalLoading} closeModal={closeModal}>
@@ -182,14 +182,24 @@ const EditUser = ({
 
 
                       <div className="col-md-4">
-                        <label htmlFor="edit-name">Location</label>
+                        <label htmlFor="edit-location_id">Location</label>
+                        <input
+                          hidden
+                          name="location_id"
+                          value={location_id}
+                          id="edit-location_id"
+                          onChange={onChange}
+                          type="number"
+                          className="form-control"
+                        />
+
                         <AsyncSelect
                           menuPlacement="auto"
                           cacheOptions={true}
                           defaultOptions={true}
                           loadOptions={inputValue => getLocations(inputValue).then(res => res.data)}
                           getOptionValue={o => o.id}
-                          getOptionLabel={o => `${o.name} (${o.country})`}
+                          getOptionLabel={o => `${o.name} ${o.country}`}
                           value={location}
                           onChange={onChangeLocation}
                         />

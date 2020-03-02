@@ -1,5 +1,4 @@
 import React from "react";
-import slugify from 'slugify';
 
 import Table         from '../../components/Table';
 import Alerts        from '../../components/Alerts';
@@ -10,11 +9,12 @@ import EditUser   from './edit';
 import DeleteUser from './delete';
 
 import { withHeaderTitle } from '../../../components/Header/HeaderTitle';
-import { API_URL, subUrl } from '../../api/apiUrl';
+import { API_URL } from '../../api/apiUrl';
 
 // api
 import getUsers      from './api/getUsers';
 import getUsersCount from './api/getUsersCount';
+import getLocation   from './api/getLocation';
 import addUser       from './api/addUser';
 import editUser      from './api/editUser';
 import deleteUser    from './api/deleteUser';
@@ -61,7 +61,6 @@ class Users extends React.Component {
     roles: [],
     status: true,
     experience: null,
-    location: {},
     skills: [],
     created: '',
     modified: '',
@@ -70,6 +69,8 @@ class Users extends React.Component {
     emailMarketing: true,
     seniority: {},        // 1. seniority object for react-select
     seniority_id: null,
+    location: { id: null, name: '' },
+    location_id: null,
 
     // image
     image: { url: '', icon: '', color: '' },
@@ -91,12 +92,16 @@ class Users extends React.Component {
   }
 
   onChangeSkills   = skills     => this.setState({ skills });
-  onChangeLocation = location   => this.setState({ location });
+
   onChangeSeniority = seniority => {
     this.setState({
       seniority,                     // 2. change react-select object
       seniority_id: seniority.value, // change seniority_id
     });
+  }
+
+  onChangeLocation = location => {
+    this.setState({ location, location_id: location.id });
   }
 
   catchErrors = error => {
@@ -194,7 +199,6 @@ class Users extends React.Component {
       status: original.status,
       experience: original.experience,
       image: original.image,
-      location: original.location,
       skills: original.skills,
       created: original.created,
       modified: original.modified,
@@ -202,8 +206,10 @@ class Users extends React.Component {
       emailJobApplication: original.emailJobApplication,
       emailMarketing: original.emailMarketing,
       seniority_id: original.seniority_id,
+      location_id: original.location_id,
     });
 
+    // SENIORITY
     // 3. inject seniority object to react-select if we have seniority_id in the original
     const { seniority_id } = original;
     seniority_id ? (
@@ -212,11 +218,29 @@ class Users extends React.Component {
       })
     ) : this.setState({ seniority: {} });  // if doesn't have - reset seniority
 
+
+    // LOCATION
+    const { location_id } = original;
+      // pre-loader location
+      this.setState({ location: { id: null, name: 'Loading...' }});
+
+      location_id ? (
+      // get location request
+      getLocation(location_id).then(res => {
+        this.setState({
+          location: res.data,
+          location_id: res.data.id
+        })
+      })
+    ) : this.setState({
+      location: { id: null, name: '' }
+    });  // if doesn't have - reset location
+
+
+    // ADMIN RIGHtS
     // check for admin rights
     const { roles } = original;
-    roles && roles.map(i => {
-      i.name === 'admin' && this.setState({ admin: true });
-    });
+    roles && roles.map(i => i.name === 'admin' && this.setState({ admin: true }));
   }
 
   editSubmit = e => {
@@ -226,7 +250,7 @@ class Users extends React.Component {
 
     // get edit values
     const { state } = this;
-    const { id, name, surname, email, job_title, emailVerified, admin, status, experience, image, location, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority_id, seniority } = this.state;
+    const { id, name, surname, email, job_title, emailVerified, admin, status, experience, image, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority_id, seniority, location_id, location } = this.state;
 
     editUser(state)
       .then(() => {
@@ -237,7 +261,7 @@ class Users extends React.Component {
         for (let i = 0; i < users.length; i++) {
           if (users[i].id === id) {
             // inject editing data to table state
-            users[i] = { id, name, surname, email, job_title, emailVerified, admin, status, experience, image, location, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority_id, seniority };
+            users[i] = { id, name, surname, email, job_title, emailVerified, admin, status, experience, image, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority_id, seniority, location_id, location };
           }
         }
 
@@ -348,7 +372,7 @@ class Users extends React.Component {
       tableLoading, original, users, usersCount,
 
       // fields
-      name, surname, password, email, job_title, emailVerified, admin, status, experience, location, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority_id, seniority,
+      name, surname, password, email, job_title, emailVerified, admin, status, experience, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority_id, seniority, location, location_id,
 
       // image
       image, imageLoading,
@@ -419,7 +443,6 @@ class Users extends React.Component {
           status={status}
           experience={experience}
           skills={skills}
-          location={location}
           created={created}
           modified={modified}
           emailSettings={emailSettings}
@@ -427,6 +450,8 @@ class Users extends React.Component {
           emailMarketing={emailMarketing}
           seniority_id={seniority_id}
           seniority={seniority}
+          location={location}
+          location_id={location_id}
 
           // image
           image={image}
@@ -446,8 +471,8 @@ class Users extends React.Component {
           onSubmit={this.editSubmit}
           deleteClick={this.deleteClick(original)}
           onChangeSkills={this.onChangeSkills}
-          onChangeLocation={this.onChangeLocation}
           onChangeSeniority={this.onChangeSeniority}
+          onChangeLocation={this.onChangeLocation}
         />
 
         <Table

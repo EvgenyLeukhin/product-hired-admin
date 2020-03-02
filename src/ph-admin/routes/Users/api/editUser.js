@@ -14,12 +14,12 @@ const editUser = state => {
     status,
     experience,
     image,
-    location,
     skills,
     emailSettings,
     emailJobApplication,
     emailMarketing,
-    seniority_id
+    seniority_id,
+    location_id,
   } = state;
 
   return axios.patch(
@@ -35,12 +35,12 @@ const editUser = state => {
       status,
       experience,
       image,
-      location,
       skills,
       emailSettings,
       emailJobApplication,
       emailMarketing,
-      seniority_id
+      seniority_id,
+      location_id,
     },
 
     {
