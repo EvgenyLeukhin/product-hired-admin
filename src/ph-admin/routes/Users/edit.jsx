@@ -151,6 +151,8 @@ const EditUser = ({
                   {/* col-md-9  edit-user__right */}
                   <div className="col-md-9  edit-user__right">
                     <div className="row">
+
+                      {/* name */}
                       <div className="col-md-4">
                         <label htmlFor="edit-name">Name</label>
 
@@ -165,7 +167,7 @@ const EditUser = ({
                         />
                       </div>
 
-
+                      {/* surname */}
                       <div className="col-md-4">
                         <label htmlFor="edit-name">Last name</label>
 
@@ -181,6 +183,7 @@ const EditUser = ({
                       </div>
 
 
+                      {/* location */}
                       <div className="col-md-4">
                         <label htmlFor="edit-location_id">Location</label>
                         <input
@@ -203,10 +206,10 @@ const EditUser = ({
                           value={location}
                           onChange={onChangeLocation}
                         />
-
                       </div>
 
 
+                      {/* email */}
                       <div className="col-md-4">
                         <label htmlFor="edit-email">Email</label>
 
@@ -222,6 +225,7 @@ const EditUser = ({
                       </div>
 
 
+                      {/* emailVerified */}
                       <div className="col-md-4">
                         <label htmlFor="edit-emailVerified">Email verified</label>
 
@@ -252,6 +256,7 @@ const EditUser = ({
                       </div>
 
 
+                      {/* status */}
                       <div className="col-md-4">
                         <label htmlFor="edit-status">User activity</label>
 
@@ -285,8 +290,10 @@ const EditUser = ({
                         </div>
                       </div>
 
+
+                      {/* skills */}
                       <div className="col-md-12">
-                        <label htmlFor="edit-email">Skills</label>
+                        <label htmlFor="edit-skills">Skills</label>
                         <AsyncSelect
                           isMulti={true}
                           menuPlacement="auto"
@@ -300,11 +307,14 @@ const EditUser = ({
                         />
                       </div>
 
+
+                      {/* company */}
                       <div className="col-md-4">
                         <label htmlFor="edit-email">Current company</label>
                       </div>
 
 
+                      {/* job_title */}
                       <div className="col-md-4">
                         <label htmlFor="edit-job_title">Job title</label>
 
@@ -320,11 +330,13 @@ const EditUser = ({
                       </div>
 
 
+                      {/* role */}
                       <div className="col-md-4">
                         <label htmlFor="edit-email">Product role</label>
                       </div>
 
 
+                      {/* seniority_id */}
                       <div className="col-md-4">
                         <label htmlFor="edit-seniority_id">Seniority</label>
                         <input
@@ -345,6 +357,7 @@ const EditUser = ({
                       </div>
 
 
+                      {/* experience */}
                       <div className="col-md-2">
                         <label htmlFor="edit-experience">Experience</label>
 
@@ -362,11 +375,13 @@ const EditUser = ({
                       </div>
 
 
+                      {/* reason */}
                       <div className="col-md-6">
                         <label htmlFor="edit-email">Main reason for using ProductHired</label>
                       </div>
 
 
+                      {/* notifications */}
                       <div className="col-md-9  notifications">
                         <label>Notifications</label>
 
