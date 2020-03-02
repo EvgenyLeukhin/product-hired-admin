@@ -19,7 +19,7 @@ import './edit.scss';
 
 const EditUser = ({
   // fields
-  original, name, surname, email, job_title, emailVerified, admin, status, experience, location, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority,
+  original, name, surname, email, job_title, emailVerified, admin, status, experience, location, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority, seniority_id,
 
   // image
   image, imageLoading, fileInputImage, onUploadImage, deleteImage, onChangeImage,
@@ -27,7 +27,8 @@ const EditUser = ({
   isOpen, closeModal, onChange, onSubmit, modalLoading, deleteClick, onChangeSkills, onChangeLocation, onChangeSeniority
 }) => {
 
-  console.log(seniority); // original
+  // console.log(seniority, seniority_id); // original
+
   return (
     <EditModal isOpen={isOpen} modalLoading={modalLoading} closeModal={closeModal}>
       <section className="section-container edit-container edit-user">
@@ -315,7 +316,17 @@ const EditUser = ({
 
 
                       <div className="col-md-4">
-                        <label htmlFor="edit-email">Seniority</label>
+                        <label htmlFor="edit-seniority_id">Seniority</label>
+                        <input
+                          hidden
+                          name="seniority_id"
+                          value={seniority_id}
+                          id="edit-seniority_id"
+                          onChange={onChange}
+                          type="number"
+                          className="form-control"
+                        />
+
                         <Select
                           value={seniority}
                           onChange={onChangeSeniority}

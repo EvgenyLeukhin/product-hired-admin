@@ -68,16 +68,12 @@ class Users extends React.Component {
     emailSettings: true,
     emailJobApplication: true,
     emailMarketing: true,
-    seniority: { value: null, label: '' },
+    seniority: {},        // 1. seniority object for react-select
+    seniority_id: null,
 
     // image
     image: { url: '', icon: '', color: '' },
     imageLoading: false,
-
-    // skills: [],
-    // location={location}
-    // onChangeLocation={this.onChangeLocation}
-    // onChangeSkills={this.onChangeSkills}
   }
 
   onChange = e => {
@@ -96,7 +92,12 @@ class Users extends React.Component {
 
   onChangeSkills   = skills     => this.setState({ skills });
   onChangeLocation = location   => this.setState({ location });
-  onChangeSeniority = seniority => this.setState({ seniority });
+  onChangeSeniority = seniority => {
+    this.setState({
+      seniority,                     // 2. change react-select object
+      seniority_id: seniority.value, // change seniority_id
+    });
+  }
 
   catchErrors = error => {
     // redirect to login if 401 (request, response)
@@ -182,13 +183,14 @@ class Users extends React.Component {
       alertIsOpen: false,
       editModalIsOpen: true,
       logoLoading: false, coverLoading: false,
+
       // get values from original react-table (original.id, original.name, original.price)
       id: original.id,
       name: original.name,
       surname: original.surname,
       email: original.email,
       job_title: original.job_title,
-      emailVerified: original.emailVerified ? true : false,
+      emailVerified: original.emailVerified,
       status: original.status,
       experience: original.experience,
       image: original.image,
@@ -199,13 +201,16 @@ class Users extends React.Component {
       emailSettings: original.emailSettings,
       emailJobApplication: original.emailJobApplication,
       emailMarketing: original.emailMarketing,
+      seniority_id: original.seniority_id,
     });
 
-    // get seniority_id and setState in object with label
+    // 3. inject seniority object to react-select if we have seniority_id in the original
     const { seniority_id } = original;
-    seniority_id && seniorityOptions.map(i => {
-      seniority_id === i.value && this.setState({ seniority: { value: seniority_id, label: i.label } });
-    });
+    seniority_id ? (
+      seniorityOptions.map(i => {
+        i.value === seniority_id && this.setState({ seniority: i });
+      })
+    ) : this.setState({ seniority: {} });  // if doesn't have - reset seniority
 
     // check for admin rights
     const { roles } = original;
@@ -221,7 +226,7 @@ class Users extends React.Component {
 
     // get edit values
     const { state } = this;
-    const { id, name, surname, email, job_title, emailVerified, admin, status, experience, image, location, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority } = this.state;
+    const { id, name, surname, email, job_title, emailVerified, admin, status, experience, image, location, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority_id, seniority } = this.state;
 
     editUser(state)
       .then(() => {
@@ -232,7 +237,7 @@ class Users extends React.Component {
         for (let i = 0; i < users.length; i++) {
           if (users[i].id === id) {
             // inject editing data to table state
-            users[i] = { id, name, surname, email, job_title, emailVerified, admin, status, experience, image, location, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority };
+            users[i] = { id, name, surname, email, job_title, emailVerified, admin, status, experience, image, location, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority_id, seniority };
           }
         }
 
@@ -343,7 +348,7 @@ class Users extends React.Component {
       tableLoading, original, users, usersCount,
 
       // fields
-      name, surname, password, email, job_title, emailVerified, admin, status, experience, location, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority,
+      name, surname, password, email, job_title, emailVerified, admin, status, experience, location, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority_id, seniority,
 
       // image
       image, imageLoading,
@@ -420,6 +425,7 @@ class Users extends React.Component {
           emailSettings={emailSettings}
           emailJobApplication={emailJobApplication}
           emailMarketing={emailMarketing}
+          seniority_id={seniority_id}
           seniority={seniority}
 
           // image
