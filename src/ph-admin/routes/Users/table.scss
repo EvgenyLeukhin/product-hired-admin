@@ -2,9 +2,12 @@
   .rt-tbody {
     .rt-tr-group {
       &:hover {
-        // cursor: pointer;
         box-shadow: 0 0 5px 1px #aaa;
         background-color: rgba(0,0,0, .015);
+
+        .rt-custom__controls {
+          i.ion-edit { color: #6C7177; }
+        }
       }
     }
   }
