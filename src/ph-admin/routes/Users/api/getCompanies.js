@@ -1,18 +1,23 @@
 import axios from 'axios';
 import { API_URL, subUrl } from '../../../api/apiUrl';
 
-const getLocation = location_id => {
+const getCompanies = inputValue => {
   const token = JSON.parse(localStorage.getItem('ph-admin-user-data')).id;
 
   return axios.get(
-    `${API_URL}/${subUrl}/locations/${location_id}`,
+    `${API_URL}/${subUrl}/companies`,
     {
       params: {
-        'filter': { 'limit': 1 }
+        'filter': {
+          'where': {
+            'name': { 'like': `%${inputValue}%`}
+          },
+          'limit': 30
+        }
       },
       headers: { Authorization: token }
     }
   );
 }
 
-export default getLocation;
+export default getCompanies;

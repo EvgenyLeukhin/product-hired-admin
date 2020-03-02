@@ -13,6 +13,7 @@ import getSkills    from './api/getSkills';
 import getLocations from './api/getLocations';
 import getRoles     from './api/getRoles';
 import getUserRoles from './api/getUserRoles';
+import getCompanies from './api/getCompanies';
 import seniorityOptions from './api/seniorityOptions';
 
 
@@ -21,15 +22,15 @@ import './edit.scss';
 
 const EditUser = ({
   // fields
-  original, name, surname, email, job_title, emailVerified, admin, status, experience, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority, seniority_id, location, location_id, user_role, user_role_id, role, role_id,
+  original, name, surname, email, job_title, emailVerified, admin, status, experience, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority, seniority_id, location, location_id, user_role, user_role_id, role, role_id, company, company_id,
 
   // image
   image, imageLoading, fileInputImage, onUploadImage, deleteImage, onChangeImage,
 
-  isOpen, closeModal, onChange, onSubmit, modalLoading, deleteClick, onChangeSkills, onChangeLocation, onChangeSeniority, onChangeUserRole, onChangeRole
+  isOpen, closeModal, onChange, onSubmit, modalLoading, deleteClick, onChangeSkills, onChangeLocation, onChangeSeniority, onChangeUserRole, onChangeRole, onChangeCompany
 }) => {
 
-  console.log(original); // original
+  // console.log(original); // original
 
   return (
     <EditModal isOpen={isOpen} modalLoading={modalLoading} closeModal={closeModal}>
@@ -312,7 +313,29 @@ const EditUser = ({
 
                       {/* company */}
                       <div className="col-md-4">
-                        <label htmlFor="edit-email">Current company</label>
+                        <label htmlFor="edit-company_id">Current company</label>
+
+                        <input
+                          hidden
+                          name="company_id"
+                          value={company_id}
+                          id="edit-company_id"
+                          onChange={onChange}
+                          type="number"
+                          className="form-control"
+                        />
+
+                        <AsyncSelect
+                          menuPlacement="auto"
+                          cacheOptions={true}
+                          defaultOptions={true}
+                          loadOptions={inputValue => getCompanies(inputValue).then(res => res.data)}
+                          getOptionValue={o => o.id}
+                          getOptionLabel={o => o.name}
+                          value={company}
+                          onChange={onChangeCompany}
+                        />
+
                       </div>
 
 
