@@ -20,6 +20,7 @@ const editUser = state => {
     emailMarketing,
     seniority_id,
     location_id,
+    user_role_id,
   } = state;
 
   return axios.patch(
@@ -41,6 +42,7 @@ const editUser = state => {
       emailMarketing,
       seniority_id,
       location_id,
+      user_role_id,
     },
 
     {

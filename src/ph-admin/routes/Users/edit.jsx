@@ -11,6 +11,7 @@ import { Button } from "reactstrap";
 
 import getSkills    from './api/getSkills';
 import getLocations from './api/getLocations';
+import getUserRoles from './api/getUserRoles';
 import seniorityOptions from './api/seniorityOptions';
 
 
@@ -19,15 +20,15 @@ import './edit.scss';
 
 const EditUser = ({
   // fields
-  original, name, surname, email, job_title, emailVerified, admin, status, experience, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority, seniority_id, location, location_id,
+  original, name, surname, email, job_title, emailVerified, admin, status, experience, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority, seniority_id, location, location_id, user_role, user_role_id,
 
   // image
   image, imageLoading, fileInputImage, onUploadImage, deleteImage, onChangeImage,
 
-  isOpen, closeModal, onChange, onSubmit, modalLoading, deleteClick, onChangeSkills, onChangeLocation, onChangeSeniority
+  isOpen, closeModal, onChange, onSubmit, modalLoading, deleteClick, onChangeSkills, onChangeLocation, onChangeSeniority, onChangeUserRole
 }) => {
 
-  console.log(location_id, location); // original
+  console.log(original); // original
 
   return (
     <EditModal isOpen={isOpen} modalLoading={modalLoading} closeModal={closeModal}>
@@ -377,7 +378,27 @@ const EditUser = ({
 
                       {/* reason */}
                       <div className="col-md-6">
-                        <label htmlFor="edit-email">Main reason for using ProductHired</label>
+                        <label htmlFor="edit-user_role_id">Main reason for using ProductHired</label>
+                        <input
+                          hidden
+                          name="user_role"
+                          value={user_role_id}
+                          id="edit-user_role"
+                          onChange={onChange}
+                          type="number"
+                          className="form-control"
+                        />
+
+                        <AsyncSelect
+                          menuPlacement="auto"
+                          cacheOptions={true}
+                          defaultOptions={true}
+                          loadOptions={inputValue => getUserRoles(inputValue).then(res => res.data)}
+                          getOptionValue={o => o.id}
+                          getOptionLabel={o => o.name}
+                          value={user_role}
+                          onChange={onChangeUserRole}
+                        />
                       </div>
 
 

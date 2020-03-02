@@ -15,6 +15,7 @@ import { API_URL } from '../../api/apiUrl';
 import getUsers      from './api/getUsers';
 import getUsersCount from './api/getUsersCount';
 import getLocation   from './api/getLocation';
+import getUserRole   from './api/getUserRole';
 import addUser       from './api/addUser';
 import editUser      from './api/editUser';
 import deleteUser    from './api/deleteUser';
@@ -71,6 +72,8 @@ class Users extends React.Component {
     seniority_id: null,
     location: { id: null, name: '' },
     location_id: null,
+    user_role: { id: null, name: '' },
+    user_role_id: null,
 
     // image
     image: { url: '', icon: '', color: '' },
@@ -91,7 +94,7 @@ class Users extends React.Component {
     });
   }
 
-  onChangeSkills   = skills     => this.setState({ skills });
+  onChangeSkills = skills => this.setState({ skills });
 
   onChangeSeniority = seniority => {
     this.setState({
@@ -102,6 +105,11 @@ class Users extends React.Component {
 
   onChangeLocation = location => {
     this.setState({ location, location_id: location.id });
+  }
+
+  onChangeUserRole = user_role => {
+    console.log(user_role);
+    this.setState({ user_role, user_role_id: user_role.id });
   }
 
   catchErrors = error => {
@@ -207,6 +215,7 @@ class Users extends React.Component {
       emailMarketing: original.emailMarketing,
       seniority_id: original.seniority_id,
       location_id: original.location_id,
+      user_role_id: original.user_role_id,
     });
 
     // SENIORITY
@@ -237,6 +246,25 @@ class Users extends React.Component {
     });  // if doesn't have - reset location
 
 
+    // USER_ROLE
+    const { user_role_id } = original;
+      // pre-loader location
+      this.setState({ user_role: { id: null, name: 'Loading...' }});
+
+      user_role_id ? (
+      // get location request
+      getUserRole(user_role_id).then(res => {
+        this.setState({
+          user_role: res.data,
+          user_role_id: res.data.id
+        })
+      })
+    ) : this.setState({
+      user_role: { id: null, name: '' }
+    });  // if doesn't have - reset location
+
+
+
     // ADMIN RIGHtS
     // check for admin rights
     const { roles } = original;
@@ -250,7 +278,7 @@ class Users extends React.Component {
 
     // get edit values
     const { state } = this;
-    const { id, name, surname, email, job_title, emailVerified, admin, status, experience, image, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority_id, seniority, location_id, location } = this.state;
+    const { id, name, surname, email, job_title, emailVerified, admin, status, experience, image, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority_id, seniority, location_id, location, user_role, user_role_id } = this.state;
 
     editUser(state)
       .then(() => {
@@ -261,7 +289,7 @@ class Users extends React.Component {
         for (let i = 0; i < users.length; i++) {
           if (users[i].id === id) {
             // inject editing data to table state
-            users[i] = { id, name, surname, email, job_title, emailVerified, admin, status, experience, image, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority_id, seniority, location_id, location };
+            users[i] = { id, name, surname, email, job_title, emailVerified, admin, status, experience, image, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority_id, seniority, location_id, location, user_role, user_role_id };
           }
         }
 
@@ -349,11 +377,7 @@ class Users extends React.Component {
       .catch(error => this.catchErrors(error));
   }
 
-  deleteImage  = () => {
-    this.setState({
-      image: { url: '' }
-    });
-  }
+  deleteImage  = () => this.setState({ image: { url: '' } });
 
   closeAddModal    = () => !this.state.modalLoading && this.setState({ addModalIsOpen:    false });
   closeEditModal   = () => !this.state.modalLoading && this.setState({ editModalIsOpen:   false });
@@ -372,7 +396,7 @@ class Users extends React.Component {
       tableLoading, original, users, usersCount,
 
       // fields
-      name, surname, password, email, job_title, emailVerified, admin, status, experience, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority_id, seniority, location, location_id,
+      name, surname, password, email, job_title, emailVerified, admin, status, experience, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority_id, seniority, location, location_id, user_role, user_role_id,
 
       // image
       image, imageLoading,
@@ -448,10 +472,9 @@ class Users extends React.Component {
           emailSettings={emailSettings}
           emailJobApplication={emailJobApplication}
           emailMarketing={emailMarketing}
-          seniority_id={seniority_id}
-          seniority={seniority}
-          location={location}
-          location_id={location_id}
+          seniority={seniority} seniority_id={seniority_id}
+          location={location}   location_id={location_id}
+          user_role={user_role} user_role_id={user_role_id}
 
           // image
           image={image}
@@ -473,6 +496,7 @@ class Users extends React.Component {
           onChangeSkills={this.onChangeSkills}
           onChangeSeniority={this.onChangeSeniority}
           onChangeLocation={this.onChangeLocation}
+          onChangeUserRole={this.onChangeUserRole}
         />
 
         <Table
