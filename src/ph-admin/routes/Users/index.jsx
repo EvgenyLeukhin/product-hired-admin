@@ -16,6 +16,7 @@ import getUsers      from './api/getUsers';
 import getUsersCount from './api/getUsersCount';
 import getLocation   from './api/getLocation';
 import getUserRole   from './api/getUserRole';
+import getRole       from './api/getRole';
 import addUser       from './api/addUser';
 import editUser      from './api/editUser';
 import deleteUser    from './api/deleteUser';
@@ -68,12 +69,18 @@ class Users extends React.Component {
     emailSettings: true,
     emailJobApplication: true,
     emailMarketing: true,
+
     seniority: {},        // 1. seniority object for react-select
     seniority_id: null,
-    location: { id: null, name: '' },
+
+    location: { id: null, name: '', country: '' },
     location_id: null,
+
     user_role: { id: null, name: '' },
     user_role_id: null,
+
+    role: { id: null, name: '' },
+    role_id: null,
 
     // image
     image: { url: '', icon: '', color: '' },
@@ -108,8 +115,11 @@ class Users extends React.Component {
   }
 
   onChangeUserRole = user_role => {
-    console.log(user_role);
     this.setState({ user_role, user_role_id: user_role.id });
+  }
+
+  onChangeRole = role => {
+    this.setState({ role, role_id: role.id });
   }
 
   catchErrors = error => {
@@ -216,6 +226,7 @@ class Users extends React.Component {
       seniority_id: original.seniority_id,
       location_id: original.location_id,
       user_role_id: original.user_role_id,
+      role_id: original.user_role_id,
     });
 
     // SENIORITY
@@ -230,43 +241,53 @@ class Users extends React.Component {
 
     // LOCATION
     const { location_id } = original;
-      // pre-loader location
-      this.setState({ location: { id: null, name: 'Loading...' }});
+      this.setState({ location: { id: null, name: 'Loading...', country: '' }}); // pre-loader
 
       location_id ? (
-      // get location request
-      getLocation(location_id).then(res => {
+      getLocation(location_id).then(res => {  // get request
         this.setState({
           location: res.data,
           location_id: res.data.id
         })
       })
     ) : this.setState({
-      location: { id: null, name: '' }
-    });  // if doesn't have - reset location
+      location: { id: null, name: '', country: '' }  // if doesn't have - reset
+    });
 
 
     // USER_ROLE
     const { user_role_id } = original;
-      // pre-loader location
-      this.setState({ user_role: { id: null, name: 'Loading...' }});
+      this.setState({ user_role: { id: null, name: 'Loading...' }}); // pre-loader
 
       user_role_id ? (
-      // get location request
-      getUserRole(user_role_id).then(res => {
+      getUserRole(user_role_id).then(res => { // get request
         this.setState({
           user_role: res.data,
           user_role_id: res.data.id
         })
       })
     ) : this.setState({
-      user_role: { id: null, name: '' }
-    });  // if doesn't have - reset location
+      user_role: { id: null, name: '' } // if doesn't have - reset
+    });
 
 
+    // ROLE
+    const { role_id } = original;
+      this.setState({ role: { id: null, name: 'Loading...' }}); // pre-loader
 
-    // ADMIN RIGHtS
-    // check for admin rights
+      role_id ? (
+      getRole(role_id).then(res => { // get request
+        this.setState({
+          role: res.data,
+          role_id: res.data.id
+        })
+      })
+    ) : this.setState({
+      role: { id: null, name: '' } // if doesn't have - reset
+    });
+
+
+    // ADMIN RIGHtS // check for admin rights
     const { roles } = original;
     roles && roles.map(i => i.name === 'admin' && this.setState({ admin: true }));
   }
@@ -278,7 +299,7 @@ class Users extends React.Component {
 
     // get edit values
     const { state } = this;
-    const { id, name, surname, email, job_title, emailVerified, admin, status, experience, image, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority_id, seniority, location_id, location, user_role, user_role_id } = this.state;
+    const { id, name, surname, email, job_title, emailVerified, admin, status, experience, image, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority_id, seniority, location_id, location, user_role, user_role_id, role, role_id } = this.state;
 
     editUser(state)
       .then(() => {
@@ -289,7 +310,7 @@ class Users extends React.Component {
         for (let i = 0; i < users.length; i++) {
           if (users[i].id === id) {
             // inject editing data to table state
-            users[i] = { id, name, surname, email, job_title, emailVerified, admin, status, experience, image, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority_id, seniority, location_id, location, user_role, user_role_id };
+            users[i] = { id, name, surname, email, job_title, emailVerified, admin, status, experience, image, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority_id, seniority, location_id, location, user_role, user_role_id, role, role_id };
           }
         }
 
@@ -396,7 +417,7 @@ class Users extends React.Component {
       tableLoading, original, users, usersCount,
 
       // fields
-      name, surname, password, email, job_title, emailVerified, admin, status, experience, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority_id, seniority, location, location_id, user_role, user_role_id,
+      name, surname, password, email, job_title, emailVerified, admin, status, experience, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority_id, seniority, location, location_id, user_role, user_role_id, role, role_id,
 
       // image
       image, imageLoading,
@@ -475,6 +496,7 @@ class Users extends React.Component {
           seniority={seniority} seniority_id={seniority_id}
           location={location}   location_id={location_id}
           user_role={user_role} user_role_id={user_role_id}
+          role={role} role_id={role_id}
 
           // image
           image={image}
@@ -497,6 +519,7 @@ class Users extends React.Component {
           onChangeSeniority={this.onChangeSeniority}
           onChangeLocation={this.onChangeLocation}
           onChangeUserRole={this.onChangeUserRole}
+          onChangeRole={this.onChangeRole}
         />
 
         <Table
