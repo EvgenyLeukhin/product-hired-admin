@@ -317,15 +317,11 @@ class Users extends React.Component {
   editSubmit = e => {
     e.preventDefault();
 
-    this.setState({
-      modalLoading: true,
-      modified: `${new Date().toISOString()}` // change modified date to now date
-    });
+    this.setState({ modalLoading: true });
 
     // get edit values
     const { state } = this;
-    const { id, name, surname, email, job_title, emailVerified, admin, status, experience, image, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority_id, seniority, location_id, location, user_role, user_role_id, role, role_id, company, company_id } = this.state;
-    console.log('state', modified);
+    const { id, name, surname, email, job_title, emailVerified, admin, status, experience, image, skills, created, emailSettings, emailJobApplication, emailMarketing, seniority_id, seniority, location_id, location, user_role, user_role_id, role, role_id, company, company_id } = this.state;
 
     editUser(state)
       .then(() => {
@@ -336,7 +332,10 @@ class Users extends React.Component {
         for (let i = 0; i < users.length; i++) {
           if (users[i].id === id) {
             // inject editing data to table state
-            users[i] = { id, name, surname, email, job_title, emailVerified, admin, status, experience, image, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority_id, seniority, location_id, location, user_role, user_role_id, role, role_id, company, company_id };
+            users[i] = { id, name, surname, email, job_title, emailVerified, admin, status, experience, image, skills, created, emailSettings, emailJobApplication, emailMarketing, seniority_id, seniority, location_id, location, user_role, user_role_id, role, role_id, company, company_id,
+
+              // change modified to current date
+            modified: `${new Date().toISOString()}` };
           }
         }
 

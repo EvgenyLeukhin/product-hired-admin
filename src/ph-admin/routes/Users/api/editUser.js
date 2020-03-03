@@ -23,7 +23,6 @@ const editUser = state => {
     user_role_id,
     role_id,
     company_id,
-    modified,
   } = state;
 
   return axios.patch(
@@ -48,7 +47,7 @@ const editUser = state => {
       user_role_id,
       role_id,
       company_id,
-      modified,
+      modified: `${new Date().toISOString()}`,
     },
 
     {
