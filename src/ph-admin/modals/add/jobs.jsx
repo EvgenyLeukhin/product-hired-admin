@@ -3,7 +3,7 @@ import React from 'react';
 import User          from '../../selects/user';
 import Company       from '../../selects/company';
 
-const Jobs = ({ name, company, user,onChange, onChangeCompany, onChangeUser }) => (
+const Jobs = ({ name, company, user, onChange, onChangeCompany, onChangeUser }) => (
   <fieldset>
     <div className="form-group row">
       <div className="col-md-12">
