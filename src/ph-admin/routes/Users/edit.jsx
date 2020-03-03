@@ -64,7 +64,7 @@ const EditUser = ({
                         ref={fileInputImage}
                         onChange={onUploadImage}
                       />
-                      <label htmlFor="edit-image" className="input-file-label  btn btn-dark">
+                      <label htmlFor="edit-image" className="input-file-label  btn btn-light">
                         <i className="ion-image" />&nbsp;
                         <span>Choose a file</span>
                       </label>
@@ -86,7 +86,7 @@ const EditUser = ({
 
                         <div className="input-group-append">
                           <button
-                            className="btn btn-dark"
+                            className="btn btn-light"
                             type="button"
                             onClick={deleteImage}
                             disabled={!isEmpty(image) && !image.url}

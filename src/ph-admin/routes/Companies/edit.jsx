@@ -70,10 +70,10 @@ const EditCompany = ({
 
                       <div className="input-group-append">
                         <button
-                          className="btn btn-dark"
+                          className="btn btn-light"
                           type="button"
                           onClick={generateSlug}
-                          disabled={!name || slug}
+                          disabled={!name}
                         >
                           Generate
                         </button>
@@ -110,7 +110,7 @@ const EditCompany = ({
                         ref={fileInputLogo}
                         onChange={onUploadLogo}
                       />
-                      <label htmlFor="edit-logo" className="input-file-label  btn btn-dark">
+                      <label htmlFor="edit-logo" className="input-file-label  btn btn-light">
                         <i className="ion-image" />&nbsp;
                         <span>Load logo</span>
                       </label>
@@ -131,7 +131,7 @@ const EditCompany = ({
                         />
 
                         <div className="input-group-append">
-                          <button className="btn btn-dark" type="button" onClick={deleteLogo} disabled={!logo}>
+                          <button className="btn btn-light" type="button" onClick={deleteLogo} disabled={!logo}>
                             Clear
                           </button>
                         </div>
@@ -156,7 +156,7 @@ const EditCompany = ({
                         ref={fileInputCover}
                         onChange={onUploadCover}
                       />
-                      <label htmlFor="edit-cover" className="input-file-label  btn btn-dark">
+                      <label htmlFor="edit-cover" className="input-file-label  btn btn-light">
                         <i className="ion-image" />&nbsp;
                         <span>Load cover</span>
                       </label>
@@ -177,7 +177,7 @@ const EditCompany = ({
                         />
 
                         <div className="input-group-append">
-                          <button className="btn btn-dark" type="button" onClick={deleteCover} disabled={!cover}>
+                          <button className="btn btn-light" type="button" onClick={deleteCover} disabled={!cover}>
                             Clear
                           </button>
                         </div>

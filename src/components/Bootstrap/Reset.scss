@@ -143,6 +143,9 @@ pre {
 .btn-info      { @include button-variant(#fff, $brand-info, $brand-info); }
 .btn-warning   { @include button-variant(#fff, $brand-warning, $brand-warning); }
 .btn-danger    { @include button-variant(#fff, $brand-danger, $brand-danger); }
+.btn-light     {
+  @include button-variant($text-color, $brand-light, #ccc);
+}
 
 .btn-warning {
     &:hover {

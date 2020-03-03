@@ -21,7 +21,7 @@ const waitFor = Tag => props => <Tag {...props} />;
 
 const Companies = lazy(() => import('./Companies/index.jsx'));
 const Users     = lazy(() => import('./Users/index.jsx'));
-const Jobs      = lazy(() => import('./Jobs/'));
+const Jobs      = lazy(() => import('./Jobs/index.jsx'));
 const Skills    = lazy(() => import('./Skills/index.jsx'));
 const Roles     = lazy(() => import('./Roles/index.jsx'));
 const Plans     = lazy(() => import('./Plans/index.jsx'));

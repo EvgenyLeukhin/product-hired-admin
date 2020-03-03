@@ -54,10 +54,10 @@ const EditSkill = ({
 
                     <div className="input-group-append">
                       <button
-                        className="btn btn-dark"
+                        className="btn btn-light"
                         type="button"
                         onClick={generateSlug}
-                        disabled={!name || slug}
+                        disabled={!name}
                       >
                         Generate
                       </button>
