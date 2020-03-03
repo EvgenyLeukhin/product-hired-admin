@@ -1,0 +1,20 @@
+.edit-job {
+  .top-fields {
+    b { display: block; }
+    text-align: center;
+
+    border-bottom: 3px solid rgba(0,0,0,0.12);
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 767px) {
+  .edit-job {
+    .top-fields {
+      text-align: left;
+      & > div {
+        margin-bottom: 15px !important;
+      }
+    }
+  }
+}

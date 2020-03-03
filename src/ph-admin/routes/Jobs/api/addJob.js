@@ -1,8 +1,11 @@
 import axios from 'axios';
 import { API_URL, subUrl } from '../../../api/apiUrl';
 
-const addJob = (name, company, user) => {
+const addJob = state => {
   const token = JSON.parse(localStorage.getItem('ph-admin-user-data')).id;
+  const {
+    name, company, user, details, vacancy_role, seniority, experience_from, experience_up, application_type, application_link, plan_id, hash, status
+  } =  state;
 
   return axios.post(
     `${API_URL}/${subUrl}/vacancies`,
@@ -12,17 +15,8 @@ const addJob = (name, company, user) => {
       company_id: company.id,
       employer_id: user.id,
 
-      // default fields
-      details: '<p></p>',
-      vacancy_role: 1,
-      seniority: 1,
-      experience_from: 0,
-      experience_up: 1,
-      application_type: 0,
-      application_link: null,
-      plan_id: 1,
-      hash: null,
-      status: 'draft',
+      // default fields from the state when add
+      details, vacancy_role, seniority, experience_from, experience_up, application_type, application_link, plan_id, hash, status,
     },
 
     {
@@ -32,18 +26,3 @@ const addJob = (name, company, user) => {
 }
 
 export default addJob;
-
-// application_link: null
-// application_type: 0
-// companies: []
-// company_id: 1
-// details: "<p></p>"
-// employer_id: 2
-// experience_from: 0
-// experience_up: 1
-// hash: null
-// name: "name-=-="
-// plan_id: 1
-// seniority: 1
-// status: "draft"
-// vacancy_role: 1

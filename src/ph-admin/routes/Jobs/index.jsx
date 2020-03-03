@@ -6,6 +6,7 @@ import AddButton     from '../../components/AddButton';
 
 import AddJob    from './add';
 import DeleteJob from './delete';
+import EditJob   from './edit';
 
 import { withHeaderTitle } from '../../../components/Header/HeaderTitle';
 
@@ -18,11 +19,14 @@ import deleteJob    from './api/deleteJob';
 
 import columns from './columns';
 
+import './edit.scss';
+
 
 class Jobs extends React.Component {
   UNSAFE_componentWillMount() { this.props.setHeaderTitle('Jobs') }
 
   state = {
+    // table
     jobs: [],
     jobsCount: null,
     tableLoading: false,
@@ -34,13 +38,20 @@ class Jobs extends React.Component {
     deleteModalIsOpen: false,
     modalLoading: false,
 
-    // fields
-    id: null,
-    name: '',
-    company: { name: '' },
-    user: { name: '', surname: '', email: '' },
+    // top fields
+    id: null, created: '', modified: '', views: null, impressions: '',
 
-    // alert
+    name: '',
+    company: { name: '' }, company_id: null,
+    user: { name: '', surname: '', email: '' }, user_id: null,
+    experience_up: null, experience_from: null,
+
+    // default state fields when add job
+    application_link: null, application_type: 0, details: "<p></p>", employer_id: null,
+    experience_from: 0, experience_up: 1, hash: null, plan_id: 1, seniority: 1, status: 'draft',
+    vacancy_role: 1,
+
+    // alerts
     alertIsOpen: false,
     alertType: '',
     alertErrorText: '',
@@ -56,6 +67,7 @@ class Jobs extends React.Component {
 
   onChangeCompany = company => this.setState({ company });
   onChangeUser    = user    => this.setState({ user });
+  onChangeDetails = details => this.setState({ details });
 
   catchErrors = error => {
     // redirect to login if 401 (request, response)
@@ -83,6 +95,11 @@ class Jobs extends React.Component {
       name: '',
       company: { name: '' },
       user: { name: '', surname: '', email: '' },
+
+      // default fields from the state when add
+      application_link: null, application_type: 0, details: "<p></p>", employer_id: null,
+      experience_from: 0, experience_up: 1, hash: null, plan_id: 1, seniority: 1, status: 'draft',
+      vacancy_role: 1
     });
   }
 
@@ -90,9 +107,10 @@ class Jobs extends React.Component {
     e.preventDefault();
 
     this.setState({ modalLoading: true });
-    const { name, company, user, jobs } = this.state;
+    const { state } = this;
+    const { jobs, company } = this.state;
 
-    addJob(name, company, user)   // order must be like inside addJob method
+    addJob(state)   // order must be like inside addJob method
     .then(res => {
       const resDataWithCompany = { ...res.data, company };
       const newData = [resDataWithCompany].concat(jobs);
@@ -103,16 +121,46 @@ class Jobs extends React.Component {
         jobs: newData,
       });
 
-      // this.editAfterAdd(res.data);
+      this.editAfterAdd(res.data);
     })
 
     .catch(error => this.catchErrors(error));
   }
 
+  editAfterAdd = data => {
+    this.setState({
+      addModalIsOpen: false,
+      editModalIsOpen: true,
+      original: data, // save data to original
+
+      // save filled inputs
+      id: data.id, name: data.name, created: data.created, modified: data.modified,
+
+      alertIsOpen: false
+    });
+  }
+
   editClick = original => e => {
     e.stopPropagation();
-    // alert('Edit');
-    console.log(original);
+    console.log('original', original);
+
+    this.setState({
+      original,
+
+      alertIsOpen: false,
+      editModalIsOpen: true,
+      logoLoading: false, coverLoading: false,
+
+      id: original.id,
+      name: original.name,
+      created: original.created,
+      modified: original.modified,
+      views: original.views,
+      impressions: original.impressions,
+      details: original.details,
+      experience_up: original.experience_up,
+      experience_from: original.experience_from,
+    });
   }
 
   deleteClick = original => e => {
@@ -166,7 +214,8 @@ class Jobs extends React.Component {
       tableLoading, original, jobs, jobsCount,
 
       // fields
-      name, company, user,
+      id, name, company, user, created, modified, published, views, impressions, details,
+      experience_from, experience_up,
 
       // modals
       addModalIsOpen, editModalIsOpen, modalLoading, deleteModalIsOpen,
@@ -222,6 +271,26 @@ class Jobs extends React.Component {
           onChangeCompany={this.onChangeCompany}
           onChangeUser={this.onChangeUser}
           onSubmit={this.addSubmit}
+        />
+
+        <EditJob
+          // fields
+          id={id} name={name} details={details}
+          original={original}
+          created={created} modified={modified} published={published}
+          views={views} impressions={impressions}
+          experience_from={experience_from} experience_up={experience_up}
+
+          // modal
+          isOpen={editModalIsOpen}
+          modalLoading={modalLoading}
+          closeModal={this.closeEditModal}
+
+          // actions
+          onChange={this.onChange}
+          onChangeDetails={this.onChangeDetails}
+          onSubmit={this.editSubmit}
+          deleteClick={this.deleteClick(original)}
         />
 
         <Table
