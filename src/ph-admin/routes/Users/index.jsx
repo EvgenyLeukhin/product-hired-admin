@@ -26,8 +26,6 @@ import seniorityOptions   from './api/seniorityOptions';
 
 import columns from './columns';
 
-import './table.scss';
-
 
 class Users extends React.Component {
   UNSAFE_componentWillMount() { this.props.setHeaderTitle('Users') }
@@ -74,7 +72,7 @@ class Users extends React.Component {
     seniority: {},        // 1. seniority object for react-select
     seniority_id: null,
 
-    location: { id: null, name: '', country: '' },
+    location: { id: null, name: '', alias_region: '' },
     location_id: null,
 
     user_role: { id: null, name: '' },
@@ -226,7 +224,7 @@ class Users extends React.Component {
       image: original.image,
       skills: original.skills,
       created: original.created,
-      modified: original.modified,
+      modified: original.modified, // get modified from original
       emailSettings: original.emailSettings,
       emailJobApplication: original.emailJobApplication,
       emailMarketing: original.emailMarketing,
@@ -249,7 +247,7 @@ class Users extends React.Component {
 
     // LOCATION
     const { location_id } = original;
-      this.setState({ location: { id: null, name: 'Loading...', country: '' }}); // pre-loader
+      this.setState({ location: { id: null, name: 'Loading...', alias_region: '' }}); // pre-loader
 
       location_id ? (
       getLocation(location_id).then(res => {  // get request
@@ -259,7 +257,7 @@ class Users extends React.Component {
         })
       })
     ) : this.setState({
-      location: { id: null, name: '', country: '' }  // if doesn't have - reset
+      location: { id: null, name: '', alias_region: '' }  // if doesn't have - reset
     });
 
 
@@ -319,11 +317,15 @@ class Users extends React.Component {
   editSubmit = e => {
     e.preventDefault();
 
-    this.setState({ modalLoading: true });
+    this.setState({
+      modalLoading: true,
+      modified: `${new Date().toISOString()}` // change modified date to now date
+    });
 
     // get edit values
     const { state } = this;
     const { id, name, surname, email, job_title, emailVerified, admin, status, experience, image, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority_id, seniority, location_id, location, user_role, user_role_id, role, role_id, company, company_id } = this.state;
+    console.log('state', modified);
 
     editUser(state)
       .then(() => {
@@ -503,10 +505,8 @@ class Users extends React.Component {
         <EditUser
           // fields
           original={original}
-          name={name}
-          surname={surname}
+          name={name} surname={surname} email={email}
           job_title={job_title}
-          email={email}
           emailVerified={emailVerified}
           admin={admin}
           status={status}
@@ -517,11 +517,12 @@ class Users extends React.Component {
           emailSettings={emailSettings}
           emailJobApplication={emailJobApplication}
           emailMarketing={emailMarketing}
+
           seniority={seniority} seniority_id={seniority_id}
           location={location}   location_id={location_id}
           user_role={user_role} user_role_id={user_role_id}
-          role={role} role_id={role_id}
-          company={company} company_id={company_id}
+          role={role}           role_id={role_id}
+          company={company}     company_id={company_id}
 
           // image
           image={image}

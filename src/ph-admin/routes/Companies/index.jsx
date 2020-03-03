@@ -155,7 +155,9 @@ class Companies extends React.Component {
       .catch(error => this.catchErrors(error));
   }
 
-  editClick = original => () => {
+  editClick = original => e => {
+    e.stopPropagation();
+
     this.setState({
       original,
       alertIsOpen: false,
@@ -211,7 +213,8 @@ class Companies extends React.Component {
       .catch(error => this.catchErrors(error));
   }
 
-  deleteClick = original => () => {
+  deleteClick = original => e => {
+    e.stopPropagation();
     this.setState({ original, deleteModalIsOpen: true, alertIsOpen: false });
   }
 
@@ -395,6 +398,16 @@ class Companies extends React.Component {
           pages={companiesCount}
           loading={tableLoading}
           columns={[...columns, ...controlsColumn]}
+          getTdProps={(state, rowInfo, column, instance) => {
+            return {
+              onClick: e => {
+                if (rowInfo !== undefined) {
+                  const { original } = rowInfo;
+                  return this.editClick(original)(e);
+                } else return null;
+              }
+            }
+          }}
           onFetchData={state => {
             this.setState({ tableLoading: true });
 

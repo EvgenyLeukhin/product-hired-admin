@@ -1,7 +1,15 @@
 .rt-table {
   .rt-tbody {
-    .rt-tr-group:hover {
-      .rt-custom__controls { opacity: 1; }
+    .rt-tr-group {
+      &:hover {
+        box-shadow: 0 0 5px 1px #aaa;
+        background-color: rgba(0,0,0, .015);
+
+        .rt-custom__controls {
+          opacity: 1;
+          i.ion-edit { color: #6C7177; }
+        }
+      }
     }
   }
 }

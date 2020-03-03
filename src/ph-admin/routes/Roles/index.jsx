@@ -60,7 +60,9 @@ class Roles extends React.Component {
   }
 
   // get values from original react-table (original.id, original.name, original.price)
-  editClick = original => () => {
+  editClick = original => e => {
+    e.stopPropagation();
+
     this.setState({
       editModalIsOpen: true,
       original,
@@ -190,6 +192,16 @@ class Roles extends React.Component {
           manual={false}
           loading={tableLoading}
           columns={[...columns, ...controlsColumn]}
+          getTdProps={(state, rowInfo, column, instance) => {
+            return {
+              onClick: e => {
+                if (rowInfo !== undefined) {
+                  const { original } = rowInfo;
+                  return this.editClick(original)(e);
+                } else return null;
+              }
+            }
+          }}
         />
       </div>
     )

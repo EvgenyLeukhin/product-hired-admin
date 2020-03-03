@@ -101,7 +101,9 @@ class Skills extends React.Component {
       .catch(error => this.catchErrors(error));
   }
 
-  editClick = original => () => {
+  editClick = original => e => {
+    e.stopPropagation();
+
     this.setState({
       original,
       alertIsOpen: false,
@@ -154,7 +156,8 @@ class Skills extends React.Component {
       .catch(error => this.catchErrors(error));
   }
 
-  deleteClick = original => () => {
+  deleteClick = original => e => {
+    e.stopPropagation();
     this.setState({
       original,
       deleteModalIsOpen: true,
@@ -301,6 +304,16 @@ class Skills extends React.Component {
           manual={false}
           loading={tableLoading}
           columns={[...columns, ...controlsColumn]}
+          getTdProps={(state, rowInfo, column, instance) => {
+            return {
+              onClick: e => {
+                if (rowInfo !== undefined) {
+                  const { original } = rowInfo;
+                  return this.editClick(original)(e);
+                } else return null;
+              }
+            }
+          }}
         />
       </div>
     )

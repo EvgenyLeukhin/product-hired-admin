@@ -30,7 +30,7 @@ const EditUser = ({
   isOpen, closeModal, onChange, onSubmit, modalLoading, deleteClick, onChangeSkills, onChangeLocation, onChangeSeniority, onChangeUserRole, onChangeRole, onChangeCompany
 }) => {
 
-  // console.log(original); // original
+  console.log('EditUser:', modified); // original
 
   return (
     <EditModal isOpen={isOpen} modalLoading={modalLoading} closeModal={closeModal}>
@@ -102,7 +102,7 @@ const EditUser = ({
                       <input
                         disabled
                         name="created"
-                        value={created && created.substring(0, 10)}
+                        value={created && `${created.substring(0, 10)}, ${created.substring(11, 16)}UTC`}
                         id="edit-created"
                         type="text"
                         className="form-control"
@@ -114,7 +114,7 @@ const EditUser = ({
                       <input
                         disabled
                         name="modified"
-                        value={modified && modified.substring(0, 10)}
+                        value={modified && `${modified.substring(0, 10)}, ${modified.substring(11, 16)}UTC`}
                         id="edit-modified"
                         type="text"
                         className="form-control"
@@ -205,7 +205,7 @@ const EditUser = ({
                           defaultOptions={true}
                           loadOptions={inputValue => getLocations(inputValue).then(res => res.data)}
                           getOptionValue={o => o.id}
-                          getOptionLabel={o => `${o.name} ${o.country}`}
+                          getOptionLabel={o => `${o.name}, ${o.alias_region}`}
                           value={location}
                           onChange={onChangeLocation}
                         />
