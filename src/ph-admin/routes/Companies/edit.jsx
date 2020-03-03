@@ -6,8 +6,8 @@ import { Button } from "reactstrap";
 
 
 const EditCompany = ({
-  name, domain, slug, weight, logo, cover, original,            // fields
-
+  name, domain, slug, logo, cover, original,            // fields
+  // weight,
   fileInputLogo, logoLoading, onUploadLogo, deleteLogo,          // logo
   fileInputCover, coverLoading, onUploadCover, deleteCover,      // cover
 
@@ -29,7 +29,7 @@ const EditCompany = ({
 
               <fieldset>
                 <div className="form-group row">
-                  <div className="col-md-6">
+                  <div className="col-md-4">
                     <label htmlFor="edit-name">Company name</label>
 
                     <input
@@ -42,8 +42,8 @@ const EditCompany = ({
                     />
                   </div>
 
-                  <div className="col-md-6">
-                    <label htmlFor="edit-domain">Domain</label>
+                  <div className="col-md-4">
+                    <label htmlFor="edit-domain">Website</label>
 
                     <input
                       name="domain"
@@ -55,7 +55,7 @@ const EditCompany = ({
                     />
                   </div>
 
-                  <div className="col-md-6">
+                  <div className="col-md-4">
                     <label htmlFor="edit-slug">Slug</label>
 
                     <div className="input-group">
@@ -81,7 +81,7 @@ const EditCompany = ({
                     </div>
                   </div>
 
-                  <div className="col-md-6">
+                  {/* <div className="col-md-6">
                     <label htmlFor="edit-weight">Weight</label>
 
                     <input
@@ -92,7 +92,7 @@ const EditCompany = ({
                       type="number"
                       className="form-control"
                     />
-                  </div>
+                  </div> */}
 
 
                   <div className="col-md-6">

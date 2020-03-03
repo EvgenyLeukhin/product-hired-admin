@@ -205,7 +205,7 @@ const EditUser = ({
                           defaultOptions={true}
                           loadOptions={inputValue => getLocations(inputValue).then(res => res.data)}
                           getOptionValue={o => o.id}
-                          getOptionLabel={o => `${o.name}, ${o.alias_region}`}
+                          getOptionLabel={o => `${o.name} ${o.alias_region}`}
                           value={location}
                           onChange={onChangeLocation}
                         />

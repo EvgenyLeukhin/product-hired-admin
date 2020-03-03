@@ -169,7 +169,6 @@ class Companies extends React.Component {
       name: original.name,
       domain: original.domain,
       slug: original.slug,
-      weight: original.weight,
       logo: original.logo,
       cover: original.cover,
     });
@@ -181,8 +180,8 @@ class Companies extends React.Component {
     this.setState({ modalLoading: true });
 
     // get edit values
-    const { id, name, domain, slug, weight, logo, cover } = this.state;
-    editCompany(id, name, domain, slug, weight, logo, cover)
+    const { id, name, domain, slug, logo, cover } = this.state;
+    editCompany(id, name, domain, slug, logo, cover)
 
       .then(() => {
         // get current table-data from the state w\o editing change (when render only)
@@ -192,7 +191,7 @@ class Companies extends React.Component {
         for (let i = 0; i < companies.length; i++) {
           if (companies[i].id === id) {
             // inject editing data to table state
-            companies[i] = { id, name, domain, slug, weight, logo, cover };
+            companies[i] = { id, name, domain, slug, logo, cover };
           }
         }
 
@@ -363,7 +362,8 @@ class Companies extends React.Component {
         <EditCompany
           // fields
           original={original}
-          name={name} domain={domain} slug={slug} weight={weight}
+          name={name} domain={domain} slug={slug}
+          // weight={weight}
 
           // logo
           logo={logo}
