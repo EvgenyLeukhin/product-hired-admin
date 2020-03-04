@@ -2,6 +2,9 @@ import React from 'react';
 import ReactQuill from 'react-quill';
 import Select from 'react-select';
 import AsyncSelect from 'react-select/async';
+
+import { API_URL, subUrl } from '../../api/apiUrl';
+
 import isEmpty from 'lodash/isEmpty';
 
 import EditModal from '../../components/Modals/Edit/EditModal';
@@ -29,7 +32,10 @@ const EditJob = ({
   seniority, seniorityObj, skills, status, statusObj, plan_id, planObj, company, company_id, locations,
   user, employer_id, vacancy, vacancy_role,
 
-  // image //
+  // images //
+  logo, cover, logoSwitcher, coverSwitcher, logoLoading, coverLoading,
+  fileInputLogo, fileInputCover, onUploadLogo, onUploadCover,
+
 
   // modal
   isOpen, closeModal, onSubmit, modalLoading, deleteClick,
@@ -38,10 +44,23 @@ const EditJob = ({
   onChange, onChangeDetails, onChangeSeniority, onChangeSkills, onChangeStatus, onChangePlan, onChangeLocations, onChangeCompany, onChangeUser, onChangeVacancy,
 }) => {
 
-  console.log('EditJob locations:', original); // original
+  // console.log('EditJob locations:', original); // original
   const createdString = created && `${created.substring(0, 10)}, ${created.substring(11, 16)} UTC`;
   const modifiedString = modified && `${modified.substring(0, 10)}, ${modified.substring(11, 16)} UTC`;
-  // const disabledCondition = !name && !isEmpty(skills) && !isEmpty(locations);
+
+  let logoUrl = `${API_URL}/${subUrl}/containers/logo/download/${logo}`;
+  let coverUrl = `${API_URL}/${subUrl}/containers/cover/download/${cover}`;
+
+  // fix problem with open item after additing image
+  if (!logoSwitcher && logo && logo.includes('http')) {
+    const logoSplit = logo.split('/').pop();
+    logoUrl = `${API_URL}/${subUrl}/containers/logo/download/${logoSplit}`;
+  }
+
+  if (!coverSwitcher && cover && cover.includes('http')) {
+    const coverSplit = cover.split('/').pop();
+    coverUrl = `${API_URL}/${subUrl}/containers/cover/download/${coverSplit}`;
+  }
 
   return (
     <EditModal isOpen={isOpen} modalLoading={modalLoading} closeModal={closeModal}>
@@ -310,6 +329,58 @@ const EditJob = ({
                       onChange={onChangeSkills}
                       value={skills}
                     />
+                  </div>
+
+                  {/* logo */}
+                  <div className="col-md-6  edit-logo">
+                    <label htmlFor="edit-logo">Logo</label>
+                    {
+                      !logoSwitcher ? (
+                        logo ? <img className="logo" src={logoUrl} alt="logo" />
+                            : <div className="no-logo">No logo</div>
+                      ) : (
+                        logoLoading ? <Spinner /> : (
+                          logo && <img className="logo" src={logo} alt="logo" />
+                        )
+                      )
+                    }
+                    <input
+                      id="edit-logo"
+                      type="file"
+                      className="input-file-custom"
+                      ref={fileInputLogo}
+                      onChange={onUploadLogo}
+                    />
+                    <label htmlFor="edit-logo" className="input-file-label  btn btn-light">
+                      <i className="ion-image" />&nbsp;
+                      <span>Load logo</span>
+                    </label>
+                  </div>
+
+                  {/* cover */}
+                  <div className="col-md-6  edit-cover">
+                    <label htmlFor="edit-cover">Cover</label>
+                    {
+                      !coverSwitcher ? (
+                        cover ? <img className="cover" src={coverUrl} alt="cover" />
+                              : <div className="no-cover">No cover</div>
+                      ) : (
+                        coverLoading ? <Spinner /> : (
+                          cover && <img className="cover" src={cover} alt="cover" />
+                        )
+                      )
+                    }
+                    <input
+                      id="edit-cover"
+                      type="file"
+                      className="input-file-custom"
+                      ref={fileInputCover}
+                      onChange={onUploadCover}
+                    />
+                    <label htmlFor="edit-cover" className="input-file-label  btn btn-light">
+                      <i className="ion-image" />&nbsp;
+                      <span>Load cover</span>
+                    </label>
                   </div>
 
                   {/* details */}

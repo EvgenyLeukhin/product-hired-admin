@@ -1,5 +1,7 @@
 import React from "react";
 
+import { API_URL, subUrl } from '../../api/apiUrl';
+
 import Table         from '../../components/Table';
 import Alerts        from '../../components/Alerts';
 import AddButton     from '../../components/AddButton';
@@ -20,6 +22,8 @@ import editJob      from './api/editJob';
 import getCompany   from './api/getCompany';
 import getUser      from './api/getUser';
 import getVacancy   from './api/getVacancy';
+import uploadLogo   from './api/uploadLogo';
+import uploadCover  from './api/uploadCover';
 
 import seniorityOptions from './api/seniorityOptions';
 import planOptions      from './api/planOptions';
@@ -31,6 +35,9 @@ import './edit.scss';
 
 
 class Jobs extends React.Component {
+  fileInputLogo = React.createRef();
+  fileInputCover = React.createRef();
+
   UNSAFE_componentWillMount() { this.props.setHeaderTitle('Jobs') }
 
   state = {
@@ -63,8 +70,11 @@ class Jobs extends React.Component {
     experience_from: 0, experience_up: 1,
     vacancy: { id: 1, name: 'Product Manager' }, vacancy_role: 1,
     details: "<p></p>",
-    logo: '',
-    cover: '',
+
+    // images
+    logo: '', logoUrl: '', cover: '', coverUrl: '',
+    logoLoading: false, coverLoading: false,
+    logoSwitcher: false, coverSwitcher: false,
 
     // default state fields when add job
     application_link: null, application_type: 0, hash: null,
@@ -272,8 +282,6 @@ class Jobs extends React.Component {
     ) : this.setState({ vacancy: { name: '' }}); // if doesn't have - reset
   }
 
-
-
   editSubmit = e => {
     e.preventDefault();
 
@@ -361,6 +369,64 @@ class Jobs extends React.Component {
       .catch(error => this.catchErrors(error));
   }
 
+  onUploadLogo = e => {
+    e.preventDefault();
+    this.setState({
+      logoLoading: true,
+      logoSwitcher: true
+    });
+
+    // add new form data
+    const formData = new FormData();
+
+    // get image from the browser memory
+    const uploadLogoFile = this.fileInputLogo.current.files[0];
+
+    // append this file to form data
+    formData.append('file', uploadLogoFile);
+
+    // uploadLogoRequest
+    uploadLogo(formData)
+      .then(res => {
+        this.setState({
+          logo: `${API_URL}/${subUrl}/containers/logo/download/${res.data.name}`,
+          logoLoading: false
+        })
+      })
+
+      // TODO
+      .catch(error => console.log(error))
+  }
+
+  onUploadCover = e => {
+    e.preventDefault();
+    this.setState({
+      coverLoading: true,
+      coverSwitcher: true
+    });
+
+    // add new form data
+    const formData = new FormData();
+
+    // get image from the browser memory
+    const uploadCoverFile = this.fileInputCover.current.files[0];
+
+    // append this file to form data
+    formData.append('file', uploadCoverFile);
+
+    // uploadLogoRequest
+    uploadCover(formData)
+      .then(res => {
+        this.setState({
+          cover: `${API_URL}/${subUrl}/containers/cover/download/${res.data.name}`,
+          coverLoading: false
+        })
+      })
+
+      // TODO
+      .catch(error => console.log(error))
+  }
+
   closeAddModal    = () => !this.state.modalLoading && this.setState({ addModalIsOpen:    false });
   closeEditModal   = () => !this.state.modalLoading && this.setState({ editModalIsOpen:   false });
   closeDeleteModal = () => !this.state.modalLoading && this.setState({ deleteModalIsOpen: false });
@@ -374,13 +440,16 @@ class Jobs extends React.Component {
       // fields
       id, name, user, employer_id, created, modified, published, views, impressions, details,
       experience_from, experience_up, seniority, seniorityObj, skills, status, statusObj,
-      plan_id, planObj, company_id, company, locations, vacancy_role, vacancy, logo, cover,
+      plan_id, planObj, company_id, company, locations, vacancy_role, vacancy,
 
       // modals
       addModalIsOpen, editModalIsOpen, modalLoading, deleteModalIsOpen,
 
       // alerts
-      alertIsOpen, alertType, alertErrorText
+      alertIsOpen, alertType, alertErrorText,
+
+      // images
+      logo, cover, logoSwitcher, coverSwitcher, logoLoading, coverLoading, logoUrl, coverUrl,
     } = this.state;
 
     const controlsColumn = [
@@ -465,6 +534,11 @@ class Jobs extends React.Component {
           onChangeVacancy={this.onChangeVacancy}
           onSubmit={this.editSubmit}
           deleteClick={this.deleteClick(original)}
+
+          // images
+          logo={logo} cover={cover} logoSwitcher={logoSwitcher} coverSwitcher={coverSwitcher}
+          logoLoading={logoLoading} coverLoading={coverLoading} logoUrl={logoUrl} coverUrl={coverUrl}
+          fileInputLogo={this.fileInputLogo} fileInputCover={this.fileInputCover} onUploadLogo={this.onUploadLogo} onUploadCover={this.onUploadCover}
         />
 
         <Table

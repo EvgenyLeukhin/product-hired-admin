@@ -36,8 +36,8 @@ const editJob = state => {
     {
       name,
       details,
-      logo: '',   // cut logo url string to filename
-      cover: '', // cut cover url string to filename
+      logo: logo ? logo.split('/').pop() : '',   // cut logo url string to filename
+      cover: cover ? cover.split('/').pop() : '', // cut cover url string to filename
       skills_string,
       locations,
       company: company.length ? company[0].name : company.name,
