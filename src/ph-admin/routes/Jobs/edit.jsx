@@ -1,18 +1,25 @@
 import React from 'react';
 import ReactQuill from 'react-quill';
+import Select from 'react-select';
+import AsyncSelect from 'react-select/async';
 
 import EditModal from '../../components/Modals/Edit/EditModal';
 
 import Spinner from '../../../components/Spinner';
 import { Button } from "reactstrap";
 
+import getSkills from './api/getSkills';
+import seniorityOptions from './api/seniorityOptions';
+import statusOptions from './api/statusOptions';
+
 import 'react-quill/dist/quill.snow.css';
 import './edit.scss';
 
 
-const EditUser = ({
+const EditJob = ({
   // fields
   original, id, name, created, modified, published, views, impressions, details, experience_from, experience_up,
+  seniority, seniorityObj, skills, status, statusObj,
 
   // image
 
@@ -20,10 +27,10 @@ const EditUser = ({
   isOpen, closeModal, onSubmit, modalLoading, deleteClick,
 
   //
-  onChange, onChangeDetails
+  onChange, onChangeDetails, onChangeSeniority, onChangeSkills, onChangeStatus,
 }) => {
 
-  console.log('EditUser:', modified); // original
+  console.log('EditJob:', seniority); // original
   const createdString = created && `${created.substring(0, 10)}, ${created.substring(11, 16)} UTC`;
   const modifiedString = modified && `${modified.substring(0, 10)}, ${modified.substring(11, 16)} UTC`;
 
@@ -107,7 +114,21 @@ const EditUser = ({
                   {/* status */}
                   <div class="col-md-2">
                     <label htmlFor="edit-status">Status</label>
+                    <input
+                      hidden
+                      name="status"
+                      value={status}
+                      id="edit-status"
+                      onChange={onChange}
+                      type="text"
+                      className="form-control"
+                    />
 
+                    <Select
+                      value={statusObj}
+                      onChange={onChangeStatus}
+                      options={statusOptions}
+                    />
                   </div>
 
                   {/* user */}
@@ -169,12 +190,38 @@ const EditUser = ({
                   <div class="col-md-3">
                     <label htmlFor="edit-seniority">Seniority</label>
 
+                    <input
+                      hidden
+                      name="seniority"
+                      value={seniority}
+                      id="edit-seniority"
+                      onChange={onChange}
+                      type="number"
+                      className="form-control"
+                    />
+
+                    <Select
+                      value={seniorityObj}
+                      onChange={onChangeSeniority}
+                      options={seniorityOptions}
+                    />
+
                   </div>
 
                   {/* skills */}
                   <div class="col-md-3">
                     <label htmlFor="edit-skills">Skills</label>
-
+                    <AsyncSelect
+                      isMulti={true}
+                      menuPlacement="auto"
+                      cacheOptions={true}
+                      defaultOptions={true}
+                      loadOptions={inputValue => getSkills(inputValue).then(res => res.data)}
+                      getOptionValue={o => o.id}
+                      getOptionLabel={o => o.name}
+                      onChange={onChangeSkills}
+                      value={skills}
+                    />
                   </div>
 
                   {/* details */}
@@ -206,4 +253,4 @@ const EditUser = ({
   );
 }
 
-export default EditUser;
+export default EditJob;

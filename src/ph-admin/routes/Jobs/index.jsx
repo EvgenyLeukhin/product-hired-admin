@@ -16,10 +16,13 @@ import getJobs      from './api/getJobs';
 import getJobsCount from './api/getJobsCount';
 import addJob       from './api/addJob';
 import deleteJob    from './api/deleteJob';
+import editJob      from './api/editJob';
+import seniorityOptions from './api/seniorityOptions';
 
 import columns from './columns';
 
 import './edit.scss';
+import statusOptions from "./api/statusOptions";
 
 
 class Jobs extends React.Component {
@@ -40,6 +43,10 @@ class Jobs extends React.Component {
 
     // top fields
     id: null, created: '', modified: '', views: null, impressions: '',
+    skills: [],
+
+    seniorityObj: {}, seniority: 1,
+    statusObj: {}, status: 'draft',
 
     name: '',
     company: { name: '' }, company_id: null,
@@ -48,7 +55,7 @@ class Jobs extends React.Component {
 
     // default state fields when add job
     application_link: null, application_type: 0, details: "<p></p>", employer_id: null,
-    experience_from: 0, experience_up: 1, hash: null, plan_id: 1, seniority: 1, status: 'draft',
+    experience_from: 0, experience_up: 1, hash: null, plan_id: 1,
     vacancy_role: 1,
 
     // alerts
@@ -68,6 +75,15 @@ class Jobs extends React.Component {
   onChangeCompany = company => this.setState({ company });
   onChangeUser    = user    => this.setState({ user });
   onChangeDetails = details => this.setState({ details });
+  onChangeSkills  = skills => this.setState({ skills });
+
+  onChangeSeniority = seniorityObj => {
+    this.setState({ seniorityObj, seniority: seniorityObj.value });
+  }
+
+  onChangeStatus = statusObj => {
+    this.setState({ statusObj, status: statusObj.value });
+  }
 
   catchErrors = error => {
     // redirect to login if 401 (request, response)
@@ -160,7 +176,69 @@ class Jobs extends React.Component {
       details: original.details,
       experience_up: original.experience_up,
       experience_from: original.experience_from,
+      seniority: original.seniority,
+      skills: original.skills,
+      status: original.status,
     });
+
+    // SENIORITY
+    // 3. inject seniority object to react-select if we have seniority_id in the original
+    const { seniority } = original;
+    seniority ? (
+      seniorityOptions.map(i => {
+        i.value === seniority && this.setState({ seniorityObj: i });
+      })
+    ) : this.setState({ seniorityObj: {} });  // if doesn't have - reset seniority
+
+    // STATUS
+    const { status } = original;
+    status && statusOptions.map(i => {
+      status === i.value && this.setState({ statusObj: i });
+    });
+  }
+
+  editSubmit = e => {
+    e.preventDefault();
+
+    this.setState({ modalLoading: true });
+
+    // get edit values
+    const { state } = this;
+    const { id, name, } = this.state;
+
+    editJob(state)
+      .then(() => {
+        // get current table-data from the state w\o editing change (when render only)
+        const { jobs, id, name, company, user, created, modified, published, views, impressions, details,
+          experience_from, experience_up, seniority, seniorityObj, skills, status, statusObj } = this.state;
+
+        // find editing data in all data by id
+        for (let i = 0; i < jobs.length; i++) {
+          if (jobs[i].id === id) {
+            // inject editing data to table state
+            jobs[i] = { id, name, company, user, created, modified, published, views, impressions, details,
+            experience_from, experience_up, seniority, seniorityObj, skills, status, statusObj,
+
+              // change modified to current date
+            modified: `${new Date().toISOString()}` };
+          }
+        }
+
+        this.setState({
+          jobs, // new user with edited item
+          modalLoading: false,
+          editModalIsOpen: false,
+          alertType: 'edit',
+          alertIsOpen: true
+        });
+
+        // close alert after 2 sec
+        setTimeout(() => {
+          this.setState({ alertIsOpen: false });
+        }, 2000);
+      })
+
+      .catch(error => this.catchErrors(error));
   }
 
   deleteClick = original => e => {
@@ -215,7 +293,7 @@ class Jobs extends React.Component {
 
       // fields
       id, name, company, user, created, modified, published, views, impressions, details,
-      experience_from, experience_up,
+      experience_from, experience_up, seniority, seniorityObj, skills, status, statusObj,
 
       // modals
       addModalIsOpen, editModalIsOpen, modalLoading, deleteModalIsOpen,
@@ -276,10 +354,12 @@ class Jobs extends React.Component {
         <EditJob
           // fields
           id={id} name={name} details={details}
-          original={original}
+          original={original} skills={skills}
           created={created} modified={modified} published={published}
           views={views} impressions={impressions}
           experience_from={experience_from} experience_up={experience_up}
+          seniority={seniority} seniorityObj={seniorityObj}
+          status={status} statusObj={statusObj}
 
           // modal
           isOpen={editModalIsOpen}
@@ -289,6 +369,8 @@ class Jobs extends React.Component {
           // actions
           onChange={this.onChange}
           onChangeDetails={this.onChangeDetails}
+          onChangeSkills={this.onChangeSkills}
+          onChangeStatus={this.onChangeStatus}
           onSubmit={this.editSubmit}
           deleteClick={this.deleteClick(original)}
         />

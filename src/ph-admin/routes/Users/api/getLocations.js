@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { API_URL, subUrl } from '../../../api/apiUrl';
 
-const addUsers = inputValue => {
+const getLocations = inputValue => {
   const token = JSON.parse(localStorage.getItem('ph-admin-user-data')).id;
 
   return axios.get(
@@ -26,4 +26,4 @@ const addUsers = inputValue => {
   );
 }
 
-export default addUsers;
+export default getLocations;
