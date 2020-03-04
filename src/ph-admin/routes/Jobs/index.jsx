@@ -46,11 +46,9 @@ class Jobs extends React.Component {
     deleteModalIsOpen: false,
     modalLoading: false,
 
-    // top fields
     id: null, created: '', modified: '', views: null, impressions: '',
 
     skills: [], locations: [],
-
     seniorityObj: {}, seniority: null,
     statusObj: {}, status: 'draft',
     planObj: {}, plan_id: 1,
@@ -62,6 +60,8 @@ class Jobs extends React.Component {
     company_id: null, company: {},
     vacancy: {}, vacancy_role: 1,
     details: "<p></p>",
+    logo: '',
+    cover: '',
 
     // default state fields when add job
     application_link: null, application_type: 0, hash: null,
@@ -140,7 +140,7 @@ class Jobs extends React.Component {
         addModalIsOpen: false,
         jobs: newData,
       });
-      console.log('resData:', res.data);
+      // console.log('resData:', res.data);
 
       this.editAfterAdd(res.data);
     })
@@ -168,7 +168,7 @@ class Jobs extends React.Component {
 
   editClick = original => e => {
     e.stopPropagation();
-    console.log('original', original);
+    // console.log('original', original);
 
     this.setState({
       original,
@@ -198,6 +198,8 @@ class Jobs extends React.Component {
       locations: original.locations,
       vacancy_role: original.vacancy_role,
       vacancy: original.vacancy,
+      logo: original.logo,
+      cover: original.cover,
     });
 
 
@@ -280,7 +282,7 @@ class Jobs extends React.Component {
         // get current table-data from the state w\o editing change (when render only)
         const { jobs, id, name, user, employer_id, created, modified, published, views, impressions, details,
           experience_from, experience_up, seniority, seniorityObj, skills, status, statusObj, plan_id, planObj,
-          company_id, company, locations, vacancy_role, vacancy,
+          company_id, company, locations, vacancy_role, vacancy, logo, cover,
         } = this.state;
 
         // find editing data in all data by id
@@ -289,7 +291,7 @@ class Jobs extends React.Component {
             // inject editing data to table state
             jobs[i] = { id, name, user, employer_id, created, modified, published, views, impressions, details,
             experience_from, experience_up, seniority, seniorityObj, skills, status, statusObj, plan_id, planObj,
-            company_id, company, locations, vacancy_role, vacancy,
+            company_id, company, locations, vacancy_role, vacancy, logo, cover,
 
               // change modified to current date
             modified: `${new Date().toISOString()}` };
@@ -366,7 +368,7 @@ class Jobs extends React.Component {
       // fields
       id, name, user, employer_id, created, modified, published, views, impressions, details,
       experience_from, experience_up, seniority, seniorityObj, skills, status, statusObj,
-      plan_id, planObj, company_id, company, locations, vacancy_role, vacancy,
+      plan_id, planObj, company_id, company, locations, vacancy_role, vacancy, logo, cover,
 
       // modals
       addModalIsOpen, editModalIsOpen, modalLoading, deleteModalIsOpen,
@@ -437,6 +439,7 @@ class Jobs extends React.Component {
           locations={locations} company_id={company_id} company={company}
           user={user} employer_id={employer_id}
           vacancy_role={vacancy_role} vacancy={vacancy}
+          logo={logo} cover={cover}
 
           // modal
           isOpen={editModalIsOpen}

@@ -37,7 +37,7 @@ const EditJob = ({
   onChange, onChangeDetails, onChangeSeniority, onChangeSkills, onChangeStatus, onChangePlan, onChangeLocations, onChangeCompany, onChangeUser, onChangeVacancy,
 }) => {
 
-  console.log('EditJob vacancy_role:', vacancy_role); // original
+  console.log('EditJob locations:', locations); // original
   const createdString = created && `${created.substring(0, 10)}, ${created.substring(11, 16)} UTC`;
   const modifiedString = modified && `${modified.substring(0, 10)}, ${modified.substring(11, 16)} UTC`;
 
