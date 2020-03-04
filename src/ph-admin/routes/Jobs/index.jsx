@@ -18,6 +18,7 @@ import addJob       from './api/addJob';
 import deleteJob    from './api/deleteJob';
 import editJob      from './api/editJob';
 import seniorityOptions from './api/seniorityOptions';
+import planOptions from './api/planOptions';
 
 import columns from './columns';
 
@@ -47,15 +48,17 @@ class Jobs extends React.Component {
 
     seniorityObj: {}, seniority: 1,
     statusObj: {}, status: 'draft',
+    planObj: {}, plan_id: null,
 
     name: '',
     company: { name: '' }, company_id: null,
     user: { name: '', surname: '', email: '' }, user_id: null,
     experience_up: null, experience_from: null,
+    locations: [], company_id: null, company: {},
 
     // default state fields when add job
     application_link: null, application_type: 0, details: "<p></p>", employer_id: null,
-    experience_from: 0, experience_up: 1, hash: null, plan_id: 1,
+    experience_from: 0, experience_up: 1, hash: null,
     vacancy_role: 1,
 
     // alerts
@@ -83,6 +86,10 @@ class Jobs extends React.Component {
 
   onChangeStatus = statusObj => {
     this.setState({ statusObj, status: statusObj.value });
+  }
+
+  onChangePlan = planObj => {
+    this.setState({ planObj, plan_id: planObj.value });
   }
 
   catchErrors = error => {
@@ -114,7 +121,7 @@ class Jobs extends React.Component {
 
       // default fields from the state when add
       application_link: null, application_type: 0, details: "<p></p>", employer_id: null,
-      experience_from: 0, experience_up: 1, hash: null, plan_id: 1, seniority: 1, status: 'draft',
+      experience_from: 0, experience_up: 1, hash: null, plan_id: null, seniority: 1, status: 'draft',
       vacancy_role: 1
     });
   }
@@ -171,6 +178,7 @@ class Jobs extends React.Component {
       name: original.name,
       created: original.created,
       modified: original.modified,
+      published: original.published,
       views: original.views,
       impressions: original.impressions,
       details: original.details,
@@ -179,6 +187,10 @@ class Jobs extends React.Component {
       seniority: original.seniority,
       skills: original.skills,
       status: original.status,
+      plan_id: original.plan_id,
+      locations: original.locations,
+      company_id: original.company_id,
+      company: original.company,
     });
 
     // SENIORITY
@@ -195,6 +207,13 @@ class Jobs extends React.Component {
     status && statusOptions.map(i => {
       status === i.value && this.setState({ statusObj: i });
     });
+
+    // PLAN
+    // get current plan for job
+    const { plan_id } = original;
+    plan_id ? planOptions.map(i => {
+      plan_id === i.value && this.setState({ planObj: i });
+    }) : this.setState({ planObj: {} });
   }
 
   editSubmit = e => {
@@ -204,20 +223,23 @@ class Jobs extends React.Component {
 
     // get edit values
     const { state } = this;
-    const { id, name, } = this.state;
+    // const { id, name, } = this.state;
 
     editJob(state)
       .then(() => {
         // get current table-data from the state w\o editing change (when render only)
         const { jobs, id, name, company, user, created, modified, published, views, impressions, details,
-          experience_from, experience_up, seniority, seniorityObj, skills, status, statusObj } = this.state;
+          experience_from, experience_up, seniority, seniorityObj, skills, status, statusObj, plan_id, planObj,
+          locations, company_id, company,
+        } = this.state;
 
         // find editing data in all data by id
         for (let i = 0; i < jobs.length; i++) {
           if (jobs[i].id === id) {
             // inject editing data to table state
             jobs[i] = { id, name, company, user, created, modified, published, views, impressions, details,
-            experience_from, experience_up, seniority, seniorityObj, skills, status, statusObj,
+            experience_from, experience_up, seniority, seniorityObj, skills, status, statusObj, plan_id, planObj,
+            locations, company_id, company,
 
               // change modified to current date
             modified: `${new Date().toISOString()}` };
@@ -292,8 +314,9 @@ class Jobs extends React.Component {
       tableLoading, original, jobs, jobsCount,
 
       // fields
-      id, name, company, user, created, modified, published, views, impressions, details,
+      id, name, company, company_id, user, created, modified, published, views, impressions, details,
       experience_from, experience_up, seniority, seniorityObj, skills, status, statusObj,
+      plan_id, planObj, locations,
 
       // modals
       addModalIsOpen, editModalIsOpen, modalLoading, deleteModalIsOpen,
@@ -360,6 +383,7 @@ class Jobs extends React.Component {
           experience_from={experience_from} experience_up={experience_up}
           seniority={seniority} seniorityObj={seniorityObj}
           status={status} statusObj={statusObj}
+          plan_id={plan_id} planObj={planObj}
 
           // modal
           isOpen={editModalIsOpen}
@@ -371,6 +395,7 @@ class Jobs extends React.Component {
           onChangeDetails={this.onChangeDetails}
           onChangeSkills={this.onChangeSkills}
           onChangeStatus={this.onChangeStatus}
+          onChangePlan={this.onChangePlan}
           onSubmit={this.editSubmit}
           deleteClick={this.deleteClick(original)}
         />
@@ -412,3 +437,46 @@ class Jobs extends React.Component {
 }
 
 export default withHeaderTitle(Jobs);
+
+
+// {
+  // name: "Program Manager",
+
+  // details: "<div id="jobDescriptionText" class="jobsearch-jobD…ed Six Sigma Black Belt is a plus</li></ul></div>", created: "2019-12-12T00:00:00.000Z", modified: "2020-02-20T02:52:34.000Z", published: "2020-02-13T14:53:01.000Z", …}
+
+// application_link: "http://jp.indeed.com/viewjob?jk=08b6dd09472d1e40&qd=q-W_AcXrCjXtyVUvGh7yyfEZRnvTDHQnPVwcjQ09-7xtU5CE_dnPJq1QDQ7BbOxgsuLKP4R8KwnSfW6Tu291w2jpPKTCEI08v9WRs3ScL0lpPk4BqtIkYsaQriuO_0kNNVbuGkvXR_7b87sG_geiaw&indpubnum=5493419850484974&atk=1e0qsuio8h72s801"
+
+// application_type: 0
+// applied: false
+// company: {name: "Amazon Japan G.K.", motivated: 0, logo: null, cover: null, craft_id: null, …}
+// company_id: 662
+// cover: null
+// created: "2019-12-12T00:00:00.000Z"
+
+// description: "A job at Amazon Japan G.K. in Sapporo. Requires any experience and the following skills: Communication Skills, Problem Solving, Project Management, Analytical, Program Management."
+
+// details: "<div id="jobDescriptionText"</div>"
+// employer_id: 1
+// experience_from: 0
+// experience_up: 10
+// hash: null
+// id: 66604
+// impressions: 407
+// locations: [{…}]
+// logo: null
+// modified: "2020-02-20T02:52:34.000Z"
+// name: "Program Manager"
+// paused: null
+// plan_id: null
+// published: "2020-02-13T14:53:01.000Z"
+// role: {id: 7, name: "Project/Program", slug: "project-program", top: 1, weight: 18, …}
+// saved: false
+// seniority: 2
+// skills: (5) [{…}, {…}, {…}, {…}, {…}]
+// skills_string: null
+// slug: "66604-program-manager"
+// source: "indeed"
+// source_id: "08b6dd09472d1e40"
+// status: "public"
+// vacancy_role: 7
+// views: 11

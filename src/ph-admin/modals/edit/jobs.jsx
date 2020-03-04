@@ -113,7 +113,7 @@ const Jobs = props => {
 
         {/* published */}
         <div className="col-md-4">
-          <label htmlFor="edit-created">Published</label>
+          <label htmlFor="edit-published">Published</label>
           <input
             disabled
             type="text"

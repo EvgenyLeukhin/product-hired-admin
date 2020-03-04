@@ -11,6 +11,7 @@ import { Button } from "reactstrap";
 import getSkills from './api/getSkills';
 import seniorityOptions from './api/seniorityOptions';
 import statusOptions from './api/statusOptions';
+import planOptions from './api/planOptions';
 
 import 'react-quill/dist/quill.snow.css';
 import './edit.scss';
@@ -19,7 +20,7 @@ import './edit.scss';
 const EditJob = ({
   // fields
   original, id, name, created, modified, published, views, impressions, details, experience_from, experience_up,
-  seniority, seniorityObj, skills, status, statusObj,
+  seniority, seniorityObj, skills, status, statusObj, plan_id, planObj, role,
 
   // image
 
@@ -27,10 +28,10 @@ const EditJob = ({
   isOpen, closeModal, onSubmit, modalLoading, deleteClick,
 
   //
-  onChange, onChangeDetails, onChangeSeniority, onChangeSkills, onChangeStatus,
+  onChange, onChangeDetails, onChangeSeniority, onChangeSkills, onChangeStatus, onChangePlan,
 }) => {
 
-  console.log('EditJob:', seniority); // original
+  console.log('EditJob published:', `${role}`); // original
   const createdString = created && `${created.substring(0, 10)}, ${created.substring(11, 16)} UTC`;
   const modifiedString = modified && `${modified.substring(0, 10)}, ${modified.substring(11, 16)} UTC`;
 
@@ -50,25 +51,25 @@ const EditJob = ({
               <fieldset>
                 <div className="form-group row top-fields">
                   {/* created */}
-                  <div class="col-md-3 col-sm-6">
+                  <div className="col-md-3 col-sm-6">
                     <b>Created</b>
                     <span>{createdString || ''}</span>
                   </div>
 
                   {/* modified */}
-                  <div class="col-md-3 col-sm-6">
+                  <div className="col-md-3 col-sm-6">
                     <b>Modified</b>
                     <span>{modifiedString || ''}</span>
                   </div>
 
                   {/* views */}
-                  <div class="col-md-3 col-sm-6">
+                  <div className="col-md-3 col-sm-6">
                     <b>Views</b>
                     <span>{views || 0}</span>
                   </div>
 
                   {/* impressions */}
-                  <div class="col-md-3 col-sm-6">
+                  <div className="col-md-3 col-sm-6">
                     <b>Impressions</b>
                     <span>{impressions || 0}</span>
                   </div>
@@ -80,7 +81,7 @@ const EditJob = ({
                 <div className="form-group row">
 
                   {/* name */}
-                  <div class="col-md-6">
+                  <div className="col-md-6">
                     <label htmlFor="edit-name">Job title</label>
                     <input
                       name="name"
@@ -93,26 +94,40 @@ const EditJob = ({
                   </div>
 
                   {/* plan */}
-                  <div class="col-md-2">
-                    <label htmlFor="edit-plan">Plan</label>
+                  <div className="col-md-2">
+                    <label htmlFor="edit-plan_id">Plan</label>
+                    <input
+                      hidden
+                      name="plan_id"
+                      value={plan_id}
+                      id="edit-plan_id"
+                      onChange={onChange}
+                      type="number"
+                      className="form-control"
+                    />
 
+                    <Select
+                      value={planObj}
+                      onChange={onChangePlan}
+                      options={planOptions}
+                    />
                   </div>
 
                   {/* published */}
-                  <div class="col-md-2">
-                    <label htmlFor="edit-created">Published</label>
+                  <div className="col-md-2">
+                    <label htmlFor="edit-published">Published</label>
                     <input
                       type="date"
-                      name="created"
-                      id="edit-created"
-                      value={published}
+                      name="published"
+                      id="edit-published"
+                      value={published && published.substring(0, 10)}
                       onChange={onChange}
                       className="form-control"
                     />
                   </div>
 
                   {/* status */}
-                  <div class="col-md-2">
+                  <div className="col-md-2">
                     <label htmlFor="edit-status">Status</label>
                     <input
                       hidden
@@ -132,32 +147,32 @@ const EditJob = ({
                   </div>
 
                   {/* user */}
-                  <div class="col-md-4">
+                  <div className="col-md-4">
                     <label htmlFor="edit-user">User</label>
 
                   </div>
 
 
                   {/* company */}
-                  <div class="col-md-3">
+                  <div className="col-md-3">
                     <label htmlFor="edit-company">Company</label>
 
                   </div>
 
                   {/* locations */}
-                  <div class="col-md-5">
+                  <div className="col-md-5">
                     <label htmlFor="edit-locations">Locations</label>
 
                   </div>
 
                   {/* role */}
-                  <div class="col-md-3">
+                  <div className="col-md-3">
                     <label htmlFor="edit-role">Role</label>
 
                   </div>
 
                   {/* experience_from */}
-                  <div class="col-md-3">
+                  <div className="col-md-3">
                     <label htmlFor="edit-experience_from">Experience, from</label>
                     <input
                       min={0}
@@ -172,7 +187,7 @@ const EditJob = ({
                   </div>
 
                   {/* experience_to */}
-                  <div class="col-md-3">
+                  <div className="col-md-3">
                     <label htmlFor="edit-experience_up">Experience, to</label>
                     <input
                       min={0}
@@ -187,7 +202,7 @@ const EditJob = ({
                   </div>
 
                   {/* seniority */}
-                  <div class="col-md-3">
+                  <div className="col-md-3">
                     <label htmlFor="edit-seniority">Seniority</label>
 
                     <input
@@ -205,11 +220,10 @@ const EditJob = ({
                       onChange={onChangeSeniority}
                       options={seniorityOptions}
                     />
-
                   </div>
 
                   {/* skills */}
-                  <div class="col-md-3">
+                  <div className="col-md-12">
                     <label htmlFor="edit-skills">Skills</label>
                     <AsyncSelect
                       isMulti={true}
@@ -225,7 +239,7 @@ const EditJob = ({
                   </div>
 
                   {/* details */}
-                  <div class="col-md-12">
+                  <div className="col-md-12">
                     <label htmlFor="edit-details">Details</label>
                     <ReactQuill value={details} onChange={onChangeDetails} />;
                   </div>
