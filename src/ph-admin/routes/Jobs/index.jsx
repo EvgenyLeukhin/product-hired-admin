@@ -19,6 +19,7 @@ import deleteJob    from './api/deleteJob';
 import editJob      from './api/editJob';
 import getCompany   from './api/getCompany';
 import getUser      from './api/getUser';
+import getVacancy   from './api/getVacancy';
 
 import seniorityOptions from './api/seniorityOptions';
 import planOptions      from './api/planOptions';
@@ -86,7 +87,7 @@ class Jobs extends React.Component {
   onChangePlan        = planObj      => this.setState({ planObj, plan_id: planObj.value });
   onChangeCompany     = company      => this.setState({ company, company_id: company.id });
   onChangeUser        = user         => this.setState({ user, employer_id: user.id });
-  onChangeVacancyRole = vacancy      => this.setState({ vacancy, vacancy_role: vacancy.value });
+  onChangeVacancy     = vacancy      => this.setState({ vacancy, vacancy_role: vacancy.id });
 
   catchErrors = error => {
     // redirect to login if 401 (request, response)
@@ -195,10 +196,12 @@ class Jobs extends React.Component {
       company_id: original.company_id,
       company: original.company,
       locations: original.locations,
+      vacancy_role: original.vacancy_role,
+      vacancy: original.vacancy,
     });
 
 
-    // SENIORITY
+    // SENIORITY (get current seniorityObj {} from options mapping)
     const { seniority } = original;
     seniority ? (
       seniorityOptions.map(i => {
@@ -207,26 +210,25 @@ class Jobs extends React.Component {
     ) : this.setState({ seniorityObj: {} });  // if doesn't have - reset seniority
 
 
-    // STATUS
+    // STATUS (get current statusObj {} from options mapping)
     const { status } = original;
-    status && statusOptions.map(i => {
+    status ? statusOptions.map(i => {
       status === i.value && this.setState({ statusObj: i });
-    });
+    }) : this.setState({ statusObj: {} });
 
 
-    // PLAN
-    // get current plan for job
+    // PLAN (get current planObj {} from options mapping)
     const { plan_id } = original;
     plan_id ? planOptions.map(i => {
       plan_id === i.value && this.setState({ planObj: i });
     }) : this.setState({ planObj: {} });
 
 
-    // COMPANY
+    // COMPANY (get current company {} by request)
     const { company_id } = original;
-      this.setState({ company: { id: null, name: 'Loading...' }}); // pre-loader
+    this.setState({ company: { id: null, name: 'Loading...' }}); // pre-loader
 
-      company_id ? (
+    company_id ? (
       getCompany(company_id).then(res => { // get request
         this.setState({
           company: res.data,
@@ -238,17 +240,28 @@ class Jobs extends React.Component {
     });
 
 
-    // USER (get current user of job)
+    // USER (get current user {} by request)
     const { employer_id } = original;
-    getUser(employer_id)
-      // preloader
-      .then(this.setState({ user: { name: 'Loading ...', surname: '', email: '' }}))
-      .then(user => this.setState({ user: user.data }));
+    this.setState({ user: { name: 'Loading ...', surname: '', email: '' }}); // pre-loader
+
+    employer_id ? (
+      getUser(employer_id).then(res => { // get request
+        this.setState({ user: res.data, employer_id: res.data.id });
+      })
+    ) : this.setState({
+      user: { name: '', surname: '', email: '' } // if doesn't have - reset
+    });
 
 
-    // VACANCY
-    const { vacancy_id } = original;
+    // VACANCY (get current vacancy {} by request)
+    const { vacancy_role } = original;
+    this.setState({ vacancy: { name: 'Loading ...' }}); // pre-loader
 
+    vacancy_role ? (
+      getVacancy(vacancy_role).then(res => {    // get request
+        this.setState({ vacancy: res.data, vacancy_role: res.data.id });
+      })
+    ) : this.setState({ vacancy: { name: '' }}); // if doesn't have - reset
   }
 
 
@@ -267,7 +280,7 @@ class Jobs extends React.Component {
         // get current table-data from the state w\o editing change (when render only)
         const { jobs, id, name, user, employer_id, created, modified, published, views, impressions, details,
           experience_from, experience_up, seniority, seniorityObj, skills, status, statusObj, plan_id, planObj,
-          company_id, company, locations
+          company_id, company, locations, vacancy_role, vacancy,
         } = this.state;
 
         // find editing data in all data by id
@@ -276,7 +289,7 @@ class Jobs extends React.Component {
             // inject editing data to table state
             jobs[i] = { id, name, user, employer_id, created, modified, published, views, impressions, details,
             experience_from, experience_up, seniority, seniorityObj, skills, status, statusObj, plan_id, planObj,
-            company_id, company, locations,
+            company_id, company, locations, vacancy_role, vacancy,
 
               // change modified to current date
             modified: `${new Date().toISOString()}` };
@@ -353,7 +366,7 @@ class Jobs extends React.Component {
       // fields
       id, name, user, employer_id, created, modified, published, views, impressions, details,
       experience_from, experience_up, seniority, seniorityObj, skills, status, statusObj,
-      plan_id, planObj, company_id, company, locations,
+      plan_id, planObj, company_id, company, locations, vacancy_role, vacancy,
 
       // modals
       addModalIsOpen, editModalIsOpen, modalLoading, deleteModalIsOpen,
@@ -423,6 +436,7 @@ class Jobs extends React.Component {
           plan_id={plan_id} planObj={planObj}
           locations={locations} company_id={company_id} company={company}
           user={user} employer_id={employer_id}
+          vacancy_role={vacancy_role} vacancy={vacancy}
 
           // modal
           isOpen={editModalIsOpen}
@@ -439,6 +453,7 @@ class Jobs extends React.Component {
           onChangeSeniority={this.onChangeSeniority}
           onChangePlan={this.onChangePlan}
           onChangeUser={this.onChangeUser}
+          onChangeVacancy={this.onChangeVacancy}
           onSubmit={this.editSubmit}
           deleteClick={this.deleteClick(original)}
         />

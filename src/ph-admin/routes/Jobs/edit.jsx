@@ -12,7 +12,7 @@ import getSkills       from './api/getSkills';
 import getLocations    from './api/getLocations';
 import getCompanies    from './api/getCompanies';
 import getUsers        from './api/getUsers';
-import getVacancyRoles from './api/getVacancyRoles';
+import getVacancies    from './api/getVacancies';
 
 import seniorityOptions from './api/seniorityOptions';
 import statusOptions from './api/statusOptions';
@@ -26,7 +26,7 @@ const EditJob = ({
   // fields
   original, id, name, created, modified, published, views, impressions, details, experience_from, experience_up,
   seniority, seniorityObj, skills, status, statusObj, plan_id, planObj, company, company_id, locations,
-  user, employer_id, vacancy, vacancy_id,
+  user, employer_id, vacancy, vacancy_role,
 
   // image //
 
@@ -34,10 +34,10 @@ const EditJob = ({
   isOpen, closeModal, onSubmit, modalLoading, deleteClick,
 
   //
-  onChange, onChangeDetails, onChangeSeniority, onChangeSkills, onChangeStatus, onChangePlan, onChangeLocations, onChangeCompany, onChangeUser, onChangeVacancyRole,
+  onChange, onChangeDetails, onChangeSeniority, onChangeSkills, onChangeStatus, onChangePlan, onChangeLocations, onChangeCompany, onChangeUser, onChangeVacancy,
 }) => {
 
-  console.log('EditJob published:', locations); // original
+  console.log('EditJob vacancy_role:', vacancy_role); // original
   const createdString = created && `${created.substring(0, 10)}, ${created.substring(11, 16)} UTC`;
   const modifiedString = modified && `${modified.substring(0, 10)}, ${modified.substring(11, 16)} UTC`;
 
@@ -177,7 +177,6 @@ const EditJob = ({
                     />
                   </div>
 
-
                   {/* company */}
                   <div className="col-md-3">
                     <label htmlFor="edit-company_id">Company</label>
@@ -219,14 +218,14 @@ const EditJob = ({
                     />
                   </div>
 
-                  {/* role */}
+                  {/* vacancy */}
                   <div className="col-md-3">
-                    <label htmlFor="edit-vacancy_id">Role</label>
+                    <label htmlFor="edit-vacancy_role">Role</label>
                     <input
                       hidden
-                      name="vacancy_id"
-                      value={vacancy_id}
-                      id="edit-vacancy_id"
+                      name="vacancy_role"
+                      value={vacancy_role}
+                      id="edit-vacancy_role"
                       onChange={onChange}
                       type="number"
                       className="form-control"
@@ -236,11 +235,11 @@ const EditJob = ({
                       menuPlacement="auto"
                       cacheOptions={true}
                       defaultOptions={true}
-                      loadOptions={inputValue => getVacancyRoles(inputValue).then(res => res.data)}
+                      loadOptions={inputValue => getVacancies(inputValue).then(res => res.data)}
                       getOptionValue={o => o.id}
                       getOptionLabel={o => o.name}
                       value={vacancy}
-                      onChange={onChangeVacancyRole}
+                      onChange={onChangeVacancy}
                     />
                   </div>
 

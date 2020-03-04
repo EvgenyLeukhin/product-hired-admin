@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { API_URL, subUrl } from '../../../api/apiUrl';
 
-const getVacancyRoles = inputValue => {
+const getVacancies = inputValue => {
   const token = JSON.parse(localStorage.getItem('ph-admin-user-data')).id;
 
   return axios.get(
@@ -20,4 +20,4 @@ const getVacancyRoles = inputValue => {
   );
 }
 
-export default getVacancyRoles;
+export default getVacancies;
