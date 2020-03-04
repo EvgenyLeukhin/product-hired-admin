@@ -2,7 +2,7 @@ import React from 'react';
 import ReactQuill from 'react-quill';
 import Select from 'react-select';
 import AsyncSelect from 'react-select/async';
-// import isEmpty from 'lodash/isEmpty';
+import isEmpty from 'lodash/isEmpty';
 
 import EditModal from '../../components/Modals/Edit/EditModal';
 
@@ -329,7 +329,7 @@ const EditJob = ({
                   <footer className="edit-container__buttons">
                     <Button outline color="danger" onClick={deleteClick}>Delete</Button>
                     <Button outline color="secondary" onClick={closeModal}>Cancel</Button>
-                    <Button disabled={false} outline color="primary" type="submit">Save</Button>
+                    <Button disabled={!name || isEmpty(locations) || isEmpty(skills)} outline color="primary" type="submit">Save</Button>
                   </footer>
                 )
               }

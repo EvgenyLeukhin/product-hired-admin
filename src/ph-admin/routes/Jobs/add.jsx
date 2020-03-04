@@ -86,7 +86,7 @@ const AddJob = ({
                 ) : (
                   <footer className="add-container__buttons">
                     <Button outline color="secondary" onClick={closeModal}>Cancel</Button>
-                    <Button disabled={!name} outline color="primary" type="submit">Save</Button>
+                    <Button disabled={!name || !company.name || !user.name} outline color="primary" type="submit">Save</Button>
                   </footer>
                 )
               }
