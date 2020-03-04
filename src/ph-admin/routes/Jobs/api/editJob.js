@@ -6,7 +6,6 @@ const editJob = state => {
   const {
     id,
     name,
-    user,
     details,
     logo,
     cover,
@@ -14,12 +13,13 @@ const editJob = state => {
     locations,
     vacancy,
     company,
-    plan,
     status,
     seniority,
     experience_up,
     experience_from,
-    company_id, employer_id, plan_id, vacancy_role,
+    employer_id,
+    plan_id,
+    published
     // created,
   } = state;
 
@@ -41,7 +41,6 @@ const editJob = state => {
       skills_string,
       locations,
       company: company.length ? company[0].name : company.name,
-      company_id,
       employer_id,
       plan_id,
       status,
@@ -49,8 +48,8 @@ const editJob = state => {
       experience_from,
       experience_up,
       role: vacancy,
-      // created,
       modified: `${new Date().toISOString()}`,
+      published,
     },
 
     {

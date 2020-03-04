@@ -46,19 +46,22 @@ class Jobs extends React.Component {
     deleteModalIsOpen: false,
     modalLoading: false,
 
-    id: null, created: '', modified: '', views: null, impressions: '',
+    id: null,
+    created: '',
+    modified: '',
+    published: `${new Date().toISOString()}`,
+    views: null, impressions: '',
 
     skills: [], locations: [],
     seniorityObj: {}, seniority: null,
-    statusObj: {}, status: 'draft',
-    planObj: {}, plan_id: 1,
+    statusObj: { label: 'Draft', value: 'draft' }, status: 'draft',
+    planObj: { label: "Free", value: 1 }, plan_id: 1,
 
     name: '',
     company: { name: '' }, company_id: null,
     user: { name: '', surname: '', email: '' }, user_id: null, employer_id: null,
-    experience_up: null, experience_from: null,
-    company_id: null, company: {},
-    vacancy: {}, vacancy_role: 1,
+    experience_from: 0, experience_up: 1,
+    vacancy: { id: 1, name: 'Product Manager' }, vacancy_role: 1,
     details: "<p></p>",
     logo: '',
     cover: '',
@@ -73,11 +76,23 @@ class Jobs extends React.Component {
     alertErrorText: '',
   }
 
-  // onChanges
-  onChange = e => {
-    if (e.target.type === 'checkbox') this.setState({ [e.target.name]: e.target.checked });
-    else this.setState({ [e.target.name]: e.target.value });
+  resetFields = () => {
+    this.setState({
+      id: null, created: '', modified: '', views: null, impressions: '',
+      skills: [], locations: [], published: `${new Date().toISOString()}`,
+      seniorityObj: {}, seniority: null,
+      statusObj: { label: 'Draft', value: 'draft' }, status: 'draft',
+      planObj: { label: "Free", value: 1 }, plan_id: 1,
+      name: '', company: { name: '' }, company_id: null,
+      user: { name: '', surname: '', email: '' }, user_id: null, employer_id: null,
+      experience_from: 0, experience_up: 1,
+      vacancy: { id: 1, name: 'Product Manager' }, vacancy_role: 1,
+      details: "<p></p>", logo: '', cover: '',
+    })
   }
+
+  // onChanges
+  onChange            = e            => this.setState({ [e.target.name]: e.target.value });
   onChangeCompany     = company      => this.setState({ company });
   onChangeLocations   = locations    => this.setState({ locations });
   onChangeDetails     = details      => this.setState({ details });
@@ -110,17 +125,8 @@ class Jobs extends React.Component {
     this.setState({
       addModalIsOpen: true,
       alertIsOpen: false,
-
-      // reset fields
-      name: '',
-      company: { name: '' },
-      user: { name: '', surname: '', email: '' }, employer_id: null,
-
-      // default fields from the state when add
-      application_link: null, application_type: 0, details: "<p></p>",
-      experience_from: 0, experience_up: 1, hash: null, plan_id: null, seniority: null, status: 'draft',
-      vacancy_role: 1
     });
+    this.resetFields(); // reset fields
   }
 
   addSubmit = e => {
@@ -140,7 +146,7 @@ class Jobs extends React.Component {
         addModalIsOpen: false,
         jobs: newData,
       });
-      // console.log('resData:', res.data);
+      console.log('resData:', res.data);
 
       this.editAfterAdd(res.data);
     })
@@ -155,13 +161,13 @@ class Jobs extends React.Component {
       original: data, // save data to original
 
       // save filled inputs
-      // id: data.id,
-      // name: data.name,
-      // created: data.created,
-      // modified: data.modified,
-      // employer_id: data.employer_id,
-      // company_id: data.company_id,
-
+      id: data.id,
+      name: data.name,
+      created: data.created,
+      modified: data.modified,
+      employer_id: data.employer_id,
+      company_id: data.company_id,
+      published: `${new Date().toISOString()}`,
       alertIsOpen: false
     });
   }

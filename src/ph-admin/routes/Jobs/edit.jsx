@@ -2,6 +2,7 @@ import React from 'react';
 import ReactQuill from 'react-quill';
 import Select from 'react-select';
 import AsyncSelect from 'react-select/async';
+// import isEmpty from 'lodash/isEmpty';
 
 import EditModal from '../../components/Modals/Edit/EditModal';
 
@@ -37,9 +38,10 @@ const EditJob = ({
   onChange, onChangeDetails, onChangeSeniority, onChangeSkills, onChangeStatus, onChangePlan, onChangeLocations, onChangeCompany, onChangeUser, onChangeVacancy,
 }) => {
 
-  console.log('EditJob locations:', locations); // original
+  console.log('EditJob locations:', original); // original
   const createdString = created && `${created.substring(0, 10)}, ${created.substring(11, 16)} UTC`;
   const modifiedString = modified && `${modified.substring(0, 10)}, ${modified.substring(11, 16)} UTC`;
+  // const disabledCondition = !name && !isEmpty(skills) && !isEmpty(locations);
 
   return (
     <EditModal isOpen={isOpen} modalLoading={modalLoading} closeModal={closeModal}>
@@ -313,7 +315,7 @@ const EditJob = ({
                   {/* details */}
                   <div className="col-md-12">
                     <label htmlFor="edit-details">Details</label>
-                    <ReactQuill value={details} onChange={onChangeDetails} />;
+                    <ReactQuill value={details} onChange={onChangeDetails} />
                   </div>
                 </div>
               </fieldset>
@@ -327,7 +329,7 @@ const EditJob = ({
                   <footer className="edit-container__buttons">
                     <Button outline color="danger" onClick={deleteClick}>Delete</Button>
                     <Button outline color="secondary" onClick={closeModal}>Cancel</Button>
-                    <Button disabled={!name} outline color="primary" type="submit">Save</Button>
+                    <Button disabled={false} outline color="primary" type="submit">Save</Button>
                   </footer>
                 )
               }
