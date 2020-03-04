@@ -18,6 +18,7 @@ import addJob       from './api/addJob';
 import deleteJob    from './api/deleteJob';
 import editJob      from './api/editJob';
 import getCompany   from './api/getCompany';
+import getUser      from './api/getUser';
 
 import seniorityOptions from './api/seniorityOptions';
 import planOptions      from './api/planOptions';
@@ -49,18 +50,19 @@ class Jobs extends React.Component {
 
     skills: [], locations: [],
 
-    seniorityObj: {}, seniority: 1,
+    seniorityObj: {}, seniority: null,
     statusObj: {}, status: 'draft',
     planObj: {}, plan_id: null,
 
     name: '',
     company: { name: '' }, company_id: null,
-    user: { name: '', surname: '', email: '' }, user_id: null,
+    user: { name: '', surname: '', email: '' }, user_id: null, employer_id: null,
     experience_up: null, experience_from: null,
     company_id: null, company: {},
+    details: "<p></p>",
 
     // default state fields when add job
-    application_link: null, application_type: 0, details: "<p></p>", employer_id: null,
+    application_link: null, application_type: 0,
     experience_from: 0, experience_up: 1, hash: null,
     vacancy_role: 1,
 
@@ -70,35 +72,20 @@ class Jobs extends React.Component {
     alertErrorText: '',
   }
 
+  // onChanges
   onChange = e => {
-    if (e.target.type === 'checkbox') {
-      this.setState({ [e.target.name]: e.target.checked })
-    } else {
-      this.setState({ [e.target.name]: e.target.value })
-    }
+    if (e.target.type === 'checkbox') this.setState({ [e.target.name]: e.target.checked });
+    else this.setState({ [e.target.name]: e.target.value });
   }
-
-  onChangeCompany   = company => this.setState({ company });
-  onChangeLocations = locations => this.setState({ locations });
-  onChangeUser      = user    => this.setState({ user });
-  onChangeDetails   = details => this.setState({ details });
-  onChangeSkills    = skills => this.setState({ skills });
-
-  onChangeSeniority = seniorityObj => {
-    this.setState({ seniorityObj, seniority: seniorityObj.value });
-  }
-
-  onChangeStatus = statusObj => {
-    this.setState({ statusObj, status: statusObj.value });
-  }
-
-  onChangePlan = planObj => {
-    this.setState({ planObj, plan_id: planObj.value });
-  }
-
-  onChangeCompany = company => {
-    this.setState({ company, company_id: company.id });
-  }
+  onChangeCompany   = company      => this.setState({ company });
+  onChangeLocations = locations    => this.setState({ locations });
+  onChangeDetails   = details      => this.setState({ details });
+  onChangeSkills    = skills       => this.setState({ skills });
+  onChangeSeniority = seniorityObj => this.setState({ seniorityObj, seniority: seniorityObj.value });
+  onChangeStatus    = statusObj    => this.setState({ statusObj, status: statusObj.value });
+  onChangePlan      = planObj      => this.setState({ planObj, plan_id: planObj.value });
+  onChangeCompany   = company      => this.setState({ company, company_id: company.id });
+  onChangeUser      = user         => this.setState({ user, employer_id: user.id });
 
   catchErrors = error => {
     // redirect to login if 401 (request, response)
@@ -125,11 +112,11 @@ class Jobs extends React.Component {
       // reset fields
       name: '',
       company: { name: '' },
-      user: { name: '', surname: '', email: '' },
+      user: { name: '', surname: '', email: '' }, employer_id: null,
 
       // default fields from the state when add
-      application_link: null, application_type: 0, details: "<p></p>", employer_id: null,
-      experience_from: 0, experience_up: 1, hash: null, plan_id: null, seniority: 1, status: 'draft',
+      application_link: null, application_type: 0, details: "<p></p>",
+      experience_from: 0, experience_up: 1, hash: null, plan_id: null, seniority: null, status: 'draft',
       vacancy_role: 1
     });
   }
@@ -151,6 +138,7 @@ class Jobs extends React.Component {
         addModalIsOpen: false,
         jobs: newData,
       });
+      // console.log('resData:', res.data);
 
       this.editAfterAdd(res.data);
     })
@@ -165,7 +153,12 @@ class Jobs extends React.Component {
       original: data, // save data to original
 
       // save filled inputs
-      id: data.id, name: data.name, created: data.created, modified: data.modified,
+      // id: data.id,
+      // name: data.name,
+      // created: data.created,
+      // modified: data.modified,
+      // employer_id: data.employer_id,
+      // company_id: data.company_id,
 
       alertIsOpen: false
     });
@@ -196,14 +189,15 @@ class Jobs extends React.Component {
       skills: original.skills,
       status: original.status,
       plan_id: original.plan_id,
+      enployer_id: original.enployer_id,
       locations: original.locations,
       company_id: original.company_id,
       company: original.company,
       locations: original.locations,
     });
 
+
     // SENIORITY
-    // 3. inject seniority object to react-select if we have seniority_id in the original
     const { seniority } = original;
     seniority ? (
       seniorityOptions.map(i => {
@@ -211,11 +205,13 @@ class Jobs extends React.Component {
       })
     ) : this.setState({ seniorityObj: {} });  // if doesn't have - reset seniority
 
+
     // STATUS
     const { status } = original;
     status && statusOptions.map(i => {
       status === i.value && this.setState({ statusObj: i });
     });
+
 
     // PLAN
     // get current plan for job
@@ -223,6 +219,7 @@ class Jobs extends React.Component {
     plan_id ? planOptions.map(i => {
       plan_id === i.value && this.setState({ planObj: i });
     }) : this.setState({ planObj: {} });
+
 
     // COMPANY
     const { company_id } = original;
@@ -238,7 +235,17 @@ class Jobs extends React.Component {
     ) : this.setState({
       company: { id: null, name: '' } // if doesn't have - reset
     });
+
+
+    // USER (get current user of job)
+    const { employer_id } = original;
+    getUser(employer_id)
+      // preloader
+      .then(this.setState({ user: { name: 'Loading ...', surname: '', email: '' }}))
+      .then(user => this.setState({ user: user.data }));
   }
+
+
 
   editSubmit = e => {
     e.preventDefault();
@@ -252,7 +259,7 @@ class Jobs extends React.Component {
     editJob(state)
       .then(() => {
         // get current table-data from the state w\o editing change (when render only)
-        const { jobs, id, name, user, created, modified, published, views, impressions, details,
+        const { jobs, id, name, user, enployer_id, created, modified, published, views, impressions, details,
           experience_from, experience_up, seniority, seniorityObj, skills, status, statusObj, plan_id, planObj,
           company_id, company, locations
         } = this.state;
@@ -261,7 +268,7 @@ class Jobs extends React.Component {
         for (let i = 0; i < jobs.length; i++) {
           if (jobs[i].id === id) {
             // inject editing data to table state
-            jobs[i] = { id, name, user, created, modified, published, views, impressions, details,
+            jobs[i] = { id, name, user, enployer_id, created, modified, published, views, impressions, details,
             experience_from, experience_up, seniority, seniorityObj, skills, status, statusObj, plan_id, planObj,
             company_id, company, locations,
 
@@ -338,7 +345,7 @@ class Jobs extends React.Component {
       tableLoading, original, jobs, jobsCount,
 
       // fields
-      id, name, user, created, modified, published, views, impressions, details,
+      id, name, user, enployer_id, created, modified, published, views, impressions, details,
       experience_from, experience_up, seniority, seniorityObj, skills, status, statusObj,
       plan_id, planObj, company_id, company, locations,
 
@@ -409,6 +416,7 @@ class Jobs extends React.Component {
           status={status} statusObj={statusObj}
           plan_id={plan_id} planObj={planObj}
           locations={locations} company_id={company_id} company={company}
+          user={user} enployer_id={enployer_id}
 
           // modal
           isOpen={editModalIsOpen}
@@ -423,6 +431,7 @@ class Jobs extends React.Component {
           onChangeCompany={this.onChangeCompany}
           onChangeStatus={this.onChangeStatus}
           onChangePlan={this.onChangePlan}
+          onChangeUser={this.onChangeUser}
           onSubmit={this.editSubmit}
           deleteClick={this.deleteClick(original)}
         />

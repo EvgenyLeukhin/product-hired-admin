@@ -11,6 +11,7 @@ import { Button } from "reactstrap";
 import getSkills from './api/getSkills';
 import getLocations from './api/getLocations';
 import getCompanies from './api/getCompanies';
+import getUsers from './api/getUsers';
 import seniorityOptions from './api/seniorityOptions';
 import statusOptions from './api/statusOptions';
 import planOptions from './api/planOptions';
@@ -23,14 +24,15 @@ const EditJob = ({
   // fields
   original, id, name, created, modified, published, views, impressions, details, experience_from, experience_up,
   seniority, seniorityObj, skills, status, statusObj, plan_id, planObj, role, company, company_id, locations,
+  user, employer_id,
 
-  // image
+  // image //
 
   // modal
   isOpen, closeModal, onSubmit, modalLoading, deleteClick,
 
   //
-  onChange, onChangeDetails, onChangeSeniority, onChangeSkills, onChangeStatus, onChangePlan, onChangeLocations,
+  onChange, onChangeDetails, onChangeSeniority, onChangeSkills, onChangeStatus, onChangePlan, onChangeLocations, onChangeCompany, onChangeUser,
 }) => {
 
   console.log('EditJob published:', locations); // original
@@ -150,14 +152,43 @@ const EditJob = ({
 
                   {/* user */}
                   <div className="col-md-4">
-                    <label htmlFor="edit-user">User</label>
+                    <label htmlFor="edit-employer_id">User</label>
+                    <input
+                      hidden
+                      name="employer_id"
+                      value={employer_id}
+                      id="edit-employer_id"
+                      onChange={onChange}
+                      type="number"
+                      className="form-control"
+                    />
 
+                    <AsyncSelect
+                      menuPlacement="auto"
+                      cacheOptions={true}
+                      defaultOptions={true}
+                      loadOptions={inputValue => getUsers(inputValue).then(res => res.data)}
+                      getOptionValue={o => o.id}
+                      getOptionLabel={o => `${o.name} ${o.surname} ${o.email}`}
+                      onChange={onChangeUser}
+                      value={user}
+                    />
                   </div>
 
 
                   {/* company */}
                   <div className="col-md-3">
-                    <label htmlFor="edit-company">Company</label>
+                    <label htmlFor="edit-company_id">Company</label>
+                    <input
+                      hidden
+                      name="company_id"
+                      value={company_id}
+                      id="edit-company_id"
+                      onChange={onChange}
+                      type="number"
+                      className="form-control"
+                    />
+
                     <AsyncSelect
                       menuPlacement="auto"
                       cacheOptions={true}
@@ -165,7 +196,7 @@ const EditJob = ({
                       loadOptions={inputValue => getCompanies(inputValue).then(res => res.data)}
                       getOptionValue={o => o.id}
                       getOptionLabel={o => `${o.name}`}
-                      onChange={onChangeLocations}
+                      onChange={onChangeCompany}
                       value={company}
                     />
                   </div>
