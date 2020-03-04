@@ -189,7 +189,7 @@ class Jobs extends React.Component {
       skills: original.skills,
       status: original.status,
       plan_id: original.plan_id,
-      enployer_id: original.enployer_id,
+      employer_id: original.employer_id,
       locations: original.locations,
       company_id: original.company_id,
       company: original.company,
@@ -259,7 +259,7 @@ class Jobs extends React.Component {
     editJob(state)
       .then(() => {
         // get current table-data from the state w\o editing change (when render only)
-        const { jobs, id, name, user, enployer_id, created, modified, published, views, impressions, details,
+        const { jobs, id, name, user, employer_id, created, modified, published, views, impressions, details,
           experience_from, experience_up, seniority, seniorityObj, skills, status, statusObj, plan_id, planObj,
           company_id, company, locations
         } = this.state;
@@ -268,7 +268,7 @@ class Jobs extends React.Component {
         for (let i = 0; i < jobs.length; i++) {
           if (jobs[i].id === id) {
             // inject editing data to table state
-            jobs[i] = { id, name, user, enployer_id, created, modified, published, views, impressions, details,
+            jobs[i] = { id, name, user, employer_id, created, modified, published, views, impressions, details,
             experience_from, experience_up, seniority, seniorityObj, skills, status, statusObj, plan_id, planObj,
             company_id, company, locations,
 
@@ -345,7 +345,7 @@ class Jobs extends React.Component {
       tableLoading, original, jobs, jobsCount,
 
       // fields
-      id, name, user, enployer_id, created, modified, published, views, impressions, details,
+      id, name, user, employer_id, created, modified, published, views, impressions, details,
       experience_from, experience_up, seniority, seniorityObj, skills, status, statusObj,
       plan_id, planObj, company_id, company, locations,
 
@@ -416,7 +416,7 @@ class Jobs extends React.Component {
           status={status} statusObj={statusObj}
           plan_id={plan_id} planObj={planObj}
           locations={locations} company_id={company_id} company={company}
-          user={user} enployer_id={enployer_id}
+          user={user} employer_id={employer_id}
 
           // modal
           isOpen={editModalIsOpen}
