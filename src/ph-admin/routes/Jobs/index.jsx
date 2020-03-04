@@ -17,13 +17,15 @@ import getJobsCount from './api/getJobsCount';
 import addJob       from './api/addJob';
 import deleteJob    from './api/deleteJob';
 import editJob      from './api/editJob';
+import getCompany   from './api/getCompany';
+
 import seniorityOptions from './api/seniorityOptions';
-import planOptions from './api/planOptions';
+import planOptions      from './api/planOptions';
+import statusOptions    from "./api/statusOptions";
 
 import columns from './columns';
 
 import './edit.scss';
-import statusOptions from "./api/statusOptions";
 
 
 class Jobs extends React.Component {
@@ -44,7 +46,8 @@ class Jobs extends React.Component {
 
     // top fields
     id: null, created: '', modified: '', views: null, impressions: '',
-    skills: [],
+
+    skills: [], locations: [],
 
     seniorityObj: {}, seniority: 1,
     statusObj: {}, status: 'draft',
@@ -54,7 +57,7 @@ class Jobs extends React.Component {
     company: { name: '' }, company_id: null,
     user: { name: '', surname: '', email: '' }, user_id: null,
     experience_up: null, experience_from: null,
-    locations: [], company_id: null, company: {},
+    company_id: null, company: {},
 
     // default state fields when add job
     application_link: null, application_type: 0, details: "<p></p>", employer_id: null,
@@ -75,10 +78,11 @@ class Jobs extends React.Component {
     }
   }
 
-  onChangeCompany = company => this.setState({ company });
-  onChangeUser    = user    => this.setState({ user });
-  onChangeDetails = details => this.setState({ details });
-  onChangeSkills  = skills => this.setState({ skills });
+  onChangeCompany   = company => this.setState({ company });
+  onChangeLocations = locations => this.setState({ locations });
+  onChangeUser      = user    => this.setState({ user });
+  onChangeDetails   = details => this.setState({ details });
+  onChangeSkills    = skills => this.setState({ skills });
 
   onChangeSeniority = seniorityObj => {
     this.setState({ seniorityObj, seniority: seniorityObj.value });
@@ -90,6 +94,10 @@ class Jobs extends React.Component {
 
   onChangePlan = planObj => {
     this.setState({ planObj, plan_id: planObj.value });
+  }
+
+  onChangeCompany = company => {
+    this.setState({ company, company_id: company.id });
   }
 
   catchErrors = error => {
@@ -191,6 +199,7 @@ class Jobs extends React.Component {
       locations: original.locations,
       company_id: original.company_id,
       company: original.company,
+      locations: original.locations,
     });
 
     // SENIORITY
@@ -214,6 +223,21 @@ class Jobs extends React.Component {
     plan_id ? planOptions.map(i => {
       plan_id === i.value && this.setState({ planObj: i });
     }) : this.setState({ planObj: {} });
+
+    // COMPANY
+    const { company_id } = original;
+      this.setState({ company: { id: null, name: 'Loading...' }}); // pre-loader
+
+      company_id ? (
+      getCompany(company_id).then(res => { // get request
+        this.setState({
+          company: res.data,
+          company_id: res.data.id
+        })
+      })
+    ) : this.setState({
+      company: { id: null, name: '' } // if doesn't have - reset
+    });
   }
 
   editSubmit = e => {
@@ -228,18 +252,18 @@ class Jobs extends React.Component {
     editJob(state)
       .then(() => {
         // get current table-data from the state w\o editing change (when render only)
-        const { jobs, id, name, company, user, created, modified, published, views, impressions, details,
+        const { jobs, id, name, user, created, modified, published, views, impressions, details,
           experience_from, experience_up, seniority, seniorityObj, skills, status, statusObj, plan_id, planObj,
-          locations, company_id, company,
+          company_id, company, locations
         } = this.state;
 
         // find editing data in all data by id
         for (let i = 0; i < jobs.length; i++) {
           if (jobs[i].id === id) {
             // inject editing data to table state
-            jobs[i] = { id, name, company, user, created, modified, published, views, impressions, details,
+            jobs[i] = { id, name, user, created, modified, published, views, impressions, details,
             experience_from, experience_up, seniority, seniorityObj, skills, status, statusObj, plan_id, planObj,
-            locations, company_id, company,
+            company_id, company, locations,
 
               // change modified to current date
             modified: `${new Date().toISOString()}` };
@@ -314,9 +338,9 @@ class Jobs extends React.Component {
       tableLoading, original, jobs, jobsCount,
 
       // fields
-      id, name, company, company_id, user, created, modified, published, views, impressions, details,
+      id, name, user, created, modified, published, views, impressions, details,
       experience_from, experience_up, seniority, seniorityObj, skills, status, statusObj,
-      plan_id, planObj, locations,
+      plan_id, planObj, company_id, company, locations,
 
       // modals
       addModalIsOpen, editModalIsOpen, modalLoading, deleteModalIsOpen,
@@ -384,6 +408,7 @@ class Jobs extends React.Component {
           seniority={seniority} seniorityObj={seniorityObj}
           status={status} statusObj={statusObj}
           plan_id={plan_id} planObj={planObj}
+          locations={locations} company_id={company_id} company={company}
 
           // modal
           isOpen={editModalIsOpen}
@@ -394,6 +419,8 @@ class Jobs extends React.Component {
           onChange={this.onChange}
           onChangeDetails={this.onChangeDetails}
           onChangeSkills={this.onChangeSkills}
+          onChangeLocations={this.onChangeLocations}
+          onChangeCompany={this.onChangeCompany}
           onChangeStatus={this.onChangeStatus}
           onChangePlan={this.onChangePlan}
           onSubmit={this.editSubmit}

@@ -9,6 +9,8 @@ import Spinner from '../../../components/Spinner';
 import { Button } from "reactstrap";
 
 import getSkills from './api/getSkills';
+import getLocations from './api/getLocations';
+import getCompanies from './api/getCompanies';
 import seniorityOptions from './api/seniorityOptions';
 import statusOptions from './api/statusOptions';
 import planOptions from './api/planOptions';
@@ -20,7 +22,7 @@ import './edit.scss';
 const EditJob = ({
   // fields
   original, id, name, created, modified, published, views, impressions, details, experience_from, experience_up,
-  seniority, seniorityObj, skills, status, statusObj, plan_id, planObj, role,
+  seniority, seniorityObj, skills, status, statusObj, plan_id, planObj, role, company, company_id, locations,
 
   // image
 
@@ -28,10 +30,10 @@ const EditJob = ({
   isOpen, closeModal, onSubmit, modalLoading, deleteClick,
 
   //
-  onChange, onChangeDetails, onChangeSeniority, onChangeSkills, onChangeStatus, onChangePlan,
+  onChange, onChangeDetails, onChangeSeniority, onChangeSkills, onChangeStatus, onChangePlan, onChangeLocations,
 }) => {
 
-  console.log('EditJob published:', `${role}`); // original
+  console.log('EditJob published:', locations); // original
   const createdString = created && `${created.substring(0, 10)}, ${created.substring(11, 16)} UTC`;
   const modifiedString = modified && `${modified.substring(0, 10)}, ${modified.substring(11, 16)} UTC`;
 
@@ -156,13 +158,32 @@ const EditJob = ({
                   {/* company */}
                   <div className="col-md-3">
                     <label htmlFor="edit-company">Company</label>
-
+                    <AsyncSelect
+                      menuPlacement="auto"
+                      cacheOptions={true}
+                      defaultOptions={true}
+                      loadOptions={inputValue => getCompanies(inputValue).then(res => res.data)}
+                      getOptionValue={o => o.id}
+                      getOptionLabel={o => `${o.name}`}
+                      onChange={onChangeLocations}
+                      value={company}
+                    />
                   </div>
 
                   {/* locations */}
                   <div className="col-md-5">
                     <label htmlFor="edit-locations">Locations</label>
-
+                    <AsyncSelect
+                      isMulti={true}
+                      menuPlacement="auto"
+                      cacheOptions={true}
+                      defaultOptions={true}
+                      loadOptions={inputValue => getLocations(inputValue).then(res => res.data)}
+                      getOptionValue={o => o.id}
+                      getOptionLabel={o => `${o.name}`}
+                      onChange={onChangeLocations}
+                      value={locations}
+                    />
                   </div>
 
                   {/* role */}
