@@ -24,32 +24,3 @@ Build: ```npm run build``` || ```yarn build```
 
 ```npm run deploy```
 
-<!-- TODO -->
-
-<!-- 0. Modal -->
-<!-- 1. Delete -->
-<!-- 3. Edit -->
-<!-- 2. Add -->
-
-<!-- Добавить колонки каких нет, как было в старой админке +++ -->
-<!-- Скорость старой таблицы была больше ??? или такая же ??? -->
-<!-- Проблема с первым запросом после логина getCount +++ -->
-<!-- Редактирование, добавлнение -->
-<!-- Загрузка cover не работала -->
-<!-- ре-Дизайн модалки -->
-
-
-<!-- old admin -->
-<!-- https://admin.producthired.com/ -->
-<!-- mail: eugenel@effective.band -->
-<!-- pw:   eugenel@effective.band -->
-
-
-
-<!-- this admin -->
-<!-- mail: eugenel@effective.band -->
-<!-- pw:   eugenel@effective.band -->
-
-<!-- without admin rights -->
-<!-- mail: eugeny.leukhin@stellarsolvers.com -->
-<!-- pw:   123123 -->
