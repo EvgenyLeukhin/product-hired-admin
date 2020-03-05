@@ -1,18 +1,26 @@
 import axios from 'axios';
 
 import { API_URL, subUrl } from './apiUrl';
-import token from './getToken';
-
-const headers = { Authorization: token };
 
 const logOut = () => {
-  return axios.post(`${API_URL}/${subUrl}/users/logout`, {}, { headers })
+  const token = JSON.parse(localStorage.getItem('ph-admin-user-data')).id;
+
+  return axios.post(
+    `${API_URL}/${subUrl}/users/logout`,
+    {
+
+    },
+    {
+      headers: { Authorization: token }
+    }
+  )
     .then(() => {
       // remove token
       localStorage.removeItem('ph-admin-user-data');
 
     // TODO
     }).catch(error => {
+      // remove token too
       console.log(error);
       localStorage.removeItem('ph-admin-user-data');
     })
