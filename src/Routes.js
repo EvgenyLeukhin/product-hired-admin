@@ -3,102 +3,94 @@ import { withRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 /* loader component for Suspense */
-import PageLoader  from './components/Common/PageLoader';
-import Core        from './components/Core/Core';
+import PageLoader from './components/Common/PageLoader';
 
-// common styles //
-import './components/Bootstrap/Bootstrap';
-import './components/Common/Common';
-import './components/Colors/Colors';
-import './components/FloatButton/FloatButton';
-import './components/Utils/Utils';
+/* eslint-disable-next-line */
+import Core from './components/Core/Core';
+/* eslint-disable-next-line */
+import Bootstrap from './components/Bootstrap/Bootstrap';
+/* eslint-disable-next-line */
+import Common from './components/Common/Common';
+/* eslint-disable-next-line */
+import Colors from './components/Colors/Colors';
+/* eslint-disable-next-line */
+import FloatButton from './components/FloatButton/FloatButton';
+/* eslint-disable-next-line */
+import Utils from './components/Utils/Utils';
 
 import User from './views/User/User';
 
-
 /* Used to render a lazy component with react-router */
-const waitFor = Tag => props => <Tag {...props} />;
+const waitFor = Tag => props => <Tag {...props}/>;
 
-const Users     = lazy(() => import('./ph-admin/routes/Users'));
-const Companies = lazy(() => import('./ph-admin/routes/Companies'));
-const Talents   = lazy(() => import('./ph-admin/routes/Talents'));
-const Employers = lazy(() => import('./ph-admin/routes/Employers'));
-const Filters   = lazy(() => import('./ph-admin/routes/Filters'));
-const Jobs      = lazy(() => import('./ph-admin/routes/Jobs'));
-const Skills    = lazy(() => import('./ph-admin/routes/Skills'));
-const Roles     = lazy(() => import('./ph-admin/routes/Roles'));
-const Plans     = lazy(() => import('./ph-admin/routes/Plans'));
-const Profile   = lazy(() => import('./ph-admin/routes/Profile'));
-const Select   = lazy(() => import('./ph-admin/routes/Select'));
+const Dashboard = lazy(() => import('./views/Dashboard/Dashboard'));
+const Cards = lazy(() => import('./views/Cards/Cards'));
+const Charts = lazy(() => import('./views/Charts/Charts'));
+const Forms = lazy(() => import('./views/Forms/Forms'));
+const Elements = lazy(() => import('./views/Elements/Elements'));
+const Tables = lazy(() => import('./views/Tables/Tables'));
+const Layouts = lazy(() => import('./views/Layouts/Layouts'));
+const Maps = lazy(() => import('./views/Maps/Maps'));
+const Pages = lazy(() => import('./views/Pages/Pages'));
 
-// centric-bootstrap-admin-template
-const Cards       = lazy(() => import('./views/Cards/Cards'));
-const Elements    = lazy(() => import('./views/Elements/Elements'));
-const Forms       = lazy(() => import('./views/Forms/Forms'));
-const Layouts     = lazy(() => import('./views/Layouts/Layouts'));
-const Tables      = lazy(() => import('./views/Tables/Tables'));
 
+// List of routes that uses the page layout
+// listed here to Switch between layouts
+// depending on the current pathname
+const listofPages = [
+    '/login',
+    '/signup',
+    '/recover',
+    '/lock'
+];
 
 const Routes = ({ location }) => {
-  const animationName = 'rag-fadeIn';
-  const timeout       = { enter: 500, exit: 500 };
-  const currentKey    = location.pathname.split('/')[1] || '/';
+    const currentKey = location.pathname.split('/')[1] || '/';
+    const timeout = { enter: 500, exit: 500 };
 
-  // get token
-  const userData = JSON.parse(localStorage.getItem('ph-admin-user-data'));
-  const token    = userData && userData.id;
+    const animationName = 'rag-fadeIn'
 
-  if (!token) {
-    // clean localStorage
-    localStorage.removeItem('ph-admin-user-data');
+    if(listofPages.indexOf(location.pathname) > -1) {
+        return (
+            // Page Layout component wrapper
+            <User.Layout>
+                <Switch location={location}>
+                    <Route path="/login" component={waitFor(User.Login)}/>
+                    <Route path="/signup" component={waitFor(User.Signup)}/>
+                    <Route path="/recover" component={waitFor(User.Recover)}/>
+                    <Route path="/lock" component={waitFor(User.Lock)}/>
+                </Switch>
+            </User.Layout>
+        )
+    }
+    else {
+        return (
+            // Layout component wrapper
+            <Core>
+              <TransitionGroup>
+                <CSSTransition key={currentKey} timeout={timeout} classNames={animationName} exit={false}>
+                    <div>
+                        <Suspense fallback={<PageLoader/>}>
+                            <Switch location={location}>
+                                <Route path="/dashboard" component={waitFor(Dashboard)}/>
+                                <Route path="/cards" component={waitFor(Cards)}/>
+                                <Route path="/charts" component={waitFor(Charts)}/>
+                                <Route path="/forms" component={waitFor(Forms)}/>
+                                <Route path="/tables" component={waitFor(Tables)}/>
+                                <Route path="/layouts" component={waitFor(Layouts)}/>
+                                <Route path="/elements" component={waitFor(Elements)}/>
+                                <Route path="/maps" component={waitFor(Maps)}/>
+                                <Route path="/pages" component={waitFor(Pages)}/>
 
-    // if not login
-    return (
-      <User.Layout>
-        <Switch location={location}>
-          <Route path="/login" component={waitFor(User.Login)}/>
-          <Redirect to="/login" />
-        </Switch>
-      </User.Layout>
-    );
-
-  // if login
-  } else return (
-    <Core>
-      <TransitionGroup>
-        <CSSTransition key={currentKey} timeout={timeout} classNames={animationName} exit={false}>
-
-          <div>
-            <Suspense fallback={<PageLoader/>}>
-              <Switch location={location}>
-                <Route path="/companies" component={waitFor(Companies)} />
-                <Route path="/users"     component={waitFor(Users)} />
-                <Route path="/jobs"      component={waitFor(Jobs)} />
-                <Route path="/talents"   component={waitFor(Talents)} />
-                <Route path="/employers" component={waitFor(Employers)} />
-                <Route path="/filters"   component={waitFor(Filters)} />
-                <Route path="/skills"    component={waitFor(Skills)} />
-                <Route path="/roles"     component={waitFor(Roles)} />
-                <Route path="/plans"     component={waitFor(Plans)} />
-                <Route path="/profile"   component={waitFor(Profile)} />
-                <Route path="/select"    component={waitFor(Select)} />
-
-                {/* centric-bootstrap-admin-template */}
-                <Route path="/Cards"                  component={waitFor(Cards)} />
-                <Route path="/tables"                 component={waitFor(Tables)} />
-                <Route path="/layouts"                component={waitFor(Layouts)} />
-                <Route path="/forms"                  component={waitFor(Forms)} />
-                <Route path="/elements"               component={waitFor(Elements)} />
-
-                <Redirect to="/companies" />
-              </Switch>
-            </Suspense>
-          </div>
-
-        </CSSTransition>
-      </TransitionGroup>
-    </Core>
-  );
+                                <Redirect to="/dashboard"/>
+                            </Switch>
+                        </Suspense>
+                    </div>
+                </CSSTransition>
+              </TransitionGroup>
+            </Core>
+        )
+    }
 }
 
 export default withRouter(Routes);
