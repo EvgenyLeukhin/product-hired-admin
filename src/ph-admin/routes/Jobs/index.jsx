@@ -2,9 +2,9 @@ import React from "react";
 
 import { API_URL, subUrl } from '../../api/apiUrl';
 
-import Table         from '../../components/Table';
-import Alerts        from '../../components/Alerts';
-import AddButton     from '../../components/AddButton';
+import Table     from '../../components/Table';
+import Alerts    from '../../components/Alerts';
+import AddButton from '../../components/AddButton';
 
 import AddJob    from './add';
 import DeleteJob from './delete';
@@ -53,6 +53,7 @@ class Jobs extends React.Component {
     deleteModalIsOpen: false,
     modalLoading: false,
 
+    // fields
     id: null,
     created: '',
     modified: '',
