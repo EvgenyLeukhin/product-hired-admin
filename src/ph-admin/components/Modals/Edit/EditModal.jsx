@@ -3,6 +3,7 @@ import ReactModal from 'react-modal';
 
 import './styles.scss';
 import './logo-cover.scss';
+import './image.scss';
 
 const EditModal = props => {
   const { isOpen, modalLoading, closeModal } = props;

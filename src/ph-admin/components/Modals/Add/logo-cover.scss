@@ -36,10 +36,13 @@ div.ReactModal__add {
       }
 
       img {
-        border: 1px solid #ccc;
+        // border: 1px solid #ccc;
         height: 110px;
 
-        &.logo { width: 110px; }
+        &.logo {
+          object-fit: contain;
+          object-position: 0% 0%;
+        }
       }
 
       .no-logo {
@@ -81,7 +84,8 @@ div.ReactModal__add {
 @media (max-width: 767px) {
   div.ReactModal__add {
     .add-container {
-      .add-logo, .add-cover {
+      .add-logo,
+      .add-cover {
         min-height: 210px;
       }
     }

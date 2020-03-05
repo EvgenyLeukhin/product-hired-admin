@@ -10,7 +10,7 @@ const getSkills = inputValue => {
       params: {
         'filter': {
           'where': {
-            'name': { 'like': `%${inputValue}%`}
+            'markers': { 'like': `%${inputValue}%`}
           },
           'limit': 50
         }
