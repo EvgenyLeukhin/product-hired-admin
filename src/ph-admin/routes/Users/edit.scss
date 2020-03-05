@@ -1,4 +1,19 @@
 .edit-user {
+  .edit-image {
+
+    &__buttons {
+      margin-top: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      button {
+        min-width: 120px;
+        margin: auto;
+      }
+    }
+  }
+
   &__left {
     .edit-image { margin-bottom: 15px; }
     .created { margin-bottom: 15px; }

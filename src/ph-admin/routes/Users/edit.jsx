@@ -25,7 +25,7 @@ const EditUser = ({
   original, name, surname, email, job_title, emailVerified, admin, status, experience, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority, seniority_id, location, location_id, user_role, user_role_id, role, role_id, company, company_id,
 
   // image
-  image, imageLoading, fileInputImage, onUploadImage, deleteImage, onChangeImage,
+  image, imageLoading, fileInputImage, onUploadImage, deleteImage, onChangeImage, onDeleteImage,
 
   isOpen, closeModal, onChange, onSubmit, modalLoading, deleteClick, onChangeSkills, onChangeLocation, onChangeSeniority, onChangeUserRole, onChangeRole, onChangeCompany
 }) => {
@@ -64,10 +64,14 @@ const EditUser = ({
                         ref={fileInputImage}
                         onChange={onUploadImage}
                       />
-                      <label htmlFor="edit-image" className="input-file-label  btn btn-light">
-                        <i className="ion-image" />&nbsp;
-                        <span>Choose a file</span>
-                      </label>
+
+                      <div className="edit-image__buttons">
+                        <label htmlFor="edit-image" className="input-file-label  btn btn-light">
+                          <i className="ion-image" />&nbsp;
+                          <span>Choose a file</span>
+                        </label>
+                        <Button disabled={!image.url} outline color="danger" onClick={onDeleteImage}>Delete photo</Button>
+                      </div>
                     </div>
 
                     <div className="edit-image-url" hidden={true}>

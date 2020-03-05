@@ -428,11 +428,17 @@ class Jobs extends React.Component {
       .catch(error => console.log(error))
   }
 
-  onDeleteLogo  = () => this.setState({ logo: '', logoUrl: '', logoSwitcher: false });
+  onDeleteLogo  = () => this.setState({ logo: '',  logoUrl: '',  logoSwitcher: false });
   onDeleteCover = () => this.setState({ cover: '', coverUrl: '', coverSwitcher: false });
 
   closeAddModal    = () => !this.state.modalLoading && this.setState({ addModalIsOpen:    false });
-  closeEditModal   = () => !this.state.modalLoading && this.setState({ editModalIsOpen:   false });
+  closeEditModal   = () => {
+    !this.state.modalLoading && this.setState({
+      editModalIsOpen: false,
+      logoLoading: false,
+      coverLoading: false
+    });
+  }
   closeDeleteModal = () => !this.state.modalLoading && this.setState({ deleteModalIsOpen: false });
 
   render() {

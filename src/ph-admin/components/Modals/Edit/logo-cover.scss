@@ -59,6 +59,8 @@ div.ReactModal__edit {
     }
 
     .edit-image {
+      min-height: 240px;
+
       label {
         &.input-file-label { margin-left: auto; }
         &.edit-image__label {

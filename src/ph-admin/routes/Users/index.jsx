@@ -423,10 +423,17 @@ class Users extends React.Component {
       .catch(error => this.catchErrors(error));
   }
 
-  deleteImage  = () => this.setState({ image: { url: '' } });
+  onDeleteImage  = () => this.setState({ image: { url: '' } });
 
   closeAddModal    = () => !this.state.modalLoading && this.setState({ addModalIsOpen:    false });
-  closeEditModal   = () => !this.state.modalLoading && this.setState({ editModalIsOpen:   false });
+
+  closeEditModal   = () => {
+    !this.state.modalLoading && this.setState({
+      editModalIsOpen: false,
+      imageLoading: false
+    });
+  }
+
   closeDeleteModal = () => !this.state.modalLoading && this.setState({ deleteModalIsOpen: false });
 
   componentDidMount() {
@@ -528,7 +535,7 @@ class Users extends React.Component {
           imageLoading={imageLoading}
           fileInputImage={this.fileInputImage}
           onUploadImage={this.onUploadImage}
-          deleteImage={this.deleteImage}
+          onDeleteImage={this.onDeleteImage}
 
           // modal
           isOpen={editModalIsOpen}
