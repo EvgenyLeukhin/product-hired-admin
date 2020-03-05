@@ -209,7 +209,14 @@ const EditUser = ({
                           defaultOptions={true}
                           loadOptions={inputValue => getLocations(inputValue).then(res => res.data)}
                           getOptionValue={o => o.id}
-                          getOptionLabel={o => `${o.name}, ${o.alias_region}`}
+                          getOptionLabel={o => (
+                            <div>
+                              <span>{`${o.name && o.name + ', '} `}</span>
+                              <span style={{ color: '#3498db', textShadow: '1px 1px 0 #fff' }}>
+                                {o.alias_region}
+                              </span>
+                            </div>
+                          )}
                           value={location}
                           onChange={onChangeLocation}
                         />

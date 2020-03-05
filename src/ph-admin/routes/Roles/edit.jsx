@@ -85,7 +85,7 @@ const EditRole = ({
                   <label htmlFor="edit-keywords">Search Phrases, comma-separated</label>
 
                   <textarea
-                    rows={3}
+                    rows={6}
                     type="text"
                     name="keywords"
                     value={keywords}
@@ -99,7 +99,7 @@ const EditRole = ({
                   <label htmlFor="edit-negative">Stop-Words, comma-separated</label>
 
                   <textarea
-                    rows={3}
+                    rows={6}
                     type="text"
                     name="negative"
                     value={negative}

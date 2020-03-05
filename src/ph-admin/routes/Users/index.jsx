@@ -247,7 +247,7 @@ class Users extends React.Component {
 
     // LOCATION
     const { location_id } = original;
-      this.setState({ location: { id: null, name: 'Loading...', alias_region: '' }}); // pre-loader
+      this.setState({ location: { id: null, name: 'Loading ...', alias_region: '' }}); // pre-loader
 
       location_id ? (
       getLocation(location_id).then(res => {  // get request

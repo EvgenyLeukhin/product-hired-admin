@@ -192,7 +192,14 @@ const EditJob = ({
                       defaultOptions={true}
                       loadOptions={inputValue => getUsers(inputValue).then(res => res.data)}
                       getOptionValue={o => o.id}
-                      getOptionLabel={o => `${o.name} ${o.surname} ${o.email}`}
+                      getOptionLabel={o => (
+                        <div>
+                          <span>{`${o.name} ${o.surname} `}</span>
+                          <span style={{ color: '#3498db', textShadow: '1px 1px 0 #fff' }}>
+                            {o.email}
+                          </span>
+                        </div>
+                      )}
                       onChange={onChangeUser}
                       value={user}
                     />
@@ -217,7 +224,7 @@ const EditJob = ({
                       defaultOptions={true}
                       loadOptions={inputValue => getCompanies(inputValue).then(res => res.data)}
                       getOptionValue={o => o.id}
-                      getOptionLabel={o => `${o.name}`}
+                      getOptionLabel={o => o.name}
                       onChange={onChangeCompany}
                       value={company}
                     />
@@ -233,7 +240,12 @@ const EditJob = ({
                       defaultOptions={true}
                       loadOptions={inputValue => getLocations(inputValue).then(res => res.data)}
                       getOptionValue={o => o.id}
-                      getOptionLabel={o => `${o.name}`}
+                      getOptionLabel={o => (
+                        <div>
+                          <span>{`${o.name && o.name + ', '} `}</span>
+                          <span style={{ color: '#448aff' }}>{o.alias_region}</span>
+                        </div>
+                      )}
                       onChange={onChangeLocations}
                       value={locations}
                     />

@@ -69,7 +69,12 @@ const AddJob = ({
                       defaultOptions={true}
                       loadOptions={inputValue => getUsers(inputValue).then(res => res.data)}
                       getOptionValue={o => o.id}
-                      getOptionLabel={o => `${o.name} ${o.surname} ${o.email}`}
+                      getOptionLabel={o => (
+                        <div>
+                          <span>{`${o.name} ${o.surname} `}</span>
+                          <span style={{ color: '#1976D2' }}>{o.email}</span>
+                        </div>
+                      )}
                       onChange={onChangeUser}
                       value={user}
                     />
