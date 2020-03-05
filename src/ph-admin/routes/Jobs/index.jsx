@@ -68,7 +68,8 @@ class Jobs extends React.Component {
     name: '',
     company: { name: '' }, company_id: null,
     user: { name: '', surname: '', email: '' }, user_id: null, employer_id: null,
-    experience_from: 0, experience_up: 1,
+    experience_from: { value: 0, label: '0' },
+    experience_up: { value: 1, label: '1' },
     vacancy: { id: 1, name: 'Product Manager' }, vacancy_role: 1,
     details: "<p></p>",
 
@@ -96,9 +97,10 @@ class Jobs extends React.Component {
       planObj: { label: "Free", value: 1 }, plan_id: 1,
       name: '', company: { name: '' }, company_id: null,
       user: { name: '', surname: '', email: '' }, user_id: null, employer_id: null,
-      experience_from: 0, experience_up: 1,
       vacancy: { id: 1, name: 'Product Manager' }, vacancy_role: 1,
       details: "<p></p>", logo: '', cover: '',
+      experience_from: { value: 0, label: '0' },
+      experience_up: { value: 1, label: '1' },
     })
   }
 
@@ -114,6 +116,9 @@ class Jobs extends React.Component {
   onChangeCompany     = company      => this.setState({ company, company_id: company.id });
   onChangeUser        = user         => this.setState({ user, employer_id: user.id });
   onChangeVacancy     = vacancy      => this.setState({ vacancy, vacancy_role: vacancy.id });
+
+  onChangeExperienceFrom = experience_from => this.setState({ experience_from });
+  onChangeExperienceUp   = experience_up   => this.setState({ experience_up });
 
   catchErrors = error => {
     // redirect to login if 401 (request, response)
@@ -202,8 +207,8 @@ class Jobs extends React.Component {
       views: original.views,
       impressions: original.impressions,
       details: original.details,
-      experience_up: original.experience_up,
-      experience_from: original.experience_from,
+      experience_up:   { value: original.experience_up,   label: `${original.experience_up}` },
+      experience_from: { value: original.experience_from, label: `${original.experience_from}` },
       seniority: original.seniority,
       skills: original.skills,
       status: original.status,
@@ -305,7 +310,7 @@ class Jobs extends React.Component {
           if (jobs[i].id === id) {
             // inject editing data to table state
             jobs[i] = { id, name, user, employer_id, created, modified, published, views, impressions, details,
-            experience_from, experience_up, seniority, seniorityObj, skills, status, statusObj, plan_id, planObj,
+            experience_from: experience_from.value, experience_up: experience_up.value, seniority, seniorityObj, skills, status, statusObj, plan_id, planObj,
             company_id, company, locations, vacancy_role, vacancy, logo, cover,
 
               // change modified to current date
@@ -542,6 +547,8 @@ class Jobs extends React.Component {
           onChangePlan={this.onChangePlan}
           onChangeUser={this.onChangeUser}
           onChangeVacancy={this.onChangeVacancy}
+          onChangeExperienceFrom={this.onChangeExperienceFrom}
+          onChangeExperienceUp={this.onChangeExperienceUp}
           onSubmit={this.editSubmit}
           deleteClick={this.deleteClick(original)}
 

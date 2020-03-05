@@ -18,9 +18,11 @@ import getCompanies    from './api/getCompanies';
 import getUsers        from './api/getUsers';
 import getVacancies    from './api/getVacancies';
 
-import seniorityOptions from './api/seniorityOptions';
-import statusOptions from './api/statusOptions';
-import planOptions from './api/planOptions';
+import seniorityOptions      from './api/seniorityOptions';
+import statusOptions         from './api/statusOptions';
+import planOptions           from './api/planOptions';
+import experienceFromOptions from './api/experienceFromOptions';
+import experienceUpOptions   from './api/experienceUpOptions';
 
 import 'react-quill/dist/quill.snow.css';
 import './edit.scss';
@@ -41,7 +43,7 @@ const EditJob = ({
   isOpen, closeModal, onSubmit, modalLoading, deleteClick,
 
   // onchanges
-  onChange, onChangeDetails, onChangeSeniority, onChangeSkills, onChangeStatus, onChangePlan, onChangeLocations, onChangeCompany, onChangeUser, onChangeVacancy,
+  onChange, onChangeDetails, onChangeSeniority, onChangeSkills, onChangeStatus, onChangePlan, onChangeLocations, onChangeCompany, onChangeUser, onChangeVacancy, onChangeExperienceFrom, onChangeExperienceUp
 }) => {
 
   // console.log('EditJob locations:', original); // original
@@ -280,8 +282,9 @@ const EditJob = ({
                   <div className="col-md-3">
                     <label htmlFor="edit-experience_from">Experience, from</label>
                     <input
+                      hidden
                       min={0}
-                      max={30}
+                      max={9}
                       type="number"
                       onChange={onChange}
                       name="experience_from"
@@ -289,20 +292,31 @@ const EditJob = ({
                       id="edit-experience_from"
                       className="form-control"
                     />
+                    <Select
+                      value={experience_from}
+                      onChange={onChangeExperienceFrom}
+                      options={experienceFromOptions}
+                    />
                   </div>
 
                   {/* experience_to */}
                   <div className="col-md-3">
                     <label htmlFor="edit-experience_up">Experience, to</label>
                     <input
-                      min={0}
-                      max={30}
+                      hidden
+                      min={1}
+                      max={10}
                       type="number"
                       onChange={onChange}
                       name="experience_up"
                       value={experience_up}
                       id="edit-experience_up"
                       className="form-control"
+                    />
+                    <Select
+                      value={experience_up}
+                      onChange={onChangeExperienceUp}
+                      options={experienceUpOptions}
                     />
                   </div>
 

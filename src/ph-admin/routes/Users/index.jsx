@@ -61,7 +61,7 @@ class Users extends React.Component {
     admin: false,
     roles: [],
     status: true,
-    experience: null,
+    experience: { value: 0, label: '0' },
     skills: [],
     created: '',
     modified: '',
@@ -103,7 +103,8 @@ class Users extends React.Component {
     });
   }
 
-  onChangeSkills = skills => this.setState({ skills });
+  onChangeSkills     = skills     => this.setState({ skills });
+  onChangeExperience = experience => this.setState({ experience });
 
   onChangeSeniority = seniority => {
     this.setState({
@@ -153,9 +154,10 @@ class Users extends React.Component {
       // reset fields
       name: '', surname: '', password: '', email: '', // add fields
       job_title: '', emailVerified: false,
-      status: true, experience: null,
+      status: true, experience: { value: 0, label: '0' },
       image: { url: '', icon: '', color: '' },
-      location: {}, skills: [], created: null, modified: null,
+      location: { id: null, name: '', alias_region: '' },
+      skills: [], created: null, modified: null,
       emailSettings: true, emailJobApplication: true, emailMarketing: true,
     });
   }
@@ -220,7 +222,10 @@ class Users extends React.Component {
       job_title: original.job_title,
       emailVerified: original.emailVerified,
       status: original.status,
-      experience: original.experience,
+      experience: {
+        value: original.experience ? Number(original.experience) : 0,
+        label: original.experience ? `${original.experience}` : '0'
+      },
       image: original.image,
       skills: original.skills,
       created: original.created,
@@ -332,7 +337,7 @@ class Users extends React.Component {
         for (let i = 0; i < users.length; i++) {
           if (users[i].id === id) {
             // inject editing data to table state
-            users[i] = { id, name, surname, email, job_title, emailVerified, admin, status, experience, image, skills, created, emailSettings, emailJobApplication, emailMarketing, seniority_id, seniority, location_id, location, user_role, user_role_id, role, role_id, company, company_id,
+            users[i] = { id, name, surname, email, job_title, emailVerified, admin, status, experience: experience.value, image, skills, created, emailSettings, emailJobApplication, emailMarketing, seniority_id, seniority, location_id, location, user_role, user_role_id, role, role_id, company, company_id,
 
               // change modified to current date
             modified: `${new Date().toISOString()}` };
@@ -553,6 +558,7 @@ class Users extends React.Component {
           onChangeUserRole={this.onChangeUserRole}
           onChangeRole={this.onChangeRole}
           onChangeCompany={this.onChangeCompany}
+          onChangeExperience={this.onChangeExperience}
         />
 
         <Table

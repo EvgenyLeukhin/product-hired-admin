@@ -36,7 +36,7 @@ const editUser = state => {
       emailVerified,
       admin,
       status,
-      experience,
+      experience: experience.value,
       image,
       skills,
       emailSettings,

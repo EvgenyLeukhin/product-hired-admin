@@ -15,6 +15,7 @@ import getRoles     from './api/getRoles';
 import getUserRoles from './api/getUserRoles';
 import getCompanies from './api/getCompanies';
 import seniorityOptions from './api/seniorityOptions';
+import experienceOptions   from './api/experienceOptions';
 
 
 import './edit.scss';
@@ -27,10 +28,10 @@ const EditUser = ({
   // image
   image, imageLoading, fileInputImage, onUploadImage, deleteImage, onChangeImage, onDeleteImage,
 
-  isOpen, closeModal, onChange, onSubmit, modalLoading, deleteClick, onChangeSkills, onChangeLocation, onChangeSeniority, onChangeUserRole, onChangeRole, onChangeCompany
+  isOpen, closeModal, onChange, onSubmit, modalLoading, deleteClick, onChangeSkills, onChangeLocation, onChangeSeniority, onChangeUserRole, onChangeRole, onChangeCompany, onChangeExperience
 }) => {
 
-  // console.log('EditUser:', modified); // original
+  // console.log('EditUser:', experience); // original
 
   return (
     <EditModal isOpen={isOpen} modalLoading={modalLoading} closeModal={closeModal}>
@@ -419,15 +420,21 @@ const EditUser = ({
                         <label htmlFor="edit-experience">Experience</label>
 
                         <input
+                          hidden
                           required
                           min={0}
                           max={50}
                           name="experience"
-                          value={experience}
+                          value={experience.value}
                           id="edit-experience"
                           onChange={onChange}
                           type="number"
                           className="form-control"
+                        />
+                        <Select
+                          value={experience}
+                          onChange={onChangeExperience}
+                          options={experienceOptions}
                         />
                       </div>
 
