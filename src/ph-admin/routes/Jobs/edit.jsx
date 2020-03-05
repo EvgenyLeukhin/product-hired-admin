@@ -34,13 +34,13 @@ const EditJob = ({
 
   // images //
   logo, cover, logoSwitcher, coverSwitcher, logoLoading, coverLoading,
-  fileInputLogo, fileInputCover, onUploadLogo, onUploadCover,
+  fileInputLogo, fileInputCover, onUploadLogo, onUploadCover,  onDeleteLogo, onDeleteCover,
 
 
   // modal
   isOpen, closeModal, onSubmit, modalLoading, deleteClick,
 
-  //
+  // onchanges
   onChange, onChangeDetails, onChangeSeniority, onChangeSkills, onChangeStatus, onChangePlan, onChangeLocations, onChangeCompany, onChangeUser, onChangeVacancy,
 }) => {
 
@@ -351,10 +351,14 @@ const EditJob = ({
                       ref={fileInputLogo}
                       onChange={onUploadLogo}
                     />
-                    <label htmlFor="edit-logo" className="input-file-label  btn btn-light">
-                      <i className="ion-image" />&nbsp;
-                      <span>Load logo</span>
-                    </label>
+
+                    <div className="edit-logo__buttons">
+                      <label htmlFor="edit-logo" className="input-file-label  btn btn-light">
+                        <i className="ion-image" />&nbsp;
+                        <span>Load logo</span>
+                      </label>
+                      <Button disabled={!logo || !logoUrl} outline color="danger" onClick={onDeleteLogo}>Delete logo</Button>
+                    </div>
                   </div>
 
                   {/* cover */}
@@ -377,10 +381,13 @@ const EditJob = ({
                       ref={fileInputCover}
                       onChange={onUploadCover}
                     />
-                    <label htmlFor="edit-cover" className="input-file-label  btn btn-light">
-                      <i className="ion-image" />&nbsp;
-                      <span>Load cover</span>
-                    </label>
+                    <div className="edit-cover__buttons">
+                      <label htmlFor="edit-cover" className="input-file-label  btn btn-light">
+                        <i className="ion-image" />&nbsp;
+                        <span>Load cover</span>
+                      </label>
+                      <Button disabled={!cover || !coverUrl} outline color="danger" onClick={onDeleteCover}>Delete cover</Button>
+                    </div>
                   </div>
 
                   {/* details */}

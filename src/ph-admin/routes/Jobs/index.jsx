@@ -428,6 +428,9 @@ class Jobs extends React.Component {
       .catch(error => console.log(error))
   }
 
+  onDeleteLogo  = () => this.setState({ logo: '', logoUrl: '', logoSwitcher: false });
+  onDeleteCover = () => this.setState({ cover: '', coverUrl: '', coverSwitcher: false });
+
   closeAddModal    = () => !this.state.modalLoading && this.setState({ addModalIsOpen:    false });
   closeEditModal   = () => !this.state.modalLoading && this.setState({ editModalIsOpen:   false });
   closeDeleteModal = () => !this.state.modalLoading && this.setState({ deleteModalIsOpen: false });
@@ -540,6 +543,7 @@ class Jobs extends React.Component {
           logo={logo} cover={cover} logoSwitcher={logoSwitcher} coverSwitcher={coverSwitcher}
           logoLoading={logoLoading} coverLoading={coverLoading} logoUrl={logoUrl} coverUrl={coverUrl}
           fileInputLogo={this.fileInputLogo} fileInputCover={this.fileInputCover} onUploadLogo={this.onUploadLogo} onUploadCover={this.onUploadCover}
+          onDeleteLogo={this.onDeleteLogo} onDeleteCover={this.onDeleteCover}
         />
 
         <Table
