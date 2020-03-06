@@ -234,7 +234,7 @@ const EditUser = ({
                           value={email}
                           id="edit-email"
                           onChange={onChange}
-                          type="text"
+                          type="email"
                           className="form-control"
                         />
                       </div>
@@ -356,7 +356,6 @@ const EditUser = ({
                         <label htmlFor="edit-job_title">Job title</label>
 
                         <input
-                          required
                           name="job_title"
                           value={job_title}
                           id="edit-job_title"
