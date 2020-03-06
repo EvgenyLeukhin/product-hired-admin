@@ -16,7 +16,10 @@ const addJob = state => {
       employer_id: user.id,
 
       // default fields from the state when add
-      details, vacancy_role, seniority, experience_from, experience_up, application_type, application_link, plan_id, hash, status,
+      details, vacancy_role, seniority,
+      experience_from: experience_from.value,
+      experience_up: experience_up.value,
+      application_type, application_link, plan_id, hash, status,
     },
 
     {

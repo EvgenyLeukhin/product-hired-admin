@@ -12,19 +12,19 @@ const Alerts = ({ type, original, errorText }) => {
     <>
       {
         // add //
-        type === 'add' && <Alert color="success">New item is added</Alert> ||
+        type === 'add' && <Alert color="success">New item has been added</Alert> ||
 
         // edit //
         type === 'edit' && (
           <Alert color="warning">
-            {`"${original.id}`} - <b>{name} is edited</b>
+            {`"${original.id}`} - <b>{name} has been edited</b>
           </Alert>
         ) ||
 
         // delete //
         type === 'delete' && (
           <Alert color="danger">
-            {`"${original.id}`} - <b>{name} is deleted</b>
+            {`"${original.id}`} - <b>{name} has been deleted</b>
           </Alert>
         ) ||
 

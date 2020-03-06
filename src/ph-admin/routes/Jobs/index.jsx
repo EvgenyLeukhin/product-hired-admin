@@ -63,7 +63,7 @@ class Jobs extends React.Component {
     skills: [], locations: [],
     seniorityObj: {}, seniority: null,
     statusObj: { label: 'Draft', value: 'draft' }, status: 'draft',
-    planObj: { label: "Free", value: 1 }, plan_id: 1,
+    planObj: { label: 'Null', value: null }, plan_id: null,
 
     name: '',
     company: { name: '' }, company_id: null,
@@ -71,7 +71,7 @@ class Jobs extends React.Component {
     experience_from: { value: 0, label: '0' },
     experience_up: { value: 1, label: '1' },
     vacancy: { id: 1, name: 'Product Manager' }, vacancy_role: 1,
-    details: "<p></p>",
+    details: "",
 
     // images
     logo: '', logoUrl: '', cover: '', coverUrl: '',
@@ -80,7 +80,6 @@ class Jobs extends React.Component {
 
     // default state fields when add job
     application_link: null, application_type: 0, hash: null,
-    experience_from: 0, experience_up: 1,
 
     // alerts
     alertIsOpen: false,
@@ -94,7 +93,7 @@ class Jobs extends React.Component {
       skills: [], locations: [], published: `${new Date().toISOString()}`,
       seniorityObj: {}, seniority: null,
       statusObj: { label: 'Draft', value: 'draft' }, status: 'draft',
-      planObj: { label: "Free", value: 1 }, plan_id: 1,
+      planObj: { label: "Null", value: null }, plan_id: null,
       name: '', company: { name: '' }, company_id: null,
       user: { name: '', surname: '', email: '' }, user_id: null, employer_id: null,
       vacancy: { id: 1, name: 'Product Manager' }, vacancy_role: 1,
@@ -245,7 +244,7 @@ class Jobs extends React.Component {
     const { plan_id } = original;
     plan_id ? planOptions.map(i => {
       plan_id === i.value && this.setState({ planObj: i });
-    }) : this.setState({ planObj: {} });
+    }) : this.setState({ planObj: { label: "Null", value: null } });
 
 
     // COMPANY (get current company {} by request)
