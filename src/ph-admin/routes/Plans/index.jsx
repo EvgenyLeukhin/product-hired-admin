@@ -47,10 +47,10 @@ class Plans extends React.Component {
     } else {
       this.setState({
         modalLoading: false,
-        addModalIsOpen: false, editModalIsOpen: false, deleteModalIsOpen: false, // close modals
+        // addModalIsOpen: false, editModalIsOpen: false, deleteModalIsOpen: false, // close modals
         alertType: 'error',
         alertIsOpen: true,
-        alertErrorText: `${error}`
+        alertErrorText: `${error}, ${error.response.data.error.sqlMessage}`
       });
     }
   }
