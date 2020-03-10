@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactQuill from 'react-quill';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Select from 'react-select';
 import AsyncSelect from 'react-select/async';
 
@@ -43,7 +44,7 @@ const EditJob = ({
   isOpen, closeModal, onSubmit, modalLoading, deleteClick,
 
   // onchanges
-  onChange, onChangeDetails, onChangeSeniority, onChangeSkills, onChangeStatus, onChangePlan, onChangeLocations, onChangeCompany, onChangeUser, onChangeVacancy, onChangeExperienceFrom, onChangeExperienceUp
+  onChange, onChangeDetails, onChangeSeniority, onChangeSkills, onChangeStatus, onChangePlan, onChangeLocations, onChangeCompany, onChangeUser, onChangeVacancy, onChangeExperienceFrom, onChangeExperienceUp, onCopyUser
 }) => {
 
   // console.log('EditJob locations:', original); // original
@@ -176,7 +177,7 @@ const EditJob = ({
                   </div>
 
                   {/* user */}
-                  <div className="col-md-4">
+                  <div className="col-md-4  edit-job-user">
                     <label htmlFor="edit-employer_id">User</label>
                     <input
                       hidden
@@ -189,6 +190,7 @@ const EditJob = ({
                     />
 
                     <AsyncSelect
+                      className="edit-job-user__select"
                       menuPlacement="auto"
                       cacheOptions={true}
                       defaultOptions={true}
@@ -205,6 +207,17 @@ const EditJob = ({
                       onChange={onChangeUser}
                       value={user}
                     />
+
+                    <CopyToClipboard text={`${user.name} ${user.surname}, ${user.email}`}>
+                      <Button
+                        title="Copy user data to clipboard"
+                        className="edit-job-user__button"
+                        disabled={!user} outline
+                        color="primary"
+                        onClick={onCopyUser}>
+                        <i className="ion-ios-copy" />
+                      </Button>
+                    </CopyToClipboard>
                   </div>
 
                   {/* company */}

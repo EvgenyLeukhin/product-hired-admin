@@ -31,7 +31,10 @@ const Alerts = ({ type, original, errorText }) => {
         // error //
         type === 'error' && (
           <Alert color="danger" isOpen={visible} toggle={onDismiss}>{errorText}</Alert>
-        )
+        ) ||
+
+        // copy //
+        type === 'copy' && <Alert color="warning">Copied</Alert>
       }
     </>
   )

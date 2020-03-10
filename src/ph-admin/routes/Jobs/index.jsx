@@ -445,6 +445,17 @@ class Jobs extends React.Component {
   }
   closeDeleteModal = () => !this.state.modalLoading && this.setState({ deleteModalIsOpen: false });
 
+  onCopyUser = e => {
+    e.preventDefault();
+
+    this.setState({ alertType: 'copy', alertIsOpen: true });
+
+    // close alert after 2 sec
+    setTimeout(() => {
+      this.setState({ alertIsOpen: false });
+    }, 2000);
+  }
+
   render() {
 
     const {
@@ -550,6 +561,7 @@ class Jobs extends React.Component {
           onChangeExperienceUp={this.onChangeExperienceUp}
           onSubmit={this.editSubmit}
           deleteClick={this.deleteClick(original)}
+          onCopyUser={this.onCopyUser}
 
           // images
           logo={logo} cover={cover} logoSwitcher={logoSwitcher} coverSwitcher={coverSwitcher}
@@ -595,46 +607,3 @@ class Jobs extends React.Component {
 }
 
 export default withHeaderTitle(Jobs);
-
-
-// {
-  // name: "Program Manager",
-
-  // details: "<div id="jobDescriptionText" class="jobsearch-jobD…ed Six Sigma Black Belt is a plus</li></ul></div>", created: "2019-12-12T00:00:00.000Z", modified: "2020-02-20T02:52:34.000Z", published: "2020-02-13T14:53:01.000Z", …}
-
-// application_link: "http://jp.indeed.com/viewjob?jk=08b6dd09472d1e40&qd=q-W_AcXrCjXtyVUvGh7yyfEZRnvTDHQnPVwcjQ09-7xtU5CE_dnPJq1QDQ7BbOxgsuLKP4R8KwnSfW6Tu291w2jpPKTCEI08v9WRs3ScL0lpPk4BqtIkYsaQriuO_0kNNVbuGkvXR_7b87sG_geiaw&indpubnum=5493419850484974&atk=1e0qsuio8h72s801"
-
-// application_type: 0
-// applied: false
-// company: {name: "Amazon Japan G.K.", motivated: 0, logo: null, cover: null, craft_id: null, …}
-// company_id: 662
-// cover: null
-// created: "2019-12-12T00:00:00.000Z"
-
-// description: "A job at Amazon Japan G.K. in Sapporo. Requires any experience and the following skills: Communication Skills, Problem Solving, Project Management, Analytical, Program Management."
-
-// details: "<div id="jobDescriptionText"</div>"
-// employer_id: 1
-// experience_from: 0
-// experience_up: 10
-// hash: null
-// id: 66604
-// impressions: 407
-// locations: [{…}]
-// logo: null
-// modified: "2020-02-20T02:52:34.000Z"
-// name: "Program Manager"
-// paused: null
-// plan_id: null
-// published: "2020-02-13T14:53:01.000Z"
-// role: {id: 7, name: "Project/Program", slug: "project-program", top: 1, weight: 18, …}
-// saved: false
-// seniority: 2
-// skills: (5) [{…}, {…}, {…}, {…}, {…}]
-// skills_string: null
-// slug: "66604-program-manager"
-// source: "indeed"
-// source_id: "08b6dd09472d1e40"
-// status: "public"
-// vacancy_role: 7
-// views: 11
