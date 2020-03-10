@@ -23,15 +23,15 @@ import './edit.scss';
 
 const EditUser = ({
   // fields
-  original, name, surname, email, job_title, emailVerified, admin, status, experience, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority, seniority_id, location, location_id, user_role, user_role_id, role, role_id, company, company_id,
+  original, name, surname, email, job_title, emailVerified, admin, status, experience, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority, seniority_id, location, location_id, user_role, user_role_id, roles, role, role_id, company, company_id,
 
   // image
   image, imageLoading, fileInputImage, onUploadImage, deleteImage, onChangeImage, onDeleteImage,
 
-  isOpen, closeModal, onChange, onSubmit, modalLoading, deleteClick, onChangeSkills, onChangeLocation, onChangeSeniority, onChangeUserRole, onChangeRole, onChangeCompany, onChangeExperience
+  isOpen, closeModal, onChange, onSubmit, modalLoading, deleteClick, onChangeSkills, onChangeLocation, onChangeSeniority, onChangeUserRole, onChangeRole, onChangeCompany, onChangeExperience, onChangeAdmin
 }) => {
 
-  // console.log('EditUser:', experience); // original
+  console.log('EditUser:', roles, admin); // original
 
   return (
     <EditModal isOpen={isOpen} modalLoading={modalLoading} closeModal={closeModal}>
@@ -133,9 +133,8 @@ const EditUser = ({
                             id="edit-admin"
                             name="admin"
                             type="checkbox"
-                            defaultChecked={admin ? true : false}
-                            value={admin}
-                            onChange={onChange}
+                            checked={admin}
+                            onChange={onChangeAdmin}
                           />
                           <span />
                         </label>
