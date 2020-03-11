@@ -41,6 +41,7 @@ class Companies extends React.Component {
     alertIsOpen: false,
     alertType: '',
     alertErrorText: '',
+    errorAlertIsOpen: false,
 
     // modals
     addModalIsOpen: false,
@@ -68,6 +69,7 @@ class Companies extends React.Component {
 
     } else {
       this.setState({
+        errorAlertIsOpen: true,
         modalLoading: false,
         // addModalIsOpen: false, editModalIsOpen: false, deleteModalIsOpen: false, // close modals
         alertType: 'error',
@@ -130,7 +132,7 @@ class Companies extends React.Component {
   addSubmit = e => {
     e.preventDefault();
 
-    this.setState({ modalLoading: true });
+    this.setState({ modalLoading: true, errorAlertIsOpen: false });
     const { name, domain, slug, weight, logo, cover, companies } = this.state;
 
     addCompany(name, domain, slug, weight, logo, cover)   // order must be like inside addSkill method
@@ -177,7 +179,7 @@ class Companies extends React.Component {
   editSubmit = e => {
     e.preventDefault();
 
-    this.setState({ modalLoading: true });
+    this.setState({ modalLoading: true, errorAlertIsOpen: false });
 
     // get edit values
     const { id, name, domain, slug, logo, cover } = this.state;
@@ -221,7 +223,7 @@ class Companies extends React.Component {
     const dataWitoutDeleted = [];
     const { companies, original: { id } } = this.state;
 
-    this.setState({ modalLoading: true });
+    this.setState({ modalLoading: true, errorAlertIsOpen: false });
 
     deleteCompany(id)
       // if delete ok
@@ -259,6 +261,7 @@ class Companies extends React.Component {
   closeAddModal    = () => !this.state.modalLoading && this.setState({ addModalIsOpen:    false });
   closeEditModal   = () => !this.state.modalLoading && this.setState({ editModalIsOpen:   false });
   closeDeleteModal = () => !this.state.modalLoading && this.setState({ deleteModalIsOpen: false });
+  closeErrorAlert  = () => this.setState({ errorAlertIsOpen: false });
 
   generateSlug = () => {
     const { name } = this.state;
@@ -290,7 +293,7 @@ class Companies extends React.Component {
       addModalIsOpen, editModalIsOpen, modalLoading, deleteModalIsOpen,
 
       // alerts
-      alertIsOpen, alertType, alertErrorText
+      alertIsOpen, alertType, alertErrorText, errorAlertIsOpen
     } = this.state;
 
     const controlsColumn = [
@@ -310,7 +313,17 @@ class Companies extends React.Component {
 
     return (
       <div className="companies-page">
-        { alertIsOpen && <Alerts type={alertType} original={original} errorText={alertErrorText} /> }
+        {
+          alertIsOpen && (
+            <Alerts
+              type={alertType}
+              original={original}
+              errorText={alertErrorText}
+              errorAlertIsOpen={errorAlertIsOpen}
+              closeErrorAlert={this.closeErrorAlert}
+            />
+          )
+        }
 
 
         <AddButton

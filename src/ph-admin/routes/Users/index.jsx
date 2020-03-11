@@ -43,6 +43,7 @@ class Users extends React.Component {
     alertIsOpen: false,
     alertType: '',
     alertErrorText: '',
+    errorAlertIsOpen: false,
 
     // modals
     addModalIsOpen: false,
@@ -145,11 +146,12 @@ class Users extends React.Component {
 
     } else {
       this.setState({
+        errorAlertIsOpen: true,
         modalLoading: false,
         // addModalIsOpen: false, editModalIsOpen: false, deleteModalIsOpen: false, // close modals
         alertType: 'error',
         alertIsOpen: true,
-        alertErrorText: `${error}, ${error.response.data.error.sqlMessage}`
+        alertErrorText: `${error}, ${error.response.data.error.message}`
       });
     }
   }
@@ -173,7 +175,7 @@ class Users extends React.Component {
   addSubmit = e => {
     e.preventDefault();
 
-    this.setState({ modalLoading: true });
+    this.setState({ modalLoading: true, errorAlertIsOpen: false });
     const { name, surname, password, email, users } = this.state;
 
     addUser(name, surname, password, email)   // order must be like inside addSkill method
@@ -333,7 +335,7 @@ class Users extends React.Component {
   editSubmit = e => {
     e.preventDefault();
 
-    this.setState({ modalLoading: true });
+    this.setState({ modalLoading: true, errorAlertIsOpen: false });
 
     // get edit values
     const { state } = this;
@@ -408,7 +410,7 @@ class Users extends React.Component {
     const dataWitoutDeleted = [];
     const { users, original: { id } } = this.state;
 
-    this.setState({ modalLoading: true });
+    this.setState({ modalLoading: true, errorAlertIsOpen: false });
 
     deleteUser(id)
       // if delete ok
@@ -451,6 +453,7 @@ class Users extends React.Component {
   }
 
   closeDeleteModal = () => !this.state.modalLoading && this.setState({ deleteModalIsOpen: false });
+  closeErrorAlert  = () => this.setState({ errorAlertIsOpen: false });
 
   componentDidMount() {
     // close modal on Escape
@@ -474,7 +477,7 @@ class Users extends React.Component {
       addModalIsOpen, editModalIsOpen, modalLoading, deleteModalIsOpen,
 
       // alerts
-      alertIsOpen, alertType, alertErrorText
+      alertIsOpen, alertType, alertErrorText, errorAlertIsOpen
     } = this.state;
 
     const controlsColumn = [
@@ -494,7 +497,17 @@ class Users extends React.Component {
 
     return (
       <div className="users-page">
-        { alertIsOpen && <Alerts type={alertType} original={original} errorText={alertErrorText} /> }
+        {
+          alertIsOpen && (
+            <Alerts
+              type={alertType}
+              original={original}
+              errorText={alertErrorText}
+              errorAlertIsOpen={errorAlertIsOpen}
+              closeErrorAlert={this.closeErrorAlert}
+            />
+          )
+        }
 
         <AddButton
           text="user"

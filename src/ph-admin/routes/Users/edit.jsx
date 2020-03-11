@@ -31,7 +31,7 @@ const EditUser = ({
   isOpen, closeModal, onChange, onSubmit, modalLoading, deleteClick, onChangeSkills, onChangeLocation, onChangeSeniority, onChangeUserRole, onChangeRole, onChangeCompany, onChangeExperience, onChangeAdmin
 }) => {
 
-  console.log('EditUser:', roles, admin); // original
+  // console.log('EditUser:', roles, admin); // original
 
   return (
     <EditModal isOpen={isOpen} modalLoading={modalLoading} closeModal={closeModal}>

@@ -31,6 +31,7 @@ class Skills extends React.Component {
     alertIsOpen: false,
     alertType: '',
     alertErrorText: '',
+    errorAlertIsOpen: false,
 
     // modals
     addModalIsOpen: false,
@@ -56,6 +57,7 @@ class Skills extends React.Component {
 
     } else {
       this.setState({
+        errorAlertIsOpen: true,
         modalLoading: false,
         // addModalIsOpen: false, editModalIsOpen: false, deleteModalIsOpen: false, // close modals
         alertType: 'error',
@@ -76,7 +78,7 @@ class Skills extends React.Component {
   addSubmit = e => {
     e.preventDefault();
 
-    this.setState({ modalLoading: true });
+    this.setState({ modalLoading: true, errorAlertIsOpen: false });
     const { name, slug, weight, markers, skills } = this.state;
 
     addSkill(name, slug, weight, markers)   // order must be like inside addSkill method
@@ -121,7 +123,7 @@ class Skills extends React.Component {
   editSubmit = e => {
     e.preventDefault();
 
-    this.setState({ modalLoading: true });
+    this.setState({ modalLoading: true, errorAlertIsOpen: false });
 
     // get edit values
     const { id, name, slug, markers, weight } = this.state;
@@ -169,7 +171,7 @@ class Skills extends React.Component {
     const dataWitoutDeleted = [];
     const { skills, original: { id } } = this.state;
 
-    this.setState({ modalLoading: true });
+    this.setState({ modalLoading: true, errorAlertIsOpen: false });
 
     deleteSkill(id)
       // if delete ok
@@ -203,6 +205,7 @@ class Skills extends React.Component {
   closeAddModal    = () => !this.state.modalLoading && this.setState({ addModalIsOpen:    false });
   closeEditModal   = () => !this.state.modalLoading && this.setState({ editModalIsOpen:   false });
   closeDeleteModal = () => !this.state.modalLoading && this.setState({ deleteModalIsOpen: false });
+  closeErrorAlert  = () => this.setState({ errorAlertIsOpen: false });
 
   generateSlug = () => {
     const { name } = this.state;
@@ -237,7 +240,7 @@ class Skills extends React.Component {
       addModalIsOpen, editModalIsOpen, modalLoading, deleteModalIsOpen,
 
       // alerts
-      alertIsOpen, alertType, alertErrorText
+      alertIsOpen, alertType, alertErrorText, errorAlertIsOpen
     } = this.state;
 
     const controlsColumn = [
@@ -257,7 +260,17 @@ class Skills extends React.Component {
 
     return (
       <div className="roles-page">
-        { alertIsOpen && <Alerts type={alertType} original={original} errorText={alertErrorText} /> }
+        {
+          alertIsOpen && (
+            <Alerts
+              type={alertType}
+              original={original}
+              errorText={alertErrorText}
+              errorAlertIsOpen={errorAlertIsOpen}
+              closeErrorAlert={this.closeErrorAlert}
+            />
+          )
+        }
 
         <AddButton
           text="skill"

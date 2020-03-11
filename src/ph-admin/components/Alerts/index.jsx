@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { Alert } from "reactstrap";
 
-const Alerts = ({ type, original, errorText }) => {
-  const [visible, setVisible] = useState(true);
-  const onDismiss = () => setVisible(false);
+const Alerts = ({ type, original, errorText, errorAlertIsOpen, closeErrorAlert }) => {
   const name = original.surname
     ? `${original.name} ${original.surname}`
     : `${original.name}`;
@@ -30,7 +28,7 @@ const Alerts = ({ type, original, errorText }) => {
 
         // error //
         type === 'error' && (
-          <Alert color="danger" isOpen={visible} toggle={onDismiss}>{errorText}</Alert>
+          <Alert color="danger" isOpen={errorAlertIsOpen} toggle={closeErrorAlert}>{errorText}</Alert>
         ) ||
 
         // copy //
