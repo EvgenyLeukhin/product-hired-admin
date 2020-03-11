@@ -40,13 +40,7 @@ const columns = [
     accessor: 'locations',
     sortable: false,
     filterable: false,
-    Cell: ({ original }) => {
-      const { length } = original.locations;
-
-      if (length > 1) {
-        return original.locations.map(i => `${i.name}, `);
-      } else return original.locations.map(i => i.name);
-    },
+    Cell: ({ original }) => original.locations.map(i => i.name).join(', ') || '...'
   },
   {
     Header: 'Status',
