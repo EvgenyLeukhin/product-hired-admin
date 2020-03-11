@@ -1,4 +1,5 @@
 import React from "react";
+import planOptions      from './api/planOptions';
 
 import customFiltering from './../../components/Table/customFiltering';
 
@@ -9,14 +10,18 @@ const columns = [
     accessor: 'id',
     width: 60,
     style: { textAlign: 'right' },
-    Cell: ({ original }) => <div>{original.id || '...'}</div>,
+    Cell: ({ original }) => original.id || '...',
     Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
   },
   {
     Header: 'Job',
     accessor: 'name',
     style: { fontWeight: 'bold' },
-    Cell: ({ original }) => <div>{original.name || '...'}</div>,
+    Cell: ({ original }) => {
+      if (original.name) {
+        return `${original.name}`;
+      } else return `...`;
+    },
     Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
   },
   {
@@ -25,29 +30,71 @@ const columns = [
     sortable: false,
     filterable: false,
     Cell: ({ original }) => {
-      // fix it later
       if (original.company) {
-        return <div>{original.company.name}</div>
-      } else return <div>...</div>
+        return `${original.company.name}`;
+      } else return `...`;
+    },
+  },
+  {
+    Header: 'Locations',
+    accessor: 'locations',
+    sortable: false,
+    filterable: false,
+    Cell: ({ original }) => {
+      const { length } = original.locations;
+
+      if (length > 1) {
+        return original.locations.map(i => `${i.name}, `);
+      } else return original.locations.map(i => i.name);
     },
   },
   {
     Header: 'Status',
     accessor: 'status',
     width: 60,
-    Cell: ({ original }) => <div>{original.status || '...'}</div>,
+    Cell: ({ original }) => <div style={{ textAlign: 'center' }}>{original.status || '...'}</div>,
     Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+  },
+  {
+    Header: 'Plan',
+    accessor: 'plan_id',
+    filterable: false,
+    width: 50,
+    Cell: ({ original }) => {
+      const { plan_id } = original;
+      return (
+        <div>{ planOptions.map(i => plan_id === i.value && i.label) }</div>
+      );
+    },
+    // Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
   },
   {
     Header: 'Created',
     accessor: 'created',
-    width: 120,
-    Cell: ({ original }) => (
-      <div style={{ textAlign: 'center' }}>
-        <span>{original.created.substring(0, 10) || '...'}</span>
-      </div>
-    ),
-    Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+    filterable: false,
+    width: 85,
+    Cell: ({ original }) => {
+      return (
+        <div style={{ textAlign: 'center' }}>
+          <span>{original.created && original.created.substring(0, 10) || '...'}</span>
+        </div>
+      )
+    },
+    // Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+  },
+  {
+    Header: 'Published',
+    accessor: 'published',
+    filterable: false,
+    width: 85,
+    Cell: ({ original }) => {
+      return (
+        <div style={{ textAlign: 'center' }}>
+          <span>{original.published && original.published.substring(0, 10) || '...'}</span>
+        </div>
+      )
+    },
+    // Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
   }
 ];
 
