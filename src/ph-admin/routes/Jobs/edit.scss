@@ -7,21 +7,6 @@
     margin-bottom: 20px;
   }
 
-  .edit-job-user {
-    position: relative;
-    &__select { margin-right: 35px; }
-
-    &__button {
-      border-radius: 5px;
-      bottom: 0;
-      right: 0;
-      position: absolute;
-      min-height: 38px;
-
-      i { font-size: 20px; }
-    }
-  }
-
   .edit-logo__buttons,
   .edit-cover__buttons {
     margin-top: auto;
@@ -30,6 +15,12 @@
     align-items: flex-start;
 
     & > label.input-file-label.btn.btn-light { margin-right: 15px; }
+  }
+
+  .copy-button {
+    padding-top: 24px;
+
+    button { min-height: 38px; }
   }
 }
 
@@ -41,5 +32,7 @@
         margin-bottom: 15px !important;
       }
     }
+
+    .copy-button { padding-top: 0; }
   }
 }

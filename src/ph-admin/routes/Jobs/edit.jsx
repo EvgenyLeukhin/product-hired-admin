@@ -177,7 +177,7 @@ const EditJob = ({
                   </div>
 
                   {/* user */}
-                  <div className="col-md-4  edit-job-user">
+                  <div className="col-md-5">
                     <label htmlFor="edit-employer_id">User</label>
                     <input
                       hidden
@@ -190,7 +190,6 @@ const EditJob = ({
                     />
 
                     <AsyncSelect
-                      className="edit-job-user__select"
                       menuPlacement="auto"
                       cacheOptions={true}
                       defaultOptions={true}
@@ -207,21 +206,24 @@ const EditJob = ({
                       onChange={onChangeUser}
                       value={user}
                     />
+                  </div>
 
+                  {/* copy button */}
+                  <div className="col-md-2  copy-button">
                     <CopyToClipboard text={`${user.name} ${user.surname}, ${user.email}`}>
                       <Button
                         title="Copy user data to clipboard"
-                        className="edit-job-user__button"
                         disabled={!user} outline
                         color="primary"
-                        onClick={onCopyUser}>
-                        <i className="ion-ios-copy" />
+                        onClick={onCopyUser}
+                      >
+                        Copy user
                       </Button>
                     </CopyToClipboard>
                   </div>
 
                   {/* company */}
-                  <div className="col-md-3">
+                  <div className="col-md-5">
                     <label htmlFor="edit-company_id">Company</label>
                     <input
                       hidden
@@ -246,7 +248,7 @@ const EditJob = ({
                   </div>
 
                   {/* locations */}
-                  <div className="col-md-5">
+                  <div className="col-md-12">
                     <label htmlFor="edit-locations">Locations</label>
                     <AsyncSelect
                       isMulti={true}
