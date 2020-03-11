@@ -40,7 +40,7 @@ const columns = [
     accessor: 'locations',
     sortable: false,
     filterable: false,
-    Cell: ({ original }) => original.locations.map(i => i.name).join(', ') || '...'
+    Cell: ({ original }) => original.locations.map(i => `${i.name}, ${i.alias_region}`).join('; ') || '...'
   },
   {
     Header: 'Status',
