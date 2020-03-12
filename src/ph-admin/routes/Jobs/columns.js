@@ -49,22 +49,50 @@ const columns = [
   {
     Header: 'Status',
     accessor: 'status',
-    width: 60,
+    width: 100,
     Cell: ({ original }) => <div style={{ textAlign: 'center' }}>{original.status || '...'}</div>,
-    Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+    Filter: ({ filter, onChange }) => {
+      return (
+        <select
+          onChange={event => onChange(event.target.value)}
+          style={{ width: "100%" }}
+          value={filter ? filter.value : ''}
+        >
+          <option value=''>Show all</option>
+          <option value='draft'>Draft</option>
+          <option value='public'>Public</option>
+          <option value='expired'>Expired</option>
+        </select>
+      )
+    }
   },
   {
     Header: 'Plan',
     accessor: 'plan_id',
-    filterable: false,
-    width: 50,
+    width: 100,
     Cell: ({ original }) => {
       const { plan_id } = original;
       return (
-        <div>{ planOptions.map(i => plan_id === i.value && i.label) }</div>
+        <div style={{ textAlign: 'center' }}>{ planOptions.map(i => plan_id === i.value && i.label) }</div>
       );
     },
-    // Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+    Filter: ({ filter, onChange }) => {
+      return (
+        <select
+          onChange={event => onChange(event.target.value)}
+          style={{ width: "100%" }}
+          value={filter ? filter.value : ''}
+        >
+          <option value=''>Show all</option>
+          {/* TODO */}
+          {/* <option value={null}>Null</option> */}
+          <option value={1}>Free</option>
+          <option value={2}>Bronze</option>
+          <option value={3}>Silver</option>
+          <option value={4}>Gold</option>
+        </select>
+      )
+    }
   },
   {
     Header: 'Created',
