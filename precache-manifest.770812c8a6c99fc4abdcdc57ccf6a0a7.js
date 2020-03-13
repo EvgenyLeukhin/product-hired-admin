@@ -36,12 +36,12 @@ self.__precacheManifest = [
     "url": "/product-hired-admin/static/media/ionicons.2c159d0d.woff"
   },
   {
-    "revision": "64db21e34b524112e3b9",
-    "url": "/product-hired-admin/static/js/5.64db21e3.chunk.js"
+    "revision": "bfb2f1f33be63b59c0e5",
+    "url": "/product-hired-admin/static/js/5.bfb2f1f3.chunk.js"
   },
   {
-    "revision": "b50b9544feb1192f8357",
-    "url": "/product-hired-admin/static/js/runtime~main.b50b9544.js"
+    "revision": "979b3434dac1b70870dd",
+    "url": "/product-hired-admin/static/js/runtime~main.979b3434.js"
   },
   {
     "revision": "e6a25cf9bb28ba50b2aa",
@@ -88,7 +88,7 @@ self.__precacheManifest = [
     "url": "/product-hired-admin/static/css/6.bad2ff56.chunk.css"
   },
   {
-    "revision": "64db21e34b524112e3b9",
+    "revision": "bfb2f1f33be63b59c0e5",
     "url": "/product-hired-admin/static/css/5.8ccdca69.chunk.css"
   },
   {
@@ -108,7 +108,7 @@ self.__precacheManifest = [
     "url": "/product-hired-admin/static/css/10.b3305ec3.chunk.css"
   },
   {
-    "revision": "3bcd5ed2b155f2785bc0030ba9e0404d",
+    "revision": "a2bdb3fe53e0a9c278b1fe60792e5051",
     "url": "/product-hired-admin/index.html"
   }
 ];
