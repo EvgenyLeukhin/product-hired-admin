@@ -14,7 +14,6 @@ import { withHeaderTitle } from '../../../components/Header/HeaderTitle';
 
 
 // api
-import getJob       from './api/getJob';
 import getJobs      from './api/getJobs';
 import getJobsCount from './api/getJobsCount';
 import addJob       from './api/addJob';
@@ -130,7 +129,7 @@ class Jobs extends React.Component {
     } else {
       this.setState({
         errorAlertIsOpen: true,
-        modalLoading: false, logoLoading: false, coverLoading: false,
+        modalLoading: false,
         // addModalIsOpen: false, editModalIsOpen: false, deleteModalIsOpen: false, // close modals
         alertType: 'error',
         alertIsOpen: true,
@@ -192,111 +191,102 @@ class Jobs extends React.Component {
 
   editClick = original => e => {
     e.stopPropagation();
-    this.resetFields();
+    // console.log('original', original);
 
     this.setState({
-      id: original.id,
       original,
+
+      alertIsOpen: false,
       editModalIsOpen: true,
-      modalLoading: true,
-      alertIsOpen: false, logoLoading: false, coverLoading: false,
-    })
+      logoLoading: false, coverLoading: false,
 
-    // save data to state by request
-    getJob(original.id).then(res => {
-      const { data } = res;
+      id: original.id,
+      name: original.name,
+      created: original.created,
+      modified: original.modified,
+      published: original.published,
+      views: original.views,
+      impressions: original.impressions,
+      details: original.details,
+      experience_up:   { value: original.experience_up,   label: `${original.experience_up}` },
+      experience_from: { value: original.experience_from, label: `${original.experience_from}` },
+      seniority: original.seniority,
+      skills: original.skills,
+      status: original.status,
+      plan_id: original.plan_id,
+      employer_id: original.employer_id,
+      locations: original.locations,
+      company_id: original.company_id,
+      company: original.company,
+      locations: original.locations,
+      vacancy_role: original.vacancy_role,
+      vacancy: original.vacancy,
+      logo: original.logo,
+      cover: original.cover,
+    });
 
-      this.setState({
-        modalLoading: false,
 
-        // save data to state from react-table
-        name: data.name,
-        created: data.created,
-        modified: data.modified,
-        published: data.published,
-        views: data.views,
-        impressions: data.impressions,
-        details: data.details,
-        experience_up:   { value: data.experience_up,   label: `${data.experience_up}` },
-        experience_from: { value: data.experience_from, label: `${data.experience_from}` },
-        seniority: data.seniority,
-        skills: data.skills,
-        status: data.status,
-        plan_id: data.plan_id,
-        employer_id: data.employer_id,
-        locations: data.locations,
-        company_id: data.company_id,
-        company: data.company,
-        locations: data.locations,
-        vacancy_role: data.vacancy_role,
-        vacancy: data.vacancy,
-        logo: original.logo,
-        cover: original.cover,
+    // SENIORITY (get current seniorityObj {} from options mapping)
+    const { seniority } = original;
+    seniority ? (
+      seniorityOptions.map(i => {
+        i.value === seniority && this.setState({ seniorityObj: i });
       })
+    ) : this.setState({ seniorityObj: {} });  // if doesn't have - reset seniority
 
-      // SENIORITY (get current seniorityObj {} from options mapping)
-      const { seniority } = this.state;
-      seniority ? (
-        seniorityOptions.map(i => {
-          i.value === seniority && this.setState({ seniorityObj: i });
+
+    // STATUS (get current statusObj {} from options mapping)
+    const { status } = original;
+    status ? statusOptions.map(i => {
+      status === i.value && this.setState({ statusObj: i });
+    }) : this.setState({ statusObj: {} });
+
+
+    // PLAN (get current planObj {} from options mapping)
+    const { plan_id } = original;
+    plan_id ? planOptions.map(i => {
+      plan_id === i.value && this.setState({ planObj: i });
+    }) : this.setState({ planObj: { label: "Null", value: null } });
+
+
+    // COMPANY (get current company {} by request)
+    const { company_id } = original;
+    this.setState({ company: { id: null, name: 'Loading...' }}); // pre-loader
+
+    company_id ? (
+      getCompany(company_id).then(res => { // get request
+        this.setState({
+          company: res.data,
+          company_id: res.data.id
         })
-      ) : this.setState({ seniorityObj: {} });  // if doesn't have - reset seniority
+      })
+    ) : this.setState({
+      company: { id: null, name: '' } // if doesn't have - reset
+    });
 
 
-      // STATUS (get current statusObj {} from options mapping)
-      const { status } = this.state;
-      status ? statusOptions.map(i => {
-        status === i.value && this.setState({ statusObj: i });
-      }) : this.setState({ statusObj: {} });
+    // USER (get current user {} by request)
+    const { employer_id } = original;
+    this.setState({ user: { name: 'Loading ...', surname: '', email: '' }}); // pre-loader
+
+    employer_id ? (
+      getUser(employer_id).then(res => { // get request
+        this.setState({ user: res.data, employer_id: res.data.id });
+      })
+    ) : this.setState({
+      user: { name: '', surname: '', email: '' } // if doesn't have - reset
+    });
 
 
-      // PLAN (get current planObj {} from options mapping)
-      const { plan_id } = this.state;
-      plan_id ? planOptions.map(i => {
-        plan_id === i.value && this.setState({ planObj: i });
-      }) : this.setState({ planObj: { label: "Null", value: null } });
-    }).then(() => {
-      // async code
+    // VACANCY (get current vacancy {} by request)
+    const { vacancy_role } = original;
+    this.setState({ vacancy: { name: 'Loading ...' }}); // pre-loader
 
-      // COMPANY (get current company {} by request)
-      const { company_id } = this.state;
-      this.setState({ company: { id: null, name: 'Loading...' }}); // pre-loader
-
-      company_id ? (
-        getCompany(company_id).then(res => { // get request
-          this.setState({
-            company: res.data,
-            company_id: res.data.id
-          })
-        })
-      ) : this.setState({
-        company: { id: null, name: '' } // if doesn't have - reset
-      });
-
-
-      // USER (get current user {} by request)
-      const { employer_id } = this.state;
-      this.setState({ user: { name: 'Loading ...', surname: '', email: '' }}); // pre-loader
-
-      employer_id ? (
-        getUser(employer_id).then(res => { // get request
-          this.setState({ user: res.data, employer_id: res.data.id });
-        })
-      ) : this.setState({
-        user: { name: '', surname: '', email: '' } // if doesn't have - reset
-      });
-
-
-      // VACANCY (get current vacancy {} by request)
-      const { vacancy_role } = this.state;
-      this.setState({ vacancy: { name: 'Loading ...' }}); // pre-loader
-
-      vacancy_role ? (
-        getVacancy(vacancy_role).then(res => {    // get request
-          this.setState({ vacancy: res.data, vacancy_role: res.data.id });
-        })
-      ) : this.setState({ vacancy: { name: '' }}); // if doesn't have - reset
-    }).catch(error => this.catchErrors(error));
+    vacancy_role ? (
+      getVacancy(vacancy_role).then(res => {    // get request
+        this.setState({ vacancy: res.data, vacancy_role: res.data.id });
+      })
+    ) : this.setState({ vacancy: { name: '' }}); // if doesn't have - reset
   }
 
   editSubmit = e => {
@@ -311,7 +301,7 @@ class Jobs extends React.Component {
     editJob(state)
       .then(() => {
         // get current table-data from the state w\o editing change (when render only)
-        const { id, jobs, name, user, employer_id, created, modified, published, views, impressions, details,
+        const { jobs, id, name, user, employer_id, created, modified, published, views, impressions, details,
           experience_from, experience_up, seniority, seniorityObj, skills, status, statusObj, plan_id, planObj,
           company_id, company, locations, vacancy_role, vacancy, logo, cover,
         } = this.state;

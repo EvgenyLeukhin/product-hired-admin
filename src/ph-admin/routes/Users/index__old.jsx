@@ -12,7 +12,6 @@ import { withHeaderTitle } from '../../../components/Header/HeaderTitle';
 import { API_URL } from '../../api/apiUrl';
 
 // api
-import getUser      from './api/getUser';
 import getUsers      from './api/getUsers';
 import getUsersCount from './api/getUsersCount';
 import getLocation   from './api/getLocation';
@@ -91,27 +90,6 @@ class Users extends React.Component {
     imageLoading: false,
   }
 
-  resetFields = () => {
-    this.setState({
-      name: '', surname: '', password: '', email: '', job_title: '',
-      emailVerified: false, admin: false, status: true,
-      experience: { value: 0, label: '0' }, skills: [], created: '', modified: '', emailSettings: true,
-      emailJobApplication: true, emailMarketing: true,
-
-      seniority: {},        // 1. seniority object for react-select
-      seniority_id: null,
-
-      location: { id: null, name: '', alias_region: '' }, location_id: null,
-      user_role: { id: null, name: '' }, user_role_id: null,
-      roles: [], role: { id: null, name: '' }, role_id: null,
-
-      company: { id: null, name: '' }, company_id: null,
-
-      // image
-      image: { url: '', icon: '', color: '' }, imageLoading: false,
-    })
-  }
-
   onChange = e => {
     if (e.target.type === 'checkbox') {
       this.setState({ [e.target.name]: e.target.checked })
@@ -170,7 +148,6 @@ class Users extends React.Component {
       this.setState({
         errorAlertIsOpen: true,
         modalLoading: false,
-        imageLoading: false,
         // addModalIsOpen: false, editModalIsOpen: false, deleteModalIsOpen: false, // close modals
         alertType: 'error',
         alertIsOpen: true,
@@ -239,129 +216,120 @@ class Users extends React.Component {
   // reset original fields to the state fields
   editClick = original => e => {
     e.stopPropagation();
-    this.resetFields();
 
+
+    // copy fiels to the state
     this.setState({
-      id: original.id,
       original,
+      alertIsOpen: false,
       editModalIsOpen: true,
-      modalLoading: true,
-      alertIsOpen: false, imageLoading: false
+      logoLoading: false, coverLoading: false,
+      admin: false, // reset admin value
+
+      // get values from original react-table (original.id, original.name, original.price)
+      id: original.id,
+      name: original.name,
+      surname: original.surname,
+      email: original.email,
+      job_title: original.job_title,
+      emailVerified: original.emailVerified,
+      status: original.status,
+      experience: {
+        value: original.experience ? Number(original.experience) : 0,
+        label: original.experience ? `${original.experience}` : '0'
+      },
+      image: original.image,
+      skills: original.skills,
+      created: original.created,
+      modified: original.modified, // get modified from original
+      emailSettings: original.emailSettings,
+      emailJobApplication: original.emailJobApplication,
+      emailMarketing: original.emailMarketing,
+      seniority_id: original.seniority_id,
+      location_id: original.location_id,
+      user_role_id: original.user_role_id,
+      role_id: original.user_role_id,
+      roles: original.roles,
+      company_id: original.company_id,
     });
 
-    getUser(original.id).then(res => {
-      const { data } = res;
-      this.setState({
-        original,
-        modalLoading: false,
-
-        // fields
-        id: data.id,
-        name: data.name,
-        surname: data.surname,
-        email: data.email,
-        job_title: data.job_title,
-        emailVerified: data.emailVerified,
-        status: data.status,
-        experience: {
-          value: data.experience ? Number(data.experience) : 0,
-          label: data.experience ? `${data.experience}` : '0'
-        },
-        image: data.image,
-        skills: data.skills,
-        created: data.created,
-        modified: data.modified, // get modified from data
-        emailSettings: data.emailSettings,
-        emailJobApplication: data.emailJobApplication,
-        emailMarketing: data.emailMarketing,
-        seniority_id: data.seniority_id,
-        location_id: data.location_id,
-        user_role_id: data.user_role_id,
-        role_id: data.user_role_id,
-        roles: data.roles,
-        company_id: data.company_id,
-      });
+    // SENIORITY
+    // 3. inject seniority object to react-select if we have seniority_id in the original
+    const { seniority_id } = original;
+    seniority_id ? (
+      seniorityOptions.map(i => {
+        i.value === seniority_id && this.setState({ seniority: i });
+      })
+    ) : this.setState({ seniority: {} });  // if doesn't have - reset seniority
 
 
-      // ADMIN RIGHtS // check for admin rights
-      const { roles } = this.state;
-      roles && roles.map(i => i.name === 'admin' && this.setState({ admin: true }));
-
-
-      // SENIORITY
-      // 3. inject seniority object to react-select if we have seniority_id in the original
-      const { seniority_id } = this.state;
-      seniority_id ? (
-        seniorityOptions.map(i => {
-          i.value === seniority_id && this.setState({ seniority: i });
-        })
-      ) : this.setState({ seniority: {} });  // if doesn't have - reset seniority
-
-
-    }).then(() => {
-      // LOCATION
-      const { location_id } = this.state;
+    // LOCATION
+    const { location_id } = original;
       this.setState({ location: { id: null, name: 'Loading ...', alias_region: '' }}); // pre-loader
 
       location_id ? (
-        getLocation(location_id).then(res => {  // get request
-          this.setState({
-            location: res.data,
-            location_id: res.data.id
-          })
+      getLocation(location_id).then(res => {  // get request
+        this.setState({
+          location: res.data,
+          location_id: res.data.id
         })
-      ) : this.setState({
-        location: { id: null, name: '', alias_region: '' }  // if doesn't have - reset
-      });
+      })
+    ) : this.setState({
+      location: { id: null, name: '', alias_region: '' }  // if doesn't have - reset
+    });
 
 
-      // USER_ROLE
-      const { user_role_id } = this.state;
-        this.setState({ user_role: { id: null, name: 'Loading...' }}); // pre-loader
+    // USER_ROLE
+    const { user_role_id } = original;
+      this.setState({ user_role: { id: null, name: 'Loading...' }}); // pre-loader
 
-        user_role_id ? (
-        getUserRole(user_role_id).then(res => { // get request
-          this.setState({
-            user_role: res.data,
-            user_role_id: res.data.id
-          })
+      user_role_id ? (
+      getUserRole(user_role_id).then(res => { // get request
+        this.setState({
+          user_role: res.data,
+          user_role_id: res.data.id
         })
-      ) : this.setState({
-        user_role: { id: null, name: '' } // if doesn't have - reset
-      });
+      })
+    ) : this.setState({
+      user_role: { id: null, name: '' } // if doesn't have - reset
+    });
 
 
-      // ROLE
-      const { role_id } = this.state;
-        this.setState({ role: { id: null, name: 'Loading...' }}); // pre-loader
+    // ROLE
+    const { role_id } = original;
+      this.setState({ role: { id: null, name: 'Loading...' }}); // pre-loader
 
-        role_id ? (
-        getRole(role_id).then(res => { // get request
-          this.setState({
-            role: res.data,
-            role_id: res.data.id
-          })
+      role_id ? (
+      getRole(role_id).then(res => { // get request
+        this.setState({
+          role: res.data,
+          role_id: res.data.id
         })
-      ) : this.setState({
-        role: { id: null, name: '' } // if doesn't have - reset
-      });
+      })
+    ) : this.setState({
+      role: { id: null, name: '' } // if doesn't have - reset
+    });
 
 
-      // COMPANY
-      const { company_id } = this.state;
-        this.setState({ company: { id: null, name: 'Loading...' }}); // pre-loader
+    // COMPANY
+    const { company_id } = original;
+      this.setState({ company: { id: null, name: 'Loading...' }}); // pre-loader
 
-        company_id ? (
-        getCompany(company_id).then(res => { // get request
-          this.setState({
-            company: res.data,
-            company_id: res.data.id
-          })
+      company_id ? (
+      getCompany(company_id).then(res => { // get request
+        this.setState({
+          company: res.data,
+          company_id: res.data.id
         })
-      ) : this.setState({
-        company: { id: null, name: '' } // if doesn't have - reset
-      });
-    }).catch(error => this.catchErrors(error));
+      })
+    ) : this.setState({
+      company: { id: null, name: '' } // if doesn't have - reset
+    });
+
+
+    // ADMIN RIGHtS // check for admin rights
+    const { roles } = original;
+    roles && roles.map(i => i.name === 'admin' && this.setState({ admin: true }));
   }
 
   editSubmit = e => {

@@ -31,7 +31,7 @@ const EditUser = ({
   isOpen, closeModal, onChange, onSubmit, modalLoading, deleteClick, onChangeSkills, onChangeLocation, onChangeSeniority, onChangeUserRole, onChangeRole, onChangeCompany, onChangeExperience, onChangeAdmin
 }) => {
 
-  // console.log('EditUser:', roles, admin); // original
+  console.log('EditUser emailVerified:', emailVerified); // original
 
   return (
     <EditModal isOpen={isOpen} modalLoading={modalLoading} closeModal={closeModal}>
@@ -249,8 +249,7 @@ const EditUser = ({
                               id="edit-emailVerified"
                               name="emailVerified"
                               type="checkbox"
-                              defaultChecked={emailVerified ? true : false}
-                              value={emailVerified}
+                              checked={emailVerified}
                               onChange={onChange}
                             />
                             <span />
@@ -280,8 +279,7 @@ const EditUser = ({
                               id="edit-status"
                               name="status"
                               type="checkbox"
-                              defaultChecked={status}
-                              value={status}
+                              checked={status}
                               onChange={onChange}
                             />
                             <span />

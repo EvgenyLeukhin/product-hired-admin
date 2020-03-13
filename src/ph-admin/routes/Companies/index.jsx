@@ -70,7 +70,7 @@ class Companies extends React.Component {
     } else {
       this.setState({
         errorAlertIsOpen: true,
-        modalLoading: false,
+        modalLoading: false, logoLoading: false, coverLoading: false,
         // addModalIsOpen: false, editModalIsOpen: false, deleteModalIsOpen: false, // close modals
         alertType: 'error',
         alertIsOpen: true,

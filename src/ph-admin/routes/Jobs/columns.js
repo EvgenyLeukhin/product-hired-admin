@@ -41,7 +41,7 @@ const columns = [
     sortable: false,
     filterable: false,
     Cell: ({ original }) => {
-      return original.locations.map(i => {
+      return original.locations && original.locations.map(i => {
         return i.alias_region ? `${i.name}, ${i.alias_region}` : i.name
       }).join('; ') || '...'
     }
