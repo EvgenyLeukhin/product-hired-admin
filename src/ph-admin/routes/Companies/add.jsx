@@ -27,7 +27,7 @@ const AddCompany = ({
 
               <fieldset>
                 <div className="form-group row">
-                  <div className="col-md-6">
+                  <div className="col-md-4">
                     <label htmlFor="add-name">Company name</label>
 
                     <input
@@ -40,7 +40,7 @@ const AddCompany = ({
                     />
                   </div>
 
-                  <div className="col-md-6">
+                  <div className="col-md-4">
                     <label htmlFor="add-domain">Domain</label>
 
                     <input
@@ -53,7 +53,7 @@ const AddCompany = ({
                     />
                   </div>
 
-                  <div className="col-md-6">
+                  <div className="col-md-4">
                     <label htmlFor="add-slug">Slug</label>
 
                     <div className="input-group">
@@ -79,7 +79,7 @@ const AddCompany = ({
                     </div>
                   </div>
 
-                  <div className="col-md-6">
+                  {/* <div className="col-md-6">
                     <label htmlFor="add-weight">Weight</label>
 
                     <input
@@ -90,7 +90,7 @@ const AddCompany = ({
                       type="number"
                       className="form-control"
                     />
-                  </div>
+                  </div> */}
 
                   <div className="col-md-6">
                     <div className="add-logo">

@@ -14,7 +14,7 @@ const EditSkill = ({
     <EditModal isOpen={isOpen} modalLoading={modalLoading} closeModal={closeModal}>
       <section className="section-container edit-container">
         <h4 className="edit-container__title">
-          Edit&nbsp;<b>{`"${original.id} - ${original.name}"`}</b>
+          Edit: <b>{original.name}</b>
         </h4>
 
         <span className="ion-close-round edit-container__close" onClick={closeModal} />

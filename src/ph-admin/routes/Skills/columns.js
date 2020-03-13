@@ -49,7 +49,7 @@ const columns = [
     Header: 'Weight',
     accessor: 'weight',
     width: 60,
-    Cell: ({ original }) => <div>{original.weight || '...'}</div>,
+    Cell: ({ original }) => <div>{original.weight || ''}</div>,
   },
 ];
 

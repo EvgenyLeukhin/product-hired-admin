@@ -20,7 +20,7 @@ const AddJob = ({
   return (
     <AddModal isOpen={isOpen} modalLoading={modalLoading} closeModal={closeModal}>
       <section className="section-container add-container">
-        <h4 className="add-container__title">Add user</h4>
+        <h4 className="add-container__title">Add job</h4>
 
         <span className="ion-close-round add-container__close" onClick={closeModal} />
 

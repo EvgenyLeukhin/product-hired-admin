@@ -72,7 +72,7 @@ class Jobs extends React.Component {
     experience_from: { value: 0, label: '0' },
     experience_up: { value: 1, label: '1' },
     vacancy: { id: 1, name: 'Product Manager' }, vacancy_role: 1,
-    details: "",
+    details: '',
 
     // images
     logo: '', logoUrl: '', cover: '', coverUrl: '',
@@ -99,7 +99,7 @@ class Jobs extends React.Component {
       name: '', company: { name: '' }, company_id: null,
       user: { name: '', surname: '', email: '' }, user_id: null, employer_id: null,
       vacancy: { id: 1, name: 'Product Manager' }, vacancy_role: 1,
-      details: "<p></p>", logo: '', cover: '',
+      details: '', logo: '', cover: '',
       experience_from: { value: 0, label: '0' },
       experience_up: { value: 1, label: '1' },
     })

@@ -23,7 +23,7 @@ import './edit.scss';
 
 const EditUser = ({
   // fields
-  original, name, surname, email, job_title, emailVerified, admin, status, experience, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority, seniority_id, location, location_id, user_role, user_role_id, roles, role, role_id, company, company_id,
+  original, name, surname, email, job_title, emailVerified, admin, status, experience, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority, seniority_id, location, location_id, userRole, user_role_id, roles, role, role_id, company, company_id,
 
   // image
   image, imageLoading, fileInputImage, onUploadImage, deleteImage, onChangeImage, onDeleteImage,
@@ -31,13 +31,13 @@ const EditUser = ({
   isOpen, closeModal, onChange, onSubmit, modalLoading, deleteClick, onChangeSkills, onChangeLocation, onChangeSeniority, onChangeUserRole, onChangeRole, onChangeCompany, onChangeExperience, onChangeAdmin
 }) => {
 
-  console.log('EditUser emailVerified:', emailVerified); // original
+  // console.log('EditUser user_role:', userRole); // original
 
   return (
     <EditModal isOpen={isOpen} modalLoading={modalLoading} closeModal={closeModal}>
       <section className="section-container edit-container edit-user">
         <h4 className="edit-container__title">
-          Edit&nbsp;<b>{`"${original.id} - ${original.name} ${original.surname}"`}</b>
+          Edit: <b>{`${original.name} ${original.surname}`}</b>
         </h4>
 
         <span className="ion-close-round edit-container__close" onClick={closeModal} />
@@ -127,6 +127,8 @@ const EditUser = ({
                     </div>
 
                     <div className="admin">
+                      <label htmlFor="edit-modified">Admin status</label>
+
                       <div className="custom-checkbox">
                         <label className="switch switch-warn switch-primary">
                           <input
@@ -147,7 +149,7 @@ const EditUser = ({
                             marginBottom: 0
                           }}
                         >
-                          {admin ? 'Admin rights' : 'Not admin'}
+                          { admin ? 'Site admin' : 'Not an admin' }
                         </label>
                       </div>
                     </div>
@@ -455,7 +457,7 @@ const EditUser = ({
                           loadOptions={inputValue => getUserRoles(inputValue).then(res => res.data)}
                           getOptionValue={o => o.id}
                           getOptionLabel={o => o.name}
-                          value={user_role}
+                          value={userRole}
                           onChange={onChangeUserRole}
                         />
                       </div>

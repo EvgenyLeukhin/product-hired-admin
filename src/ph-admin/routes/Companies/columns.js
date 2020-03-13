@@ -9,7 +9,7 @@ const columns = [
     accessor: 'id',
     width: 60,
     style: { textAlign: 'right' },
-    Cell: ({ original }) => <div>{original.id || '...'}</div>,
+    Cell: ({ original }) => <div>{original.id || ''}</div>,
     Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
   },
   {
@@ -20,7 +20,7 @@ const columns = [
       <div>
         <img src={original.logo || noLogo} width={20} height={20} />
         &nbsp;&nbsp;
-        <span>{original.name || '...'}</span>
+        <span>{original.name || ''}</span>
       </div>
     ),
     Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
@@ -34,7 +34,7 @@ const columns = [
         return (
           <a href={`http://${original.domain}`} target="_blank" rel="noopener noreferrer">{original.domain}</a>
         );
-      } else return '...';
+      } else return '';
     },
     Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
   },
@@ -42,17 +42,17 @@ const columns = [
   {
     Header: 'Slug',
     accessor: 'slug',
-    Cell: ({ original }) => <div>{original.slug || '...'}</div>,
+    Cell: ({ original }) => <div>{original.slug || ''}</div>,
     Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
   },
 
-  {
-    Header: 'Weight',
-    accessor: 'weight',
-    width: 60,
-    Cell: ({ original }) => <div>{original.weight || '...'}</div>,
-    Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
-  }
+  // {
+  //   Header: 'Weight',
+  //   accessor: 'weight',
+  //   width: 60,
+  //   Cell: ({ original }) => <div>{original.weight || ''}</div>,
+  //   Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+  // }
 ];
 
 export default columns;

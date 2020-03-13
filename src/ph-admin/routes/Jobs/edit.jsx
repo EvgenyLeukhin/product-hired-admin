@@ -1,5 +1,8 @@
 import React from 'react';
-import ReactQuill from 'react-quill';
+
+import CKEditor from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Select from 'react-select';
 import AsyncSelect from 'react-select/async';
@@ -25,7 +28,6 @@ import planOptions           from './api/planOptions';
 import experienceFromOptions from './api/experienceFromOptions';
 import experienceUpOptions   from './api/experienceUpOptions';
 
-import 'react-quill/dist/quill.snow.css';
 import './edit.scss';
 
 
@@ -69,7 +71,7 @@ const EditJob = ({
     <EditModal isOpen={isOpen} modalLoading={modalLoading} closeModal={closeModal}>
       <section className="section-container edit-container edit-job">
         <h4 className="edit-container__title">
-          Edit&nbsp;<b>{`"${original.id} - ${original.name}"`}</b>
+          Edit: <b>{original.name}</b>
         </h4>
 
         <span className="ion-close-round edit-container__close" onClick={closeModal} />
@@ -434,7 +436,31 @@ const EditJob = ({
                   {/* details */}
                   <div className="col-md-12">
                     <label htmlFor="edit-details">Details</label>
-                    <ReactQuill value={details} onChange={onChangeDetails} />
+                    {/* <ReactQuill
+                      theme="snow"
+                      value={details}
+                      onChange={onChangeDetails}
+                    /> */}
+                    <CKEditor
+                      editor={ClassicEditor}
+                      data={details}
+                      onInit={ editor => {
+                          // You can store the "editor" and use when it is needed.
+                          // console.log( 'Editor is ready to use!', editor );
+                      } }
+                      // onChange={onChangeDetails}
+                      onChange={ ( event, editor ) => {
+                          const data = editor.getData();
+                          // console.log( { event, editor, data } );
+                          onChangeDetails(data);
+                      } }
+                      onBlur={ ( event, editor ) => {
+                          // console.log( 'Blur.', editor );
+                      } }
+                      onFocus={ ( event, editor ) => {
+                          // console.log( 'Focus.', editor );
+                      } }
+                  />
                   </div>
                 </div>
               </fieldset>
