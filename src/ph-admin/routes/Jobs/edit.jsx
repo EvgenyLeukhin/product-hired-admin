@@ -210,7 +210,7 @@ const EditJob = ({
 
                   {/* copy button */}
                   <div className="col-md-2  copy-button">
-                    <CopyToClipboard text={`${user.name} ${user.surname}, ${user.email}`}>
+                    <CopyToClipboard text={`${user.name} ${user.surname} ${user.email}`}>
                       <Button
                         title="Copy user data to clipboard"
                         disabled={!user} outline
