@@ -18,7 +18,7 @@ const columns = [
     style: { fontWeight: 'bold' },
     Cell: ({ original }) => (
       <div>
-        <img src={original.logo || noLogo} width={20} height={20} />
+        <img src={original.logo || noLogo} width={20} height={20} style={{ objectFit: 'cover' }} />
         &nbsp;&nbsp;
         <span>{original.name || ''}</span>
       </div>

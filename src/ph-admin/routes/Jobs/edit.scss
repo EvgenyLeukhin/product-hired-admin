@@ -1,10 +1,15 @@
 .edit-job {
   .top-fields {
     b { display: block; }
-    text-align: center;
 
     border-bottom: 3px solid rgba(0,0,0,0.12);
     margin-bottom: 20px;
+
+    .job-link {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
   }
 
   .edit-logo__buttons,

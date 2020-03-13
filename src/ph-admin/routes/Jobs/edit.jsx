@@ -51,7 +51,7 @@ const EditJob = ({
 
   // console.log('EditJob locations:', original); // original
   const createdString = created && `${created.substring(0, 10)}, ${created.substring(11, 16)} UTC`;
-  const modifiedString = modified && `${modified.substring(0, 10)}, ${modified.substring(11, 16)} UTC`;
+  // const modifiedString = modified && `${modified.substring(0, 10)}, ${modified.substring(11, 16)} UTC`;
 
   let logoUrl = `${API_URL}/${subUrl}/containers/logo/download/${logo}`;
   let coverUrl = `${API_URL}/${subUrl}/containers/cover/download/${cover}`;
@@ -88,12 +88,6 @@ const EditJob = ({
                     <span>{createdString || ''}</span>
                   </div>
 
-                  {/* modified */}
-                  <div className="col-md-3 col-sm-6">
-                    <b>Modified</b>
-                    <span>{modifiedString || ''}</span>
-                  </div>
-
                   {/* views */}
                   <div className="col-md-3 col-sm-6">
                     <b>Views</b>
@@ -104,6 +98,16 @@ const EditJob = ({
                   <div className="col-md-3 col-sm-6">
                     <b>Impressions</b>
                     <span>{impressions || 0}</span>
+                  </div>
+
+                  {/* job-link */}
+                  <div className="col-md-3 col-sm-6  job-link">
+                    <b>Link to the job</b>
+                    <a
+                      target="_blank"
+                      href={`${API_URL}/jobs/${id}`}
+                      title={`${API_URL}/jobs/${id}`}
+                    >{`${`${API_URL}/jobs/${id}`}`}</a>
                   </div>
                 </div>
               </fieldset>
@@ -212,7 +216,7 @@ const EditJob = ({
 
                   {/* copy button */}
                   <div className="col-md-2  copy-button">
-                    <CopyToClipboard text={`${user.name} ${user.surname} ${user.email}`}>
+                    <CopyToClipboard text={`${user.name} ${user.surname} <${user.email}>`}>
                       <Button
                         title="Copy user data to clipboard"
                         disabled={!user} outline
