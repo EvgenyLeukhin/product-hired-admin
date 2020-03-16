@@ -17,7 +17,9 @@ const getUsers = state => {
 
   // inject where to filter
   filtered.forEach(i => {
-    if (i.id === 'id' || 'user_role_id') {
+    if (i.id === 'id') {
+      filter.where[i.id] = i.value;
+    } else if (i.id === 'user_role_id') {
       filter.where[i.id] = i.value;
     } else (
       filter.where[i.id] = { 'like': '%' + i.value + '%' }
