@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 import customFiltering from './../../components/Table/customFiltering';
 
@@ -50,28 +50,34 @@ const columns = [
     width: 100,
     Cell: ({ original }) => {
       const { user_role_id } = original;
+      console.log(user_role_id);
       return (
         <dib>
           {
             user_role_id ? (
-              user_role_id === 1 && 'Talent' ||
-              user_role_id === 2 && 'Both' ||
-              user_role_id === 3 && 'Recruiter'
-            ) : ''
-
+              user_role_id === 1      && 'Talent' ||
+              user_role_id === 2      && 'Both' ||
+              user_role_id === 3      && 'Recruiter'
+            ) : 'Null'
           }
         </dib>
       );
     },
     Filter: ({ filter, onChange }) => {
-      console.log(filter);
       return (
         <select
-          onChange={event => onChange(event.target.value)}
+          onChange={
+            event => {
+              if (event.target.value === 'Null') {
+                return onChange(null);
+              } else return onChange(event.target.value);
+            }
+          }
           style={{ width: "100%" }}
           value={filter ? filter.value : ''}
         >
           <option value=''>Show all</option>
+          <option value={null}>Null</option>
           <option value={1}>Talent</option>
           <option value={2}>Both</option>
           <option value={3}>Recruiter</option>

@@ -12,13 +12,16 @@ const getUsers = state => {
     where: {},
     limit: pageSize,
     skip: page * pageSize,
-    order: 'id DESC'
+    order: 'id DESC',
   };
 
   // inject where to filter
   filtered.forEach(i => {
-    if (i.id === 'id') filter.where[i.id] = i.value
-    else               filter.where[i.id] = { 'like': '%' + i.value + '%' }
+    if (i.id === 'id' || 'user_role_id') {
+      filter.where[i.id] = i.value;
+    } else (
+      filter.where[i.id] = { 'like': '%' + i.value + '%' }
+    )
   });
 
   // inject order to filter
