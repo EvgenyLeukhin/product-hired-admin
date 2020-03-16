@@ -12,6 +12,7 @@ const columns = [
     Cell: ({ original }) => <div>{original.id || ''}</div>,
     Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
   },
+
   {
     Header: 'Name',
     accessor: 'name',
@@ -85,7 +86,6 @@ const columns = [
       )
     }
   },
-
 
   {
     Header: 'Created',

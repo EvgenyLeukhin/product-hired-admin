@@ -79,13 +79,18 @@ const columns = [
     Filter: ({ filter, onChange }) => {
       return (
         <select
-          onChange={event => onChange(event.target.value)}
+          onChange={
+            event => {
+              if (event.target.value === 'Null') {
+                return onChange(null);
+              } else return onChange(event.target.value);
+            }
+          }
           style={{ width: "100%" }}
           value={filter ? filter.value : ''}
         >
           <option value=''>Show all</option>
-          {/* TODO */}
-          {/* <option value={null}>Null</option> */}
+          <option value={null}>Null</option>
           <option value={1}>Free</option>
           <option value={2}>Bronze</option>
           <option value={3}>Silver</option>
