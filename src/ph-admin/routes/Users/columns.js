@@ -46,25 +46,38 @@ const columns = [
 
   {
     Header: 'Role',
-    accessor: 'userRole',
-    filterable: false,
-    width: 70,
+    accessor: 'user_role_id',
+    width: 100,
     Cell: ({ original }) => {
-      const userRole = original.userRole;
+      const { user_role_id } = original;
       return (
         <dib>
           {
-            userRole ? (
-              userRole.id && userRole.id === 1 && 'Talent' ||
-              userRole.id && userRole.id === 2 && 'Both' ||
-              userRole.id && userRole.id === 3 && 'Recruiter'
+            user_role_id ? (
+              user_role_id === 1 && 'Talent' ||
+              user_role_id === 2 && 'Both' ||
+              user_role_id === 3 && 'Recruiter'
             ) : ''
 
           }
         </dib>
       );
     },
-    Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+    Filter: ({ filter, onChange }) => {
+      console.log(filter);
+      return (
+        <select
+          onChange={event => onChange(event.target.value)}
+          style={{ width: "100%" }}
+          value={filter ? filter.value : ''}
+        >
+          <option value=''>Show all</option>
+          <option value={1}>Talent</option>
+          <option value={2}>Both</option>
+          <option value={3}>Recruiter</option>
+        </select>
+      )
+    }
   },
 
 
