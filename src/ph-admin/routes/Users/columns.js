@@ -92,6 +92,7 @@ const columns = [
     accessor: 'created',
     width: 120,
     Cell: ({ original }) => {
+      console.log(original);
       return (
         <div style={{ textAlign: 'center' }}>
           <span>{original.created.substring(0, 10) || ''}</span>
@@ -104,13 +105,25 @@ const columns = [
   {
     Header: 'Status',
     accessor: 'status',
-    width: 70,
+    width: 100,
     Cell: ({ original }) => (
       <span style={{ color: original.status ? 'rgb(0,203,131)' : '#dc3545' }}>
         {original.status ? 'Active' : 'Blocked'}
       </span>
     ),
-    Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+    Filter: ({ filter, onChange }) => {
+      return (
+        <select
+          onChange={event => onChange(event.target.value)}
+          style={{ width: "100%" }}
+          value={filter ? filter.value : ''}
+        >
+          <option value=''>Show all</option>
+          <option value={true}>Active</option>
+          <option value={false}>Blocked</option>
+        </select>
+      )
+    }
   },
 ];
 
