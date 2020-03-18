@@ -124,27 +124,18 @@ class Jobs extends React.Component {
   onChangeExperienceUp   = experience_up   => this.setState({ experience_up });
 
   catchErrors = error => {
-    // redirect to login if 401 (request, response)
-    if (error.response) {
-      if (error.response.status === 401) {
-        localStorage.removeItem('ph-admin-user-data');
-        this.props.history.push('/login');
-      } else {
-        this.setState({
-          errorAlertIsOpen: true,
-          modalLoading: false, logoLoading: false, coverLoading: false,
-          alertType: 'error',
-          alertIsOpen: true,
-          alertErrorText: `${error}, ${error.response.data.error.sqlMessage}`
-        });
-      }
+    // console.log(error.response.data.error);
+    const { name, statusCode, message } = error.response.data.error;
+    if (statusCode === 401) {
+      localStorage.removeItem('ph-admin-user-data');
+      this.props.history.push('/login');
     } else {
       this.setState({
         errorAlertIsOpen: true,
         modalLoading: false, logoLoading: false, coverLoading: false,
         alertType: 'error',
         alertIsOpen: true,
-        alertErrorText: `${error}`
+        alertErrorText: `${name}, ${message}`
       });
     }
   }
@@ -162,22 +153,21 @@ class Jobs extends React.Component {
 
     this.setState({ modalLoading: true, errorAlertIsOpen: false });
     const { state } = this;
-    const { jobs, company } = this.state;
+    const { jobs, company, employer } = this.state;
 
-    addJob(state)   // order must be like inside addJob method
-    .then(res => {
-      const resDataWithCompany = { ...res.data, company };
-      const newData = [resDataWithCompany].concat(jobs);
+    addJob(state)
+      .then(res => {
+        const newJob = { ...res.data, company, employer };      // add new obj from request and state
+        const jobsWithNew = [newJob].concat(jobs);             // concat new job to state jobs
 
-      this.setState({
-        modalLoading: false,
-        addModalIsOpen: false,
-        jobs: newData,
-      });
-      console.log('resData:', res.data);
+        this.setState({
+          modalLoading: false,
+          addModalIsOpen: false,
+          jobs: jobsWithNew,
+        });
 
-      this.editAfterAdd(res.data);
-    })
+        this.editAfterAdd(res.data);
+      })
 
     .catch(error => this.catchErrors(error));
   }

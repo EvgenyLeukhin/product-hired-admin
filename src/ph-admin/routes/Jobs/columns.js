@@ -86,7 +86,6 @@ const columns = [
 
         // control
         control: (provided) => {
-          console.log(provided);
           return {
             ...provided,
             padding: 0,

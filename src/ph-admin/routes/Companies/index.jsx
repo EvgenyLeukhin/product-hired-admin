@@ -71,7 +71,6 @@ class Companies extends React.Component {
       this.setState({
         errorAlertIsOpen: true,
         modalLoading: false, logoLoading: false, coverLoading: false,
-        // addModalIsOpen: false, editModalIsOpen: false, deleteModalIsOpen: false, // close modals
         alertType: 'error',
         alertIsOpen: true,
         alertErrorText: `${error}, ${error.response.data.error.sqlMessage}`
