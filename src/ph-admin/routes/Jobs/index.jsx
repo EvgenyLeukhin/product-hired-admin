@@ -122,22 +122,29 @@ class Jobs extends React.Component {
   onChangeExperienceUp   = experience_up   => this.setState({ experience_up });
 
   catchErrors = error => {
-    console.log(error);
     // redirect to login if 401 (request, response)
-    // if (error.response.status === 401) {
-    //   localStorage.removeItem('ph-admin-user-data');
-    //   this.props.history.push('/login');
-
-    // } else {
-    //   this.setState({
-    //     errorAlertIsOpen: true,
-    //     modalLoading: false, logoLoading: false, coverLoading: false,
-    //     // addModalIsOpen: false, editModalIsOpen: false, deleteModalIsOpen: false, // close modals
-    //     alertType: 'error',
-    //     alertIsOpen: true,
-    //     alertErrorText: `${error}, ${error.response.data.error.sqlMessage}`
-    //   });
-    // }
+    if (error.response) {
+      if (error.response.status === 401) {
+        localStorage.removeItem('ph-admin-user-data');
+        this.props.history.push('/login');
+      } else {
+        this.setState({
+          errorAlertIsOpen: true,
+          modalLoading: false, logoLoading: false, coverLoading: false,
+          alertType: 'error',
+          alertIsOpen: true,
+          alertErrorText: `${error}, ${error.response.data.error.sqlMessage}`
+        });
+      }
+    } else {
+      this.setState({
+        errorAlertIsOpen: true,
+        modalLoading: false, logoLoading: false, coverLoading: false,
+        alertType: 'error',
+        alertIsOpen: true,
+        alertErrorText: `${error}`
+      });
+    }
   }
 
   addClick = () => {

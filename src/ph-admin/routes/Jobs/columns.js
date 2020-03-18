@@ -23,9 +23,14 @@ const columns = [
     accessor: 'name',
     style: { fontWeight: 'bold' },
     Cell: ({ original }) => {
-      if (original.name) {
-        return `${original.name}`;
-      } else return `...`;
+      const { name } = original;
+      if (name) {
+        return (
+          <div title={name} style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            {name}
+          </div>
+        )
+      } else return '';
     },
     Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
   },
@@ -125,8 +130,8 @@ const columns = [
   {
     Header: 'Status',
     accessor: 'status',
-    width: 100,
-    Cell: ({ original }) => <div style={{ textAlign: 'center' }}>{original.status || ''}</div>,
+    width: 85,
+    Cell: ({ original }) => original.status || '',
     Filter: ({ filter, onChange }) => {
       return (
         <select
@@ -134,7 +139,7 @@ const columns = [
           style={{ width: '100%', height: '28px' }}
           value={filter ? filter.value : ''}
         >
-          <option value=''>Show all</option>
+          <option value=''>All</option>
           <option value='draft'>Draft</option>
           <option value='public'>Public</option>
           <option value='expired'>Expired</option>
@@ -145,12 +150,10 @@ const columns = [
   {
     Header: 'Plan',
     accessor: 'plan_id',
-    width: 100,
+    width: 80,
     Cell: ({ original }) => {
       const { plan_id } = original;
-      return (
-        <div style={{ textAlign: 'center' }}>{ planOptions.map(i => plan_id === i.value && i.label) }</div>
-      );
+      return planOptions.map(i => plan_id === i.value && i.label)
     },
     Filter: ({ filter, onChange }) => {
       return (
@@ -165,7 +168,7 @@ const columns = [
           style={{ width: '100%', height: '28px' }}
           value={filter ? filter.value : ''}
         >
-          <option value=''>Show all</option>
+          <option value=''>All</option>
           <option value={null}>Null</option>
           <option value={1}>Free</option>
           <option value={2}>Bronze</option>
