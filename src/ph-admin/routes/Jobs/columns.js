@@ -61,6 +61,7 @@ const columns = [
     Header: 'User',
     accessor: 'employer',
     width: 120,
+    sortable: false,
     Cell: ({ original }) => {
       const { name, surname, email } = original.employer;
       return (
