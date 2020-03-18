@@ -32,8 +32,12 @@ const getJobsCount = state => {
 
     // User column // +
     } else if (i.id === 'employer') {
-      // where[i.id] = Number(i.value);
-      where.employer_id = i.value.id;
+      // where.employer_id = i.value.id;
+      if (i.value) {
+        where.employer_id = i.value.id;
+      } else {
+        where.employer_id = null;
+      }
 
     // Status column // +
     } else if (i.id === 'status') {

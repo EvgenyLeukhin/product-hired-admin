@@ -31,7 +31,12 @@ const getJobs = state => {
 
     // User column // ------------
     } else if (i.id === 'employer') {
-      filter.where.employer_id = i.value.id;
+      // filter.where.employer_id = i.value.id;
+      if (i.value) {
+        filter.where.employer_id = i.value.id;
+      } else {
+        filter.where.employer_id = null;
+      }
 
     // Status column // +
     } else if (i.id === 'status') {
