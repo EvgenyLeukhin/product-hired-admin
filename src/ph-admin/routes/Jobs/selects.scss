@@ -1,10 +1,7 @@
-.jobs-user-select {
+.jobs-user-select,
+.jobs-company-select,
+.jobs-locations-select {
   & > div {
-
-    // menu
-    & > div:first-child {
-    }
-
     // control
     & > div:last-child {
       & > div { padding: 3px; }

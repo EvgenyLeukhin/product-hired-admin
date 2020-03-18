@@ -28,15 +28,27 @@ const getJobsCount = state => {
 
     // Locations column // +
     } else if (i.id === 'locations') {
-      where.locations = { 'inq': [Number(i.value)] }
+      if (i.value) {
+        where.locations = { 'inq': i.value.map(i => i.id) };
+      } else {
+        where.locations = {};
+      }
 
     // User column // +
     } else if (i.id === 'employer') {
-      // where.employer_id = i.value.id;
       if (i.value) {
         where.employer_id = i.value.id;
       } else {
         where.employer_id = null;
+      }
+
+    // Company column
+    } else if (i.id === 'company') {
+      if (i.value) {
+        // where.companies = [i.value.id];
+        where.companies = { 'inq': i.value.map(i => i.id) };
+      } else {
+        where.companies = {};
       }
 
     // Status column // +

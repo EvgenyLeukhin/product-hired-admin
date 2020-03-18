@@ -2,12 +2,40 @@ import React from 'react';
 import AsyncSelect from 'react-select/async';
 
 import getUsers        from './api/getUsers';
-import planOptions      from './api/planOptions';
+import getCompanies    from './api/getCompanies';
+import getLocations    from './api/getLocations';
+import planOptions     from './api/planOptions';
 
 import customFiltering from './../../components/Table/customFiltering';
 
 import './selects.scss';
 
+
+const customStyles = {
+  // dropdown menu
+  menu: (provided) => {
+    return { ...provided, textAlign: 'left', width: 320 }
+  },
+  // control
+  control: (provided) => {
+    return { ...provided, padding: 0, border: '1px solid rgba(0,0,0,0.1)' }
+  },
+  // single options
+  option: (provided, state) => ({ ...provided, borderBottom: '1px solid rgba(0,0,0,0.1)', minHeight: '22px' }),
+};
+
+const customStyles2 = {
+  // dropdown menu
+  menu: (provided) => {
+    return { ...provided, textAlign: 'left'}
+  },
+  // control
+  control: (provided) => {
+    return { ...provided, padding: 0, border: '1px solid rgba(0,0,0,0.1)' }
+  },
+  // single options
+  option: (provided, state) => ({ ...provided, borderBottom: '1px solid rgba(0,0,0,0.1)', minHeight: '22px' }),
+};
 
 const columns = [
   {
@@ -38,29 +66,73 @@ const columns = [
     Header: 'Company',
     accessor: 'company',
     sortable: false,
-    filterable: false,
+    width: 200,
     Cell: ({ original }) => {
       if (original.company) {
         return `${original.company.name}`;
       } else return `...`;
     },
+    Filter: ({ filter, onChange }) => {
+      return (
+        <AsyncSelect
+          className="jobs-company-select"
+          placeholder="Select companies..."
+          isMulti={true}
+          isClearable={true}
+          styles={customStyles2}
+          menuPlacement="auto"
+          cacheOptions={true}
+          defaultOptions={true}
+          loadOptions={inputValue => getCompanies(inputValue).then(res => res.data)}
+          getOptionValue={o => o.id}
+          getOptionLabel={o => <div title={`${o.name}, ${o.domain}`}>{o.name || ''}</div>}
+          onChange={onChange}
+          value={filter ? filter.value : ''}
+        />
+      );
+    }
   },
   {
     Header: 'Locations',
     accessor: 'locations',
+    width: 200,
     sortable: false,
-    filterable: false,
     Cell: ({ original }) => {
-      // console.log(original);
       return original.locations && original.locations.map(i => {
         return i.alias_region ? `${i.name}, ${i.alias_region}` : i.name
       }).join('; ') || ''
+    },
+    Filter: ({ filter, onChange }) => {
+      return (
+        <AsyncSelect
+          className="jobs-locations-select"
+          placeholder="Select locations..."
+          isMulti={true}
+          isClearable={true}
+          styles={customStyles2}
+          menuPlacement="auto"
+          cacheOptions={true}
+          defaultOptions={true}
+          loadOptions={inputValue => getLocations(inputValue).then(res => res.data)}
+          getOptionValue={o => o.id}
+          getOptionLabel={o => (
+            <div>
+              <span>{`${o.name}, ` || ''}</span>
+              <span style={{ color: '#3498db', textShadow: '1px 1px 0 #fff' }}>
+                {o.alias_region || ''}
+              </span>
+            </div>
+          )}
+          onChange={onChange}
+          value={filter ? filter.value : ''}
+        />
+      );
     }
   },
   {
     Header: 'User',
     accessor: 'employer',
-    width: 120,
+    width: 150,
     sortable: false,
     Cell: ({ original }) => {
       const { name, surname, email } = original.employer;
@@ -74,35 +146,6 @@ const columns = [
       )
     },
     Filter: ({ filter, onChange }) => {
-      const customStyles = {
-
-        // dropdown menu
-        menu: (provided) => {
-          return {
-            ...provided,
-            textAlign: 'left',
-            width: 320,
-          }
-        },
-
-        // control
-        control: (provided) => {
-          return {
-            ...provided,
-            padding: 0,
-            minHeight: 28,
-            height: 28,
-            border: '1px solid rgba(0,0,0,0.1)',
-          }
-        },
-
-        // single options
-        option: (provided, state) => ({
-          ...provided,
-          borderBottom: '1px solid rgba(0,0,0,0.1)',
-          minHeight: '22px'
-        }),
-      }
       return (
         <AsyncSelect
           className="jobs-user-select"
@@ -115,7 +158,7 @@ const columns = [
           getOptionValue={o => o.id}
           getOptionLabel={o => (
             <div>
-              <span>{`${o.name} ${o.surname} `}</span>
+              <span>{`${o.name} ${o.surname}, `}</span>
               <span style={{ color: '#3498db', textShadow: '1px 1px 0 #fff' }}>
                 {o.email}
               </span>
@@ -136,7 +179,7 @@ const columns = [
       return (
         <select
           onChange={event => onChange(event.target.value)}
-          style={{ width: '100%', height: '28px' }}
+          style={{ width: '100%', height: '38px' }}
           value={filter ? filter.value : ''}
         >
           <option value=''>All</option>
@@ -165,7 +208,7 @@ const columns = [
               } else return onChange(Number(event.target.value));
             }
           }
-          style={{ width: '100%', height: '28px' }}
+          style={{ width: '100%', height: '38px' }}
           value={filter ? filter.value : ''}
         >
           <option value=''>All</option>

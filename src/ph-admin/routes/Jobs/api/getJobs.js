@@ -27,15 +27,27 @@ const getJobs = state => {
 
     // Locations column // ------------
     } else if (i.id === 'locations') {
-      filter.where.locations = { 'inq': [Number(i.value)] }
+      if (i.value) {
+        filter.where.locations = { 'inq': i.value.map(i => i.id) };
+      } else {
+        filter.where.locations = {};
+      }
 
     // User column // ------------
     } else if (i.id === 'employer') {
-      // filter.where.employer_id = i.value.id;
       if (i.value) {
         filter.where.employer_id = i.value.id;
       } else {
         filter.where.employer_id = null;
+      }
+
+    // Company column
+    } else if (i.id === 'company') {
+      console.log(i.value);
+      if (i.value) {
+        filter.where.companies = { 'inq': i.value.map(i => i.id) };
+      } else {
+        filter.where.companies = {};
       }
 
     // Status column // +
@@ -48,16 +60,6 @@ const getJobs = state => {
     }
   });
 
-  // filtered.forEach(i => {
-  //   if (i.id === 'id') {
-  //     // filter.where[i.id] = i.value;
-  //     filter.where[i.id] = { 'like': i.value };
-  //   } else if (i.id === 'plan_id') {
-  //     filter.where[i.id] = i.value;
-  //   } else {
-  //     filter.where[i.id] = { 'like': '%' + i.value + '%' };
-  //   }
-  // });
 
   // inject order to filter
   sorted.forEach(i => {
