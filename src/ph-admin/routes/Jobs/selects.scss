@@ -1,0 +1,13 @@
+.jobs-user-select {
+  & > div {
+
+    // menu
+    & > div:first-child {
+    }
+
+    // control
+    & > div:last-child {
+      & > div { padding: 3px; }
+    }
+  }
+}

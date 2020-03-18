@@ -6,6 +6,8 @@ import planOptions      from './api/planOptions';
 
 import customFiltering from './../../components/Table/customFiltering';
 
+import './selects.scss';
+
 
 const columns = [
   {
@@ -41,8 +43,8 @@ const columns = [
   {
     Header: 'Locations',
     accessor: 'locations',
-    // sortable: false,
-    // filterable: false,
+    sortable: false,
+    filterable: false,
     Cell: ({ original }) => {
       // console.log(original);
       return original.locations && original.locations.map(i => {
@@ -53,7 +55,7 @@ const columns = [
   {
     Header: 'User',
     accessor: 'employer',
-    width: 180,
+    width: 120,
     Cell: ({ original }) => {
       const { name, surname, email } = original.employer;
       return (
@@ -66,9 +68,41 @@ const columns = [
       )
     },
     Filter: ({ filter, onChange }) => {
-      console.log(filter);
+      const customStyles = {
+
+        // dropdown menu
+        menu: (provided) => {
+          return {
+            ...provided,
+            textAlign: 'left',
+            width: 320,
+          }
+        },
+
+        // control
+        control: (provided) => {
+          console.log(provided);
+          return {
+            ...provided,
+            padding: 0,
+            minHeight: 28,
+            height: 28,
+            border: '1px solid rgba(0,0,0,0.1)',
+          }
+        },
+
+        // single options
+        option: (provided, state) => ({
+          ...provided,
+          borderBottom: '1px solid rgba(0,0,0,0.1)',
+          minHeight: '22px'
+        }),
+      }
       return (
         <AsyncSelect
+          className="jobs-user-select"
+          isClearable={true}
+          styles={customStyles}
           menuPlacement="auto"
           cacheOptions={true}
           defaultOptions={true}
@@ -97,7 +131,7 @@ const columns = [
       return (
         <select
           onChange={event => onChange(event.target.value)}
-          style={{ width: "100%" }}
+          style={{ width: '100%', height: '28px' }}
           value={filter ? filter.value : ''}
         >
           <option value=''>Show all</option>
@@ -128,7 +162,7 @@ const columns = [
               } else return onChange(Number(event.target.value));
             }
           }
-          style={{ width: "100%" }}
+          style={{ width: '100%', height: '28px' }}
           value={filter ? filter.value : ''}
         >
           <option value=''>Show all</option>
