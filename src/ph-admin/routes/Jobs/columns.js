@@ -149,6 +149,7 @@ const columns = [
       return (
         <AsyncSelect
           className="jobs-user-select"
+          placeholder="Select user..."
           isClearable={true}
           styles={customStyles}
           menuPlacement="auto"
