@@ -68,7 +68,8 @@ class Jobs extends React.Component {
 
     name: '',
     company: { name: '' }, company_id: null,
-    user: { name: '', surname: '', email: '' }, user_id: null, employer_id: null,
+    user: { name: '', surname: '', email: '' }, user_id: null,
+    employer: { name: '', surname: '', email: '' }, employer_id: null,
     experience_from: { value: 0, label: '0' },
     experience_up: { value: 1, label: '1' },
     vacancy: { id: 1, name: 'Product Manager' }, vacancy_role: 1,
@@ -97,7 +98,8 @@ class Jobs extends React.Component {
       statusObj: { label: 'Draft', value: 'draft' }, status: 'draft',
       planObj: { label: "Null", value: null }, plan_id: null,
       name: '', company: { name: '' }, company_id: null,
-      user: { name: '', surname: '', email: '' }, user_id: null, employer_id: null,
+      user: { name: '', surname: '', email: '' }, user_id: null,
+      employer: { name: '', surname: '', email: '' }, employer_id: null,
       vacancy: { id: 1, name: 'Product Manager' }, vacancy_role: 1,
       details: '', logo: '', cover: '',
       experience_from: { value: 0, label: '0' },
@@ -115,7 +117,7 @@ class Jobs extends React.Component {
   onChangeStatus      = statusObj    => this.setState({ statusObj, status: statusObj.value });
   onChangePlan        = planObj      => this.setState({ planObj, plan_id: planObj.value });
   onChangeCompany     = company      => this.setState({ company, company_id: company.id });
-  onChangeUser        = user         => this.setState({ user, employer_id: user.id });
+  onChangeUser        = user         => this.setState({ user, employer: user, employer_id: user.id });
   onChangeVacancy     = vacancy      => this.setState({ vacancy, vacancy_role: vacancy.id });
 
   onChangeExperienceFrom = experience_from => this.setState({ experience_from });
@@ -288,10 +290,12 @@ class Jobs extends React.Component {
 
       employer_id ? (
         getUser(employer_id).then(res => { // get request
-          this.setState({ user: res.data, employer_id: res.data.id });
+          this.setState({ user: res.data, employer: res.data, employer_id: res.data.id });
         })
       ) : this.setState({
-        user: { name: '', surname: '', email: '' } // if doesn't have - reset
+        // if doesn't have - reset
+        user:     { name: '', surname: '', email: '' },
+        employer: { name: '', surname: '', email: '' }
       });
 
 
@@ -319,7 +323,7 @@ class Jobs extends React.Component {
     editJob(state)
       .then(() => {
         // get current table-data from the state w\o editing change (when render only)
-        const { id, jobs, name, user, employer_id, created, modified, published, views, impressions, details,
+        const { id, jobs, name, user, employer, employer_id, created, modified, published, views, impressions, details,
           experience_from, experience_up, seniority, seniorityObj, skills, status, statusObj, plan_id, planObj,
           company_id, company, locations, vacancy_role, vacancy, logo, cover,
         } = this.state;
@@ -328,7 +332,7 @@ class Jobs extends React.Component {
         for (let i = 0; i < jobs.length; i++) {
           if (jobs[i].id === id) {
             // inject editing data to table state
-            jobs[i] = { id, name, user, employer_id, created, modified, published, views, impressions, details,
+            jobs[i] = { id, name, user, employer, employer_id, created, modified, published, views, impressions, details,
             experience_from: experience_from.value, experience_up: experience_up.value, seniority, seniorityObj, skills, status, statusObj, plan_id, planObj,
             company_id, company, locations, vacancy_role, vacancy, logo, cover,
 
