@@ -83,25 +83,25 @@ const EditJob = ({
               <fieldset>
                 <div className="form-group row top-fields">
                   {/* created */}
-                  <div className="col-md-3 col-sm-6">
+                  <div className="col-md-4 col-sm-6">
                     <b>Created</b>
                     <span>{createdString || ''}</span>
                   </div>
 
                   {/* views */}
-                  <div className="col-md-3 col-sm-6">
+                  <div className="col-md-2 col-sm-6">
                     <b>Views</b>
                     <span>{views || 0}</span>
                   </div>
 
                   {/* impressions */}
-                  <div className="col-md-3 col-sm-6">
+                  <div className="col-md-2 col-sm-6">
                     <b>Impressions</b>
                     <span>{impressions || 0}</span>
                   </div>
 
                   {/* job-link */}
-                  <div className="col-md-3 col-sm-6  job-link">
+                  <div className="col-md-4 col-sm-6  job-link">
                     <b>Link to the job</b>
                     <a
                       target="_blank"

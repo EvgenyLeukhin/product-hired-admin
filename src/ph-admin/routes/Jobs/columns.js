@@ -1,4 +1,7 @@
-import React from "react";
+import React from 'react';
+import AsyncSelect from 'react-select/async';
+
+import getUsers        from './api/getUsers';
 import planOptions      from './api/planOptions';
 
 import customFiltering from './../../components/Table/customFiltering';
@@ -10,7 +13,7 @@ const columns = [
     accessor: 'id',
     width: 60,
     style: { textAlign: 'right' },
-    Cell: ({ original }) => original.id || '...',
+    Cell: ({ original }) => original.id || '',
     Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
   },
   {
@@ -38,19 +41,58 @@ const columns = [
   {
     Header: 'Locations',
     accessor: 'locations',
-    sortable: false,
-    filterable: false,
+    // sortable: false,
+    // filterable: false,
     Cell: ({ original }) => {
+      // console.log(original);
       return original.locations && original.locations.map(i => {
         return i.alias_region ? `${i.name}, ${i.alias_region}` : i.name
-      }).join('; ') || '...'
+      }).join('; ') || ''
+    }
+  },
+  {
+    Header: 'User',
+    accessor: 'employer',
+    width: 180,
+    Cell: ({ original }) => {
+      const { name, surname, email } = original.employer;
+      return (
+        <div
+          title={`${name} ${surname}, ${email}`}
+          style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+        >
+          {`${name} ${surname}`}
+        </div>
+      )
+    },
+    Filter: ({ filter, onChange }) => {
+      console.log(filter);
+      return (
+        <AsyncSelect
+          menuPlacement="auto"
+          cacheOptions={true}
+          defaultOptions={true}
+          loadOptions={inputValue => getUsers(inputValue).then(res => res.data)}
+          getOptionValue={o => o.id}
+          getOptionLabel={o => (
+            <div>
+              <span>{`${o.name} ${o.surname} `}</span>
+              <span style={{ color: '#3498db', textShadow: '1px 1px 0 #fff' }}>
+                {o.email}
+              </span>
+            </div>
+          )}
+          onChange={onChange}
+          value={filter ? filter.value : ''}
+        />
+      );
     }
   },
   {
     Header: 'Status',
     accessor: 'status',
     width: 100,
-    Cell: ({ original }) => <div style={{ textAlign: 'center' }}>{original.status || '...'}</div>,
+    Cell: ({ original }) => <div style={{ textAlign: 'center' }}>{original.status || ''}</div>,
     Filter: ({ filter, onChange }) => {
       return (
         <select
@@ -83,7 +125,7 @@ const columns = [
             event => {
               if (event.target.value === 'Null') {
                 return onChange(null);
-              } else return onChange(event.target.value);
+              } else return onChange(Number(event.target.value));
             }
           }
           style={{ width: "100%" }}
@@ -107,7 +149,7 @@ const columns = [
     Cell: ({ original }) => {
       return (
         <div style={{ textAlign: 'center' }}>
-          <span>{original.created && original.created.substring(0, 10) || '...'}</span>
+          <span>{original.created && original.created.substring(0, 10) || ''}</span>
         </div>
       )
     },
@@ -121,7 +163,7 @@ const columns = [
     Cell: ({ original }) => {
       return (
         <div style={{ textAlign: 'center' }}>
-          <span>{original.published && original.published.substring(0, 10) || '...'}</span>
+          <span>{original.published && original.published.substring(0, 10) || ''}</span>
         </div>
       )
     },

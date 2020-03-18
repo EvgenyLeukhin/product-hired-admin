@@ -122,21 +122,22 @@ class Jobs extends React.Component {
   onChangeExperienceUp   = experience_up   => this.setState({ experience_up });
 
   catchErrors = error => {
+    console.log(error);
     // redirect to login if 401 (request, response)
-    if (error.response.status === 401) {
-      localStorage.removeItem('ph-admin-user-data');
-      this.props.history.push('/login');
+    // if (error.response.status === 401) {
+    //   localStorage.removeItem('ph-admin-user-data');
+    //   this.props.history.push('/login');
 
-    } else {
-      this.setState({
-        errorAlertIsOpen: true,
-        modalLoading: false, logoLoading: false, coverLoading: false,
-        // addModalIsOpen: false, editModalIsOpen: false, deleteModalIsOpen: false, // close modals
-        alertType: 'error',
-        alertIsOpen: true,
-        alertErrorText: `${error}, ${error.response.data.error.sqlMessage}`
-      });
-    }
+    // } else {
+    //   this.setState({
+    //     errorAlertIsOpen: true,
+    //     modalLoading: false, logoLoading: false, coverLoading: false,
+    //     // addModalIsOpen: false, editModalIsOpen: false, deleteModalIsOpen: false, // close modals
+    //     alertType: 'error',
+    //     alertIsOpen: true,
+    //     alertErrorText: `${error}, ${error.response.data.error.sqlMessage}`
+    //   });
+    // }
   }
 
   addClick = () => {
@@ -599,6 +600,9 @@ class Jobs extends React.Component {
           pages={jobsCount}
           loading={tableLoading}
           columns={[...columns, ...controlsColumn]}
+          getTheadFilterThProps={(state, rowInfo, column) => {
+            return { style: { overflow: 'visible' }};
+          }}
           getTdProps={(state, rowInfo, column, instance) => {
             return {
               onClick: e => {
@@ -615,6 +619,7 @@ class Jobs extends React.Component {
             // count request
             getJobsCount(state)
               .then(res => {
+                // console.log(res.data); // TODO Plan null doesn't work
                 this.setState({ jobsCount: Math.ceil(res.data.count / state.pageSize) })
 
                 // data request
