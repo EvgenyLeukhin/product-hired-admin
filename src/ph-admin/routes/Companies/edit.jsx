@@ -122,7 +122,7 @@ const EditCompany = ({
                       <div className="input-group">
                         <input
                           name="logo"
-                          value={logo.includes('clearbit.com') ? '' : logo}
+                          value={logo && logo.includes('clearbit.com') ? '' : logo}
                           id="edit-logo-url"
                           onChange={onChange}
                           type="url"
