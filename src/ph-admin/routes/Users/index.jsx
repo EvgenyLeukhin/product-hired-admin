@@ -38,7 +38,7 @@ class Users extends React.Component {
     users: [], // array of objects
     usersCount: null,
     tableLoading: false,
-    original: {},
+    original: {}, count: null,
 
     // alert
     alertIsOpen: false,
@@ -529,8 +529,15 @@ class Users extends React.Component {
       }
     ];
 
+    function formatNumber(num) {
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+
     return (
       <div className="users-page">
+        <p className="md-lg">
+          Total records:&nbsp;<b>{formatNumber(this.state.count || '')}</b>
+        </p>
         {
           alertIsOpen && (
             <Alerts
@@ -643,7 +650,10 @@ class Users extends React.Component {
             // count request
             getUsersCount(state)
               .then(res => {
-                this.setState({ usersCount: Math.ceil(res.data.count / state.pageSize) })
+                this.setState({
+                  count: res.data.count,
+                  usersCount: Math.ceil(res.data.count / state.pageSize)
+                })
 
                 // data request
                 getUsers(state)

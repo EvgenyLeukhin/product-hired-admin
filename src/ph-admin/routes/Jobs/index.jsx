@@ -47,6 +47,7 @@ class Jobs extends React.Component {
     jobsCount: null,
     tableLoading: false,
     original: {},
+    count: null,
 
     // modals
     addModalIsOpen: false,
@@ -507,8 +508,16 @@ class Jobs extends React.Component {
       }
     ];
 
+    // thousand separator
+    function formatNumber(num) {
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+
     return (
       <div className="jobs-page">
+        <p className="md-lg">
+          Total records:&nbsp;<b>{formatNumber(this.state.count || '')}</b>
+        </p>
         {
           alertIsOpen && (
             <Alerts
@@ -621,7 +630,10 @@ class Jobs extends React.Component {
             getJobsCount(state)
               .then(res => {
                 // console.log(res.data); // TODO Plan null doesn't work
-                this.setState({ jobsCount: Math.ceil(res.data.count / state.pageSize) })
+                this.setState({
+                  count: res.data.count,
+                  jobsCount: Math.ceil(res.data.count / state.pageSize)
+                })
 
                 // data request
                 getJobs(state)

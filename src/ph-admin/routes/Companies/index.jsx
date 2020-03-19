@@ -35,7 +35,7 @@ class Companies extends React.Component {
     companies: [], // array of objects
     companiesCount: null,
     tableLoading: false,
-    original: {},
+    original: {}, count: null,
 
     // alert
     alertIsOpen: false,
@@ -310,8 +310,16 @@ class Companies extends React.Component {
       }
     ];
 
+    function formatNumber(num) {
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+
     return (
       <div className="companies-page">
+        <p className="md-lg">
+          Total records:&nbsp;<b>{formatNumber(this.state.count || '')}</b>
+        </p>
+
         {
           alertIsOpen && (
             <Alerts
@@ -426,7 +434,10 @@ class Companies extends React.Component {
             // count request
             getCompaniesCount(state)
               .then(res => {
-                this.setState({ companiesCount: Math.ceil(res.data.count / state.pageSize) })
+                this.setState({
+                  count: res.data.count,
+                  companiesCount: Math.ceil(res.data.count / state.pageSize)
+                })
 
                 // data request
                 getCompanies(state)

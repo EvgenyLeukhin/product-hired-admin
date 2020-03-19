@@ -267,7 +267,6 @@ const columns = [
     Header: 'Published',
     accessor: 'published',
     width: 120,
-    filterable: false,
     Cell: ({ original }) => {
       const { published } = original;
       return (

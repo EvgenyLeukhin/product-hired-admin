@@ -63,6 +63,13 @@ const getJobs = state => {
     } else if (i.id === 'created') {
       const createdDate = i.value && format(i.value, 'yyyy-MM-dd');
       filter.where.created = { 'gt': createdDate };
+      filter.order = i.value ? 'created DESC' : 'published DESC';
+
+    // Published // +
+    } else if (i.id === 'published') {
+      const publisheddDate = i.value && format(i.value, 'yyyy-MM-dd');
+      filter.where.published = { 'gt': publisheddDate };
+      // filter.order = i.value ? 'created DESC' : 'published DESC';
     }
   });
 
@@ -70,7 +77,7 @@ const getJobs = state => {
   // inject order to filter
   sorted.forEach(i => {
     const desc = i.desc ? 'DESC' : 'ASC'
-    filter.order = `${i.id} ${desc}`;
+      filter.order = `${i.id} ${desc}`;
   });
 
   // get-request for data

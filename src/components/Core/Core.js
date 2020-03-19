@@ -16,10 +16,12 @@ const Core = ({ children }) => (
     <div className="sidebar-layout-obfuscator" />
 
     <main className="main-container">
-      { children }
+      <div className="container-fluid">
+        { children }
+      </div>
 
       <footer className="footer">
-        <span>2020 - Product Hired Admin</span>
+        <span>© 2020 ProductHired Admin Panel</span>
       </footer>
     </main>
   </div>
