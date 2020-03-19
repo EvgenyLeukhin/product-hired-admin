@@ -48,7 +48,7 @@ const columns = [
     width: 65,
     style: { textAlign: 'right' },
     Cell: ({ original }) => original.id || '',
-    Filter: ({filter, onChange}) => (
+    Filter: ({ filter, onChange }) => (
       <Input
         value={filter ? filter.value : ''}
         onChange={event => onChange(event.target.value)}

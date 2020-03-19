@@ -1,4 +1,5 @@
-import React from "react";
+import React from 'react';
+import { Input } from 'debounce-input-decorator';
 
 const columns = [
   {
@@ -6,50 +7,90 @@ const columns = [
     accessor: 'id',
     width: 60,
     style: { textAlign: 'right' },
-    Cell: ({ original }) => <div>{original.id || '...'}</div>
+    Cell: ({ original }) => original.id || '',
+    Filter: ({ filter, onChange }) => (
+      <Input
+        value={filter ? filter.value : ''}
+        onChange={event => onChange(event.target.value)}
+        style={{ width: '100%' }}
+        debounceTimeout={800}
+      />
+    ),
   },
   {
     Header: 'Skill',
     accessor: 'name',
     style: { fontWeight: 'bold' },
-    Cell: ({ original }) => <div>{original.name || '...'}</div>,
-    filterMethod: (filter, row) => {
-      const id = filter.pivotId || filter.id;
-      return (
-        row[id] !== undefined ?
-          String(row[id].toLowerCase()).includes(filter.value.toLowerCase()) : true
-      );
-    }
+    Cell: ({ original }) => original.name || '',
+    Filter: ({ filter, onChange }) => (
+      <Input
+        value={filter ? filter.value : ''}
+        onChange={event => onChange(event.target.value)}
+        style={{ width: '100%' }}
+        debounceTimeout={800}
+      />
+    ),
+    // filterMethod: (filter, row) => {
+    //   const id = filter.pivotId || filter.id;
+    //   return (
+    //     row[id] !== undefined ?
+    //       String(row[id].toLowerCase()).includes(filter.value.toLowerCase()) : true
+    //   );
+    // }
   },
   {
     Header: 'Slug',
     accessor: 'slug',
-    Cell: ({ original }) => <div>{original.slug || '...'}</div>,
-    filterMethod: (filter, row) => {
-      const id = filter.pivotId || filter.id;
-      return (
-        row[id] !== undefined ?
-          String(row[id].toLowerCase()).includes(filter.value.toLowerCase()) : true
-      );
-    }
+    Cell: ({ original }) => original.slug || '',
+    Filter: ({ filter, onChange }) => (
+      <Input
+        value={filter ? filter.value : ''}
+        onChange={event => onChange(event.target.value)}
+        style={{ width: '100%' }}
+        debounceTimeout={800}
+      />
+    ),
+    // filterMethod: (filter, row) => {
+    //   const id = filter.pivotId || filter.id;
+    //   return (
+    //     row[id] !== undefined ?
+    //       String(row[id].toLowerCase()).includes(filter.value.toLowerCase()) : true
+    //   );
+    // }
   },
   {
     Header: 'Aliases',
     accessor: 'markers',
-    Cell: ({ original }) => <div>{original.markers || '...'}</div>,
-    filterMethod: (filter, row) => {
-      const id = filter.pivotId || filter.id;
-      return (
-        row[id] !== undefined ?
-          String(row[id].toLowerCase()).includes(filter.value.toLowerCase()) : true
-      );
-    }
+    Cell: ({ original }) => original.markers || '',
+    Filter: ({ filter, onChange }) => (
+      <Input
+        value={filter ? filter.value : ''}
+        onChange={event => onChange(event.target.value)}
+        style={{ width: '100%' }}
+        debounceTimeout={800}
+      />
+    ),
+    // filterMethod: (filter, row) => {
+    //   const id = filter.pivotId || filter.id;
+    //   return (
+    //     row[id] !== undefined ?
+    //       String(row[id].toLowerCase()).includes(filter.value.toLowerCase()) : true
+    //   );
+    // }
   },
   {
     Header: 'Weight',
     accessor: 'weight',
     width: 60,
-    Cell: ({ original }) => <div>{original.weight || ''}</div>,
+    Cell: ({ original }) => original.weight || '',
+    Filter: ({ filter, onChange }) => (
+      <Input
+        value={filter ? filter.value : ''}
+        onChange={event => onChange(event.target.value)}
+        style={{ width: '100%' }}
+        debounceTimeout={800}
+      />
+    ),
   },
 ];
 

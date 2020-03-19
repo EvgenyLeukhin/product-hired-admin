@@ -11,6 +11,7 @@ import DeleteSkill from './delete';
 import { withHeaderTitle } from '../../../components/Header/HeaderTitle';
 
 import getSkills from './api/getSkills';
+import getSkillsCount from './api/getSkillsCount';
 import addSkill from './api/addSkill';
 import editSkill from './api/editSkill';
 import deleteSkill from './api/deleteSkill';
@@ -24,8 +25,9 @@ class Skills extends React.Component {
   state = {
     // table
     skills: [], // array of objects
+    skillsCount: null,
     tableLoading: false,
-    original: {},
+    original: {}, count: null,
 
     // alert
     alertIsOpen: false,
@@ -215,12 +217,12 @@ class Skills extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ tableLoading: true });
+    // this.setState({ tableLoading: true });
 
     // getRoles request
-    getSkills()
-      .then(res => this.setState({ skills: res.data, tableLoading: false }))
-      .catch(error => this.catchErrors(error));
+    // getSkills()
+      // .then(res => this.setState({ skills: res.data, tableLoading: false }))
+      // .catch(error => this.catchErrors(error));
 
     // close modal on Escape
     document.addEventListener('keyup', e => e.keyCode === 27 && this.closeEditModal());
@@ -231,7 +233,7 @@ class Skills extends React.Component {
   render() {
     const {
       // table
-      tableLoading, original, skills,
+      tableLoading, original, skills, skillsCount,
 
       // fields
       name, slug, weight, markers,
@@ -258,8 +260,16 @@ class Skills extends React.Component {
       }
     ];
 
+    // thousand separator
+    function formatNumber(num) {
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+
     return (
       <div className="roles-page">
+        <p className="md-lg">
+          Total records:&nbsp;<b>{this.state.count && formatNumber(this.state.count)}</b>
+        </p>
         {
           alertIsOpen && (
             <Alerts
@@ -313,8 +323,9 @@ class Skills extends React.Component {
         />
 
         <Table
+          manual={true}
+          pages={skillsCount}
           data={skills}
-          manual={false}
           loading={tableLoading}
           columns={[...columns, ...controlsColumn]}
           getTdProps={(state, rowInfo, column, instance) => {
@@ -326,6 +337,24 @@ class Skills extends React.Component {
                 } else return null;
               }
             }
+          }}
+          onFetchData={state => {
+            this.setState({ tableLoading: true });
+
+            // count request
+            getSkillsCount(state)
+              .then(res => {
+                // console.log(res.data); // TODO Plan null doesn't work
+                this.setState({
+                  count: res.data.count,
+                  skillsCount: Math.ceil(res.data.count / state.pageSize)
+                })
+
+                // data request
+                getSkills(state)
+                  .then(res => this.setState({ skills: res.data, tableLoading: false }))
+                  .catch(error => this.catchErrors(error));
+              }).catch(error => this.catchErrors(error));
           }}
         />
       </div>
