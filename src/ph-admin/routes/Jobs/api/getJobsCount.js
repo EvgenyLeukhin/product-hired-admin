@@ -42,7 +42,7 @@ const getJobsCount = state => {
         where.employer_id = null;
       }
 
-    // Company column
+    // Company column // +
     } else if (i.id === 'company') {
       if (i.value) {
         // where.companies = [i.value.id];

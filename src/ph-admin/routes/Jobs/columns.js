@@ -1,5 +1,7 @@
 import React from 'react';
+
 import AsyncSelect from 'react-select/async';
+import { Input } from 'debounce-input-decorator';
 
 import getUsers        from './api/getUsers';
 import getCompanies    from './api/getCompanies';
@@ -41,10 +43,17 @@ const columns = [
   {
     Header: 'Id',
     accessor: 'id',
-    width: 60,
+    width: 65,
     style: { textAlign: 'right' },
     Cell: ({ original }) => original.id || '',
-    Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+    Filter: ({filter, onChange}) => (
+      <Input
+        value={filter ? filter.value : ''}
+        onChange={event => onChange(event.target.value)}
+        style={{ width: '100%', minHeight: '38px' }}
+        debounceTimeout={800}
+      />
+    ),
   },
   {
     Header: 'Job',
@@ -60,7 +69,14 @@ const columns = [
         )
       } else return '';
     },
-    Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+    Filter: ({filter, onChange}) => (
+      <Input
+        value={filter ? filter.value : ''}
+        onChange={event => onChange(event.target.value)}
+        style={{ width: '100%', minHeight: '38px' }}
+        debounceTimeout={800}
+      />
+    ),
   },
   {
     Header: 'Company',

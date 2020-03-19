@@ -25,7 +25,7 @@ const getJobs = state => {
     } else if (i.id === 'name') {
       filter.where[i.id] = { 'like': '%' + i.value + '%' };
 
-    // Locations column // ------------
+    // Locations column // +
     } else if (i.id === 'locations') {
       if (i.value) {
         filter.where.locations = { 'inq': i.value.map(i => i.id) };
@@ -33,7 +33,7 @@ const getJobs = state => {
         filter.where.locations = {};
       }
 
-    // User column // ------------
+    // User column // +
     } else if (i.id === 'employer') {
       if (i.value) {
         filter.where.employer_id = i.value.id;
@@ -41,7 +41,7 @@ const getJobs = state => {
         filter.where.employer_id = null;
       }
 
-    // Company column
+    // Company column // +
     } else if (i.id === 'company') {
       console.log(i.value);
       if (i.value) {
