@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { format } from 'date-fns';
 
 import { API_URL, subUrl } from './../../../api/apiUrl';
 
@@ -57,6 +58,11 @@ const getJobs = state => {
     // Plan column // +
     } else if (i.id === 'plan_id') {
       filter.where[i.id] = i.value;
+
+    // Created // +
+    } else if (i.id === 'created') {
+      const createdDate = i.value && format(i.value, 'yyyy-MM-dd');
+      filter.where.created = { 'gt': createdDate };
     }
   });
 

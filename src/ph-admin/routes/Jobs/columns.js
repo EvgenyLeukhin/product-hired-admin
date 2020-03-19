@@ -1,4 +1,5 @@
 import React from 'react';
+import DatePicker from 'react-datepicker';
 
 import AsyncSelect from 'react-select/async';
 import { Input } from 'debounce-input-decorator';
@@ -8,8 +9,9 @@ import getCompanies    from './api/getCompanies';
 import getLocations    from './api/getLocations';
 import planOptions     from './api/planOptions';
 
-import customFiltering from './../../components/Table/customFiltering';
+// import customFiltering from './../../components/Table/customFiltering';
 
+import 'react-datepicker/dist/react-datepicker.css';
 import './selects.scss';
 
 
@@ -241,30 +243,50 @@ const columns = [
   {
     Header: 'Created',
     accessor: 'created',
-    filterable: false,
-    width: 85,
+    width: 120,
     Cell: ({ original }) => {
+      const { created } = original;
       return (
         <div style={{ textAlign: 'center' }}>
-          <span>{original.created && original.created.substring(0, 10) || ''}</span>
+          <span>{created && created.substring(0, 10) || ''}</span>
         </div>
-      )
+      );
     },
-    // Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+    Filter: ({ filter, onChange }) => {
+      return (
+        <DatePicker
+          isClearable={filter ? true : false}
+          className="created-datepicker"
+          selected={filter ? filter.value : ''}
+          onChange={date => onChange(date)}
+        />
+      );
+    }
   },
   {
     Header: 'Published',
     accessor: 'published',
+    width: 120,
     filterable: false,
-    width: 85,
     Cell: ({ original }) => {
+      const { published } = original;
       return (
         <div style={{ textAlign: 'center' }}>
-          <span>{original.published && original.published.substring(0, 10) || ''}</span>
+          <span>{published && published.substring(0, 10) || ''}</span>
         </div>
       )
     },
-    // Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+    Filter: ({ filter, onChange }) => {
+      return (
+        <DatePicker
+          isClearable={filter ? true : false}
+          popperPlacement="top-end"
+          className="published-datepicker"
+          selected={filter ? filter.value : ''}
+          onChange={date => onChange(date)}
+        />
+      );
+    }
   }
 ];
 

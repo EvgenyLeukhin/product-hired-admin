@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { format } from 'date-fns';
 
 import { API_URL, subUrl } from './../../../api/apiUrl';
 
@@ -18,15 +19,15 @@ const getJobsCount = state => {
     // if (i.id === 'id') where[i.id] = i.value
     // else               where[i.id] = { 'like': '%' + i.value + '%' }
 
-    // Id column // +
+    // Id // +
     if (i.id === 'id') {
       where[i.id] = i.value;
 
-    // Job column // +
+    // Job // +
     } else if (i.id === 'name') {
       where[i.id] = { 'like': '%' + i.value + '%' };
 
-    // Locations column // +
+    // Locations // +
     } else if (i.id === 'locations') {
       if (i.value) {
         where.locations = { 'inq': i.value.map(i => i.id) };
@@ -34,7 +35,7 @@ const getJobsCount = state => {
         where.locations = {};
       }
 
-    // User column // +
+    // User // +
     } else if (i.id === 'employer') {
       if (i.value) {
         where.employer_id = i.value.id;
@@ -42,7 +43,7 @@ const getJobsCount = state => {
         where.employer_id = null;
       }
 
-    // Company column // +
+    // Company // +
     } else if (i.id === 'company') {
       if (i.value) {
         // where.companies = [i.value.id];
@@ -51,13 +52,18 @@ const getJobsCount = state => {
         where.companies = {};
       }
 
-    // Status column // +
+    // Status // +
     } else if (i.id === 'status') {
       where[i.id] = i.value;
 
-    // Plan column // +
+    // Plan // +
     } else if (i.id === 'plan_id') {
       where[i.id] = i.value;
+
+    // Created //
+    } else if (i.id === 'created') {
+      const createdDate = i.value && format(i.value, 'yyyy-MM-dd');
+      where.created = { 'gt': createdDate };
     }
   });
 
