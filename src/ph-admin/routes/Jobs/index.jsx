@@ -516,7 +516,7 @@ class Jobs extends React.Component {
     return (
       <div className="jobs-page">
         <p className="md-lg">
-          Total records:&nbsp;<b>{formatNumber(this.state.count || '')}</b>
+          Total records:&nbsp;<b>{this.state.count && formatNumber(this.state.count)}</b>
         </p>
         {
           alertIsOpen && (
