@@ -15,8 +15,20 @@ const getUsersCount = state => {
   // when we are typing something inside filter-fields state of react-table is changing
   // we take filter inputs values and inject to request params
   filtered.forEach(i => {
-    if (i.id === 'id') where[i.id] = i.value
-    else               where[i.id] = { 'like': '%' + i.value + '%' }
+    // if (i.id === 'id') where[i.id] = i.value
+    // else               where[i.id] = { 'like': '%' + i.value + '%' }
+
+    // id //
+    if (i.id === 'id') {
+      where[i.id] = i.value;
+
+    // role //
+    } else if (i.id === 'user_role_id') {
+      i.value ? where[i.id] = Number(i.value) : where[i.id] = null;
+
+    } else {
+      where[i.id] = { 'like': '%' + i.value + '%' }
+    }
   });
 
   // get-request for count
