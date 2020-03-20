@@ -105,16 +105,16 @@ const columns = [
     width: 100,
     Cell: ({ original }) => {
       const { user_role_id } = original;
+      const userRole = user_role_id ? (
+        user_role_id === 1 && 'Talent' ||
+        user_role_id === 2 && 'Both'   ||
+        user_role_id === 3 && 'Recruiter'
+      ) : 'Null';
+
       return (
-        <dib>
-          {
-            user_role_id ? (
-              user_role_id === 1      && 'Talent' ||
-              user_role_id === 2      && 'Both' ||
-              user_role_id === 3      && 'Recruiter'
-            ) : 'Null'
-          }
-        </dib>
+        <div className="ellipsis-text" title={userRole}>
+          {userRole}
+        </div>
       );
     },
     Filter: ({ filter, onChange }) => {
@@ -171,11 +171,18 @@ const columns = [
     Header: 'Status',
     accessor: 'status',
     width: 100,
-    Cell: ({ original }) => (
-      <span style={{ color: original.status ? 'rgb(0,203,131)' : '#dc3545' }}>
-        {original.status ? 'Active' : 'Blocked'}
-      </span>
-    ),
+    Cell: ({ original }) => {
+      const { status } = original;
+      return (
+        <div
+          className="text-ellipsis"
+          style={{ color: status ? 'rgb(0,203,131)' : '#dc3545' }}
+          title={status ? 'Active' : 'Blocked'}
+        >
+          {status ? 'Active' : 'Blocked'}
+        </div>
+      )
+    },
     Filter: ({ filter, onChange }) => {
       return (
         <select

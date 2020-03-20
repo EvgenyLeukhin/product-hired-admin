@@ -74,7 +74,7 @@ const columns = [
       const { name } = original;
       if (name) {
         return (
-          <div title={name} style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+          <div className="ellipsis-text" title={name}>
             {name}
           </div>
         )
@@ -97,8 +97,13 @@ const columns = [
     sortable: false,
     width: 200,
     Cell: ({ original }) => {
-      if (original.company) {
-        return `${original.company.name}`;
+      const { company } = original;
+      if (company) {
+        return (
+          <div className="ellipsis-text" title={company.name}>
+            {company.name}
+          </div>
+        )
       } else return '';
     },
     Filter: ({ filter, onChange }) => {
@@ -129,9 +134,16 @@ const columns = [
     width: 200,
     sortable: false,
     Cell: ({ original }) => {
-      return original.locations && original.locations.map(i => {
+      const { locations } = original;
+      const locationsMaping = () => locations.map(i => {
         return i.alias_region ? `${i.name}, ${i.alias_region}` : i.name
-      }).join('; ') || ''
+      }).join('; ') || '';
+
+      return locations && (
+        <div className="text-ellipsis" title={locationsMaping()}>
+          {locationsMaping()}
+        </div>
+      )
     },
     Filter: ({ filter, onChange }) => {
       return (
@@ -239,7 +251,9 @@ const columns = [
     width: 80,
     Cell: ({ original }) => {
       const { plan_id } = original;
-      return planOptions.map(i => plan_id === i.value && i.label)
+      return planOptions.map(i => plan_id === i.value && (
+        <div className="ellipsis-text" title={i.label}>{i.label}</div>
+      ));
     },
     Filter: ({ filter, onChange }) => {
       return (
