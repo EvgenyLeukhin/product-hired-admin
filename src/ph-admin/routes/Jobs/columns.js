@@ -42,12 +42,19 @@ const customStyles2 = {
 };
 
 const columns = [
+
+  // id //
   {
     Header: 'Id',
     accessor: 'id',
     width: 65,
     style: { textAlign: 'right' },
-    Cell: ({ original }) => original.id || '',
+    Cell: ({ original }) => {
+      const { id } = original;
+      return (
+        <div className="ellipsis-text" title={id || ''}>{id || ''}</div>
+      );
+    },
     Filter: ({ filter, onChange }) => (
       <Input
         value={filter ? filter.value : ''}
@@ -57,6 +64,8 @@ const columns = [
       />
     ),
   },
+
+  // name //
   {
     Header: 'Job',
     accessor: 'name',
@@ -80,6 +89,8 @@ const columns = [
       />
     ),
   },
+
+  // company //
   {
     Header: 'Company',
     accessor: 'company',
@@ -88,7 +99,7 @@ const columns = [
     Cell: ({ original }) => {
       if (original.company) {
         return `${original.company.name}`;
-      } else return `...`;
+      } else return '';
     },
     Filter: ({ filter, onChange }) => {
       return (
@@ -110,6 +121,8 @@ const columns = [
       );
     }
   },
+
+  // locations //
   {
     Header: 'Locations',
     accessor: 'locations',
@@ -147,6 +160,8 @@ const columns = [
       );
     }
   },
+
+  // employer //
   {
     Header: 'User',
     accessor: 'employer',
@@ -156,10 +171,10 @@ const columns = [
       const { name, surname, email } = original.employer;
       return (
         <div
-          title={`${name} ${surname}, ${email}`}
+          title={`${name} ${surname}, ${email}`  || ''}
           style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
         >
-          {`${name} ${surname}`}
+          {`${name} ${surname}` || ''}
         </div>
       )
     },
@@ -189,11 +204,18 @@ const columns = [
       );
     }
   },
+
+  // status //
   {
     Header: 'Status',
     accessor: 'status',
     width: 85,
-    Cell: ({ original }) => original.status || '',
+    Cell: ({ original }) => {
+      const { status } = original;
+      return (
+        <div className="ellipsis-text" title={status || ''}>{status || ''}</div>
+      );
+    },
     Filter: ({ filter, onChange }) => {
       return (
         <select
@@ -209,6 +231,8 @@ const columns = [
       )
     }
   },
+
+  // plan_id //
   {
     Header: 'Plan',
     accessor: 'plan_id',
@@ -240,6 +264,8 @@ const columns = [
       )
     }
   },
+
+  // created //
   {
     Header: 'Created',
     accessor: 'created',
@@ -247,7 +273,7 @@ const columns = [
     Cell: ({ original }) => {
       const { created } = original;
       return (
-        <div style={{ textAlign: 'center' }}>
+        <div className="ellipsis-text" title={created && created.substring(0, 10) || ''}>
           <span>{created && created.substring(0, 10) || ''}</span>
         </div>
       );
@@ -264,6 +290,8 @@ const columns = [
       );
     }
   },
+
+  // published //
   {
     Header: 'Published',
     accessor: 'published',
@@ -271,7 +299,7 @@ const columns = [
     Cell: ({ original }) => {
       const { published } = original;
       return (
-        <div style={{ textAlign: 'center' }}>
+        <div className="ellipsis-text" title={published && published.substring(0, 10) || ''}>
           <span>{published && published.substring(0, 10) || ''}</span>
         </div>
       )

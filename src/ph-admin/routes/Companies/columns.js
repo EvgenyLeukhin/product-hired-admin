@@ -2,10 +2,11 @@ import React from 'react';
 
 import { Input } from 'debounce-input-decorator';
 
-import customFiltering from './../../components/Table/customFiltering';
 import noLogo from './no-logo.jpg';
 
 const columns = [
+
+  // id //
   {
     Header: 'Id',
     accessor: 'id',
@@ -14,7 +15,7 @@ const columns = [
     Cell: ({ original }) => {
       const { id } = original;
       return (
-        <div className="ellipsis-text" title={id}>{id}</div> || ''
+        <div className="ellipsis-text" title={id || ''}>{id || ''}</div>
       );
     },
     Filter: ({ filter, onChange }) => (
@@ -26,6 +27,8 @@ const columns = [
       />
     ),
   },
+
+  // name //
   {
     Header: 'Company name',
     accessor: 'name',
@@ -34,9 +37,9 @@ const columns = [
       const { logo, name } = original;
       return (
         <div>
-          <img title={logo} src={logo || noLogo} width={20} height={20} style={{ objectFit: 'cover' }} />
+          <img title={logo || ''} src={logo || noLogo} width={20} height={20} style={{ objectFit: 'cover' }} />
           &nbsp;&nbsp;
-          <span title={name}>{name || ''}</span>
+          <span title={name || ''}>{name || ''}</span>
         </div>
       );
     },
@@ -49,6 +52,8 @@ const columns = [
       />
     ),
   },
+
+  // domain //
   {
     Header: 'Domain',
     accessor: 'domain',
@@ -71,13 +76,15 @@ const columns = [
       />
     ),
   },
+
+  // slug //
   {
     Header: 'Slug',
     accessor: 'slug',
     Cell: ({ original }) => {
       const { slug } = original;
       return (
-        <div className="ellipsis-text" title={slug}>{slug}</div> || ''
+        <div className="ellipsis-text" title={slug || ''}>{slug || ''}</div>
       );
     },
     Filter: ({ filter, onChange }) => (

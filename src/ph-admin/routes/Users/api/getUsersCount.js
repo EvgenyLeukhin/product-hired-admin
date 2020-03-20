@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { format } from 'date-fns';
 
 import { API_URL, subUrl } from './../../../api/apiUrl';
 
@@ -25,6 +26,13 @@ const getUsersCount = state => {
     // role //
     } else if (i.id === 'user_role_id') {
       i.value ? where[i.id] = Number(i.value) : where[i.id] = null;
+
+      // Created //
+    } else if (i.id === 'created') {
+      const createdDate = i.value && format(i.value, 'yyyy-MM-dd');
+      if (createdDate) {
+        return where.created = { 'gt': createdDate }
+      }
 
     } else {
       where[i.id] = { 'like': '%' + i.value + '%' }

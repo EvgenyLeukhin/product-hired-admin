@@ -11,7 +11,7 @@ const columns = [
     Cell: ({ original }) => {
       const { id } = original;
       return (
-        <div className="ellipsis-text" title={id}>{id}</div> || ''
+        <div className="ellipsis-text" title={id || ''}>{id || ''}</div>
       );
     },
     Filter: ({ filter, onChange }) => (
@@ -30,7 +30,7 @@ const columns = [
     Cell: ({ original }) => {
       const { name } = original;
       return (
-        <div className="ellipsis-text" title={name}>{name}</div> || ''
+        <div className="ellipsis-text" title={name || ''}>{name || ''}</div>
       );
     },
     Filter: ({ filter, onChange }) => (
@@ -48,7 +48,7 @@ const columns = [
     Cell: ({ original }) => {
       const { slug } = original;
       return (
-        <div className="ellipsis-text" title={slug}>{slug}</div> || ''
+        <div className="ellipsis-text" title={slug || ''}>{slug || ''}</div>
       );
     },
     Filter: ({ filter, onChange }) => (
@@ -66,7 +66,7 @@ const columns = [
     Cell: ({ original }) => {
       const { markers } = original;
       return (
-        <div className="ellipsis-text" title={markers}>{markers}</div> || ''
+        <div className="ellipsis-text" title={markers || ''}>{markers || ''}</div>
       );
     },
     Filter: ({ filter, onChange }) => (
@@ -85,7 +85,7 @@ const columns = [
     Cell: ({ original }) => {
       const { weight } = original;
       return (
-        <div className="ellipsis-text" title={weight}>{weight}</div> || ''
+        <div className="ellipsis-text" title={weight || ''}>{weight || ''}</div>
       );
     },
     Filter: ({ filter, onChange }) => (

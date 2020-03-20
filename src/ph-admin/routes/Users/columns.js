@@ -1,57 +1,110 @@
 import React from 'react';
+import DatePicker from 'react-datepicker';
 
-import customFiltering from './../../components/Table/customFiltering';
+import { Input } from 'debounce-input-decorator';
+
+import 'react-datepicker/dist/react-datepicker.css';
 
 
 const columns = [
+
+  // id //
   {
     Header: 'Id',
     accessor: 'id',
     width: 60,
     style: { textAlign: 'right' },
-    Cell: ({ original }) => <div>{original.id || ''}</div>,
-    Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+    Cell: ({ original }) => {
+      const { id } = original;
+      return (
+        <div className="ellipsis-text" title={id || ''}>{id || ''}</div>
+      );
+    },
+    Filter: ({ filter, onChange }) => (
+      <Input
+        value={filter ? filter.value : ''}
+        onChange={event => onChange(event.target.value)}
+        style={{ width: '100%', height: '38px' }}
+        debounceTimeout={800}
+      />
+    ),
   },
 
+  // name //
   {
     Header: 'Name',
     accessor: 'name',
     style: { fontWeight: 'bold' },
-    Cell: ({ original }) => <span>{original.name || ''}</span>,
-    Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+    Cell: ({ original }) => {
+      const { name } = original;
+      return (
+        <div className="ellipsis-text" title={name || ''}>{name || ''}</div>
+      );
+    },
+    Filter: ({ filter, onChange }) => (
+      <Input
+        value={filter ? filter.value : ''}
+        onChange={event => onChange(event.target.value)}
+        style={{ width: '100%', height: '38px' }}
+        debounceTimeout={800}
+      />
+    ),
   },
 
+  // surname //
   {
     Header: 'Last name',
     accessor: 'surname',
     style: { fontWeight: 'bold' },
-    Cell: ({ original }) => <span>{original.surname || ''}</span>,
-    Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+    Cell: ({ original }) => {
+      const { surname } = original;
+      return (
+        <div className="ellipsis-text" title={surname || ''}>{surname || ''}</div>
+      );
+    },
+    Filter: ({ filter, onChange }) => (
+      <Input
+        value={filter ? filter.value : ''}
+        onChange={event => onChange(event.target.value)}
+        style={{ width: '100%', height: '38px' }}
+        debounceTimeout={800}
+      />
+    ),
   },
 
+  // email //
   {
     Header: 'Email',
     accessor: 'email',
     Cell: ({ original }) => {
-      return (
-        <a
-          href={`mailto:${original.email}`}
-          onClick={e => e.stopPropagation()}
-        >
-          {original.email || ''}
-        </a>
-      );
+      const { email } = original;
+      if (email) {
+        return (
+          <div className="ellipsis-text">
+            <a href={`mailto:${original.email}`} title={email} onClick={e => e.stopPropagation()}>
+              {email}
+            </a>
+          </div>
+        )
+      } else return '';
     },
-    Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+    Filter: ({ filter, onChange }) => (
+      <Input
+        value={filter ? filter.value : ''}
+        onChange={event => onChange(event.target.value)}
+        style={{ width: '100%', height: '38px' }}
+        debounceTimeout={800}
+      />
+    ),
   },
 
+  // role //
   {
     Header: 'Role',
     accessor: 'user_role_id',
     width: 100,
     Cell: ({ original }) => {
       const { user_role_id } = original;
-      console.log(user_role_id);
       return (
         <dib>
           {
@@ -74,10 +127,10 @@ const columns = [
               } else return onChange(event.target.value);
             }
           }
-          style={{ width: "100%" }}
+          style={{ width: "100%", height: '38px' }}
           value={filter ? filter.value : ''}
         >
-          <option value=''>Show all</option>
+          <option value=''>All</option>
           <option value={null}>Null</option>
           <option value={1}>Talent</option>
           <option value={2}>Both</option>
@@ -87,21 +140,33 @@ const columns = [
     }
   },
 
+  // created //
   {
     Header: 'Created',
     accessor: 'created',
     width: 120,
     Cell: ({ original }) => {
-      console.log(original);
+      const { created } = original;
       return (
-        <div style={{ textAlign: 'center' }}>
-          <span>{original.created.substring(0, 10) || ''}</span>
+        <div className="ellipsis-text" title={created && created.substring(0, 10) || ''}>
+          <span>{created && created.substring(0, 10) || ''}</span>
         </div>
       )
     },
-    Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+    Filter: ({ filter, onChange }) => {
+      return (
+        <DatePicker
+          placeholderText="Select date..."
+          isClearable={filter ? true : false}
+          className="created-datepicker"
+          selected={filter ? filter.value : ''}
+          onChange={date => onChange(date)}
+        />
+      );
+    }
   },
 
+  // status //
   {
     Header: 'Status',
     accessor: 'status',
@@ -115,10 +180,10 @@ const columns = [
       return (
         <select
           onChange={event => onChange(event.target.value)}
-          style={{ width: "100%" }}
+          style={{ width: "100%", height: '38px' }}
           value={filter ? filter.value : ''}
         >
-          <option value=''>Show all</option>
+          <option value=''>All</option>
           <option value={true}>Active</option>
           <option value={false}>Blocked</option>
         </select>

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { format } from 'date-fns';
 
 import { API_URL, subUrl } from './../../../api/apiUrl';
 
@@ -24,6 +25,14 @@ const getUsers = state => {
     // role //
     } else if (i.id === 'user_role_id') {
       i.value ? filter.where[i.id] = Number(i.value) : filter.where[i.id] = null;
+
+      // Created // +
+    } else if (i.id === 'created') {
+      const createdDate = i.value && format(i.value, 'yyyy-MM-dd');
+      if (createdDate) {
+        return filter.where.created = { 'gt': createdDate }
+      }
+      filter.order = i.value ? 'created DESC' : 'id DESC';
 
     // filter.where[i.id] = i.value;
     } else (

@@ -11,7 +11,7 @@ const columns = [
     Cell: ({ original }) => {
       const { id } = original;
       return (
-        <div className="ellipsis-text" title={id}>{id}</div> || ''
+        <div className="ellipsis-text" title={id || ''}>{id || ''}</div>
       );
     },
     Filter: ({ filter, onChange }) => (
@@ -30,7 +30,7 @@ const columns = [
     Cell: ({ original }) => {
       const { name } = original;
       return (
-        <div className="ellipsis-text" title={name}>{name}</div> || ''
+        <div className="ellipsis-text" title={name || ''}>{name || ''}</div>
       );
     },
     Filter: ({ filter, onChange }) => (
@@ -48,7 +48,7 @@ const columns = [
     Cell: ({ original }) => {
       const { price } = original;
       return (
-        <div className="ellipsis-text" title={`$${price}`}>{`$${price}`}</div> || ''
+        <div className="ellipsis-text" title={`$${price}` || ''}>{`$${price}` || ''}</div>
       );
     },
     Filter: ({ filter, onChange }) => (

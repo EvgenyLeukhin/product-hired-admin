@@ -633,6 +633,9 @@ class Users extends React.Component {
           pages={usersCount}
           loading={tableLoading}
           columns={[...columns, ...controlsColumn]}
+          getTheadFilterThProps={(state, rowInfo, column) => {
+            return { style: { overflow: 'visible' }};
+          }}
           getTdProps={(state, rowInfo, column, instance) => {
             return {
               onClick: e => {
