@@ -1,4 +1,6 @@
-import React from "react";
+import React from 'react';
+
+import { Input } from 'debounce-input-decorator';
 
 const columns = [
   {
@@ -6,27 +8,42 @@ const columns = [
     accessor: 'id',
     width: 60,
     style: { textAlign: 'right' },
-    Cell: ({ original }) => <div>{original.id || '...'}</div>
+    Cell: ({ original }) => original.id || '',
+    Filter: ({ filter, onChange }) => (
+      <Input
+        value={filter ? filter.value : ''}
+        onChange={event => onChange(event.target.value)}
+        style={{ width: '100%', height: '38px' }}
+        debounceTimeout={800}
+      />
+    ),
   },
   {
     Header: 'Plan',
     accessor: 'name',
     style: { fontWeight: 'bold' },
-    Cell: ({ original }) => <div>{original.name || '...'}</div>,
-
-    // uppercase and substring filtering
-    filterMethod: (filter, row) => {
-      const id = filter.pivotId || filter.id;
-      return (
-        row[id] !== undefined ?
-          String(row[id].toLowerCase()).includes(filter.value.toLowerCase()) : true
-      );
-    }
+    Cell: ({ original }) => original.name || '',
+    Filter: ({ filter, onChange }) => (
+      <Input
+        value={filter ? filter.value : ''}
+        onChange={event => onChange(event.target.value)}
+        style={{ width: '100%', height: '38px' }}
+        debounceTimeout={800}
+      />
+    ),
   },
   {
     Header: 'Price',
     accessor: 'price',
-    Cell: ({ original }) => <div>{`$${original.price}`}</div> || '...'
+    Cell: ({ original }) => `$${original.price}` || '',
+    Filter: ({ filter, onChange }) => (
+      <Input
+        value={filter ? filter.value : ''}
+        onChange={event => onChange(event.target.value)}
+        style={{ width: '100%', height: '38px' }}
+        debounceTimeout={800}
+      />
+    ),
   },
 ];
 

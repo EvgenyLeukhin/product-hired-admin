@@ -6,8 +6,9 @@ import EditPlan from './edit';
 
 import { withHeaderTitle } from '../../../components/Header/HeaderTitle';
 
-import getPlans from './api/getPlans';
-import editPlan from './api/editPlan';
+import getPlans      from './api/getPlans';
+import getPlansCount from './api/getPlansCount';
+import editPlan      from './api/editPlan';
 
 import columns from './columns';
 
@@ -18,7 +19,9 @@ class Plans extends React.Component {
   state = {
     // table
     plans: [], // array of objects
+    plansCount: null,
     tableLoading: false,
+    original: {}, count: null,
 
     // alert
     alertIsOpen: false,
@@ -28,7 +31,6 @@ class Plans extends React.Component {
     // edit
     editModalIsOpen: false,
     modalLoading: false,
-    original: {},
 
     // fields
     id: null,
@@ -47,7 +49,6 @@ class Plans extends React.Component {
     } else {
       this.setState({
         modalLoading: false,
-        // addModalIsOpen: false, editModalIsOpen: false, deleteModalIsOpen: false, // close modals
         alertType: 'error',
         alertIsOpen: true,
         alertErrorText: `${error}, ${error.response.data.error.sqlMessage}`
@@ -111,13 +112,6 @@ class Plans extends React.Component {
 
 
   componentDidMount() {
-    this.setState({ tableLoading: true });
-
-    // getPlans request
-    getPlans()
-      .then(res => this.setState({ plans: res.data, tableLoading: false }))
-      .catch(error => this.catchErrors(error));
-
     // close modal on Escape
     document.addEventListener('keyup', e => e.keyCode === 27 && this.closeModal());
   }
@@ -130,7 +124,7 @@ class Plans extends React.Component {
       tableLoading, original,
 
       // fields
-      name, price, plans,
+      name, price, plans, plansCount,
 
       // modals
       editModalIsOpen, modalLoading,
@@ -153,8 +147,16 @@ class Plans extends React.Component {
       }
     ];
 
+    // thousand separator
+    function formatNumber(num) {
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+
     return (
       <div className="plans-page">
+        <p className="md-lg">
+          Total records:&nbsp;<b>{this.state.count && formatNumber(this.state.count)}</b>
+        </p>
         { alertIsOpen && <Alerts type={alertType} original={original} errorText={alertErrorText} /> }
 
         <EditPlan
@@ -172,7 +174,8 @@ class Plans extends React.Component {
 
         <Table
           data={plans}
-          manual={false}
+          manual={true}
+          pages={plansCount}
           loading={tableLoading}
           columns={[...columns, ...controlsColumn]}
           getTdProps={(state, rowInfo, column, instance) => {
@@ -184,6 +187,24 @@ class Plans extends React.Component {
                 } else return null;
               }
             }
+          }}
+          onFetchData={state => {
+            this.setState({ tableLoading: true });
+
+            // count request
+            getPlansCount(state)
+              .then(res => {
+                // console.log(res.data); // TODO Plan null doesn't work
+                this.setState({
+                  count: res.data.count,
+                  plansCount: Math.ceil(res.data.count / state.pageSize)
+                })
+
+                // data request
+                getPlans(state)
+                  .then(res => this.setState({ plans: res.data, tableLoading: false }))
+                  .catch(error => this.catchErrors(error));
+              }).catch(error => this.catchErrors(error));
           }}
         />
       </div>
