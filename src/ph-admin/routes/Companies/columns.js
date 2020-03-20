@@ -1,4 +1,6 @@
-import React from "react";
+import React from 'react';
+
+import { Input } from 'debounce-input-decorator';
 
 import customFiltering from './../../components/Table/customFiltering';
 import noLogo from './no-logo.jpg';
@@ -9,50 +11,84 @@ const columns = [
     accessor: 'id',
     width: 60,
     style: { textAlign: 'right' },
-    Cell: ({ original }) => <div>{original.id || ''}</div>,
-    Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+    Cell: ({ original }) => {
+      const { id } = original;
+      return (
+        <div className="ellipsis-text" title={id}>{id}</div> || ''
+      );
+    },
+    Filter: ({ filter, onChange }) => (
+      <Input
+        value={filter ? filter.value : ''}
+        onChange={event => onChange(event.target.value)}
+        style={{ width: '100%', height: '38px' }}
+        debounceTimeout={800}
+      />
+    ),
   },
   {
     Header: 'Company name',
     accessor: 'name',
     style: { fontWeight: 'bold' },
-    Cell: ({ original }) => (
-      <div>
-        <img src={original.logo || noLogo} width={20} height={20} style={{ objectFit: 'cover' }} />
-        &nbsp;&nbsp;
-        <span>{original.name || ''}</span>
-      </div>
+    Cell: ({ original }) => {
+      const { logo, name } = original;
+      return (
+        <div>
+          <img title={logo} src={logo || noLogo} width={20} height={20} style={{ objectFit: 'cover' }} />
+          &nbsp;&nbsp;
+          <span title={name}>{name || ''}</span>
+        </div>
+      );
+    },
+    Filter: ({ filter, onChange }) => (
+      <Input
+        value={filter ? filter.value : ''}
+        onChange={event => onChange(event.target.value)}
+        style={{ width: '100%', height: '38px' }}
+        debounceTimeout={800}
+      />
     ),
-    Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
   },
-
   {
     Header: 'Domain',
     accessor: 'domain',
     Cell: ({ original }) => {
-      if (original.domain) {
+      const { domain } = original;
+      if (domain) {
         return (
-          <a href={`http://${original.domain}`} target="_blank" rel="noopener noreferrer">{original.domain}</a>
-        );
+          <div className="ellipsis-text">
+            <a href={`http://${domain}`} title={`http://${domain}`} target="_blank" rel="noopener noreferrer">{domain}</a>
+          </div>
+        )
       } else return '';
     },
-    Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
+    Filter: ({ filter, onChange }) => (
+      <Input
+        value={filter ? filter.value : ''}
+        onChange={event => onChange(event.target.value)}
+        style={{ width: '100%', height: '38px' }}
+        debounceTimeout={800}
+      />
+    ),
   },
-
   {
     Header: 'Slug',
     accessor: 'slug',
-    Cell: ({ original }) => <div>{original.slug || ''}</div>,
-    Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
-  },
-
-  // {
-  //   Header: 'Weight',
-  //   accessor: 'weight',
-  //   width: 60,
-  //   Cell: ({ original }) => <div>{original.weight || ''}</div>,
-  //   Filter: ({ filter, onChange }) => customFiltering(filter, onChange)
-  // }
+    Cell: ({ original }) => {
+      const { slug } = original;
+      return (
+        <div className="ellipsis-text" title={slug}>{slug}</div> || ''
+      );
+    },
+    Filter: ({ filter, onChange }) => (
+      <Input
+        value={filter ? filter.value : ''}
+        onChange={event => onChange(event.target.value)}
+        style={{ width: '100%', height: '38px' }}
+        debounceTimeout={800}
+      />
+    ),
+  }
 ];
 
 export default columns;

@@ -48,7 +48,7 @@ const columns = [
     Cell: ({ original }) => {
       const { price } = original;
       return (
-        <div className="ellipsis-text" title={price}>{`$${price}`}</div> || ''
+        <div className="ellipsis-text" title={`$${price}`}>{`$${price}`}</div> || ''
       );
     },
     Filter: ({ filter, onChange }) => (

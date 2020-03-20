@@ -255,6 +255,7 @@ const columns = [
     Filter: ({ filter, onChange }) => {
       return (
         <DatePicker
+          placeholderText="Select date..."
           isClearable={filter ? true : false}
           className="created-datepicker"
           selected={filter ? filter.value : ''}
@@ -278,6 +279,7 @@ const columns = [
     Filter: ({ filter, onChange }) => {
       return (
         <DatePicker
+          placeholderText="Select date..."
           isClearable={filter ? true : false}
           popperPlacement="top-end"
           className="published-datepicker"
