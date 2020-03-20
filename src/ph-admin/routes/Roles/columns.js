@@ -1,4 +1,6 @@
-import React from "react";
+import React from 'react';
+
+import { Input } from 'debounce-input-decorator';
 
 const columns = [
   {
@@ -6,38 +8,76 @@ const columns = [
     accessor: 'id',
     width: 60,
     style: { textAlign: 'right' },
-    Cell: ({ original }) => <div>{original.id || '...'}</div>
+    Cell: ({ original }) => {
+      const { id } = original;
+      return (
+        <div className="ellipsis-text" title={id}>{id}</div> || ''
+      );
+    },
+    Filter: ({ filter, onChange }) => (
+      <Input
+        value={filter ? filter.value : ''}
+        onChange={event => onChange(event.target.value)}
+        style={{ width: '100%', height: '38px' }}
+        debounceTimeout={800}
+      />
+    )
   },
   {
     Header: 'Role',
     accessor: 'name',
     style: { fontWeight: 'bold' },
-    Cell: ({ original }) => <div>{original.name || '...'}</div>,
-    filterMethod: (filter, row) => {
-      const id = filter.pivotId || filter.id;
+    Cell: ({ original }) => {
+      const { name } = original;
       return (
-        row[id] !== undefined ?
-          String(row[id].toLowerCase()).includes(filter.value.toLowerCase()) : true
+        <div className="ellipsis-text" title={name}>{name}</div> || ''
       );
-    }
+    },
+    Filter: ({ filter, onChange }) => (
+      <Input
+        value={filter ? filter.value : ''}
+        onChange={event => onChange(event.target.value)}
+        style={{ width: '100%', height: '38px' }}
+        debounceTimeout={800}
+      />
+    )
   },
   {
     Header: 'Slug',
     accessor: 'slug',
-    Cell: ({ original }) => <div>{original.slug || '...'}</div>,
-    filterMethod: (filter, row) => {
-      const id = filter.pivotId || filter.id;
+    Cell: ({ original }) => {
+      const { slug } = original;
       return (
-        row[id] !== undefined ?
-          String(row[id].toLowerCase()).includes(filter.value.toLowerCase()) : true
+        <div className="ellipsis-text" title={slug}>{slug}</div> || ''
       );
-    }
+    },
+    Filter: ({ filter, onChange }) => (
+      <Input
+        value={filter ? filter.value : ''}
+        onChange={event => onChange(event.target.value)}
+        style={{ width: '100%', height: '38px' }}
+        debounceTimeout={800}
+      />
+    )
   },
   {
     Header: 'Weight',
     accessor: 'weight',
     width: 60,
-    Cell: ({ original }) => <div>{original.weight || '...'}</div>,
+    Cell: ({ original }) => {
+      const { weight } = original;
+      return (
+        <div className="ellipsis-text" title={weight}>{weight}</div> || ''
+      );
+    },
+    Filter: ({ filter, onChange }) => (
+      <Input
+        value={filter ? filter.value : ''}
+        onChange={event => onChange(event.target.value)}
+        style={{ width: '100%', height: '38px' }}
+        debounceTimeout={800}
+      />
+    )
   },
 ];
 

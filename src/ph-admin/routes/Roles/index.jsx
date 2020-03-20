@@ -7,8 +7,9 @@ import EditRole from './edit';
 
 import { withHeaderTitle } from '../../../components/Header/HeaderTitle';
 
-import getRoles from './api/getRoles';
-import editRole from './api/editRole';
+import getRoles      from './api/getRoles';
+import getRolesCount from './api/getRolesCount';
+import editRole      from './api/editRole';
 
 import columns from './columns';
 
@@ -19,7 +20,8 @@ class Roles extends React.Component {
   state = {
     // table
     roles: [], // array of objects
-    tableLoading: false,
+    rolesCount: null,
+    tableLoading: false, count: null, original: {},
 
     // alert
     alertIsOpen: false,
@@ -29,7 +31,6 @@ class Roles extends React.Component {
     // edit
     editModalIsOpen: false,
     modalLoading: false,
-    original: {},
 
     // fields
     id: null,
@@ -51,7 +52,6 @@ class Roles extends React.Component {
     } else {
       this.setState({
         modalLoading: false,
-        // addModalIsOpen: false, editModalIsOpen: false, deleteModalIsOpen: false, // close modals
         alertType: 'error',
         alertIsOpen: true,
         alertErrorText: `${error}, ${error.response.data.error.sqlMessage}`
@@ -124,13 +124,6 @@ class Roles extends React.Component {
 
 
   componentDidMount() {
-    this.setState({ tableLoading: true });
-
-    // getRoles request
-    getRoles()
-      .then(res => this.setState({ roles: res.data, tableLoading: false }))
-      .catch(error => this.catchErrors(error));
-
     // close modal on Escape
     document.addEventListener('keyup', e => e.keyCode === 27 && this.closeModal());
   }
@@ -140,7 +133,7 @@ class Roles extends React.Component {
   render() {
     const {
       // table
-      tableLoading, original, roles,
+      tableLoading, original, roles, rolesCount, count,
 
       // fields
       name, slug, weight, keywords, negative,
@@ -166,8 +159,17 @@ class Roles extends React.Component {
       }
     ];
 
+    // thousand separator
+    function formatNumber(num) {
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+
     return (
       <div className="roles-page">
+        <p className="md-lg">
+          Total records:&nbsp;<b>{this.state.count && formatNumber(this.state.count)}</b>
+        </p>
+
         { alertIsOpen && <Alerts type={alertType} original={original} errorText={alertErrorText} /> }
 
         <EditRole
@@ -189,7 +191,8 @@ class Roles extends React.Component {
 
         <Table
           data={roles}
-          manual={false}
+          manual={true}
+          pages={rolesCount}
           loading={tableLoading}
           columns={[...columns, ...controlsColumn]}
           getTdProps={(state, rowInfo, column, instance) => {
@@ -201,6 +204,23 @@ class Roles extends React.Component {
                 } else return null;
               }
             }
+          }}
+          onFetchData={state => {
+            this.setState({ tableLoading: true });
+
+            // count request
+            getRolesCount(state)
+              .then(res => {
+                this.setState({
+                  count: res.data.count,
+                  rolesCount: Math.ceil(res.data.count / state.pageSize)
+                })
+
+                // data request
+                getRoles(state)
+                  .then(res => this.setState({ roles: res.data, tableLoading: false }))
+                  .catch(error => this.catchErrors(error));
+              }).catch(error => this.catchErrors(error));
           }}
         />
       </div>

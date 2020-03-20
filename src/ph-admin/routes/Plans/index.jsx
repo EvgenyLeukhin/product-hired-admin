@@ -194,7 +194,6 @@ class Plans extends React.Component {
             // count request
             getPlansCount(state)
               .then(res => {
-                // console.log(res.data); // TODO Plan null doesn't work
                 this.setState({
                   count: res.data.count,
                   plansCount: Math.ceil(res.data.count / state.pageSize)

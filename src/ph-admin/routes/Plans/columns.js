@@ -8,7 +8,12 @@ const columns = [
     accessor: 'id',
     width: 60,
     style: { textAlign: 'right' },
-    Cell: ({ original }) => original.id || '',
+    Cell: ({ original }) => {
+      const { id } = original;
+      return (
+        <div className="ellipsis-text" title={id}>{id}</div> || ''
+      );
+    },
     Filter: ({ filter, onChange }) => (
       <Input
         value={filter ? filter.value : ''}
@@ -22,7 +27,12 @@ const columns = [
     Header: 'Plan',
     accessor: 'name',
     style: { fontWeight: 'bold' },
-    Cell: ({ original }) => original.name || '',
+    Cell: ({ original }) => {
+      const { name } = original;
+      return (
+        <div className="ellipsis-text" title={name}>{name}</div> || ''
+      );
+    },
     Filter: ({ filter, onChange }) => (
       <Input
         value={filter ? filter.value : ''}
@@ -35,7 +45,12 @@ const columns = [
   {
     Header: 'Price',
     accessor: 'price',
-    Cell: ({ original }) => `$${original.price}` || '',
+    Cell: ({ original }) => {
+      const { price } = original;
+      return (
+        <div className="ellipsis-text" title={price}>{`$${price}`}</div> || ''
+      );
+    },
     Filter: ({ filter, onChange }) => (
       <Input
         value={filter ? filter.value : ''}
