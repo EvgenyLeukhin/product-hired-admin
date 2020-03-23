@@ -36,7 +36,7 @@ const columns = [
     Cell: ({ original }) => {
       const { logo, name } = original;
       return (
-        <div>
+        <div className="table-column-name  ellipsis-text">
           <img title={logo || ''} src={logo || noLogo} width={20} height={20} style={{ objectFit: 'cover' }} />
           &nbsp;&nbsp;
           <span title={name || ''}>{name || ''}</span>

@@ -1,6 +1,14 @@
 .rt-table {
   .rt-tbody {
     .rt-tr-group {
+
+      .table-column-name {
+        &:hover {
+          cursor: pointer;
+          color: #448AFF;
+        }
+      }
+
       &:hover {
         box-shadow: 0 0 5px 1px #aaa;
         background-color: rgba(0,0,0, .015);
