@@ -74,7 +74,7 @@ const columns = [
       const { name } = original;
       if (name) {
         return (
-          <div className="ellipsis-text" title={name}>
+          <div className="table-column-name  ellipsis-text" title={name}>
             {name}
           </div>
         )
