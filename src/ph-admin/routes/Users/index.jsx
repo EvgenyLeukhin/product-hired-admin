@@ -153,12 +153,46 @@ class Users extends React.Component {
     this.setState({ company, company_id: company.id });
   }
 
-  onChangeAdmin = () => {
-    const { admin } = this.state;
-    this.setState({
-      admin: !admin,
-      roles: admin ? [] : [{ name: 'admin' }] // ??? reverce logic Why? but work
-    });
+  onChangeRoles = e => {
+    const { name } = e.target;
+    const { admin, banned } = this.state;
+    // console.log(e.target.name, e.target.checked);
+
+    if (name === 'admin') {
+      this.setState({
+        admin: !admin,
+
+        // ??? reverce logic Why It works like that???
+        roles: [
+          { name: !admin  ? 'admin'  : '' },
+          { name: banned  ? 'banned' : '' },
+        ]
+      });
+    }
+
+    if (name === 'banned') {
+      this.setState({
+        banned: !banned,
+
+        // ??? reverce logic Why It works like that???
+        roles: [
+          { name: admin   ? 'admin'  : '' },
+          { name: !banned ? 'banned' : '' },
+        ]
+      });
+    }
+
+    // if (name === 'banned') {
+    //   this.setState({
+    //     banned: e.target.checked,
+
+    //     // reverse logic ???
+    //     roles: [
+    //       !admin  ? { name: 'admin'  } : null,
+    //       !banned ? { name: 'banned' } : null,
+    //     ]
+    //   });
+    // }
   }
 
   catchErrors = error => {
@@ -264,7 +298,6 @@ class Users extends React.Component {
         job_title: data.job_title,
         emailVerified: data.emailVerified,
         status: data.status,
-        banned: data.banned,
         experience: {
           value: data.experience ? Number(data.experience) : 0,
           label: data.experience ? `${data.experience}` : '0'
@@ -286,9 +319,10 @@ class Users extends React.Component {
       });
 
 
-      // ADMIN RIGHtS // check for admin rights
+      // ADMIN and BANNED RIGHtS // check for admin rights
       const { roles } = this.state;
-      roles && roles.map(i => i.name === 'admin' && this.setState({ admin: true }));
+      roles && roles.map(i => i.name === 'admin'  && this.setState({ admin: true }));
+      roles && roles.map(i => i.name === 'banned' && this.setState({ banned: true }));
 
 
       // SENIORITY
@@ -626,7 +660,9 @@ class Users extends React.Component {
           onChangeRole={this.onChangeRole}
           onChangeCompany={this.onChangeCompany}
           onChangeExperience={this.onChangeExperience}
-          onChangeAdmin={this.onChangeAdmin}
+          onChangeRoles={this.onChangeRoles}
+          // onChangeAdmin={this.onChangeAdmin}
+          // onChangeBanned={this.onChangeBanned}
         />
 
         <Table

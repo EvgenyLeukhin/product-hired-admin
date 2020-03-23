@@ -1,6 +1,8 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
 
+import isEmpty from 'lodash/isEmpty';
+
 import { Input } from 'debounce-input-decorator';
 
 import 'react-datepicker/dist/react-datepicker.css';
@@ -206,13 +208,12 @@ const columns = [
     filterable: false,
     sortable: false,
     Cell: ({ original }) => {
-      console.log(original);
       const { roles } = original;
-      const rolesArray = roles.map(i => i.name);
+      const rolesArray = roles ? roles.map(i => i.name) : [];
 
-      if (rolesArray && rolesArray.length > 1) {
+      if (!isEmpty(rolesArray)) {
         return <span className="roles-string">{rolesArray.join(', ')}</span>;
-      } else return <span className="roles-string">{rolesArray.join('')}</span>;
+      } else return null;
     }
   },
 ];

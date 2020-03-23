@@ -28,10 +28,12 @@ const EditUser = ({
   // image
   image, imageLoading, fileInputImage, onUploadImage, deleteImage, onChangeImage, onDeleteImage,
 
-  isOpen, closeModal, onChange, onSubmit, modalLoading, deleteClick, onChangeSkills, onChangeLocation, onChangeSeniority, onChangeUserRole, onChangeRole, onChangeCompany, onChangeExperience, onChangeAdmin
+  isOpen, closeModal, onChange, onSubmit, modalLoading, deleteClick, onChangeSkills, onChangeLocation, onChangeSeniority, onChangeUserRole, onChangeRole, onChangeCompany, onChangeExperience, onChangeRoles
 }) => {
 
-  console.log('EditUser banned:', banned); // original
+  // console.log('EditUser banned:', banned); // original
+  // console.log('EditUser admin:', admin); // original
+  // console.log('EditUser roles:', roles); // original
 
   return (
     <EditModal isOpen={isOpen} modalLoading={modalLoading} closeModal={closeModal}>
@@ -136,7 +138,7 @@ const EditUser = ({
                             name="admin"
                             type="checkbox"
                             checked={admin}
-                            onChange={onChangeAdmin}
+                            onChange={onChangeRoles}
                           />
                           <span />
                         </label>
@@ -273,22 +275,22 @@ const EditUser = ({
 
                       {/* status */}
                       <div className="col-md-4">
-                        <label htmlFor="edit-status">User activity</label>
+                        <label htmlFor="edit-banned">User activity</label>
 
                         <div className="custom-checkbox">
                           <label className="switch switch-warn switch-success">
                             <input
-                              id="edit-status"
-                              name="status"
+                              id="edit-banned"
+                              name="banned"
                               type="checkbox"
-                              checked={status}
-                              onChange={onChange}
+                              checked={!banned}
+                              onChange={onChangeRoles}
                             />
                             <span />
                           </label>
 
                           <label
-                            htmlFor="edit-status"
+                            htmlFor="edit-banned"
                             style={{
                               fontWeight: 'normal',
                               paddingLeft: 0,
@@ -296,7 +298,7 @@ const EditUser = ({
                             }}
                           >
                             {
-                              status
+                              !banned
                                 ? <span style={{ color: '#4CAF50' }}>Active</span>
                                 : <span style={{ color: '#F44336' }}>Blocked</span>
                             }
