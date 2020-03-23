@@ -517,13 +517,12 @@ class Users extends React.Component {
     const controlsColumn = [
       {
         Header: '',
-        width: 65,
+        width: 30,
         sortable: false,
         filterable: false,
         Cell: ({ original }) => (
           <div className="rt-custom__controls">
             <i className="ion-android-delete" onClick={this.deleteClick(original)} />
-            <i className="ion-edit" onClick={this.editClick(original)} />
           </div>
         )
       }
@@ -640,8 +639,10 @@ class Users extends React.Component {
             return {
               onClick: e => {
                 if (rowInfo !== undefined) {
-                  const { original } = rowInfo;
-                  return this.editClick(original)(e);
+                  if (column && column.id === 'name' || 'surname') {
+                    const { original } = rowInfo;
+                    return this.editClick(original)(e);
+                  }
                 } else return null;
               }
             }

@@ -38,7 +38,7 @@ const columns = [
     Cell: ({ original }) => {
       const { name } = original;
       return (
-        <div className="ellipsis-text" title={name || ''}>{name || ''}</div>
+        <div className="table-column-name  ellipsis-text" title={name || ''}>{name || ''}</div>
       );
     },
     Filter: ({ filter, onChange }) => (
@@ -59,7 +59,7 @@ const columns = [
     Cell: ({ original }) => {
       const { surname } = original;
       return (
-        <div className="ellipsis-text" title={surname || ''}>{surname || ''}</div>
+        <div className="table-column-name  ellipsis-text" title={surname || ''}>{surname || ''}</div>
       );
     },
     Filter: ({ filter, onChange }) => (

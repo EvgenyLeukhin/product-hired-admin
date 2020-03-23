@@ -136,7 +136,7 @@ class Plans extends React.Component {
     const controlsColumn = [
       {
         Header: '',
-        width: 65,
+        width: 30,
         sortable: false,
         filterable: false,
         Cell: ({ original }) => (
