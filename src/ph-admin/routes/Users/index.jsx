@@ -16,7 +16,7 @@ import getUser      from './api/getUser';
 import getUsers      from './api/getUsers';
 import getUsersCount from './api/getUsersCount';
 import getLocation   from './api/getLocation';
-import getUserRole   from './api/getUserRole';
+// import getUserRole   from './api/getUserRole';
 import getRole       from './api/getRole';
 import getCompany    from './api/getCompany';
 import addUser       from './api/addUser';
@@ -62,6 +62,7 @@ class Users extends React.Component {
     emailVerified: false,
     admin: false,
     status: true,
+    banned: false,
     experience: { value: 0, label: '0' },
     skills: [],
     created: '',
@@ -94,7 +95,7 @@ class Users extends React.Component {
   resetFields = () => {
     this.setState({
       name: '', surname: '', password: '', email: '', job_title: '',
-      emailVerified: false, admin: false, status: true,
+      emailVerified: false, admin: false, status: true, banned: false,
       experience: { value: 0, label: '0' }, skills: [], created: '', modified: '', emailSettings: true,
       emailJobApplication: true, emailMarketing: true,
 
@@ -187,7 +188,7 @@ class Users extends React.Component {
       // reset fields
       name: '', surname: '', password: '', email: '', // add fields
       job_title: '', emailVerified: false,
-      status: true, experience: { value: 0, label: '0' },
+      status: true, banned: false, experience: { value: 0, label: '0' },
       image: { url: '', icon: '', color: '' },
       location: { id: null, name: '', alias_region: '' },
       skills: [], created: null, modified: null, roles: [],
@@ -263,6 +264,7 @@ class Users extends React.Component {
         job_title: data.job_title,
         emailVerified: data.emailVerified,
         status: data.status,
+        banned: data.banned,
         experience: {
           value: data.experience ? Number(data.experience) : 0,
           label: data.experience ? `${data.experience}` : '0'
@@ -372,7 +374,7 @@ class Users extends React.Component {
 
     // get edit values
     const { state } = this;
-    const { id, name, surname, email, job_title, emailVerified, admin, status, experience, image, skills, created, emailSettings, emailJobApplication, emailMarketing, seniority_id, seniority, location_id, location, userRole, user_role_id, roles, role, role_id, company, company_id } = this.state;
+    const { id, name, surname, email, job_title, emailVerified, admin, status, banned, experience, image, skills, created, emailSettings, emailJobApplication, emailMarketing, seniority_id, seniority, location_id, location, userRole, user_role_id, roles, role, role_id, company, company_id } = this.state;
 
     editUser(state)
       .then(() => {
@@ -383,7 +385,7 @@ class Users extends React.Component {
         for (let i = 0; i < users.length; i++) {
           if (users[i].id === id) {
             // inject editing data to table state
-            users[i] = { id, name, surname, email, job_title, emailVerified, admin, status, experience: experience.value, image, skills, created, emailSettings, emailJobApplication, emailMarketing, seniority_id, seniority, location_id, location, userRole, user_role_id, roles, role, role_id, company, company_id,
+            users[i] = { id, name, surname, email, job_title, emailVerified, admin, status, banned, experience: experience.value, image, skills, created, emailSettings, emailJobApplication, emailMarketing, seniority_id, seniority, location_id, location, userRole, user_role_id, roles, role, role_id, company, company_id,
 
               // change modified to current date
             modified: `${new Date().toISOString()}` };
@@ -502,7 +504,7 @@ class Users extends React.Component {
       tableLoading, original, users, usersCount,
 
       // fields
-      name, surname, password, email, job_title, emailVerified, admin, status, experience, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority_id, seniority, location, location_id, userRole, user_role_id, roles, role, role_id, company, company_id,
+      name, surname, password, email, job_title, emailVerified, admin, status, banned, experience, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority_id, seniority, location, location_id, userRole, user_role_id, roles, role, role_id, company, company_id,
 
       // image
       image, imageLoading,
@@ -585,6 +587,7 @@ class Users extends React.Component {
           emailVerified={emailVerified}
           admin={admin}
           status={status}
+          banned={banned}
           experience={experience}
           skills={skills}
           created={created}
@@ -595,7 +598,7 @@ class Users extends React.Component {
 
           seniority={seniority} seniority_id={seniority_id}
           location={location}   location_id={location_id}
-          userRole={userRole} user_role_id={user_role_id}
+          userRole={userRole}   user_role_id={user_role_id}
           role={role}           role_id={role_id} roles={roles}
           company={company}     company_id={company_id}
 

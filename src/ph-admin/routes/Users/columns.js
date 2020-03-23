@@ -167,34 +167,52 @@ const columns = [
   },
 
   // status //
+  // {
+  //   Header: 'Status',
+  //   accessor: 'status',
+  //   width: 100,
+  //   Cell: ({ original }) => {
+  //     const { status } = original;
+  //     return (
+  //       <div
+  //         className="text-ellipsis"
+  //         style={{ color: status ? 'rgb(0,203,131)' : '#dc3545' }}
+  //         title={status ? 'Active' : 'Blocked'}
+  //       >
+  //         {status ? 'Active' : 'Blocked'}
+  //       </div>
+  //     )
+  //   },
+  //   Filter: ({ filter, onChange }) => {
+  //     return (
+  //       <select
+  //         onChange={event => onChange(event.target.value)}
+  //         style={{ width: "100%", height: '38px' }}
+  //         value={filter ? filter.value : ''}
+  //       >
+  //         <option value=''>All</option>
+  //         <option value={true}>Active</option>
+  //         <option value={false}>Blocked</option>
+  //       </select>
+  //     )
+  //   }
+  // },
+
+  // access //
   {
-    Header: 'Status',
-    accessor: 'status',
-    width: 100,
+    Header: 'Access',
+    accessor: 'roles',
+    width: 110,
+    filterable: false,
+    sortable: false,
     Cell: ({ original }) => {
-      const { status } = original;
-      return (
-        <div
-          className="text-ellipsis"
-          style={{ color: status ? 'rgb(0,203,131)' : '#dc3545' }}
-          title={status ? 'Active' : 'Blocked'}
-        >
-          {status ? 'Active' : 'Blocked'}
-        </div>
-      )
-    },
-    Filter: ({ filter, onChange }) => {
-      return (
-        <select
-          onChange={event => onChange(event.target.value)}
-          style={{ width: "100%", height: '38px' }}
-          value={filter ? filter.value : ''}
-        >
-          <option value=''>All</option>
-          <option value={true}>Active</option>
-          <option value={false}>Blocked</option>
-        </select>
-      )
+      console.log(original);
+      const { roles } = original;
+      const rolesArray = roles.map(i => i.name);
+
+      if (rolesArray && rolesArray.length > 1) {
+        return <span className="roles-string">{rolesArray.join(', ')}</span>;
+      } else return <span className="roles-string">{rolesArray.join('')}</span>;
     }
   },
 ];

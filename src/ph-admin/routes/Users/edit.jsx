@@ -23,7 +23,7 @@ import './edit.scss';
 
 const EditUser = ({
   // fields
-  original, name, surname, email, job_title, emailVerified, admin, status, experience, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority, seniority_id, location, location_id, userRole, user_role_id, roles, role, role_id, company, company_id,
+  original, name, surname, email, job_title, emailVerified, admin, status, banned, experience, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority, seniority_id, location, location_id, userRole, user_role_id, roles, role, role_id, company, company_id,
 
   // image
   image, imageLoading, fileInputImage, onUploadImage, deleteImage, onChangeImage, onDeleteImage,
@@ -31,7 +31,7 @@ const EditUser = ({
   isOpen, closeModal, onChange, onSubmit, modalLoading, deleteClick, onChangeSkills, onChangeLocation, onChangeSeniority, onChangeUserRole, onChangeRole, onChangeCompany, onChangeExperience, onChangeAdmin
 }) => {
 
-  // console.log('EditUser user_role:', userRole); // original
+  console.log('EditUser banned:', banned); // original
 
   return (
     <EditModal isOpen={isOpen} modalLoading={modalLoading} closeModal={closeModal}>
