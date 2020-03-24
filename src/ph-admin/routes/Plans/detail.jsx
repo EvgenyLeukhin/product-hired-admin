@@ -23,7 +23,7 @@ class PlanDetail extends React.Component {
   onChange    = e  => this.setState({ [e.target.name]: e.target.value });
 
   // close page and go back to table
-  closeDetail = () => this.props.history.goBack();
+  closeDetail = () => this.props.history.push('/plans');
 
   closeErrorAlert  = () => this.setState({ errorAlertIsOpen: false });
 
