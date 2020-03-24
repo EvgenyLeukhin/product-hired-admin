@@ -33,14 +33,20 @@ class PlanDetail extends React.Component {
     this.setState({ loading: true });
 
     const { id, name, price } = this.state;
-    editPlan(id, name, price).then(() => {
+    editPlan(id, name, price).then(res => {
       // open alert
       this.setState({ alertIsOpen: true, alertType: 'edit'});
 
       // close alert after 2 sec and redirect to table
       setTimeout(() => {
         this.setState({ loading: false, alertIsOpen: false});
-        this.closeDetail();
+
+        // push data to router
+        const { history } = this.props;
+        history.push({
+          pathname: '/plans',
+          state: { afterEditData: res.data }
+        })
       }, 2000);
 
     }).catch(error => this.catchErrors(error));

@@ -1,6 +1,8 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
+import isEmpty from 'lodash/isEmpty';
+
 import Table from '../../components/Table';
 import columns from './columns';
 
@@ -23,6 +25,27 @@ class Plans extends React.Component {
 
     // alert
     alertIsOpen: false, alertType: '', alertErrorText: '',
+  }
+
+  componentWillReceiveProps() {
+    // new data after edit plan
+    const { afterEditData } = this.props.history.location.state || {};
+
+    if(!isEmpty(afterEditData)) {
+      // get current table-data from the state w\o editing change (when render only)
+      const { plans } = this.state;
+
+      // find editing data in all data by id
+      for (let i = 0; i < plans.length; i++) {
+        if (plans[i].id === afterEditData.id) {
+          // inject editing data to table state
+          plans[i] = { id: afterEditData.id, name: afterEditData.name, price: afterEditData.price };
+        }
+      }
+
+      // inject new array with edited data to table
+      this.setState({ plans });
+    }
   }
 
   catchErrors = error => {
