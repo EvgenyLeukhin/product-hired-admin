@@ -3,9 +3,13 @@
     .rt-tr-group {
 
       .table-column-name {
-        &:hover {
-          cursor: pointer;
-          color: #448AFF;
+        & > a {
+          color: inherit;
+          &:hover {
+            text-decoration: none;
+            cursor: pointer;
+            color: #448AFF;
+          }
         }
       }
 

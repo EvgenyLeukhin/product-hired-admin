@@ -1,10 +1,16 @@
-import React, { Suspense, lazy } from 'react';
+import React from 'react';
 import { withRouter, Switch, Route, Redirect } from 'react-router-dom';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 /* loader component for Suspense */
-import PageLoader  from '../../components/Common/PageLoader';
 import Core        from '../../components/Core/Core';
+
+import Companies    from './Companies/index.jsx';
+import Users        from './Users/index.jsx';
+import Jobs         from './Jobs/index.jsx';
+import Skills       from './Skills/index.jsx';
+import Roles        from './Roles/index.jsx';
+import Plans        from './Plans/index.jsx';
+import PlansDetail  from './Plans/detail.jsx';
 
 // common styles //
 import '../../components/Bootstrap/Bootstrap';
@@ -19,19 +25,7 @@ import User from '../../views/User/User';
 /* Used to render a lazy component with react-router */
 const waitFor = Tag => props => <Tag {...props} />;
 
-const Companies = lazy(() => import('./Companies/index.jsx'));
-const Users     = lazy(() => import('./Users/index.jsx'));
-const Jobs      = lazy(() => import('./Jobs/index.jsx'));
-const Skills    = lazy(() => import('./Skills/index.jsx'));
-const Roles     = lazy(() => import('./Roles/index.jsx'));
-const Plans     = lazy(() => import('./Plans/index.jsx'));
-const Profile   = lazy(() => import('./UserProfile/'));
-
-
 const Routes = ({ location }) => {
-  const animationName = 'rag-fadeIn';
-  const timeout       = { enter: 500, exit: 500 };
-  const currentKey    = location.pathname.split('/')[1] || '/';
 
   // get token
   const userData = JSON.parse(localStorage.getItem('ph-admin-user-data'));
@@ -54,27 +48,13 @@ const Routes = ({ location }) => {
   // if login
   } else return (
     <Core>
-      <TransitionGroup>
-        <CSSTransition key={currentKey} timeout={timeout} classNames={animationName} exit={false}>
-
-          <div>
-            <Suspense fallback={<PageLoader/>}>
-              <Switch location={location}>
-                <Route path="/companies" component={waitFor(Companies)} />
-                <Route path="/users"     component={waitFor(Users)} />
-                <Route path="/jobs"      component={waitFor(Jobs)} />
-                <Route path="/skills"    component={waitFor(Skills)} />
-                <Route path="/roles"     component={waitFor(Roles)} />
-                <Route path="/plans"     component={waitFor(Plans)} />
-                <Route path="/profile"   component={waitFor(Profile)} />
-
-                <Redirect to="/companies" />
-              </Switch>
-            </Suspense>
-          </div>
-
-        </CSSTransition>
-      </TransitionGroup>
+      <Route path="/companies" component={Companies} />
+      <Route path="/users"     component={Users} />
+      <Route path="/jobs"      component={Jobs} />
+      <Route path="/skills"    component={Skills} />
+      <Route path="/roles"     component={Roles} />
+      <Route path="/plans"     component={Plans} />
+      <Route path="/plans/:id" component={PlansDetail} />
     </Core>
   );
 }
