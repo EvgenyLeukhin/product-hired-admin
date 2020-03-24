@@ -57,7 +57,12 @@ const getJobs = state => {
 
     // Plan column // +
     } else if (i.id === 'plan_id') {
-      filter.where[i.id] = i.value;
+
+      if (i.value === 5) {
+        filter.where[i.id] = { gt: 1 }
+      } else {
+        filter.where[i.id] = i.value;
+      }
 
     // Created // +
     } else if (i.id === 'created') {

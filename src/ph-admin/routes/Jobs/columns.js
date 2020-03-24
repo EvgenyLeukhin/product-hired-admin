@@ -248,7 +248,7 @@ const columns = [
   {
     Header: 'Plan',
     accessor: 'plan_id',
-    width: 80,
+    width: 85,
     Cell: ({ original }) => {
       const { plan_id } = original;
       return planOptions.map(i => plan_id === i.value && (
@@ -274,6 +274,7 @@ const columns = [
           <option value={2}>Bronze</option>
           <option value={3}>Silver</option>
           <option value={4}>Gold</option>
+          <option value={5}>All paid</option>
         </select>
       )
     }

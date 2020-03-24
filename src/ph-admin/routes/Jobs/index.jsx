@@ -158,8 +158,8 @@ class Jobs extends React.Component {
 
     addJob(state)
       .then(res => {
-        const newJob = { ...res.data, company, employer };      // add new obj from request and state
-        const jobsWithNew = [newJob].concat(jobs);             // concat new job to state jobs
+        const newJob = { ...res.data, company, employer, locations: [{}] }; // add new obj from request and state
+        const jobsWithNew = [newJob].concat(jobs);                          // concat new job to state jobs
 
         this.setState({
           modalLoading: false,
