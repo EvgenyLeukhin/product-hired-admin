@@ -9,6 +9,7 @@ import Users        from './Users/index.jsx';
 import Jobs         from './Jobs/index.jsx';
 import Skills       from './Skills/index.jsx';
 import Roles        from './Roles/index.jsx';
+import RolesDetail  from './Roles/detail.jsx';
 import Plans        from './Plans/index.jsx';
 import PlansDetail  from './Plans/detail.jsx';
 
@@ -53,6 +54,7 @@ const Routes = ({ location }) => {
       <Route path="/jobs"      component={Jobs} />
       <Route path="/skills"    component={Skills} />
       <Route path="/roles"     component={Roles} />
+      <Route path="/roles/:id" component={RolesDetail} />
       <Route path="/plans"     component={Plans} />
       <Route path="/plans/:id" component={PlansDetail} />
     </Core>
