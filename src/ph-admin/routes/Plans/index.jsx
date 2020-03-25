@@ -1,5 +1,4 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 
 import isEmpty from 'lodash/isEmpty';
 
@@ -21,7 +20,7 @@ class Plans extends React.Component {
 
   state = {
     // table
-    plans: [], plansCount: null, tableLoading: false, count: null, original: {},
+    plans: [], plansCount: null, tableLoading: false, count: null,
 
     // alert
     alertIsOpen: false, alertType: '', alertErrorText: '',
@@ -65,28 +64,9 @@ class Plans extends React.Component {
   }
 
   render() {
-    const controlsColumn = [
-      {
-        Header: '',
-        width: 30,
-        sortable: false,
-        filterable: false,
-        Cell: ({ original }) => {
-          const { id } = original;
-          return (
-            <div className="rt-custom__controls">
-              <NavLink to={`/plans/${id}`}>
-                <i className="ion-edit" />
-              </NavLink>
-            </div>
-          )
-        }
-      }
-    ];
-
     const {
       // table
-      plans, plansCount, count, tableLoading, original,
+      plans, plansCount, count, tableLoading,
 
       // alerts
       alertIsOpen, alertType, alertErrorText
@@ -98,14 +78,14 @@ class Plans extends React.Component {
           Total records:&nbsp;<b>{count && formatNumber(this.state.count)}</b>
         </p>
 
-        { alertIsOpen && <Alerts type={alertType} original={original} errorText={alertErrorText} /> }
+        { alertIsOpen && <Alerts type={alertType} errorText={alertErrorText} /> }
 
         <Table
           data={plans}
           manual={true}
           pages={plansCount}
           loading={tableLoading}
-          columns={[...columns, ...controlsColumn]}
+          columns={columns}
           onFetchData={state => {
             this.setState({ tableLoading: true });
 

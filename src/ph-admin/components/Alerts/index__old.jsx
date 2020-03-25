@@ -1,7 +1,11 @@
-import React from 'react';
-import { Alert } from 'reactstrap';
+import React, { useState } from 'react';
+import { Alert } from "reactstrap";
 
-const Alerts = ({ type, name, errorText, errorAlertIsOpen, closeErrorAlert }) => {
+const Alerts = ({ type, original, errorText, errorAlertIsOpen, closeErrorAlert }) => {
+  const name = original.surname
+    ? `${original.name} ${original.surname}`
+    : `${original.name}`;
+
   return (
     <>
       {
@@ -11,14 +15,14 @@ const Alerts = ({ type, name, errorText, errorAlertIsOpen, closeErrorAlert }) =>
         // edit //
         type === 'edit' && (
           <Alert color="warning">
-            <b>{name} has been edited</b>
+            {`"${original.id}`} - <b>{name} has been edited</b>
           </Alert>
         ) ||
 
         // delete //
         type === 'delete' && (
           <Alert color="danger">
-            <b>{name} has been deleted</b>
+            {`"${original.id}`} - <b>{name} has been deleted</b>
           </Alert>
         ) ||
 

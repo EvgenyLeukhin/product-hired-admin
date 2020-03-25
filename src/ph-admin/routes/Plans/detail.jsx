@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Button } from 'reactstrap';
-import Alerts from '../../components/Alerts/index2.jsx';
+import Alerts from '../../components/Alerts';
 import Spinner from '../../../components/Spinner';
 
 import getPlan  from './api/getPlan';

@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 import { Input } from 'debounce-input-decorator';
 
@@ -17,7 +18,7 @@ const columns = [
     Filter: ({ filter, onChange }) => (
       <Input
         value={filter ? filter.value : ''}
-        onChange={event => onChange(event.target.value)}
+        onChange={e => onChange(e.target.value)}
         style={{ width: '100%', height: '38px' }}
         debounceTimeout={800}
       />
@@ -28,15 +29,19 @@ const columns = [
     accessor: 'name',
     style: { fontWeight: 'bold' },
     Cell: ({ original }) => {
-      const { name } = original;
+      const { id, name } = original;
       return (
-        <div className="table-column-name  ellipsis-text" title={name || ''}>{name || ''}</div>
+        <div className="table-column-name  ellipsis-text" title={name || ''}>
+          <NavLink to={`/skills/${id}`}>
+            {name || ''}
+          </NavLink>
+        </div>
       );
     },
     Filter: ({ filter, onChange }) => (
       <Input
         value={filter ? filter.value : ''}
-        onChange={event => onChange(event.target.value)}
+        onChange={e => onChange(e.target.value)}
         style={{ width: '100%', height: '38px' }}
         debounceTimeout={800}
       />
@@ -54,7 +59,7 @@ const columns = [
     Filter: ({ filter, onChange }) => (
       <Input
         value={filter ? filter.value : ''}
-        onChange={event => onChange(event.target.value)}
+        onChange={e => onChange(e.target.value)}
         style={{ width: '100%', height: '38px' }}
         debounceTimeout={800}
       />
@@ -72,7 +77,7 @@ const columns = [
     Filter: ({ filter, onChange }) => (
       <Input
         value={filter ? filter.value : ''}
-        onChange={event => onChange(event.target.value)}
+        onChange={e => onChange(e.target.value)}
         style={{ width: '100%', height: '38px' }}
         debounceTimeout={800}
       />
@@ -91,7 +96,7 @@ const columns = [
     Filter: ({ filter, onChange }) => (
       <Input
         value={filter ? filter.value : ''}
-        onChange={event => onChange(event.target.value)}
+        onChange={e => onChange(e.target.value)}
         style={{ width: '100%', height: '38px' }}
         debounceTimeout={800}
       />
@@ -100,11 +105,3 @@ const columns = [
 ];
 
 export default columns;
-
-// filterMethod: (filter, row) => {
-//   const id = filter.pivotId || filter.id;
-//   return (
-//     row[id] !== undefined ?
-//       String(row[id].toLowerCase()).includes(filter.value.toLowerCase()) : true
-//   );
-// }

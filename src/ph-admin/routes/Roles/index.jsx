@@ -1,5 +1,4 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 
 import isEmpty from 'lodash/isEmpty';
 
@@ -21,7 +20,7 @@ class Roles extends React.Component {
 
   state = {
     // table
-    roles: [], rolesCount: null, tableLoading: false, count: null, original: {},
+    roles: [], rolesCount: null, tableLoading: false, count: null,
 
     // alert
     alertIsOpen: false, alertType: '', alertErrorText: '',
@@ -30,8 +29,6 @@ class Roles extends React.Component {
   componentWillReceiveProps() {
     // new data after edit role
     const { afterEditData } = this.props.history.location.state || {};
-
-    console.log(afterEditData);
 
     if(!isEmpty(afterEditData)) {
       // get current table-data from the state w\o editing change (when render only)
@@ -74,28 +71,9 @@ class Roles extends React.Component {
   }
 
   render() {
-    const controlsColumn = [
-      {
-        Header: '',
-        width: 30,
-        sortable: false,
-        filterable: false,
-        Cell: ({ original }) => {
-          const { id } = original;
-          return (
-            <div className="rt-custom__controls">
-              <NavLink to={`/roles/${id}`}>
-                <i className="ion-edit" />
-              </NavLink>
-            </div>
-          );
-        }
-      }
-    ];
-
     const {
       // table
-      roles, rolesCount, count, tableLoading, original,
+      roles, rolesCount, count, tableLoading,
 
       // alerts
       alertIsOpen, alertType, alertErrorText
@@ -107,14 +85,14 @@ class Roles extends React.Component {
           Total records:&nbsp;<b>{count && formatNumber(this.state.count)}</b>
         </p>
 
-        { alertIsOpen && <Alerts type={alertType} original={original} errorText={alertErrorText} /> }
+        { alertIsOpen && <Alerts type={alertType} errorText={alertErrorText} /> }
 
         <Table
           data={roles}
           manual={true}
           pages={rolesCount}
           loading={tableLoading}
-          columns={[...columns, ...controlsColumn]}
+          columns={columns}
           onFetchData={state => {
             this.setState({ tableLoading: true });
 

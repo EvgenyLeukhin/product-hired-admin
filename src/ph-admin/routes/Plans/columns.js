@@ -18,7 +18,7 @@ const columns = [
     Filter: ({ filter, onChange }) => (
       <Input
         value={filter ? filter.value : ''}
-        onChange={event => onChange(event.target.value)}
+        onChange={e => onChange(e.target.value)}
         style={{ width: '100%', height: '38px' }}
         debounceTimeout={800}
       />
@@ -41,7 +41,7 @@ const columns = [
     Filter: ({ filter, onChange }) => (
       <Input
         value={filter ? filter.value : ''}
-        onChange={event => onChange(event.target.value)}
+        onChange={e => onChange(e.target.value)}
         style={{ width: '100%', height: '38px' }}
         debounceTimeout={800}
       />
@@ -59,7 +59,7 @@ const columns = [
     Filter: ({ filter, onChange }) => (
       <Input
         value={filter ? filter.value : ''}
-        onChange={event => onChange(event.target.value)}
+        onChange={e => onChange(e.target.value)}
         style={{ width: '100%', height: '38px' }}
         debounceTimeout={800}
       />
