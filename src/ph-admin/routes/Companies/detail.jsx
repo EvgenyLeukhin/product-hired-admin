@@ -233,7 +233,7 @@ class CompanyDetail extends React.Component {
           <div className="cardbox-body">
             <form action="" onSubmit={this.editSubmit}>
 
-            <fieldset>
+              <fieldset>
                 <div className="form-group row">
                   <div className="col-md-4">
                     <label htmlFor="edit-name">Company name</label>
@@ -286,7 +286,6 @@ class CompanyDetail extends React.Component {
                       </div>
                     </div>
                   </div>
-
 
 
                   <div className="col-md-6">
@@ -385,7 +384,7 @@ class CompanyDetail extends React.Component {
               <footer className="ph-detail-page__buttons">
                 <Button outline color="danger" onClick={this.deleteClick}>Delete</Button>
                 <Button outline color="secondary" onClick={this.closeDetail}>Cancel</Button>
-                <Button disabled={!name || !slug} outline color="primary" type="submit">Save</Button>
+                <Button disabled={!name || !slug || logoLoading || coverLoading} outline color="primary" type="submit">Save</Button>
               </footer>
 
             </form>
