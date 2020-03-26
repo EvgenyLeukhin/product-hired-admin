@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { NavLink } from 'react-router-dom';
 import { Input } from 'debounce-input-decorator';
 
 import noLogo from './no-logo.jpg';
@@ -34,12 +35,14 @@ const columns = [
     accessor: 'name',
     style: { fontWeight: 'bold' },
     Cell: ({ original }) => {
-      const { logo, name } = original;
+      const { id, name, logo } = original;
       return (
-        <div className="table-column-name  ellipsis-text">
-          <img title={logo || ''} src={logo || noLogo} width={20} height={20} style={{ objectFit: 'cover' }} />
-          &nbsp;&nbsp;
-          <span title={name || ''}>{name || ''}</span>
+        <div className="table-column-name  ellipsis-text" title={name || ''}>
+          <NavLink to={`/companies/${id}`}>
+            <img title={logo || ''} src={logo || noLogo} width={20} height={20} style={{ objectFit: 'cover' }} />
+            &nbsp;&nbsp;
+            <span title={name || ''}>{name || ''}</span>
+          </NavLink>
         </div>
       );
     },

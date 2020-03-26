@@ -79,19 +79,6 @@ const AddCompany = ({
                     </div>
                   </div>
 
-                  {/* <div className="col-md-6">
-                    <label htmlFor="add-weight">Weight</label>
-
-                    <input
-                      name="weight"
-                      value={weight}
-                      id="add-weight"
-                      onChange={onChange}
-                      type="number"
-                      className="form-control"
-                    />
-                  </div> */}
-
                   <div className="col-md-6">
                     <div className="add-logo">
                       <label htmlFor="add-logo">Logo</label>

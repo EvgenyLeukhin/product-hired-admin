@@ -147,7 +147,8 @@ class Skills extends React.Component {
     } else {
       this.setState({
         errorAlertIsOpen: true,
-        modalLoading: false,
+        addModalLoading: false,
+        deleteModalLoading: false,
         alertType: 'error',
         alertIsOpen: true,
         alertErrorText: `${name}, ${message}`

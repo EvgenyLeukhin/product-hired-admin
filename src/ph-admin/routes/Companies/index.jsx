@@ -1,27 +1,28 @@
-import React from "react";
+import React from 'react';
 import slugify from 'slugify';
 
-import Table         from '../../components/Table';
-import Alerts        from '../../components/Alerts';
-import AddButton     from '../../components/AddButton';
+import isEmpty from 'lodash/isEmpty';
+
+import Table     from '../../components/Table';
+import columns   from './columns';
+
+import Alerts    from '../../components/Alerts';
+import AddButton from '../../components/AddButton';
 
 import AddCompany    from './add';
-import EditCompany   from './edit';
 import DeleteCompany from './delete';
 
-import { withHeaderTitle } from '../../../components/Header/HeaderTitle';
-import { API_URL, subUrl } from '../../api/apiUrl';
+import formatNumber from './../../utils/formatNumber';
 
-// api
+import { API_URL, subUrl } from '../../api/apiUrl';
+import { withHeaderTitle } from '../../../components/Header/HeaderTitle';
+
 import getCompanies      from './api/getCompanies';
 import getCompaniesCount from './api/getCompaniesCount';
 import addCompany        from './api/addCompany';
-import editCompany       from './api/editCompany';
-import deleteCompany     from './api/deleteCompany';
+import deleteSkill       from './api/deleteCompany';
 import uploadLogo        from './api/uploadLogo';
 import uploadCover       from './api/uploadCover';
-
-import columns from './columns';
 
 
 class Companies extends React.Component {
@@ -32,50 +33,62 @@ class Companies extends React.Component {
 
   state = {
     // table
-    companies: [], // array of objects
-    companiesCount: null,
-    tableLoading: false,
-    original: {}, count: null,
+    companies: [], companiesCount: null, tableLoading: false, count: null,
 
     // alert
-    alertIsOpen: false,
-    alertType: '',
-    alertErrorText: '',
-    errorAlertIsOpen: false,
+    alertIsOpen: false, alertType: '', alertErrorText: '',
 
-    // modals
-    addModalIsOpen: false,
-    editModalIsOpen: false,
-    deleteModalIsOpen: false,
-    modalLoading: false,
+    // delete
+    deleteModalIsOpen: false, deleteModalLoading: false,
+
+    // add
+    addModalIsOpen: false, addModalLoading: false,
 
     // fields
-    id: null,
-    name: '',
-    slug: '',
-    domain: '',
-    weight: null,
+    id: null, name: '', slug: '', domain: '', weight: null,
     logo: '', logoLoading: false,
     cover: '', coverLoading: false,
   }
 
   onChange = e => this.setState({ [e.target.name]: e.target.value });
 
-  catchErrors = error => {
-    // redirect to login if 401 (request, response)
-    if (error.response.status === 401) {
-      localStorage.removeItem('ph-admin-user-data');
-      this.props.history.push('/login');
+  addClick = () => {
+    this.setState({
+      // reset fields
+      id: null, name: '', slug: '', domain: '', weight: null,
+      logo: '', logoLoading: false, cover: '', coverLoading: false,
 
-    } else {
-      this.setState({
-        errorAlertIsOpen: true,
-        modalLoading: false, logoLoading: false, coverLoading: false,
-        alertType: 'error',
-        alertIsOpen: true,
-        alertErrorText: `${error}, ${error.response.data.error.sqlMessage}`
-      });
-    }
+      // add modal
+      addModalIsOpen: true, alertIsOpen: false,
+    });
+  }
+
+  addSubmit = e => {
+    e.preventDefault();
+
+    this.setState({ addModalLoading: true, errorAlertIsOpen: false });
+    const { name, domain, slug, weight, logo, cover, companies } = this.state;
+
+    addCompany(name, domain, slug, weight, logo, cover)   // order must be like inside addSkill method
+      .then(res => {
+
+        const newData = [res.data].concat(companies);
+
+        this.setState({
+          addModalLoading: false,
+          addModalIsOpen: false,
+          alertType: 'add',
+          alertIsOpen: true,
+          companies: newData
+        });
+
+        // close alert after 2 sec
+        setTimeout(() => {
+          this.setState({ alertIsOpen: false });
+        }, 2000);
+      })
+
+      .catch(error => this.catchErrors(error));
   }
 
   onUploadLogo = e => {
@@ -119,112 +132,30 @@ class Companies extends React.Component {
       .catch(error => this.catchErrors(error));
   }
 
-  addClick = () => {
-    this.setState({
-      addModalIsOpen: true,
-      alertIsOpen: false,
-      name: '', domain: '', slug: '', weight: null, logo: '', cover: '',
-      logoLoading: false, coverLoading: false
-    });
+  closeAddModal = () => {
+    const { addModalLoading } = this.state
+    !addModalLoading && this.setState({ addModalIsOpen: false });
   }
 
-  addSubmit = e => {
-    e.preventDefault();
-
-    this.setState({ modalLoading: true, errorAlertIsOpen: false });
-    const { name, domain, slug, weight, logo, cover, companies } = this.state;
-
-    addCompany(name, domain, slug, weight, logo, cover)   // order must be like inside addSkill method
-      .then(res => {
-
-        const newData = [res.data].concat(companies);
-
-        this.setState({
-          modalLoading: false,
-          addModalIsOpen: false,
-          alertType: 'add',
-          alertIsOpen: true,
-          companies: newData
-        });
-
-        // close alert after 2 sec
-        setTimeout(() => {
-          this.setState({ alertIsOpen: false });
-        }, 2000);
-      })
-
-      .catch(error => this.catchErrors(error));
+  closeDeleteModal = () => {
+    const { deleteModalLoading } = this.state
+    !deleteModalLoading && this.setState({ deleteModalIsOpen: false });
   }
 
-  editClick = original => e => {
-    e.stopPropagation();
+  closeErrorAlert  = () => this.setState({ errorAlertIsOpen: false });
 
-    this.setState({
-      original,
-      alertIsOpen: false,
-      editModalIsOpen: true,
-      logoLoading: false, coverLoading: false,
-
-      // get values from original react-table (original.id, original.name, original.price)
-      id: original.id,
-      name: original.name,
-      domain: original.domain,
-      slug: original.slug,
-      logo: original.logo,
-      cover: original.cover,
-    });
-  }
-
-  editSubmit = e => {
-    e.preventDefault();
-
-    this.setState({ modalLoading: true, errorAlertIsOpen: false });
-
-    // get edit values
-    const { id, name, domain, slug, logo, cover } = this.state;
-    editCompany(id, name, domain, slug, logo, cover)
-
-      .then(() => {
-        // get current table-data from the state w\o editing change (when render only)
-        const { companies } = this.state;
-
-        // find editing data in all data by id
-        for (let i = 0; i < companies.length; i++) {
-          if (companies[i].id === id) {
-            // inject editing data to table state
-            companies[i] = { id, name, domain, slug, logo, cover };
-          }
-        }
-
-        this.setState({
-          companies, // new roles with edited item
-          modalLoading: false,
-          editModalIsOpen: false,
-          alertType: 'edit',
-          alertIsOpen: true
-        });
-
-        // close alert after 2 sec
-        setTimeout(() => {
-          this.setState({ alertIsOpen: false });
-        }, 2000);
-      })
-
-      .catch(error => this.catchErrors(error));
-  }
-
-  deleteClick = original => e => {
-    e.stopPropagation();
-    this.setState({ original, deleteModalIsOpen: true, alertIsOpen: false });
+  deleteClick = original => () => {
+    const { id, name } = original;
+    this.setState({ id, name, deleteModalIsOpen: true, alertIsOpen: false });
   }
 
   deleteSubmit = () => {
     const dataWitoutDeleted = [];
-    const { companies, original: { id } } = this.state;
+    const { companies, id } = this.state;
 
-    this.setState({ modalLoading: true, errorAlertIsOpen: false });
+    this.setState({ deleteModalLoading: true, errorAlertIsOpen: false });
 
-    deleteCompany(id)
+    deleteSkill(id)
       // if delete ok
       .then(() => {
         for (let i = 0; i < companies.length; i++) {
@@ -237,9 +168,8 @@ class Companies extends React.Component {
         this.setState({
           // set new data w\o deleted item
           companies: dataWitoutDeleted,
-          editModalIsOpen: false,
           deleteModalIsOpen: false,
-          modalLoading: false,
+          deleteModalLoading: false,
 
           // show alert
           alertType: 'delete', alertIsOpen: true
@@ -253,15 +183,6 @@ class Companies extends React.Component {
       .catch(error => this.catchErrors(error));
   }
 
-  deleteLogo  = () => this.setState({ logo: '' });
-
-  deleteCover = () => this.setState({ cover: '' });
-
-  closeAddModal    = () => !this.state.modalLoading && this.setState({ addModalIsOpen:    false });
-  closeEditModal   = () => !this.state.modalLoading && this.setState({ editModalIsOpen:   false });
-  closeDeleteModal = () => !this.state.modalLoading && this.setState({ deleteModalIsOpen: false });
-  closeErrorAlert  = () => this.setState({ errorAlertIsOpen: false });
-
   generateSlug = () => {
     const { name } = this.state;
     this.setState({
@@ -269,30 +190,87 @@ class Companies extends React.Component {
     });
   }
 
-  componentDidMount() {
-    // close modal on Escape
-    document.addEventListener('keyup', e => e.keyCode === 27 && this.closeEditModal());
+  catchErrors = error => {
+    const { name, statusCode, message } = error.response.data.error;
+    if (statusCode === 401) {
+      localStorage.removeItem('ph-admin-user-data');
+      this.props.history.push('/login');
+    } else {
+      this.setState({
+        errorAlertIsOpen: true,
+        addModalLoading: false,
+        deleteModalLoading: false,
+        alertType: 'error',
+        alertIsOpen: true,
+        alertErrorText: `${name}, ${message}`
+      });
+    }
   }
 
-  componentWillUnmount() { document.removeEventListener('keyup', e => e.keyCode === 27) }
+  componentWillReceiveProps() {
+    // AFTER EDIT //
+    const { afterEditData } = this.props.history.location.state || {};
 
+    if(!isEmpty(afterEditData)) {
+      // get current table-data from the state w\o editing change (when render only)
+      const { companies } = this.state;
+
+      // find editing data in all data by id
+      for (let i = 0; i < companies.length; i++) {
+        if (companies[i].id === afterEditData.id) {
+          // inject editing data to table state
+          companies[i] = {
+            id:       afterEditData.id,
+            name:     afterEditData.name,
+            slug:     afterEditData.slug,
+            weight:   afterEditData.weight,
+            markers:  afterEditData.markers,
+          };
+        }
+      }
+
+      // inject new array with edited data to table
+      this.setState({ companies });
+    }
+
+    // AFTER DELETE //
+    const { deletedId } = this.props.history.location.state || {};
+
+    if(deletedId) {
+      // get current table-data from the state w\o editing change (when render only)
+      const { companies } = this.state;
+      const dataWitoutDeleted = [];
+
+      for (let i = 0; i < companies.length; i++) {
+        // skiping deleted item and forming new array without it
+        if (companies[i].id !== deletedId) {
+          // push all data without deleted item to new array
+          dataWitoutDeleted.push(companies[i]);
+        }
+      }
+      this.setState({ companies: dataWitoutDeleted });
+    }
+  }
 
   render() {
     const {
       // table
-      tableLoading, original, companies, companiesCount,
+      companies, companiesCount, count, tableLoading,
 
-      // fields
-      name, domain, slug, weight, logo, cover,
+      // alerts
+      alertIsOpen, alertType, alertErrorText,
+
+      // delete
+      deleteModalLoading, deleteModalIsOpen,
+
+      // add
+      addModalIsOpen, addModalLoading,
 
       // logo & cover
       logoLoading, coverLoading,
 
-      // modals
-      addModalIsOpen, editModalIsOpen, modalLoading, deleteModalIsOpen,
-
-      // alerts
-      alertIsOpen, alertType, alertErrorText, errorAlertIsOpen
+      // fields
+      id, name, slug, domain, weight, logo, cover,
     } = this.state;
 
     const controlsColumn = [
@@ -309,44 +287,19 @@ class Companies extends React.Component {
       }
     ];
 
-    function formatNumber(num) {
-      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    }
-
     return (
       <div className="companies-page">
         <p className="md-lg">
-          Total records:&nbsp;<b>{this.state.count && formatNumber(this.state.count)}</b>
+          Total records:&nbsp;<b>{count && formatNumber(this.state.count)}</b>
         </p>
 
-        {
-          alertIsOpen && (
-            <Alerts
-              type={alertType}
-              original={original}
-              errorText={alertErrorText}
-              errorAlertIsOpen={errorAlertIsOpen}
-              closeErrorAlert={this.closeErrorAlert}
-            />
-          )
-        }
-
+        { alertIsOpen && <Alerts type={alertType} id={id} name={name} errorText={alertErrorText} /> }
 
         <AddButton
           text="company"
-          loading={modalLoading}
+          loading={addModalLoading && deleteModalLoading}
           addClick={this.addClick}
         />
-
-
-        <DeleteCompany
-          isOpen={deleteModalIsOpen}
-          modalLoading={modalLoading}
-          closeModal={this.closeDeleteModal}
-          original={original}
-          deleteSubmit={this.deleteSubmit}
-        />
-
 
         <AddCompany
           // fields
@@ -366,7 +319,7 @@ class Companies extends React.Component {
 
           // modal
           isOpen={addModalIsOpen}
-          modalLoading={modalLoading}
+          modalLoading={addModalLoading}
           closeModal={this.closeAddModal}
 
           // actions
@@ -377,58 +330,20 @@ class Companies extends React.Component {
           generateSlug={this.generateSlug}
         />
 
-
-        <EditCompany
-          // fields
-          original={original}
-          name={name} domain={domain} slug={slug}
-          // weight={weight}
-
-          // logo
-          logo={logo}
-          logoLoading={logoLoading}
-          fileInputLogo={this.fileInputLogo} // input type="file" logo-refernce
-          onUploadLogo={this.onUploadLogo}
-
-          // cover
-          cover={cover}
-          coverLoading={coverLoading}
-          fileInputCover={this.fileInputCover} // input type="file" cover-refernce
-          onUploadCover={this.onUploadCover}
-
-          // modal
-          isOpen={editModalIsOpen}
-          modalLoading={modalLoading}
-          closeModal={this.closeEditModal}
-
-          // actions
-          onChange={this.onChange}
-          onSubmit={this.editSubmit}
-          deleteClick={this.deleteClick(original)}
-          deleteLogo={this.deleteLogo}
-          deleteCover={this.deleteCover}
-          generateSlug={this.generateSlug}
+        <DeleteCompany
+          id={id} name={name}
+          isOpen={deleteModalIsOpen}
+          deleteSubmit={this.deleteSubmit}
+          modalLoading={deleteModalLoading}
+          closeModal={this.closeDeleteModal}
         />
 
-
         <Table
-          manual={true}
           data={companies}
+          manual={true}
           pages={companiesCount}
           loading={tableLoading}
           columns={[...columns, ...controlsColumn]}
-          getTdProps={(state, rowInfo, column, instance) => {
-            return {
-              onClick: e => {
-                if (rowInfo !== undefined) {
-                  if (column && column.id === 'name') {
-                    const { original } = rowInfo;
-                    return this.editClick(original)(e);
-                  }
-                } else return null;
-              }
-            }
-          }}
           onFetchData={state => {
             this.setState({ tableLoading: true });
 
@@ -448,7 +363,7 @@ class Companies extends React.Component {
           }}
         />
       </div>
-    );
+    )
   }
 }
 

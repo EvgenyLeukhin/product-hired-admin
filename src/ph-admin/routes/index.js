@@ -4,9 +4,12 @@ import { withRouter, Switch, Route, Redirect } from 'react-router-dom';
 /* loader component for Suspense */
 import Core        from '../../components/Core/Core';
 
-import Companies    from './Companies/index.jsx';
+import Companies       from './Companies/index.jsx';
+import CompaniesDetail from './Companies/detail.jsx';
+
 import Users        from './Users/index.jsx';
 import Jobs         from './Jobs/index.jsx';
+
 import Skills       from './Skills/index.jsx';
 import SkillsDetail from './Skills/detail.jsx';
 
@@ -52,18 +55,19 @@ const Routes = ({ location }) => {
   // if login (don't change Routes order)
   } else return (
     <Core>
-      <Route path="/companies"  component={Companies} />
-      <Route path="/users"      component={Users} />
-      <Route path="/jobs"       component={Jobs} />
+      <Route path="/companies/:id" component={CompaniesDetail} />
+      <Route path="/companies"     component={Companies} />
+      <Route path="/users"         component={Users} />
+      <Route path="/jobs"          component={Jobs} />
 
-      <Route path="/skills/:id" component={SkillsDetail} />
-      <Route path="/skills"     component={Skills} />
+      <Route path="/skills/:id"    component={SkillsDetail} />
+      <Route path="/skills"        component={Skills} />
 
-      <Route path="/roles/:id"  component={RolesDetail} />
-      <Route path="/roles"      component={Roles} />
+      <Route path="/roles/:id"     component={RolesDetail} />
+      <Route path="/roles"         component={Roles} />
 
-      <Route path="/plans/:id"  component={PlansDetail} />
-      <Route path="/plans"      component={Plans} />
+      <Route path="/plans/:id"     component={PlansDetail} />
+      <Route path="/plans"         component={Plans} />
     </Core>
   );
 }
