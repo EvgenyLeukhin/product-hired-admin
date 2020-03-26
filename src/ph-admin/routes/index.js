@@ -49,7 +49,7 @@ const Routes = ({ location }) => {
       </User.Layout>
     );
 
-  // if login
+  // if login (don't change Routes order)
   } else return (
     <Core>
       <Route path="/companies"  component={Companies} />

@@ -28,7 +28,7 @@ class Skills extends React.Component {
 
   state = {
     // table
-    skills: [], skillsCount: null, tableLoading: false, count: null, original: {},
+    skills: [], skillsCount: null, tableLoading: false, count: null,
 
     // alert
     alertIsOpen: false, alertType: '', alertErrorText: '',
@@ -94,12 +94,13 @@ class Skills extends React.Component {
   closeErrorAlert  = () => this.setState({ errorAlertIsOpen: false });
 
   deleteClick = original => () => {
-    this.setState({ original, deleteModalIsOpen: true, alertIsOpen: false });
+    const { id, name } = original;
+    this.setState({ id, name, deleteModalIsOpen: true, alertIsOpen: false });
   }
 
   deleteSubmit = () => {
     const dataWitoutDeleted = [];
-    const { skills, original: { id } } = this.state;
+    const { skills, id } = this.state;
 
     this.setState({ deleteModalLoading: true, errorAlertIsOpen: false });
 
@@ -155,10 +156,8 @@ class Skills extends React.Component {
   }
 
   componentWillReceiveProps() {
-    // new data after edit role
+    // AFTER EDIT //
     const { afterEditData } = this.props.history.location.state || {};
-
-    // console.log(afterEditData);
 
     if(!isEmpty(afterEditData)) {
       // get current table-data from the state w\o editing change (when render only)
@@ -181,12 +180,30 @@ class Skills extends React.Component {
       // inject new array with edited data to table
       this.setState({ skills });
     }
+
+    // AFTER DELETE //
+    const { deletedId } = this.props.history.location.state || {};
+
+    if(deletedId) {
+      // get current table-data from the state w\o editing change (when render only)
+      const { skills } = this.state;
+      const dataWitoutDeleted = [];
+
+      for (let i = 0; i < skills.length; i++) {
+        // skiping deleted item and forming new array without it
+        if (skills[i].id !== deletedId) {
+          // push all data without deleted item to new array
+          dataWitoutDeleted.push(skills[i]);
+        }
+      }
+      this.setState({ skills: dataWitoutDeleted });
+    }
   }
 
   render() {
     const {
       // table
-      skills, skillsCount, count, tableLoading, original,
+      skills, skillsCount, count, tableLoading,
 
       // alerts
       alertIsOpen, alertType, alertErrorText,
@@ -196,7 +213,7 @@ class Skills extends React.Component {
 
       // add
       addModalIsOpen, addModalLoading,
-      name, slug, weight, markers, // fields
+      id, name, slug, weight, markers, // fields
     } = this.state;
 
     const controlsColumn = [
@@ -219,7 +236,7 @@ class Skills extends React.Component {
           Total records:&nbsp;<b>{count && formatNumber(this.state.count)}</b>
         </p>
 
-        { alertIsOpen && <Alerts type={alertType} original={original} errorText={alertErrorText} /> }
+        { alertIsOpen && <Alerts type={alertType} id={id} name={name} errorText={alertErrorText} /> }
 
         <AddButton
           text="skill"
@@ -240,7 +257,8 @@ class Skills extends React.Component {
         />
 
         <DeleteSkill
-          original={original}
+          id={id}
+          name={name}
           isOpen={deleteModalIsOpen}
           deleteSubmit={this.deleteSubmit}
           modalLoading={deleteModalLoading}

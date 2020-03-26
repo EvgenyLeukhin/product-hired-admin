@@ -5,8 +5,11 @@ import { Button } from 'reactstrap';
 import Alerts from '../../components/Alerts/index2.jsx';
 import Spinner from '../../../components/Spinner';
 
-import getSkill  from './api/getSkill';
-import editSkill from './api/editSkill';
+import DeleteSkill from './delete';
+
+import getSkill    from './api/getSkill';
+import editSkill   from './api/editSkill';
+import deleteSkill from './api/deleteSkill';
 
 class SkillDetail extends React.Component {
   state = {
@@ -18,6 +21,9 @@ class SkillDetail extends React.Component {
 
     // api
     loading: false,
+
+    // delete
+    deleteModalIsOpen: false, deleteModalLoading: false
   }
 
   // change fields
@@ -32,6 +38,11 @@ class SkillDetail extends React.Component {
 
   // close page and go back to table
   closeDetail = () => this.props.history.push('/skills');
+
+  closeDeleteModal = () => {
+    const { deleteModalLoading } = this.state
+    !deleteModalLoading && this.setState({ deleteModalIsOpen: false });
+  }
 
   closeErrorAlert  = () => this.setState({ errorAlertIsOpen: false });
 
@@ -58,6 +69,42 @@ class SkillDetail extends React.Component {
       }, 2000);
 
     }).catch(error => this.catchErrors(error));
+  }
+
+  deleteClick = () => {
+    this.setState({ deleteModalIsOpen: true, alertIsOpen: false });
+  }
+
+  deleteSubmit = () => {
+    const { id } = this.state;
+
+    this.setState({
+      loading: true,
+      deleteModalIsOpen: false, // it may be lower in logic (now it is not needs if false)
+      deleteModalLoading: true,
+      errorAlertIsOpen: false
+    });
+
+    deleteSkill(id)
+      .then(() => {
+        this.setState({
+          deleteModalIsOpen: false,
+          deleteModalLoading: false,
+          alertType: 'delete', alertIsOpen: true
+        });
+
+        setTimeout(() => {
+          // push data to router
+          const { history } = this.props;
+          history.push({
+            pathname: '/skills',
+            state: { deletedId: id }
+          });
+
+          this.setState({ alertIsOpen: false });
+        }, 2000);
+      })
+      .catch(error => this.catchErrors(error));
   }
 
   generateSlug = () => {
@@ -98,17 +145,25 @@ class SkillDetail extends React.Component {
 
   render() {
     const {
-      name, oldName, slug, weight, markers,         // fields
+      id, name, oldName, slug, weight, markers,                 // fields
       alertIsOpen, alertType, alertErrorText, errorAlertIsOpen, // alerts
-      loading                                                   // api
+      loading,                                                  // api
+      deleteModalIsOpen, deleteModalLoading,                    // delete
     } = this.state;
 
 
     return (
       <section className="ph-detail-page  container">
+        <DeleteSkill
+          id={id} name={name}
+          isOpen={deleteModalIsOpen}
+          deleteSubmit={this.deleteSubmit}
+          modalLoading={deleteModalLoading}
+          closeModal={this.closeDeleteModal}
+        />
         {
           alertIsOpen && (
-            <Alerts name={name} type={alertType} errorText={alertErrorText} errorAlertIsOpen={errorAlertIsOpen}closeErrorAlert={this.closeErrorAlert} />
+            <Alerts id={id} name={name} type={alertType} errorText={alertErrorText} errorAlertIsOpen={errorAlertIsOpen}closeErrorAlert={this.closeErrorAlert} />
           )
         }
 
@@ -197,6 +252,7 @@ class SkillDetail extends React.Component {
               </fieldset>
 
               <footer className="ph-detail-page__buttons">
+                <Button outline color="danger" onClick={this.deleteClick}>Delete</Button>
                 <Button outline color="secondary" onClick={this.closeDetail}>Cancel</Button>
                 <Button disabled={!name || !slug} outline color="primary" type="submit">Save</Button>
               </footer>
