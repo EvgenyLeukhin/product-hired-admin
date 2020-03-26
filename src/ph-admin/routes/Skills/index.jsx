@@ -158,7 +158,7 @@ class Skills extends React.Component {
     // new data after edit role
     const { afterEditData } = this.props.history.location.state || {};
 
-    console.log(afterEditData);
+    // console.log(afterEditData);
 
     if(!isEmpty(afterEditData)) {
       // get current table-data from the state w\o editing change (when render only)
@@ -173,8 +173,7 @@ class Skills extends React.Component {
             name:     afterEditData.name,
             slug:     afterEditData.slug,
             weight:   afterEditData.weight,
-            keywords: afterEditData.keywords,
-            negative: afterEditData.negative,
+            markers:  afterEditData.markers,
           };
         }
       }

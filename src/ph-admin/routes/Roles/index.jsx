@@ -30,8 +30,6 @@ class Roles extends React.Component {
     // new data after edit role
     const { afterEditData } = this.props.history.location.state || {};
 
-    console.log(afterEditData);
-
     if(!isEmpty(afterEditData)) {
       // get current table-data from the state w\o editing change (when render only)
       const { roles } = this.state;
