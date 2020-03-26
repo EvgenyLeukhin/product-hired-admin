@@ -230,6 +230,9 @@ footer.footer {
   z-index: 10;
   max-width: none;
 
+  // hide react-table when detail page is open
+  & + div { display: none; }
+
   fieldset {
     padding-bottom: 0;
     margin-bottom: 0;

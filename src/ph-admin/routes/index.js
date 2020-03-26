@@ -56,14 +56,14 @@ const Routes = ({ location }) => {
       <Route path="/users"      component={Users} />
       <Route path="/jobs"       component={Jobs} />
 
-      <Route path="/skills"     component={Skills} />
       <Route path="/skills/:id" component={SkillsDetail} />
+      <Route path="/skills"     component={Skills} />
 
-      <Route path="/roles"      component={Roles} />
       <Route path="/roles/:id"  component={RolesDetail} />
+      <Route path="/roles"      component={Roles} />
 
-      <Route path="/plans"      component={Plans} />
       <Route path="/plans/:id"  component={PlansDetail} />
+      <Route path="/plans"      component={Plans} />
     </Core>
   );
 }
