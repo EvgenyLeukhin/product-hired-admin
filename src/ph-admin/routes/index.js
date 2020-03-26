@@ -8,6 +8,8 @@ import Companies       from './Companies/index.jsx';
 import CompaniesDetail from './Companies/detail.jsx';
 
 import Users        from './Users/index.jsx';
+import UsersDetail  from './Users/detail.jsx';
+
 import Jobs         from './Jobs/index.jsx';
 
 import Skills       from './Skills/index.jsx';
@@ -57,7 +59,10 @@ const Routes = ({ location }) => {
     <Core>
       <Route path="/companies/:id" component={CompaniesDetail} />
       <Route path="/companies"     component={Companies} />
+
+      <Route path="/users/:id"     component={UsersDetail} />
       <Route path="/users"         component={Users} />
+
       <Route path="/jobs"          component={Jobs} />
 
       <Route path="/skills/:id"    component={SkillsDetail} />

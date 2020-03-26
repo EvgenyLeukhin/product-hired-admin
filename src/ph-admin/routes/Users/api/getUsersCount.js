@@ -23,6 +23,14 @@ const getUsersCount = state => {
     if (i.id === 'id') {
       where[i.id] = i.value;
 
+    // name //
+    } else if (i.id === 'name') {
+      where.or = [
+        { 'name':    { 'like': `%${i.value}%`} },
+        { 'surname': { 'like': `%${i.value}%`} },
+        { 'email':   { 'like': `%${i.value}%`} },
+      ]
+
     // role //
     } else if (i.id === 'user_role_id') {
       i.value ? where[i.id] = Number(i.value) : where[i.id] = null;

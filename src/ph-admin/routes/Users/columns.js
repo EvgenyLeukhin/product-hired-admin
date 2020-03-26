@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 
 import isEmpty from 'lodash/isEmpty';
@@ -34,34 +35,19 @@ const columns = [
 
   // name //
   {
-    Header: 'Name',
+    Header: 'Full name',
     accessor: 'name',
     style: { fontWeight: 'bold' },
     Cell: ({ original }) => {
-      const { name } = original;
+      const { id } = original;
+      const name    = original.name || '';
+      const surname = original.surname || '';
       return (
-        <div className="table-column-name  ellipsis-text" title={name || ''}>{name || ''}</div>
-      );
-    },
-    Filter: ({ filter, onChange }) => (
-      <Input
-        value={filter ? filter.value : ''}
-        onChange={event => onChange(event.target.value)}
-        style={{ width: '100%', height: '38px' }}
-        debounceTimeout={800}
-      />
-    ),
-  },
-
-  // surname //
-  {
-    Header: 'Last name',
-    accessor: 'surname',
-    style: { fontWeight: 'bold' },
-    Cell: ({ original }) => {
-      const { surname } = original;
-      return (
-        <div className="table-column-name  ellipsis-text" title={surname || ''}>{surname || ''}</div>
+        <div className="table-column-name  ellipsis-text" title={`${name} ${surname}`}>
+          <NavLink to={`/users/${id}`}>
+            {`${name} ${surname}`}
+          </NavLink>
+        </div>
       );
     },
     Filter: ({ filter, onChange }) => (

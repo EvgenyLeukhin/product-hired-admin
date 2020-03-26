@@ -22,6 +22,15 @@ const getUsers = state => {
     if (i.id === 'id') {
       filter.where[i.id] = i.value;
 
+    } else if (i.id === 'name') {
+      filter.where = {
+        'or': [
+          { 'name':    { 'like': `%${i.value}%`} },
+          { 'surname': { 'like': `%${i.value}%`} },
+          { 'email':   { 'like': `%${i.value}%`} },
+        ]
+      }
+
     // role //
     } else if (i.id === 'user_role_id') {
       i.value ? filter.where[i.id] = Number(i.value) : filter.where[i.id] = null;
