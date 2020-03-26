@@ -1,5 +1,4 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 
 import isEmpty from 'lodash/isEmpty';
 
@@ -65,25 +64,6 @@ class Plans extends React.Component {
   }
 
   render() {
-    const controlsColumn = [
-      {
-        Header: '',
-        width: 30,
-        sortable: false,
-        filterable: false,
-        Cell: ({ original }) => {
-          const { id } = original;
-          return (
-            <div className="rt-custom__controls">
-              <NavLink to={`/plans/${id}`}>
-                <i className="ion-edit" />
-              </NavLink>
-            </div>
-          )
-        }
-      }
-    ];
-
     const {
       // table
       plans, plansCount, count, tableLoading, original,
@@ -105,7 +85,7 @@ class Plans extends React.Component {
           manual={true}
           pages={plansCount}
           loading={tableLoading}
-          columns={[...columns, ...controlsColumn]}
+          columns={[...columns]} // if done columns={columns} refreshing break
           onFetchData={state => {
             this.setState({ tableLoading: true });
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 
 import isEmpty from 'lodash/isEmpty';
 
@@ -42,10 +41,10 @@ class Roles extends React.Component {
         if (roles[i].id === afterEditData.id) {
           // inject editing data to table state
           roles[i] = {
-            id: afterEditData.id,
-            name: afterEditData.name,
-            slug: afterEditData.slug,
-            weight: afterEditData.weight,
+            id:       afterEditData.id,
+            name:     afterEditData.name,
+            slug:     afterEditData.slug,
+            weight:   afterEditData.weight,
             keywords: afterEditData.keywords,
             negative: afterEditData.negative,
           };
@@ -74,25 +73,6 @@ class Roles extends React.Component {
   }
 
   render() {
-    const controlsColumn = [
-      {
-        Header: '',
-        width: 30,
-        sortable: false,
-        filterable: false,
-        Cell: ({ original }) => {
-          const { id } = original;
-          return (
-            <div className="rt-custom__controls">
-              <NavLink to={`/roles/${id}`}>
-                <i className="ion-edit" />
-              </NavLink>
-            </div>
-          );
-        }
-      }
-    ];
-
     const {
       // table
       roles, rolesCount, count, tableLoading, original,
@@ -114,7 +94,7 @@ class Roles extends React.Component {
           manual={true}
           pages={rolesCount}
           loading={tableLoading}
-          columns={[...columns, ...controlsColumn]}
+          columns={[...columns]}
           onFetchData={state => {
             this.setState({ tableLoading: true });
 
