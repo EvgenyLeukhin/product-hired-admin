@@ -1,22 +1,21 @@
-import React from "react";
-import slugify from 'slugify';
+import React from 'react';
+
+import isEmpty from 'lodash/isEmpty';
 
 import Table from '../../components/Table';
-import Alerts from '../../components/Alerts';
-import AddButton from '../../components/AddButton';
-import AddSkill from './add';
-import EditSkill from './edit';
+import columns from './columns';
+
 import DeleteSkill from './delete';
+
+import Alerts from '../../components/Alerts';
+
+import formatNumber from './../../utils/formatNumber';
 
 import { withHeaderTitle } from '../../../components/Header/HeaderTitle';
 
-import getSkills from './api/getSkills';
+import getSkills      from './api/getSkills';
 import getSkillsCount from './api/getSkillsCount';
-import addSkill from './api/addSkill';
-import editSkill from './api/editSkill';
-import deleteSkill from './api/deleteSkill';
-
-import columns from './columns';
+import deleteSkill    from './api/deleteSkill';
 
 
 class Skills extends React.Component {
@@ -24,156 +23,60 @@ class Skills extends React.Component {
 
   state = {
     // table
-    skills: [], // array of objects
-    skillsCount: null,
-    tableLoading: false,
-    original: {}, count: null,
+    skills: [], skillsCount: null, tableLoading: false, count: null, original: {},
 
     // alert
-    alertIsOpen: false,
-    alertType: '',
-    alertErrorText: '',
-    errorAlertIsOpen: false,
+    alertIsOpen: false, alertType: '', alertErrorText: '',
 
-    // modals
-    addModalIsOpen: false,
-    editModalIsOpen: false,
+    // delete
     deleteModalIsOpen: false,
-    modalLoading: false,
-
-    // fields
-    id: null,
-    name: '',
-    slug: '',
-    weight: null,
-    markers: '',
+    deleteModalLoading: false,
   }
 
-  onChange = e => this.setState({ [e.target.name]: e.target.value });
+  componentWillReceiveProps() {
+    // new data after edit role
+    const { afterEditData } = this.props.history.location.state || {};
 
-  catchErrors = error => {
-    // redirect to login if 401 (request, response)
-    if (error.response.status === 401) {
-      localStorage.removeItem('ph-admin-user-data');
-      this.props.history.push('/login');
+    console.log(afterEditData);
 
-    } else {
-      this.setState({
-        errorAlertIsOpen: true,
-        modalLoading: false,
-        // addModalIsOpen: false, editModalIsOpen: false, deleteModalIsOpen: false, // close modals
-        alertType: 'error',
-        alertIsOpen: true,
-        alertErrorText: `${error}, ${error.response.data.error.sqlMessage}`
-      });
+    if(!isEmpty(afterEditData)) {
+      // get current table-data from the state w\o editing change (when render only)
+      const { skills } = this.state;
+
+      // find editing data in all data by id
+      for (let i = 0; i < skills.length; i++) {
+        if (skills[i].id === afterEditData.id) {
+          // inject editing data to table state
+          skills[i] = {
+            id:       afterEditData.id,
+            name:     afterEditData.name,
+            slug:     afterEditData.slug,
+            weight:   afterEditData.weight,
+            keywords: afterEditData.keywords,
+            negative: afterEditData.negative,
+          };
+        }
+      }
+
+      // inject new array with edited data to table
+      this.setState({ skills });
     }
   }
 
-  addClick = () => {
-    this.setState({
-      addModalIsOpen: true,
-      alertIsOpen: false,
-      name: '', slug: '', weight: null, markers: '' // reset fields
-    });
+  closeDeleteModal = () => {
+    const { deleteModalLoading } = this.state
+    !deleteModalLoading && this.setState({ deleteModalIsOpen: false });
   }
 
-  addSubmit = e => {
-    e.preventDefault();
-
-    this.setState({ modalLoading: true, errorAlertIsOpen: false });
-    const { name, slug, weight, markers, skills } = this.state;
-
-    addSkill(name, slug, weight, markers)   // order must be like inside addSkill method
-      .then(res => {
-
-        const newData = [res.data].concat(skills);
-
-        this.setState({
-          modalLoading: false,
-          addModalIsOpen: false,
-          alertType: 'add',
-          alertIsOpen: true,
-          skills: newData
-        });
-
-        // close alert after 2 sec
-        setTimeout(() => {
-          this.setState({ alertIsOpen: false });
-        }, 2000);
-      })
-
-      .catch(error => this.catchErrors(error));
-  }
-
-  editClick = original => e => {
-    e.stopPropagation();
-
-    this.setState({
-      original,
-      alertIsOpen: false,
-      editModalIsOpen: true,
-
-      // get values from original react-table (original.id, original.name, original.price)
-      id: original.id,
-      name: original.name,
-      slug: original.slug,
-      markers: original.markers,
-      weight: original.weight,
-    });
-  }
-
-  editSubmit = e => {
-    e.preventDefault();
-
-    this.setState({ modalLoading: true, errorAlertIsOpen: false });
-
-    // get edit values
-    const { id, name, slug, markers, weight } = this.state;
-    editSkill(id, name, slug, markers, weight)
-
-      .then(() => {
-        // get current table-data from the state w\o editing change (when render only)
-        const { skills } = this.state;
-
-        // find editing data in all data by id
-        for (let i = 0; i < skills.length; i++) {
-          if (skills[i].id === id) {
-            // inject editing data to table state
-            skills[i] = { id, name, slug, markers, weight };
-          }
-        }
-
-        this.setState({
-          skills, // new roles with edited item
-          modalLoading: false,
-          editModalIsOpen: false,
-          alertType: 'edit',
-          alertIsOpen: true
-        });
-
-        // close alert after 2 sec
-        setTimeout(() => {
-          this.setState({ alertIsOpen: false });
-        }, 2000);
-      })
-
-      .catch(error => this.catchErrors(error));
-  }
-
-  deleteClick = original => e => {
-    e.stopPropagation();
-    this.setState({
-      original,
-      deleteModalIsOpen: true,
-      alertIsOpen: false,
-    });
+  deleteClick = original => () => {
+    this.setState({ original, deleteModalIsOpen: true, alertIsOpen: false });
   }
 
   deleteSubmit = () => {
     const dataWitoutDeleted = [];
     const { skills, original: { id } } = this.state;
 
-    this.setState({ modalLoading: true, errorAlertIsOpen: false });
+    this.setState({ deleteModalLoading: true, errorAlertIsOpen: false });
 
     deleteSkill(id)
       // if delete ok
@@ -188,9 +91,8 @@ class Skills extends React.Component {
         this.setState({
           // set new data w\o deleted item
           skills: dataWitoutDeleted,
-          editModalIsOpen: false,
           deleteModalIsOpen: false,
-          modalLoading: false,
+          deleteModalLoading: false,
 
           // show alert
           alertType: 'delete', alertIsOpen: true
@@ -204,45 +106,32 @@ class Skills extends React.Component {
       .catch(error => this.catchErrors(error));
   }
 
-  closeAddModal    = () => !this.state.modalLoading && this.setState({ addModalIsOpen:    false });
-  closeEditModal   = () => !this.state.modalLoading && this.setState({ editModalIsOpen:   false });
-  closeDeleteModal = () => !this.state.modalLoading && this.setState({ deleteModalIsOpen: false });
-  closeErrorAlert  = () => this.setState({ errorAlertIsOpen: false });
-
-  generateSlug = () => {
-    const { name } = this.state;
-    this.setState({
-      slug: slugify(name, { replacement: '-', lower: true })
-    });
+  catchErrors = error => {
+    const { name, statusCode, message } = error.response.data.error;
+    if (statusCode === 401) {
+      localStorage.removeItem('ph-admin-user-data');
+      this.props.history.push('/login');
+    } else {
+      this.setState({
+        errorAlertIsOpen: true,
+        modalLoading: false,
+        alertType: 'error',
+        alertIsOpen: true,
+        alertErrorText: `${name}, ${message}`
+      });
+    }
   }
-
-  componentDidMount() {
-    // this.setState({ tableLoading: true });
-
-    // getRoles request
-    // getSkills()
-      // .then(res => this.setState({ skills: res.data, tableLoading: false }))
-      // .catch(error => this.catchErrors(error));
-
-    // close modal on Escape
-    document.addEventListener('keyup', e => e.keyCode === 27 && this.closeEditModal());
-  }
-  componentWillUnmount() { document.removeEventListener('keyup', e => e.keyCode === 27) }
-
 
   render() {
     const {
       // table
-      tableLoading, original, skills, skillsCount,
-
-      // fields
-      name, slug, weight, markers,
-
-      // modals
-      addModalIsOpen, editModalIsOpen, modalLoading, deleteModalIsOpen,
+      skills, skillsCount, count, tableLoading, original,
 
       // alerts
-      alertIsOpen, alertType, alertErrorText, errorAlertIsOpen
+      alertIsOpen, alertType, alertErrorText,
+
+      // delete
+      deleteModalLoading, deleteModalIsOpen,
     } = this.state;
 
     const controlsColumn = [
@@ -259,91 +148,34 @@ class Skills extends React.Component {
       }
     ];
 
-    // thousand separator
-    function formatNumber(num) {
-      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    }
-
     return (
-      <div className="roles-page">
+      <div className="skills-page">
         <p className="md-lg">
-          Total records:&nbsp;<b>{this.state.count && formatNumber(this.state.count)}</b>
+          Total records:&nbsp;<b>{count && formatNumber(this.state.count)}</b>
         </p>
-        {
-          alertIsOpen && (
-            <Alerts
-              type={alertType}
-              original={original}
-              errorText={alertErrorText}
-              errorAlertIsOpen={errorAlertIsOpen}
-              closeErrorAlert={this.closeErrorAlert}
-            />
-          )
-        }
 
-        <AddButton
-          text="skill"
-          loading={modalLoading}
-          addClick={this.addClick}
-        />
-
-        <AddSkill
-          // fields
-          name={name} slug={slug} weight={weight} markers={markers}
-
-          isOpen={addModalIsOpen}
-          modalLoading={modalLoading}
-          closeModal={this.closeAddModal}
-          onChange={this.onChange}
-          onSubmit={this.addSubmit}
-          generateSlug={this.generateSlug}
-        />
-
-        <EditSkill
-          // fields
-          original={original}
-          name={name} slug={slug} weight={weight} markers={markers}
-
-          isOpen={editModalIsOpen}
-          modalLoading={modalLoading}
-          closeModal={this.closeEditModal}
-          onChange={this.onChange}
-          onSubmit={this.editSubmit}
-          deleteClick={this.deleteClick(original)}
-          generateSlug={this.generateSlug}
-        />
+        { alertIsOpen && <Alerts type={alertType} original={original} errorText={alertErrorText} /> }
 
         <DeleteSkill
-          isOpen={deleteModalIsOpen}
-          modalLoading={modalLoading}
-          closeModal={this.closeDeleteModal}
           original={original}
+          isOpen={deleteModalIsOpen}
           deleteSubmit={this.deleteSubmit}
+          modalLoading={deleteModalLoading}
+          closeModal={this.closeDeleteModal}
         />
 
         <Table
+          data={skills}
           manual={true}
           pages={skillsCount}
-          data={skills}
           loading={tableLoading}
           columns={[...columns, ...controlsColumn]}
-          getTdProps={(state, rowInfo, column, instance) => {
-            return {
-              onClick: e => {
-                if (rowInfo !== undefined) {
-                  const { original } = rowInfo;
-                  return this.editClick(original)(e);
-                } else return null;
-              }
-            }
-          }}
           onFetchData={state => {
             this.setState({ tableLoading: true });
 
             // count request
             getSkillsCount(state)
               .then(res => {
-                // console.log(res.data); // TODO Plan null doesn't work
                 this.setState({
                   count: res.data.count,
                   skillsCount: Math.ceil(res.data.count / state.pageSize)

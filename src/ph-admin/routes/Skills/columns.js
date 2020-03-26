@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 import { Input } from 'debounce-input-decorator';
 
@@ -28,9 +29,13 @@ const columns = [
     accessor: 'name',
     style: { fontWeight: 'bold' },
     Cell: ({ original }) => {
-      const { name } = original;
+      const { name, id } = original;
       return (
-        <div className="table-column-name  ellipsis-text" title={name || ''}>{name || ''}</div>
+        <div className="table-column-name  ellipsis-text" title={name || ''}>
+          <NavLink to={`/skills/${id}`}>
+            {name || ''}
+          </NavLink>
+        </div>
       );
     },
     Filter: ({ filter, onChange }) => (
