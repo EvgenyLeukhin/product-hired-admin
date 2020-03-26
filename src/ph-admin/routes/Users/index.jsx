@@ -26,10 +26,10 @@ class Users extends React.Component {
 
   state = {
     // table
-    users: [], usersCount: null, tableLoading: false, count: null, original: {},
+    users: [], usersCount: null, tableLoading: false, count: null,
 
-    // alert
-    alertIsOpen: false, alertType: '', alertErrorText: '',
+    // alerts
+    alertIsOpen: false, alertType: '', alertErrorText: '', errorAlertIsOpen: false,
 
     // fields
     id: null, name: '', surname: '', password: '', email: '',
@@ -102,8 +102,6 @@ class Users extends React.Component {
         const newData = [res.data].concat(users);
 
         this.setState({
-          addModalLoading: false,
-          addModalIsOpen: false,
           alertType: 'add',
           alertIsOpen: true,
           users: newData
@@ -111,7 +109,12 @@ class Users extends React.Component {
 
         // close alert after 2 sec
         setTimeout(() => {
-          this.setState({ alertIsOpen: false });
+          this.setState({
+            alertIsOpen: false,
+            addModalLoading: false,
+            addModalIsOpen: false,
+          });
+          this.props.history.push(`/users/${res.data.id}`); // redirect to edit
         }, 2000);
       })
 
@@ -138,7 +141,8 @@ class Users extends React.Component {
     } else {
       this.setState({
         errorAlertIsOpen: true,
-        modalLoading: false,
+        addModalLoading: false,
+        deleteModalLoading: false,
         alertType: 'error',
         alertIsOpen: true,
         alertErrorText: `${name}, ${message}`
@@ -147,7 +151,7 @@ class Users extends React.Component {
   }
 
   componentWillReceiveProps() {
-    // new data after edit plan
+    // AFTER EDIT //
     const { afterEditData } = this.props.history.location.state || {};
 
     if(!isEmpty(afterEditData)) {
@@ -159,12 +163,7 @@ class Users extends React.Component {
         if (users[i].id === afterEditData.id) {
           // inject editing data to table state
           users[i] = {
-            id: afterEditData.id,
-            name: afterEditData.name,
-            surname: afterEditData.surname,
-            email: afterEditData.email,
-            created: afterEditData.created,
-            modified: afterEditData.modified,
+            id: afterEditData.id, name: afterEditData.name, surname: afterEditData.surname, email: afterEditData.email,  job_title: afterEditData.job_title, emailVerified: afterEditData.emailVerified, admin: afterEditData.admin, status: afterEditData.status, banned: afterEditData.banned, experience: afterEditData.experience.value, image: afterEditData.image, skills: afterEditData.skills, created: afterEditData.created, emailSettings: afterEditData.emailSettings, emailJobApplication: afterEditData.emailJobApplication, emailMarketing: afterEditData.emailMarketing, seniority_id: afterEditData.seniority_id, seniority: afterEditData.seniority, location_id: afterEditData.location_id, location: afterEditData.location, userRole: afterEditData.userRole, user_role_id: afterEditData.user_role_id, roles: afterEditData.roles, role: afterEditData.role, role_id: afterEditData.role_id, company: afterEditData.company, company_id: afterEditData.company_id,
           };
         }
       }
@@ -172,12 +171,30 @@ class Users extends React.Component {
       // inject new array with edited data to table
       this.setState({ users });
     }
+
+    // AFTER DELETE //
+    const { deletedId } = this.props.history.location.state || {};
+
+    if(deletedId) {
+      // get current table-data from the state w\o editing change (when render only)
+      const { users } = this.state;
+      const dataWitoutDeleted = [];
+
+      for (let i = 0; i < users.length; i++) {
+        // skiping deleted item and forming new array without it
+        if (users[i].id !== deletedId) {
+          // push all data without deleted item to new array
+          dataWitoutDeleted.push(users[i]);
+        }
+      }
+      this.setState({ users: dataWitoutDeleted });
+    }
   }
 
   render() {
     const {
       // table
-      users, usersCount, count, tableLoading, original,
+      users, usersCount, count, tableLoading,
 
       // alerts
       alertIsOpen, alertType, alertErrorText,
