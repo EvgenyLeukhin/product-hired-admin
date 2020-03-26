@@ -12,7 +12,7 @@ const AddSkill = ({
 
   return (
     <AddModal isOpen={isOpen} modalLoading={modalLoading} closeModal={closeModal}>
-      <section className="section-container add-container">
+      <section className="section-container  add-container">
         <h4 className="add-container__title">Add skill</h4>
 
         <span className="ion-close-round add-container__close" onClick={closeModal} />

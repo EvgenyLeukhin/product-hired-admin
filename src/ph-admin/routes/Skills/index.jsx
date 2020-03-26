@@ -1,13 +1,17 @@
 import React from 'react';
+import slugify from 'slugify';
 
 import isEmpty from 'lodash/isEmpty';
 
-import Table from '../../components/Table';
-import columns from './columns';
+import Table     from '../../components/Table';
+import columns   from './columns';
 
+import Alerts    from '../../components/Alerts';
+import AddButton from '../../components/AddButton';
+
+import AddSkill    from './add';
 import DeleteSkill from './delete';
 
-import Alerts from '../../components/Alerts';
 
 import formatNumber from './../../utils/formatNumber';
 
@@ -15,6 +19,7 @@ import { withHeaderTitle } from '../../../components/Header/HeaderTitle';
 
 import getSkills      from './api/getSkills';
 import getSkillsCount from './api/getSkillsCount';
+import addSkill       from './api/addSkill';
 import deleteSkill    from './api/deleteSkill';
 
 
@@ -29,44 +34,64 @@ class Skills extends React.Component {
     alertIsOpen: false, alertType: '', alertErrorText: '',
 
     // delete
-    deleteModalIsOpen: false,
-    deleteModalLoading: false,
+    deleteModalIsOpen: false, deleteModalLoading: false,
+
+    // add
+    addModalIsOpen: false, addModalLoading: false,
+
+    // fields
+    id: null, name: '', slug: '', weight: null, markers: '',
   }
 
-  componentWillReceiveProps() {
-    // new data after edit role
-    const { afterEditData } = this.props.history.location.state || {};
+  onChange = e => this.setState({ [e.target.name]: e.target.value });
 
-    console.log(afterEditData);
+  addClick = () => {
+    this.setState({
+      addModalIsOpen: true,
+      alertIsOpen: false,
+      name: '', slug: '', weight: null, markers: '' // reset fields
+    });
+  }
 
-    if(!isEmpty(afterEditData)) {
-      // get current table-data from the state w\o editing change (when render only)
-      const { skills } = this.state;
+  addSubmit = e => {
+    e.preventDefault();
 
-      // find editing data in all data by id
-      for (let i = 0; i < skills.length; i++) {
-        if (skills[i].id === afterEditData.id) {
-          // inject editing data to table state
-          skills[i] = {
-            id:       afterEditData.id,
-            name:     afterEditData.name,
-            slug:     afterEditData.slug,
-            weight:   afterEditData.weight,
-            keywords: afterEditData.keywords,
-            negative: afterEditData.negative,
-          };
-        }
-      }
+    this.setState({ addModalLoading: true, errorAlertIsOpen: false });
+    const { name, slug, weight, markers, skills } = this.state;
 
-      // inject new array with edited data to table
-      this.setState({ skills });
-    }
+    addSkill(name, slug, weight, markers)   // order must be like inside addSkill method
+      .then(res => {
+
+        const newData = [res.data].concat(skills);
+
+        this.setState({
+          addModalLoading: false,
+          addModalIsOpen: false,
+          alertType: 'add',
+          alertIsOpen: true,
+          skills: newData
+        });
+
+        // close alert after 2 sec
+        setTimeout(() => {
+          this.setState({ alertIsOpen: false });
+        }, 2000);
+      })
+
+      .catch(error => this.catchErrors(error));
+  }
+
+  closeAddModal = () => {
+    const { addModalLoading } = this.state
+    !addModalLoading && this.setState({ addModalIsOpen: false });
   }
 
   closeDeleteModal = () => {
     const { deleteModalLoading } = this.state
     !deleteModalLoading && this.setState({ deleteModalIsOpen: false });
   }
+
+  closeErrorAlert  = () => this.setState({ errorAlertIsOpen: false });
 
   deleteClick = original => () => {
     this.setState({ original, deleteModalIsOpen: true, alertIsOpen: false });
@@ -106,6 +131,13 @@ class Skills extends React.Component {
       .catch(error => this.catchErrors(error));
   }
 
+  generateSlug = () => {
+    const { name } = this.state;
+    this.setState({
+      slug: slugify(name, { replacement: '-', lower: true })
+    });
+  }
+
   catchErrors = error => {
     const { name, statusCode, message } = error.response.data.error;
     if (statusCode === 401) {
@@ -122,6 +154,36 @@ class Skills extends React.Component {
     }
   }
 
+  componentWillReceiveProps() {
+    // new data after edit role
+    const { afterEditData } = this.props.history.location.state || {};
+
+    console.log(afterEditData);
+
+    if(!isEmpty(afterEditData)) {
+      // get current table-data from the state w\o editing change (when render only)
+      const { skills } = this.state;
+
+      // find editing data in all data by id
+      for (let i = 0; i < skills.length; i++) {
+        if (skills[i].id === afterEditData.id) {
+          // inject editing data to table state
+          skills[i] = {
+            id:       afterEditData.id,
+            name:     afterEditData.name,
+            slug:     afterEditData.slug,
+            weight:   afterEditData.weight,
+            keywords: afterEditData.keywords,
+            negative: afterEditData.negative,
+          };
+        }
+      }
+
+      // inject new array with edited data to table
+      this.setState({ skills });
+    }
+  }
+
   render() {
     const {
       // table
@@ -132,6 +194,10 @@ class Skills extends React.Component {
 
       // delete
       deleteModalLoading, deleteModalIsOpen,
+
+      // add
+      addModalIsOpen, addModalLoading,
+      name, slug, weight, markers, // fields
     } = this.state;
 
     const controlsColumn = [
@@ -155,6 +221,24 @@ class Skills extends React.Component {
         </p>
 
         { alertIsOpen && <Alerts type={alertType} original={original} errorText={alertErrorText} /> }
+
+        <AddButton
+          text="skill"
+          loading={addModalLoading && deleteModalLoading}
+          addClick={this.addClick}
+        />
+
+        <AddSkill
+          // fields
+          name={name} slug={slug} weight={weight} markers={markers}
+
+          isOpen={addModalIsOpen}
+          modalLoading={addModalLoading}
+          closeModal={this.closeAddModal}
+          onChange={this.onChange}
+          onSubmit={this.addSubmit}
+          generateSlug={this.generateSlug}
+        />
 
         <DeleteSkill
           original={original}
