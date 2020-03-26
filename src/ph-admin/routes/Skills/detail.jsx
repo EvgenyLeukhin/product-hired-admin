@@ -139,7 +139,7 @@ class SkillDetail extends React.Component {
     // get request
     getSkill(match.params.id).then(res => {
       const { id, name, slug, markers, weight } = res.data;
-      this.setState({ id, name, slug, markers, weight, loading: false });
+      this.setState({ id, name, oldName: name, slug, markers, weight, loading: false });
     }).catch(error => this.catchErrors(error));
   }
 

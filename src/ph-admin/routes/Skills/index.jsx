@@ -40,7 +40,7 @@ class Skills extends React.Component {
     addModalIsOpen: false, addModalLoading: false,
 
     // fields
-    id: null, name: '', slug: '', weight: null, markers: '',
+    id: null, name: '', oldName: '', slug: '', weight: null, markers: '',
   }
 
   onChange = e => this.setState({ [e.target.name]: e.target.value });

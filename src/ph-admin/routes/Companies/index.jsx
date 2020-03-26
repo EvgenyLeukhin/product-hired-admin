@@ -45,9 +45,8 @@ class Companies extends React.Component {
     addModalIsOpen: false, addModalLoading: false,
 
     // fields
-    id: null, name: '', slug: '', domain: '', weight: null,
-    logo: '', logoLoading: false,
-    cover: '', coverLoading: false,
+    id: null, name: '', oldName: '', slug: '', domain: '', weight: null, logo: '', cover: '',
+    logoLoading: false, coverLoading: false,
   }
 
   onChange = e => this.setState({ [e.target.name]: e.target.value });
@@ -222,9 +221,10 @@ class Companies extends React.Component {
           companies[i] = {
             id:       afterEditData.id,
             name:     afterEditData.name,
-            slug:     afterEditData.slug,
-            weight:   afterEditData.weight,
-            markers:  afterEditData.markers,
+            domain:     afterEditData.domain,
+            slug:   afterEditData.slug,
+            logo:  afterEditData.logo,
+            cover:  afterEditData.cover,
           };
         }
       }
