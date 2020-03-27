@@ -27,7 +27,6 @@ const getUsers = state => {
         'or': [
           { 'name':    { 'like': `%${i.value}%`} },
           { 'surname': { 'like': `%${i.value}%`} },
-          { 'email':   { 'like': `%${i.value}%`} },
         ]
       }
 

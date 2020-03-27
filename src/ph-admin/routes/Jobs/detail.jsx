@@ -82,7 +82,7 @@ class JobDetail extends React.Component {
     details: '',
 
     // images
-    logo: '', logoUrl: '', cover: '', coverUrl: '',
+    logo: '', cover: '',
     logoLoading: false, coverLoading: false,
     logoSwitcher: false, coverSwitcher: false,
 
@@ -128,8 +128,8 @@ class JobDetail extends React.Component {
     e.preventDefault();
     this.setState({ loading: true });
 
-    const { id, name, price } = this.state;
-    editJob(id, name, price).then(res => {
+    const { state } = this;
+    editJob(state).then(res => {
       // open alert
       this.setState({ alertIsOpen: true, alertType: 'edit'});
 
@@ -141,8 +141,11 @@ class JobDetail extends React.Component {
         const { history } = this.props;
         history.push({
           pathname: '/jobs',
-          state: { afterEditData: res.data }
-        })
+          state: {
+            afterEditData: res.data,
+            detailState: state,
+          }
+        });
       }, 2000);
 
     }).catch(error => this.catchErrors(error));
@@ -250,8 +253,8 @@ class JobDetail extends React.Component {
       .catch(error => console.log(error))
   }
 
-  onDeleteLogo  = () => this.setState({ logo: '',  logoUrl: '',  logoSwitcher: false });
-  onDeleteCover = () => this.setState({ cover: '', coverUrl: '', coverSwitcher: false });
+  onDeleteLogo  = () => this.setState({ logo: '', logoSwitcher: false });
+  onDeleteCover = () => this.setState({ cover: '', coverSwitcher: false });
   // ---------------- LOGO & COVER ---------------- //
 
 
@@ -296,19 +299,17 @@ class JobDetail extends React.Component {
     // get request
     getJob(match.params.id).then(res => {
       const { data } = res;
-      const { id, name, created, modified, published, views, impressions, details, skills, seniority, status, plan_id, employer_id, company, company_id, locations, vacancy_role, vacancy } = data;
+      const { id, name, created, modified, published, views, impressions, details, skills, seniority, status, plan_id, employer_id, company, company_id, locations, vacancy_role, vacancy, logo, cover } = data;
 
       this.setState({
         loading: false,
         oldName: data.name,
 
         // save data to state from react-table
-        id, name, created, modified, published, views, impressions, details, skills, seniority, status, plan_id,employer_id, company, company_id, locations, vacancy_role, vacancy,
+        id, name, created, modified, published, views, impressions, details, skills, seniority, status, plan_id,employer_id, company, company_id, locations, vacancy_role, vacancy, logo, cover,
 
         experience_up:   { value: data.experience_up,   label: `${data.experience_up}` },
         experience_from: { value: data.experience_from, label: `${data.experience_from}` },
-        // logo
-        // cover
       });
 
 
@@ -386,38 +387,39 @@ class JobDetail extends React.Component {
 
   render() {
     const {
-      // table
-      tableLoading, original, jobs, jobsCount,
-
       // fields
       id, name, oldName, user, employer_id, created, modified, published, views, impressions, details,
       experience_from, experience_up, seniority, seniorityObj, skills, status, statusObj,
       plan_id, planObj, company_id, company, locations, vacancy_role, vacancy,
 
       // images
-      logo, cover, logoSwitcher, coverSwitcher, logoLoading, coverLoading, logoUrl, coverUrl,
+      logo, cover, logoSwitcher, coverSwitcher, logoLoading, coverLoading,
 
+      // alerts
+      alertIsOpen, alertType, alertErrorText, errorAlertIsOpen,
 
-      alertIsOpen, alertType, alertErrorText, errorAlertIsOpen, // alerts
-      loading,                                                  // api
-      deleteModalIsOpen, deleteModalLoading,                    // delete
+      // api
+      loading,
+
+      // delete
+      deleteModalIsOpen, deleteModalLoading,
     } = this.state;
 
     const createdString = created && `${created.substring(0, 10)}, ${created.substring(11, 16)} UTC`;
 
-    // let logoUrl = `${API_URL}/${subUrl}/containers/logo/download/${logo}`;
-    // let coverUrl = `${API_URL}/${subUrl}/containers/cover/download/${cover}`;
+    let logoUrl = `${API_URL}/${subUrl}/containers/logo/download/${logo}`;
+    let coverUrl = `${API_URL}/${subUrl}/containers/cover/download/${cover}`;
 
     // // fix problem with open item after additing image
-    // if (!logoSwitcher && logo && logo.includes('http')) {
-    //   const logoSplit = logo.split('/').pop();
-    //   logoUrl = `${API_URL}/${subUrl}/containers/logo/download/${logoSplit}`;
-    // }
+    if (!logoSwitcher && logo && logo.includes('http')) {
+      const logoSplit = logo.split('/').pop();
+      logoUrl = `${API_URL}/${subUrl}/containers/logo/download/${logoSplit}`;
+    }
 
-    // if (!coverSwitcher && cover && cover.includes('http')) {
-    //   const coverSplit = cover.split('/').pop();
-    //   coverUrl = `${API_URL}/${subUrl}/containers/cover/download/${coverSplit}`;
-    // }
+    if (!coverSwitcher && cover && cover.includes('http')) {
+      const coverSplit = cover.split('/').pop();
+      coverUrl = `${API_URL}/${subUrl}/containers/cover/download/${coverSplit}`;
+    }
 
 
     return (
@@ -752,9 +754,64 @@ class JobDetail extends React.Component {
                     />
                   </div>
 
+                  {/* logo */}
+                  <div className="col-md-6  edit-logo">
+                    <label htmlFor="edit-logo">Logo</label>
+                    {
+                      !logoSwitcher ? (
+                        logo ? <img className="logo" src={logoUrl} alt="logo" />
+                            : <div className="no-logo">No logo</div>
+                      ) : (
+                        logoLoading ? <Spinner /> : (
+                          logo && <img className="logo" src={logo} alt="logo" />
+                        )
+                      )
+                    }
+                    <input
+                      id="edit-logo"
+                      type="file"
+                      className="input-file-custom"
+                      ref={this.fileInputLogo}
+                      onChange={this.onUploadLogo}
+                    />
 
+                    <div className="edit-logo__buttons">
+                      <label htmlFor="edit-logo" className="input-file-label  btn btn-light">
+                        <i className="ion-image" />&nbsp;
+                        <span>Load logo</span>
+                      </label>
+                      <Button disabled={!logo || !logoUrl} outline color="danger" onClick={this.onDeleteLogo}>Delete logo</Button>
+                    </div>
+                  </div>
 
-
+                  {/* cover */}
+                  <div className="col-md-6  edit-cover">
+                    <label htmlFor="edit-cover">Cover</label>
+                    {
+                      !coverSwitcher ? (
+                        cover ? <img className="cover" src={coverUrl} alt="cover" />
+                              : <div className="no-cover">No cover</div>
+                      ) : (
+                        coverLoading ? <Spinner /> : (
+                          cover && <img className="cover" src={cover} alt="cover" />
+                        )
+                      )
+                    }
+                    <input
+                      id="edit-cover"
+                      type="file"
+                      className="input-file-custom"
+                      ref={this.fileInputCover}
+                      onChange={this.onUploadCover}
+                    />
+                    <div className="edit-cover__buttons">
+                      <label htmlFor="edit-cover" className="input-file-label  btn btn-light">
+                        <i className="ion-image" />&nbsp;
+                        <span>Load cover</span>
+                      </label>
+                      <Button disabled={!cover || !coverUrl} outline color="danger" onClick={this.onDeleteCover}>Delete cover</Button>
+                    </div>
+                  </div>
 
                   {/* details */}
                   <div className="col-md-12">

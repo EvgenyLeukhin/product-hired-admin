@@ -231,8 +231,8 @@ class Jobs extends React.Component {
         locations: data.locations,
         vacancy_role: data.vacancy_role,
         vacancy: data.vacancy,
-        logo: original.logo,
-        cover: original.cover,
+        logo: data.logo,
+        cover: data.cover,
       })
 
       // SENIORITY (get current seniorityObj {} from options mapping)

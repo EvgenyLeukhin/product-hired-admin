@@ -155,16 +155,24 @@ class Jobs extends React.Component {
   componentWillReceiveProps() {
     // new data after edit plan
     const { afterEditData } = this.props.history.location.state || {};
+    const { detailState } = this.props.history.location.state || {};
 
-    if(!isEmpty(afterEditData)) {
+    if(!isEmpty(afterEditData && detailState)) {
       // get current table-data from the state w\o editing change (when render only)
       const { jobs } = this.state;
 
       // find editing data in all data by id
       for (let i = 0; i < jobs.length; i++) {
         if (jobs[i].id === afterEditData.id) {
+          const {
+            id, name, user, created, modified, published, views, impressions, details,experience_from, experience_up, seniority, seniorityObj, skills, status, statusObj, plan_id, planObj,company_id, company, locations, vacancy_role, vacancy, logo, cover
+          } = afterEditData;
+
+          const { employer, employer_id } = detailState;
           // inject editing data to table state
-          jobs[i] = { id: afterEditData.id, name: afterEditData.name, price: afterEditData.price };
+          jobs[i] = {
+            id, name, user, employer, employer_id, created, modified, published, views, impressions, details,experience_from: experience_from.value, experience_up: experience_up.value, seniority, seniorityObj, skills, status, statusObj, plan_id, planObj, company_id, company, locations, vacancy_role, vacancy, logo, cover, modified: `${new Date().toISOString()}`
+          };
         }
       }
 

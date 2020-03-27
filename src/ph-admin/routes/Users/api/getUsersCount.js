@@ -28,7 +28,6 @@ const getUsersCount = state => {
       where.or = [
         { 'name':    { 'like': `%${i.value}%`} },
         { 'surname': { 'like': `%${i.value}%`} },
-        { 'email':   { 'like': `%${i.value}%`} },
       ]
 
     // role //
