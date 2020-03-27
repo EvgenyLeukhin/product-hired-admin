@@ -39,7 +39,7 @@ const columns = [
       return (
         <div className="table-column-name  ellipsis-text" title={name || ''}>
           <NavLink to={`/companies/${id}`}>
-            <img title={logo || ''} src={logo || noLogo} width={20} height={20} style={{ objectFit: 'cover' }} />
+            <img src={logo || noLogo} width={20} height={20} style={{ objectFit: 'cover' }} />
             &nbsp;&nbsp;
             <span title={name || ''}>{name || ''}</span>
           </NavLink>
