@@ -177,7 +177,7 @@ class Users extends React.Component {
 
     if(deletedId) {
       // get current table-data from the state w\o editing change (when render only)
-      const { users } = this.state;
+      const { users, usersCount, count } = this.state;
       const dataWitoutDeleted = [];
 
       for (let i = 0; i < users.length; i++) {
@@ -187,7 +187,11 @@ class Users extends React.Component {
           dataWitoutDeleted.push(users[i]);
         }
       }
-      this.setState({ users: dataWitoutDeleted });
+      this.setState({
+        users: dataWitoutDeleted,
+        usersCount: usersCount - 1,
+        count: count - 1,
+      });
     }
   }
 

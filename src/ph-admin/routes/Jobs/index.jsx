@@ -185,7 +185,7 @@ class Jobs extends React.Component {
 
     if(deletedId) {
       // get current table-data from the state w\o editing change (when render only)
-      const { jobs } = this.state;
+      const { jobs, jobsCount, count } = this.state;
       const dataWitoutDeleted = [];
 
       for (let i = 0; i < jobs.length; i++) {
@@ -195,7 +195,11 @@ class Jobs extends React.Component {
           dataWitoutDeleted.push(jobs[i]);
         }
       }
-      this.setState({ jobs: dataWitoutDeleted });
+      this.setState({
+        jobs: dataWitoutDeleted,
+        jobsCount: jobsCount - 1,
+        count: count - 1,
+      });
     }
   }
 

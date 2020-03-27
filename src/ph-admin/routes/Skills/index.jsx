@@ -187,7 +187,7 @@ class Skills extends React.Component {
 
     if(deletedId) {
       // get current table-data from the state w\o editing change (when render only)
-      const { skills } = this.state;
+      const { skills, skillsCount, count } = this.state;
       const dataWitoutDeleted = [];
 
       for (let i = 0; i < skills.length; i++) {
@@ -197,7 +197,11 @@ class Skills extends React.Component {
           dataWitoutDeleted.push(skills[i]);
         }
       }
-      this.setState({ skills: dataWitoutDeleted });
+      this.setState({
+        skills: dataWitoutDeleted,
+        skillsCount: skillsCount - 1,
+        count: count - 1,
+      });
     }
   }
 

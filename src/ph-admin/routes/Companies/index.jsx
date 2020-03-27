@@ -238,7 +238,7 @@ class Companies extends React.Component {
 
     if(deletedId) {
       // get current table-data from the state w\o editing change (when render only)
-      const { companies } = this.state;
+      const { companies, companiesCount, count } = this.state;
       const dataWitoutDeleted = [];
 
       for (let i = 0; i < companies.length; i++) {
@@ -248,7 +248,11 @@ class Companies extends React.Component {
           dataWitoutDeleted.push(companies[i]);
         }
       }
-      this.setState({ companies: dataWitoutDeleted });
+      this.setState({
+        companies: dataWitoutDeleted,
+        companiesCount: companiesCount - 1,
+        count: count - 1,
+      });
     }
   }
 
