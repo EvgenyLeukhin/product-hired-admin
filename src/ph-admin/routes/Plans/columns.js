@@ -29,7 +29,7 @@ const columns = [
     accessor: 'name',
     style: { fontWeight: 'bold' },
     Cell: ({ original }) => {
-      const { name, id } = original;
+      const { id, name } = original;
       return (
         <div className="table-column-name  ellipsis-text" title={name || ''}>
           <NavLink to={`/plans/${id}`}>

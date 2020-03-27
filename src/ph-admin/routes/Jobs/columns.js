@@ -1,6 +1,8 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
 
+import { NavLink } from 'react-router-dom';
+
 import AsyncSelect from 'react-select/async';
 import { Input } from 'debounce-input-decorator';
 
@@ -71,14 +73,14 @@ const columns = [
     accessor: 'name',
     style: { fontWeight: 'bold' },
     Cell: ({ original }) => {
-      const { name } = original;
-      if (name) {
-        return (
-          <div className="table-column-name  ellipsis-text" title={name}>
-            {name}
-          </div>
-        )
-      } else return '';
+      const { id, name } = original;
+      return (
+        <div className="table-column-name  ellipsis-text" title={name || ''}>
+          <NavLink to={`/jobs/${id}`}>
+            {name || ''}
+          </NavLink>
+        </div>
+      );
     },
     Filter: ({filter, onChange}) => (
       <Input

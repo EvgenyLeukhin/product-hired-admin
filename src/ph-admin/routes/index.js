@@ -11,6 +11,7 @@ import Users        from './Users/index.jsx';
 import UsersDetail  from './Users/detail.jsx';
 
 import Jobs         from './Jobs/index.jsx';
+import JobsDetail   from './Jobs/detail.jsx';
 
 import Skills       from './Skills/index.jsx';
 import SkillsDetail from './Skills/detail.jsx';
@@ -63,6 +64,7 @@ const Routes = ({ location }) => {
       <Route path="/users/:id"     component={UsersDetail} />
       <Route path="/users"         component={Users} />
 
+      <Route path="/jobs/:id"      component={JobsDetail} />
       <Route path="/jobs"          component={Jobs} />
 
       <Route path="/skills/:id"    component={SkillsDetail} />

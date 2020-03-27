@@ -55,7 +55,6 @@ class Plans extends React.Component {
     } else {
       this.setState({
         errorAlertIsOpen: true,
-        modalLoading: false,
         alertType: 'error',
         alertIsOpen: true,
         alertErrorText: `${name}, ${message}`
