@@ -249,6 +249,9 @@ class Jobs extends React.Component {
           pages={jobsCount}
           loading={tableLoading}
           columns={[...columns, ...controlsColumn]}
+          getTheadFilterThProps={(state, rowInfo, column) => {
+            return { style: { overflow: 'visible' }};
+          }}
           onFetchData={state => {
             this.setState({ tableLoading: true });
 

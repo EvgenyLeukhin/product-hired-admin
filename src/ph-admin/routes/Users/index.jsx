@@ -264,6 +264,9 @@ class Users extends React.Component {
           pages={usersCount}
           loading={tableLoading}
           columns={[...columns, ...controlsColumn]}
+          getTheadFilterThProps={(state, rowInfo, column) => {
+            return { style: { overflow: 'visible' }};
+          }}
           onFetchData={state => {
             this.setState({ tableLoading: true });
 
