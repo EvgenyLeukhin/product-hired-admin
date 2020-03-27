@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Link } from 'react-router-dom';
+
 import CKEditor from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
@@ -184,7 +186,15 @@ const EditJob = ({
 
                   {/* user */}
                   <div className="col-md-5">
-                    <label htmlFor="edit-employer_id">User</label>
+                    <label htmlFor="edit-employer_id">
+                      User&nbsp;
+                      <Link
+                        to={`/users/${employer_id}`}
+                        title={`.../users/${employer_id}`}
+                        target='_blank'>
+                        (link)
+                      </Link>
+                    </label>
                     <input
                       hidden
                       name="employer_id"
