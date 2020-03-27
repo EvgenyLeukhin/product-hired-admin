@@ -553,12 +553,13 @@ class JobDetail extends React.Component {
                   {/* user */}
                   <div className="col-md-5">
                     <label htmlFor="edit-employer_id">
-                      User&nbsp;
+                      User:&nbsp;
                       <Link
+                        style={{ fontWeight: 'normal' }}
                         to={`/users/${employer_id}`}
                         title={`.../users/${employer_id}`}
                         target='_blank'>
-                        (link)
+                        edit in a new tab
                       </Link>
                     </label>
                     <input
@@ -606,7 +607,16 @@ class JobDetail extends React.Component {
 
                   {/* company */}
                   <div className="col-md-5">
-                    <label htmlFor="edit-company_id">Company</label>
+                    <label htmlFor="edit-company_id">
+                      Company:&nbsp;
+                      <Link
+                        style={{ fontWeight: 'normal' }}
+                        to={`/companies/${company_id}`}
+                        title={`.../companies/${company_id}`}
+                        target='_blank'>
+                        edit in a new tab
+                      </Link>
+                    </label>
                     <input
                       hidden
                       name="company_id"
