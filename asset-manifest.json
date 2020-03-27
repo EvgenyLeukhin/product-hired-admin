@@ -1,7 +1,7 @@
 {
   "main.css": "/product-hired-admin/static/css/main.2dbd29af.chunk.css",
-  "main.js": "/product-hired-admin/static/js/main.605f39ef.chunk.js",
-  "main.js.map": "/product-hired-admin/static/js/main.605f39ef.chunk.js.map",
+  "main.js": "/product-hired-admin/static/js/main.be911d36.chunk.js",
+  "main.js.map": "/product-hired-admin/static/js/main.be911d36.chunk.js.map",
   "static/css/1.60999b93.chunk.css": "/product-hired-admin/static/css/1.60999b93.chunk.css",
   "static/js/1.2a99c05f.chunk.js": "/product-hired-admin/static/js/1.2a99c05f.chunk.js",
   "static/js/1.2a99c05f.chunk.js.map": "/product-hired-admin/static/js/1.2a99c05f.chunk.js.map",
@@ -11,6 +11,6 @@
   "static/css/1.60999b93.chunk.css.map": "/product-hired-admin/static/css/1.60999b93.chunk.css.map",
   "static/css/main.2dbd29af.chunk.css.map": "/product-hired-admin/static/css/main.2dbd29af.chunk.css.map",
   "index.html": "/product-hired-admin/index.html",
-  "precache-manifest.a1eb75d51135fe499eb64e53ffefb756.js": "/product-hired-admin/precache-manifest.a1eb75d51135fe499eb64e53ffefb756.js",
+  "precache-manifest.ea14c95f49935274e6f07ac29588672b.js": "/product-hired-admin/precache-manifest.ea14c95f49935274e6f07ac29588672b.js",
   "service-worker.js": "/product-hired-admin/service-worker.js"
 }
