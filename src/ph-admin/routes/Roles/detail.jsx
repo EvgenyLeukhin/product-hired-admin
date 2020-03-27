@@ -91,7 +91,7 @@ class RoleDetail extends React.Component {
 
   render() {
     const {
-      name, oldName, slug, weight, keywords, negative,          // fields
+      id, name, oldName, slug, weight, keywords, negative,          // fields
       alertIsOpen, alertType, alertErrorText, errorAlertIsOpen, // alerts
       loading                                                   // api
     } = this.state;
@@ -101,7 +101,7 @@ class RoleDetail extends React.Component {
       <section className="ph-detail-page  container">
         {
           alertIsOpen && (
-            <Alerts name={name} type={alertType} errorText={alertErrorText} errorAlertIsOpen={errorAlertIsOpen}closeErrorAlert={this.closeErrorAlert} />
+            <Alerts id={id} name={name} type={alertType} errorText={alertErrorText} errorAlertIsOpen={errorAlertIsOpen}closeErrorAlert={this.closeErrorAlert} />
           )
         }
 

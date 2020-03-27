@@ -171,6 +171,24 @@ class Jobs extends React.Component {
       // inject new array with edited data to table
       this.setState({ jobs });
     }
+
+    // AFTER DELETE //
+    const { deletedId } = this.props.history.location.state || {};
+
+    if(deletedId) {
+      // get current table-data from the state w\o editing change (when render only)
+      const { jobs } = this.state;
+      const dataWitoutDeleted = [];
+
+      for (let i = 0; i < jobs.length; i++) {
+        // skiping deleted item and forming new array without it
+        if (jobs[i].id !== deletedId) {
+          // push all data without deleted item to new array
+          dataWitoutDeleted.push(jobs[i]);
+        }
+      }
+      this.setState({ jobs: dataWitoutDeleted });
+    }
   }
 
   render() {

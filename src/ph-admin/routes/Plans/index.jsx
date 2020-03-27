@@ -20,7 +20,7 @@ class Plans extends React.Component {
 
   state = {
     // table
-    plans: [], plansCount: null, tableLoading: false, count: null, original: {},
+    plans: [], plansCount: null, tableLoading: false, count: null,
 
     // alert
     alertIsOpen: false, alertType: '', alertErrorText: '',
@@ -65,10 +65,13 @@ class Plans extends React.Component {
   render() {
     const {
       // table
-      plans, plansCount, count, tableLoading, original,
+      plans, plansCount, count, tableLoading,
 
       // alerts
-      alertIsOpen, alertType, alertErrorText
+      alertIsOpen, alertType, alertErrorText,
+
+      // fields
+      id, name
     } = this.state;
 
     return (
@@ -77,7 +80,7 @@ class Plans extends React.Component {
           Total records:&nbsp;<b>{count && formatNumber(this.state.count)}</b>
         </p>
 
-        { alertIsOpen && <Alerts type={alertType} original={original} errorText={alertErrorText} /> }
+        { alertIsOpen && <Alerts id={id} name={name} type={alertType} errorText={alertErrorText} /> }
 
         <Table
           data={plans}

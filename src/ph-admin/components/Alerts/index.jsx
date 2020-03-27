@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Alert } from "reactstrap";
 
 const Alerts = ({ type, id, name, surname, errorText, errorAlertIsOpen, closeErrorAlert }) => {

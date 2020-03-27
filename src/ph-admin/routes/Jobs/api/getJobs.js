@@ -13,7 +13,7 @@ const getJobs = state => {
     where: {},
     limit: pageSize,
     skip: page * pageSize,
-    order: 'published DESC'
+    order: 'id DESC'
   };
 
   // inject where to filter
@@ -68,7 +68,7 @@ const getJobs = state => {
     } else if (i.id === 'created') {
       const createdDate = i.value && format(i.value, 'yyyy-MM-dd');
       filter.where.created = { 'gt': createdDate };
-      filter.order = i.value ? 'created DESC' : 'published DESC';
+      filter.order = i.value ? 'created DESC' : 'id DESC';
 
     // Published // +
     } else if (i.id === 'published') {
