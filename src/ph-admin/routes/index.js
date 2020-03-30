@@ -75,6 +75,9 @@ const Routes = ({ location }) => {
 
       <Route path="/plans/:id"     component={PlansDetail} />
       <Route path="/plans"         component={Plans} />
+
+      {/* if wrong route */}
+      <Redirect to="/companies" />
     </Core>
   );
 }

@@ -175,7 +175,6 @@ class UserDetail extends React.Component {
     this.setState({ loading: true, errorAlertIsOpen: false });
 
     const { state } = this;
-    const { id, name, surname, email, job_title, emailVerified, admin, status, banned, experience, image, skills, created, emailSettings, emailJobApplication, emailMarketing, seniority_id, seniority, location_id, location, userRole, user_role_id, roles, role, role_id, company, company_id } = this.state;
 
     editUser(state).then(res => {
       // open alert
