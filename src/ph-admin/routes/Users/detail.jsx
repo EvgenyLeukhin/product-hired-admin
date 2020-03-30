@@ -55,7 +55,7 @@ class UserDetail extends React.Component {
     alertIsOpen: false, alertType: '', alertErrorText: '',
 
     // api
-    loading: false, tabIndex: 0, appliedCount: null,
+    loading: false, tabIndex: 0, appliedCount: 0,
 
     // delete
     deleteModalIsOpen: false, deleteModalLoading: false
@@ -406,7 +406,7 @@ class UserDetail extends React.Component {
         <Tabs selectedIndex={tabIndex} onSelect={tabIndex => this.setState({ tabIndex })}>
           <TabList>
             <Tab>Edit user</Tab>
-            <Tab>View Jobs Applied <b>({appliedCount ? appliedCount : ' '})</b></Tab>
+            <Tab>View Jobs Applied <b>({appliedCount})</b></Tab>
           </TabList>
           <TabPanel>
             <div className="cardbox">

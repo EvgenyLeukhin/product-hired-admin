@@ -35,7 +35,6 @@ class UserApplied extends React.Component {
 
     getUserApplied(id).then(res => {
       const { data } = res;
-      console.log(data);
       this.setState({ data, loading: false });
     }).catch(error => this.catchErrors(error));
   }
