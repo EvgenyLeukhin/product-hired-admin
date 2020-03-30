@@ -76,6 +76,8 @@ const Routes = ({ location }) => {
       <Route path="/plans/:id"     component={PlansDetail} />
       <Route path="/plans"         component={Plans} />
 
+      <Route path="*"              component={() => <h2>404 - Page not found</h2>} />
+
       {/* if wrong route */}
       <Redirect to="/companies" />
     </Core>
