@@ -112,7 +112,6 @@ class UserApplied extends React.Component {
                   <div className="col-md-6">
                     <a
                       download
-                      style={{ fontWeight: 'bold' }}
                       href={`${API_URL}/${i.url}`}
                       title="Click to download"
                       target="_blank"
