@@ -1,10 +1,13 @@
 import React from 'react';
 import Select from 'react-select';
 import AsyncSelect from 'react-select/async';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
 
 import isEmpty from 'lodash/isEmpty';
 
 import DeleteUser from './delete';
+import UserApplied from './applied';
 
 import { Button } from 'reactstrap';
 import Alerts from '../../components/Alerts/index2.jsx';
@@ -26,6 +29,7 @@ import getCompanies        from './api/getCompanies';
 import uploadImage         from './api/uploadImage';
 import seniorityOptions    from './api/seniorityOptions';
 import experienceOptions   from './api/experienceOptions';
+import getUserApplied    from './api/getUserApplied';
 
 import './edit.scss';
 
@@ -51,7 +55,7 @@ class UserDetail extends React.Component {
     alertIsOpen: false, alertType: '', alertErrorText: '',
 
     // api
-    loading: false,
+    loading: false, tabIndex: 0, appliedCount: null,
 
     // delete
     deleteModalIsOpen: false, deleteModalLoading: false
@@ -351,6 +355,12 @@ class UserDetail extends React.Component {
         });
       })
     .catch(error => this.catchErrors(error));
+
+    // get applied count
+    getUserApplied(match.params.id).then(res => {
+      this.setState({ appliedCount: res.data.length > 0 ? res.data.length : 0 });
+    }).catch(error => this.catchErrors(error));
+
   }
 
   render() {
@@ -366,7 +376,7 @@ class UserDetail extends React.Component {
 
 
       alertIsOpen, alertType, alertErrorText, errorAlertIsOpen, // alerts
-      loading                                                   // api
+      loading, tabIndex, appliedCount                           // api
     } = this.state;
 
 
@@ -393,503 +403,514 @@ class UserDetail extends React.Component {
           loading && <div className="ph-detail-page__is-loading"><Spinner /></div>
         }
 
-        <div className="cardbox">
-          <div className="cardbox-body">
-            <form action="" onSubmit={this.editSubmit}>
+        <Tabs selectedIndex={tabIndex} onSelect={tabIndex => this.setState({ tabIndex })}>
+          <TabList>
+            <Tab>Edit user</Tab>
+            <Tab>View Jobs Applied <b>({appliedCount ? appliedCount : ' '})</b></Tab>
+          </TabList>
+          <TabPanel>
+            <div className="cardbox">
+              <div className="cardbox-body">
+                <form action="" onSubmit={this.editSubmit}>
 
-              <fieldset>
-                <div className="form-group row">
+                  <fieldset>
+                    <div className="form-group row">
 
-                  {/* col-md-3  edit-user__left */}
-                  <div className="col-md-3  edit-user__left">
-                    <div className="edit-image">
-                      <label htmlFor="edit-image" className="edit-image__label">Profile photo</label>
-                      {
-                        imageLoading ? <Spinner /> : (
-                          (!isEmpty(image) && image.url) ? <img className="image" src={`${image.url}`} alt="image" /> : <div className="no-image">No image</div>
-                        )
-                      }
-                      <input
-                        id="edit-image"
-                        type="file"
-                        className="input-file-custom"
-                        ref={this.fileInputImage}
-                        onChange={this.onUploadImage}
-                      />
-
-                      <div className="edit-image__buttons">
-                        <label htmlFor="edit-image" className="input-file-label  btn btn-light">
-                          <i className="ion-image" />&nbsp;
-                          <span>Choose a file</span>
-                        </label>
-                        <Button disabled={!image.url} outline color="danger" onClick={this.onDeleteImage}>Delete photo</Button>
-                      </div>
-                    </div>
-
-                    <div className="edit-image-url" hidden={true}>
-                      <label htmlFor="edit-image-url">Image URL</label>
-
-                      <div className="input-group">
-                        <input
-                          name="image"
-                          value={(!isEmpty(image) && image.url) ? image.url : ''}
-                          id="edit-image-url"
-                          onChange={this.onChangeImage}
-                          type="url"
-                          className="form-control"
-                          placeholder="Please, paste image URL or load file"
-                        />
-
-                        <div className="input-group-append">
-                          <button
-                            className="btn btn-light"
-                            type="button"
-                            onClick={this.deleteImage}
-                            disabled={!isEmpty(image) && !image.url}
-                          >
-                            Clear
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="created">
-                      <label htmlFor="edit-created">Created</label>
-                      <input
-                        disabled
-                        name="created"
-                        value={created && `${created.substring(0, 10)}, ${created.substring(11, 16)}UTC`}
-                        id="edit-created"
-                        type="text"
-                        className="form-control"
-                      />
-                    </div>
-
-                    <div className="modified">
-                      <label htmlFor="edit-modified">Modified</label>
-                      <input
-                        disabled
-                        name="modified"
-                        value={modified && `${modified.substring(0, 10)}, ${modified.substring(11, 16)}UTC`}
-                        id="edit-modified"
-                        type="text"
-                        className="form-control"
-                      />
-                    </div>
-
-                    <div className="admin">
-                      <label htmlFor="edit-modified">Admin status</label>
-
-                      <div className="custom-checkbox">
-                        <label className="switch switch-warn switch-primary">
+                      {/* col-md-3  edit-user__left */}
+                      <div className="col-md-3  edit-user__left">
+                        <div className="edit-image">
+                          <label htmlFor="edit-image" className="edit-image__label">Profile photo</label>
+                          {
+                            imageLoading ? <Spinner /> : (
+                              (!isEmpty(image) && image.url) ? <img className="image" src={`${image.url}`} alt="image" /> : <div className="no-image">No image</div>
+                            )
+                          }
                           <input
-                            id="edit-admin"
-                            name="admin"
-                            type="checkbox"
-                            checked={admin}
-                            onChange={this.onChangeRoles}
+                            id="edit-image"
+                            type="file"
+                            className="input-file-custom"
+                            ref={this.fileInputImage}
+                            onChange={this.onUploadImage}
                           />
-                          <span />
-                        </label>
 
-                        <label
-                          htmlFor="edit-admin"
-                          style={{
-                            fontWeight: 'normal',
-                            paddingLeft: 0,
-                            marginBottom: 0
-                          }}
-                        >
-                          { admin ? 'Site admin' : 'Not an admin' }
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  {/* col-md-3  edit-user__left */}
+                          <div className="edit-image__buttons">
+                            <label htmlFor="edit-image" className="input-file-label  btn btn-light">
+                              <i className="ion-image" />&nbsp;
+                              <span>Choose a file</span>
+                            </label>
+                            <Button disabled={!image.url} outline color="danger" onClick={this.onDeleteImage}>Delete photo</Button>
+                          </div>
+                        </div>
 
+                        <div className="edit-image-url" hidden={true}>
+                          <label htmlFor="edit-image-url">Image URL</label>
 
-                  {/* col-md-9  edit-user__right */}
-                  <div className="col-md-9  edit-user__right">
-                    <div className="row">
+                          <div className="input-group">
+                            <input
+                              name="image"
+                              value={(!isEmpty(image) && image.url) ? image.url : ''}
+                              id="edit-image-url"
+                              onChange={this.onChangeImage}
+                              type="url"
+                              className="form-control"
+                              placeholder="Please, paste image URL or load file"
+                            />
 
-                      {/* name */}
-                      <div className="col-md-4">
-                        <label htmlFor="edit-name">Name</label>
-
-                        <input
-                          required
-                          name="name"
-                          value={name}
-                          id="edit-name"
-                          onChange={this.onChange}
-                          type="text"
-                          className="form-control"
-                        />
-                      </div>
-
-                      {/* surname */}
-                      <div className="col-md-4">
-                        <label htmlFor="edit-name">Last name</label>
-
-                        <input
-                          required
-                          name="surname"
-                          value={surname}
-                          id="edit-surname"
-                          onChange={this.onChange}
-                          type="text"
-                          className="form-control"
-                        />
-                      </div>
-
-
-                      {/* location */}
-                      <div className="col-md-4">
-                        <label htmlFor="edit-location_id">Location</label>
-                        <input
-                          hidden
-                          name="location_id"
-                          value={location_id}
-                          id="edit-location_id"
-                          onChange={this.onChange}
-                          type="number"
-                          className="form-control"
-                        />
-
-                        <AsyncSelect
-                          menuPlacement="auto"
-                          cacheOptions={true}
-                          defaultOptions={true}
-                          loadOptions={inputValue => getLocations(inputValue).then(res => res.data)}
-                          getOptionValue={o => o.id}
-                          getOptionLabel={o => (
-                            <div>
-                              <span>{`${o.name && o.name + ', '} `}</span>
-                              <span style={{ color: '#3498db', textShadow: '1px 1px 0 #fff' }}>
-                                {o.alias_region}
-                              </span>
+                            <div className="input-group-append">
+                              <button
+                                className="btn btn-light"
+                                type="button"
+                                onClick={this.deleteImage}
+                                disabled={!isEmpty(image) && !image.url}
+                              >
+                                Clear
+                              </button>
                             </div>
-                          )}
-                          value={location}
-                          onChange={this.onChangeLocation}
-                        />
+                          </div>
+                        </div>
+
+                        <div className="created">
+                          <label htmlFor="edit-created">Created</label>
+                          <input
+                            disabled
+                            name="created"
+                            value={created && `${created.substring(0, 10)}, ${created.substring(11, 16)}UTC`}
+                            id="edit-created"
+                            type="text"
+                            className="form-control"
+                          />
+                        </div>
+
+                        <div className="modified">
+                          <label htmlFor="edit-modified">Modified</label>
+                          <input
+                            disabled
+                            name="modified"
+                            value={modified && `${modified.substring(0, 10)}, ${modified.substring(11, 16)}UTC`}
+                            id="edit-modified"
+                            type="text"
+                            className="form-control"
+                          />
+                        </div>
+
+                        <div className="admin">
+                          <label htmlFor="edit-modified">Admin status</label>
+
+                          <div className="custom-checkbox">
+                            <label className="switch switch-warn switch-primary">
+                              <input
+                                id="edit-admin"
+                                name="admin"
+                                type="checkbox"
+                                checked={admin}
+                                onChange={this.onChangeRoles}
+                              />
+                              <span />
+                            </label>
+
+                            <label
+                              htmlFor="edit-admin"
+                              style={{
+                                fontWeight: 'normal',
+                                paddingLeft: 0,
+                                marginBottom: 0
+                              }}
+                            >
+                              { admin ? 'Site admin' : 'Not an admin' }
+                            </label>
+                          </div>
+                        </div>
                       </div>
+                      {/* col-md-3  edit-user__left */}
 
 
-                      {/* email */}
-                      <div className="col-md-4">
-                        <label htmlFor="edit-email">Email</label>
+                      {/* col-md-9  edit-user__right */}
+                      <div className="col-md-9  edit-user__right">
+                        <div className="row">
 
-                        <input
-                          required
-                          name="email"
-                          value={email}
-                          id="edit-email"
-                          onChange={this.onChange}
-                          type="email"
-                          className="form-control"
-                        />
-                      </div>
+                          {/* name */}
+                          <div className="col-md-4">
+                            <label htmlFor="edit-name">Name</label>
 
-
-                      {/* emailVerified */}
-                      <div className="col-md-4">
-                        <label htmlFor="edit-emailVerified">Email verified</label>
-
-                        <div className="custom-checkbox">
-                          <label className="switch switch-warn switch-primary">
                             <input
-                              id="edit-emailVerified"
-                              name="emailVerified"
-                              type="checkbox"
-                              checked={emailVerified}
+                              required
+                              name="name"
+                              value={name}
+                              id="edit-name"
                               onChange={this.onChange}
+                              type="text"
+                              className="form-control"
                             />
-                            <span />
-                          </label>
+                          </div>
 
-                          <label
-                            htmlFor="edit-emailVerified"
-                            style={{
-                              fontWeight: 'normal',
-                              paddingLeft: 0,
-                              marginBottom: 0
-                            }}
-                          >
-                            {emailVerified ? 'Verified' : 'Not verified'}
-                          </label>
-                        </div>
-                      </div>
+                          {/* surname */}
+                          <div className="col-md-4">
+                            <label htmlFor="edit-name">Last name</label>
 
-
-                      {/* status */}
-                      <div className="col-md-4">
-                        <label htmlFor="edit-banned">User activity</label>
-
-                        <div className="custom-checkbox">
-                          <label className="switch switch-warn switch-success">
                             <input
-                              id="edit-banned"
-                              name="banned"
-                              type="checkbox"
-                              checked={!banned}
-                              onChange={this.onChangeRoles}
+                              required
+                              name="surname"
+                              value={surname}
+                              id="edit-surname"
+                              onChange={this.onChange}
+                              type="text"
+                              className="form-control"
                             />
-                            <span />
-                          </label>
+                          </div>
 
-                          <label
-                            htmlFor="edit-banned"
-                            style={{
-                              fontWeight: 'normal',
-                              paddingLeft: 0,
-                              marginBottom: 0
-                            }}
-                          >
-                            {
-                              !banned
-                                ? <span style={{ color: '#4CAF50' }}>Active</span>
-                                : <span style={{ color: '#F44336' }}>Blocked</span>
-                            }
-                          </label>
+
+                          {/* location */}
+                          <div className="col-md-4">
+                            <label htmlFor="edit-location_id">Location</label>
+                            <input
+                              hidden
+                              name="location_id"
+                              value={location_id}
+                              id="edit-location_id"
+                              onChange={this.onChange}
+                              type="number"
+                              className="form-control"
+                            />
+
+                            <AsyncSelect
+                              menuPlacement="auto"
+                              cacheOptions={true}
+                              defaultOptions={true}
+                              loadOptions={inputValue => getLocations(inputValue).then(res => res.data)}
+                              getOptionValue={o => o.id}
+                              getOptionLabel={o => (
+                                <div>
+                                  <span>{`${o.name && o.name + ', '} `}</span>
+                                  <span style={{ color: '#3498db', textShadow: '1px 1px 0 #fff' }}>
+                                    {o.alias_region}
+                                  </span>
+                                </div>
+                              )}
+                              value={location}
+                              onChange={this.onChangeLocation}
+                            />
+                          </div>
+
+
+                          {/* email */}
+                          <div className="col-md-4">
+                            <label htmlFor="edit-email">Email</label>
+
+                            <input
+                              required
+                              name="email"
+                              value={email}
+                              id="edit-email"
+                              onChange={this.onChange}
+                              type="email"
+                              className="form-control"
+                            />
+                          </div>
+
+
+                          {/* emailVerified */}
+                          <div className="col-md-4">
+                            <label htmlFor="edit-emailVerified">Email verified</label>
+
+                            <div className="custom-checkbox">
+                              <label className="switch switch-warn switch-primary">
+                                <input
+                                  id="edit-emailVerified"
+                                  name="emailVerified"
+                                  type="checkbox"
+                                  checked={emailVerified}
+                                  onChange={this.onChange}
+                                />
+                                <span />
+                              </label>
+
+                              <label
+                                htmlFor="edit-emailVerified"
+                                style={{
+                                  fontWeight: 'normal',
+                                  paddingLeft: 0,
+                                  marginBottom: 0
+                                }}
+                              >
+                                {emailVerified ? 'Verified' : 'Not verified'}
+                              </label>
+                            </div>
+                          </div>
+
+
+                          {/* status */}
+                          <div className="col-md-4">
+                            <label htmlFor="edit-banned">User activity</label>
+
+                            <div className="custom-checkbox">
+                              <label className="switch switch-warn switch-success">
+                                <input
+                                  id="edit-banned"
+                                  name="banned"
+                                  type="checkbox"
+                                  checked={!banned}
+                                  onChange={this.onChangeRoles}
+                                />
+                                <span />
+                              </label>
+
+                              <label
+                                htmlFor="edit-banned"
+                                style={{
+                                  fontWeight: 'normal',
+                                  paddingLeft: 0,
+                                  marginBottom: 0
+                                }}
+                              >
+                                {
+                                  !banned
+                                    ? <span style={{ color: '#4CAF50' }}>Active</span>
+                                    : <span style={{ color: '#F44336' }}>Blocked</span>
+                                }
+                              </label>
+                            </div>
+                          </div>
+
+
+                          {/* skills */}
+                          <div className="col-md-12">
+                            <label htmlFor="edit-skills">Skills</label>
+                            <AsyncSelect
+                              isMulti={true}
+                              menuPlacement="auto"
+                              cacheOptions={true}
+                              defaultOptions={true}
+                              loadOptions={inputValue => getSkills(inputValue).then(res => res.data)}
+                              getOptionValue={o => o.id}
+                              getOptionLabel={o => o.name}
+                              onChange={this.onChangeSkills}
+                              value={skills}
+                            />
+                          </div>
+
+
+                          {/* company */}
+                          <div className="col-md-4">
+                            <label htmlFor="edit-company_id">Current company</label>
+
+                            <input
+                              hidden
+                              name="company_id"
+                              value={company_id}
+                              id="edit-company_id"
+                              onChange={this.onChange}
+                              type="number"
+                              className="form-control"
+                            />
+
+                            <AsyncSelect
+                              menuPlacement="auto"
+                              cacheOptions={true}
+                              defaultOptions={true}
+                              loadOptions={inputValue => getCompanies(inputValue).then(res => res.data)}
+                              getOptionValue={o => o.id}
+                              getOptionLabel={o => o.name}
+                              value={company}
+                              onChange={this.onChangeCompany}
+                            />
+
+                          </div>
+
+
+                          {/* job_title */}
+                          <div className="col-md-4">
+                            <label htmlFor="edit-job_title">Job title</label>
+
+                            <input
+                              name="job_title"
+                              value={job_title}
+                              id="edit-job_title"
+                              onChange={this.onChange}
+                              type="text"
+                              className="form-control"
+                            />
+                          </div>
+
+
+                          {/* role */}
+                          <div className="col-md-4">
+                            <label htmlFor="edit-role_id">Product role</label>
+
+                            <input
+                              hidden
+                              name="role_id"
+                              value={role_id}
+                              id="edit-role_id"
+                              onChange={this.onChange}
+                              type="number"
+                              className="form-control"
+                            />
+
+                            <AsyncSelect
+                              menuPlacement="auto"
+                              cacheOptions={true}
+                              defaultOptions={true}
+                              loadOptions={inputValue => getRoles(inputValue).then(res => res.data)}
+                              getOptionValue={o => o.id}
+                              getOptionLabel={o => o.name}
+                              value={role}
+                              onChange={this.onChangeRole}
+                            />
+                          </div>
+
+
+                          {/* seniority_id */}
+                          <div className="col-md-4">
+                            <label htmlFor="edit-seniority_id">Seniority</label>
+                            <input
+                              hidden
+                              name="seniority_id"
+                              value={seniority_id}
+                              id="edit-seniority_id"
+                              onChange={this.onChange}
+                              type="number"
+                              className="form-control"
+                            />
+
+                            <Select
+                              value={seniority}
+                              onChange={this.onChangeSeniority}
+                              options={seniorityOptions}
+                            />
+                          </div>
+
+
+                          {/* experience */}
+                          <div className="col-md-2">
+                            <label htmlFor="edit-experience">Experience</label>
+
+                            <input
+                              hidden
+                              required
+                              min={0}
+                              max={50}
+                              name="experience"
+                              value={experience.value}
+                              id="edit-experience"
+                              onChange={this.onChange}
+                              type="number"
+                              className="form-control"
+                            />
+                            <Select
+                              value={experience}
+                              onChange={this.onChangeExperience}
+                              options={experienceOptions}
+                            />
+                          </div>
+
+
+                          {/* reason */}
+                          <div className="col-md-6">
+                            <label htmlFor="edit-user_role_id">Main reason for using ProductHired</label>
+                            <input
+                              hidden
+                              name="user_role"
+                              value={user_role_id}
+                              id="edit-user_role"
+                              onChange={this.onChange}
+                              type="number"
+                              className="form-control"
+                            />
+
+                            <AsyncSelect
+                              menuPlacement="auto"
+                              cacheOptions={true}
+                              defaultOptions={true}
+                              loadOptions={inputValue => getUserRoles(inputValue).then(res => res.data)}
+                              getOptionValue={o => o.id}
+                              getOptionLabel={o => o.name}
+                              value={userRole}
+                              onChange={this.onChangeUserRole}
+                            />
+                          </div>
+
+
+                          {/* notifications */}
+                          <div className="col-md-9  notifications">
+                            <label>Notifications</label>
+
+                            <div className="custom-control custom-checkbox">
+                              <input
+                                type="checkbox"
+                                className="custom-control-input"
+                                id="edit-emailSettings"
+                                name="emailSettings"
+                                checked={emailSettings}
+                                onChange={this.onChange}
+                              />
+                              <label
+                                className="custom-control-label"
+                                htmlFor="edit-emailSettings"
+                                style={{ fontWeight: 'normal' }}
+                              >
+                                When account settings have been modified
+                              </label>
+                            </div>
+
+
+                            <div className="custom-control custom-checkbox">
+                              <input
+                                type="checkbox"
+                                className="custom-control-input"
+                                id="edit-emailJobApplication"
+                                name="emailJobApplication"
+                                checked={emailJobApplication}
+                                onChange={this.onChange}
+                              />
+                              <label
+                                className="custom-control-label"
+                                htmlFor="edit-emailJobApplication"
+                                style={{ fontWeight: 'normal' }}
+                              >
+                                When job settings has been viewed
+                              </label>
+                            </div>
+
+
+                            <div className="custom-control custom-checkbox">
+                              <input
+                                type="checkbox"
+                                className="custom-control-input"
+                                id="edit-emailMarketing"
+                                name="emailMarketing"
+                                checked={emailMarketing}
+                                onChange={this.onChange}
+                              />
+                              <label
+                                className="custom-control-label"
+                                htmlFor="edit-emailMarketing"
+                                style={{ fontWeight: 'normal' }}
+                              >
+                                Allow receiving marketing emails
+                              </label>
+                            </div>
+                          </div>
                         </div>
                       </div>
+                      {/* col-md-9  edit-user__right */}
 
-
-                      {/* skills */}
-                      <div className="col-md-12">
-                        <label htmlFor="edit-skills">Skills</label>
-                        <AsyncSelect
-                          isMulti={true}
-                          menuPlacement="auto"
-                          cacheOptions={true}
-                          defaultOptions={true}
-                          loadOptions={inputValue => getSkills(inputValue).then(res => res.data)}
-                          getOptionValue={o => o.id}
-                          getOptionLabel={o => o.name}
-                          onChange={this.onChangeSkills}
-                          value={skills}
-                        />
-                      </div>
-
-
-                      {/* company */}
-                      <div className="col-md-4">
-                        <label htmlFor="edit-company_id">Current company</label>
-
-                        <input
-                          hidden
-                          name="company_id"
-                          value={company_id}
-                          id="edit-company_id"
-                          onChange={this.onChange}
-                          type="number"
-                          className="form-control"
-                        />
-
-                        <AsyncSelect
-                          menuPlacement="auto"
-                          cacheOptions={true}
-                          defaultOptions={true}
-                          loadOptions={inputValue => getCompanies(inputValue).then(res => res.data)}
-                          getOptionValue={o => o.id}
-                          getOptionLabel={o => o.name}
-                          value={company}
-                          onChange={this.onChangeCompany}
-                        />
-
-                      </div>
-
-
-                      {/* job_title */}
-                      <div className="col-md-4">
-                        <label htmlFor="edit-job_title">Job title</label>
-
-                        <input
-                          name="job_title"
-                          value={job_title}
-                          id="edit-job_title"
-                          onChange={this.onChange}
-                          type="text"
-                          className="form-control"
-                        />
-                      </div>
-
-
-                      {/* role */}
-                      <div className="col-md-4">
-                        <label htmlFor="edit-role_id">Product role</label>
-
-                        <input
-                          hidden
-                          name="role_id"
-                          value={role_id}
-                          id="edit-role_id"
-                          onChange={this.onChange}
-                          type="number"
-                          className="form-control"
-                        />
-
-                        <AsyncSelect
-                          menuPlacement="auto"
-                          cacheOptions={true}
-                          defaultOptions={true}
-                          loadOptions={inputValue => getRoles(inputValue).then(res => res.data)}
-                          getOptionValue={o => o.id}
-                          getOptionLabel={o => o.name}
-                          value={role}
-                          onChange={this.onChangeRole}
-                        />
-                      </div>
-
-
-                      {/* seniority_id */}
-                      <div className="col-md-4">
-                        <label htmlFor="edit-seniority_id">Seniority</label>
-                        <input
-                          hidden
-                          name="seniority_id"
-                          value={seniority_id}
-                          id="edit-seniority_id"
-                          onChange={this.onChange}
-                          type="number"
-                          className="form-control"
-                        />
-
-                        <Select
-                          value={seniority}
-                          onChange={this.onChangeSeniority}
-                          options={seniorityOptions}
-                        />
-                      </div>
-
-
-                      {/* experience */}
-                      <div className="col-md-2">
-                        <label htmlFor="edit-experience">Experience</label>
-
-                        <input
-                          hidden
-                          required
-                          min={0}
-                          max={50}
-                          name="experience"
-                          value={experience.value}
-                          id="edit-experience"
-                          onChange={this.onChange}
-                          type="number"
-                          className="form-control"
-                        />
-                        <Select
-                          value={experience}
-                          onChange={this.onChangeExperience}
-                          options={experienceOptions}
-                        />
-                      </div>
-
-
-                      {/* reason */}
-                      <div className="col-md-6">
-                        <label htmlFor="edit-user_role_id">Main reason for using ProductHired</label>
-                        <input
-                          hidden
-                          name="user_role"
-                          value={user_role_id}
-                          id="edit-user_role"
-                          onChange={this.onChange}
-                          type="number"
-                          className="form-control"
-                        />
-
-                        <AsyncSelect
-                          menuPlacement="auto"
-                          cacheOptions={true}
-                          defaultOptions={true}
-                          loadOptions={inputValue => getUserRoles(inputValue).then(res => res.data)}
-                          getOptionValue={o => o.id}
-                          getOptionLabel={o => o.name}
-                          value={userRole}
-                          onChange={this.onChangeUserRole}
-                        />
-                      </div>
-
-
-                      {/* notifications */}
-                      <div className="col-md-9  notifications">
-                        <label>Notifications</label>
-
-                        <div className="custom-control custom-checkbox">
-                          <input
-                            type="checkbox"
-                            className="custom-control-input"
-                            id="edit-emailSettings"
-                            name="emailSettings"
-                            checked={emailSettings}
-                            onChange={this.onChange}
-                          />
-                          <label
-                            className="custom-control-label"
-                            htmlFor="edit-emailSettings"
-                            style={{ fontWeight: 'normal' }}
-                          >
-                            When account settings have been modified
-                          </label>
-                        </div>
-
-
-                        <div className="custom-control custom-checkbox">
-                          <input
-                            type="checkbox"
-                            className="custom-control-input"
-                            id="edit-emailJobApplication"
-                            name="emailJobApplication"
-                            checked={emailJobApplication}
-                            onChange={this.onChange}
-                          />
-                          <label
-                            className="custom-control-label"
-                            htmlFor="edit-emailJobApplication"
-                            style={{ fontWeight: 'normal' }}
-                          >
-                            When job settings has been viewed
-                          </label>
-                        </div>
-
-
-                        <div className="custom-control custom-checkbox">
-                          <input
-                            type="checkbox"
-                            className="custom-control-input"
-                            id="edit-emailMarketing"
-                            name="emailMarketing"
-                            checked={emailMarketing}
-                            onChange={this.onChange}
-                          />
-                          <label
-                            className="custom-control-label"
-                            htmlFor="edit-emailMarketing"
-                            style={{ fontWeight: 'normal' }}
-                          >
-                            Allow receiving marketing emails
-                          </label>
-                        </div>
-                      </div>
                     </div>
-                  </div>
-                  {/* col-md-9  edit-user__right */}
+                  </fieldset>
 
-                </div>
-              </fieldset>
+                  <footer className="ph-detail-page__buttons">
+                    <Button outline color="danger" onClick={this.deleteClick}>Delete</Button>
+                    <Button outline color="secondary" onClick={this.closeDetail}>Cancel</Button>
+                    <Button disabled={!name || imageLoading} outline color="primary" type="submit">Save</Button>
+                  </footer>
 
-              <footer className="ph-detail-page__buttons">
-                <Button outline color="danger" onClick={this.deleteClick}>Delete</Button>
-                <Button outline color="secondary" onClick={this.closeDetail}>Cancel</Button>
-                <Button disabled={!name || imageLoading} outline color="primary" type="submit">Save</Button>
-              </footer>
-
-            </form>
-          </div>
-        </div>
+                </form>
+              </div>
+            </div>
+          </TabPanel>
+          <TabPanel>
+            <UserApplied id={id} name={name} surname={surname} email={email} />
+          </TabPanel>
+        </Tabs>
       </section>
     );
   }

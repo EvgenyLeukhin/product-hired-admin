@@ -8,12 +8,15 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Button } from 'reactstrap';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import isEmpty from 'lodash/isEmpty';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
 // ---------------- LIBS ---------------- //
 
 
 
 // ---------------- COMPONENTS ---------------- //
 import DeleteJob from './delete';
+import JobApplied from './applied';
 import Alerts from '../../components/Alerts/index2.jsx';
 import Spinner from '../../../components/Spinner';
 // ---------------- COMPONENTS ---------------- //
@@ -88,6 +91,8 @@ class JobDetail extends React.Component {
 
     // default state fields when add job
     application_link: null, application_type: 0, hash: null,
+
+    tabIndex: 0,
   }
   // ---------------- STATE ---------------- //
 
@@ -399,7 +404,7 @@ class JobDetail extends React.Component {
       alertIsOpen, alertType, alertErrorText, errorAlertIsOpen,
 
       // api
-      loading,
+      loading, tabIndex,
 
       // delete
       deleteModalIsOpen, deleteModalLoading,
@@ -444,423 +449,434 @@ class JobDetail extends React.Component {
           loading && <div className="ph-detail-page__is-loading"><Spinner /></div>
         }
 
-        <div className="cardbox">
-          <div className="cardbox-body">
-            <form action="" onSubmit={this.editSubmit}>
+        <Tabs selectedIndex={tabIndex} onSelect={tabIndex => this.setState({ tabIndex })}>
+          <TabList>
+            <Tab>Edit job</Tab>
+            <Tab>View Talants Applied (0)</Tab>
+          </TabList>
+          <TabPanel>
+            <div className="cardbox">
+              <div className="cardbox-body">
+                <form action="" onSubmit={this.editSubmit}>
 
-              <fieldset>
-                <div className="form-group row top-fields">
-                  {/* created */}
-                  <div className="col-md-4 col-sm-6">
-                    <b>Created</b>
-                    <span>{createdString || ''}</span>
-                  </div>
+                  <fieldset>
+                    <div className="form-group row top-fields">
+                      {/* created */}
+                      <div className="col-md-4 col-sm-6">
+                        <b>Created</b>
+                        <span>{createdString || ''}</span>
+                      </div>
 
-                  {/* views */}
-                  <div className="col-md-2 col-sm-6">
-                    <b>Views</b>
-                    <span>{views || 0}</span>
-                  </div>
+                      {/* views */}
+                      <div className="col-md-2 col-sm-6">
+                        <b>Views</b>
+                        <span>{views || 0}</span>
+                      </div>
 
-                  {/* impressions */}
-                  <div className="col-md-2 col-sm-6">
-                    <b>Impressions</b>
-                    <span>{impressions || 0}</span>
-                  </div>
+                      {/* impressions */}
+                      <div className="col-md-2 col-sm-6">
+                        <b>Impressions</b>
+                        <span>{impressions || 0}</span>
+                      </div>
 
-                  {/* job-link */}
-                  <div className="col-md-4 col-sm-6  job-link">
-                    <b>Link to the job</b>
-                    <a
-                      target="_blank"
-                      href={`${API_URL}/jobs/${id}`}
-                      title={`${API_URL}/jobs/${id}`}
-                    >{`${`${API_URL}/jobs/${id}`}`}</a>
-                  </div>
-                </div>
-              </fieldset>
-
-              <fieldset>
-                <div className="form-group row">
-                  {/* name */}
-                  <div className="col-md-5">
-                    <label htmlFor="edit-name">Job title</label>
-                    <input
-                      name="name"
-                      type="text"
-                      value={name}
-                      id="edit-name"
-                      style={{ height: '38px'}}
-                      onChange={this.onChange}
-                      className="form-control"
-                    />
-                  </div>
-
-                  {/* plan */}
-                  <div className="col-md-2">
-                    <label htmlFor="edit-plan_id">Plan</label>
-                    <input
-                      hidden
-                      name="plan_id"
-                      value={plan_id}
-                      id="edit-plan_id"
-                      onChange={this.onChange}
-                      type="number"
-                      className="form-control"
-                    />
-
-                    <Select
-                      value={planObj}
-                      onChange={this.onChangePlan}
-                      options={planOptions}
-                    />
-                  </div>
-
-                  {/* published */}
-                  <div className="col-md-3">
-                    <label htmlFor="edit-published">Published</label>
-                    <input
-                      type="date"
-                      name="published"
-                      id="edit-published"
-                      value={published ? published.substring(0, 10) : ''}
-                      style={{ height: '38px'}}
-                      onChange={this.onChange}
-                      className="form-control"
-                    />
-                  </div>
-
-                  {/* status */}
-                  <div className="col-md-2">
-                    <label htmlFor="edit-status">Status</label>
-                    <input
-                      hidden
-                      name="status"
-                      value={status}
-                      id="edit-status"
-                      onChange={this.onChange}
-                      type="text"
-                      className="form-control"
-                    />
-
-                    <Select
-                      value={statusObj}
-                      onChange={this.onChangeStatus}
-                      options={statusOptions}
-                    />
-                  </div>
-
-                  {/* user */}
-                  <div className="col-md-5">
-                    <label htmlFor="edit-employer_id">
-                      User:&nbsp;
-                      <Link
-                        style={{ fontWeight: 'normal' }}
-                        to={`/users/${employer_id}`}
-                        title={`.../users/${employer_id}`}
-                        target='_blank'>
-                        edit in a new tab
-                      </Link>
-                    </label>
-                    <input
-                      hidden
-                      name="employer_id"
-                      value={employer_id}
-                      id="edit-employer_id"
-                      onChange={this.onChange}
-                      type="number"
-                      className="form-control"
-                    />
-
-                    <AsyncSelect
-                      menuPlacement="auto"
-                      cacheOptions={true}
-                      defaultOptions={true}
-                      loadOptions={inputValue => getUsers(inputValue).then(res => res.data)}
-                      getOptionValue={o => o.id}
-                      getOptionLabel={o => (
-                        <div>
-                          <span>{`${o.name} ${o.surname} `}</span>
-                          <span style={{ color: '#3498db', textShadow: '1px 1px 0 #fff' }}>
-                            {o.email}
-                          </span>
-                        </div>
-                      )}
-                      onChange={this.onChangeUser}
-                      value={user}
-                    />
-                  </div>
-
-                  {/* copy button */}
-                  <div className="col-md-2  copy-button">
-                    <CopyToClipboard text={`${user.name} ${user.surname} <${user.email}>`}>
-                      <Button
-                        title="Copy user data to clipboard"
-                        disabled={!user} outline
-                        color="primary"
-                        onClick={this.onCopyUser}
-                      >
-                        Copy user
-                      </Button>
-                    </CopyToClipboard>
-                  </div>
-
-                  {/* company */}
-                  <div className="col-md-5">
-                    <label htmlFor="edit-company_id">
-                      Company:&nbsp;
-                      <Link
-                        style={{ fontWeight: 'normal' }}
-                        to={`/companies/${company_id}`}
-                        title={`.../companies/${company_id}`}
-                        target='_blank'>
-                        edit in a new tab
-                      </Link>
-                    </label>
-                    <input
-                      hidden
-                      name="company_id"
-                      value={company_id}
-                      id="edit-company_id"
-                      onChange={this.onChange}
-                      type="number"
-                      className="form-control"
-                    />
-
-                    <AsyncSelect
-                      menuPlacement="auto"
-                      cacheOptions={true}
-                      defaultOptions={true}
-                      loadOptions={inputValue => getCompanies(inputValue).then(res => res.data)}
-                      getOptionValue={o => o.id}
-                      getOptionLabel={o => o.name}
-                      onChange={this.onChangeCompany}
-                      value={company}
-                    />
-                  </div>
-
-                  {/* locations */}
-                  <div className="col-md-12">
-                    <label htmlFor="edit-locations">Locations</label>
-                    <AsyncSelect
-                      isMulti={true}
-                      menuPlacement="auto"
-                      cacheOptions={true}
-                      defaultOptions={true}
-                      loadOptions={inputValue => getLocations(inputValue).then(res => res.data)}
-                      getOptionValue={o => o.id}
-                      getOptionLabel={o => (
-                        <div>
-                          <span>{`${o.name && o.name + ', '} `}</span>
-                          <span style={{ color: '#448aff' }}>{o.alias_region}</span>
-                        </div>
-                      )}
-                      onChange={this.onChangeLocations}
-                      value={locations}
-                    />
-                  </div>
-
-                  {/* vacancy */}
-                  <div className="col-md-3">
-                    <label htmlFor="edit-vacancy_role">Role</label>
-                    <input
-                      hidden
-                      name="vacancy_role"
-                      value={vacancy_role}
-                      id="edit-vacancy_role"
-                      onChange={this.onChange}
-                      type="number"
-                      className="form-control"
-                    />
-
-                    <AsyncSelect
-                      menuPlacement="auto"
-                      cacheOptions={true}
-                      defaultOptions={true}
-                      loadOptions={inputValue => getVacancies(inputValue).then(res => res.data)}
-                      getOptionValue={o => o.id}
-                      getOptionLabel={o => o.name}
-                      value={vacancy}
-                      onChange={this.onChangeVacancy}
-                    />
-                  </div>
-
-                  {/* experience_from */}
-                  <div className="col-md-3">
-                    <label htmlFor="edit-experience_from">Experience, from</label>
-                    <input
-                      hidden
-                      min={0}
-                      max={9}
-                      type="number"
-                      onChange={this.onChange}
-                      name="experience_from"
-                      value={experience_from}
-                      id="edit-experience_from"
-                      className="form-control"
-                    />
-                    <Select
-                      value={experience_from}
-                      onChange={this.onChangeExperienceFrom}
-                      options={experienceFromOptions}
-                    />
-                  </div>
-
-                  {/* experience_to */}
-                  <div className="col-md-3">
-                    <label htmlFor="edit-experience_up">Experience, to</label>
-                    <input
-                      hidden
-                      min={1}
-                      max={10}
-                      type="number"
-                      onChange={this.onChange}
-                      name="experience_up"
-                      value={experience_up}
-                      id="edit-experience_up"
-                      className="form-control"
-                    />
-                    <Select
-                      value={experience_up}
-                      onChange={this.onChangeExperienceUp}
-                      options={experienceUpOptions}
-                    />
-                  </div>
-
-                  {/* seniority */}
-                  <div className="col-md-3">
-                    <label htmlFor="edit-seniority">Seniority</label>
-
-                    <input
-                      hidden
-                      name="seniority"
-                      value={seniority}
-                      id="edit-seniority"
-                      onChange={this.onChange}
-                      type="number"
-                      className="form-control"
-                    />
-
-                    <Select
-                      value={seniorityObj}
-                      onChange={this.onChangeSeniority}
-                      options={seniorityOptions}
-                    />
-                  </div>
-
-                  {/* skills */}
-                  <div className="col-md-12">
-                    <label htmlFor="edit-skills">Skills</label>
-                    <AsyncSelect
-                      isMulti={true}
-                      menuPlacement="auto"
-                      cacheOptions={true}
-                      defaultOptions={true}
-                      loadOptions={inputValue => getSkills(inputValue).then(res => res.data)}
-                      getOptionValue={o => o.id}
-                      getOptionLabel={o => o.name}
-                      onChange={this.onChangeSkills}
-                      value={skills}
-                    />
-                  </div>
-
-                  {/* logo */}
-                  <div className="col-md-6  edit-logo">
-                    <label htmlFor="edit-logo">Logo</label>
-                    {
-                      !logoSwitcher ? (
-                        logo ? <img className="logo" src={logoUrl} alt="logo" />
-                            : <div className="no-logo">No logo</div>
-                      ) : (
-                        logoLoading ? <Spinner /> : (
-                          logo && <img className="logo" src={logo} alt="logo" />
-                        )
-                      )
-                    }
-                    <input
-                      id="edit-logo"
-                      type="file"
-                      className="input-file-custom"
-                      ref={this.fileInputLogo}
-                      onChange={this.onUploadLogo}
-                    />
-
-                    <div className="edit-logo__buttons">
-                      <label htmlFor="edit-logo" className="input-file-label  btn btn-light">
-                        <i className="ion-image" />&nbsp;
-                        <span>Load logo</span>
-                      </label>
-                      <Button disabled={!logo || !logoUrl} outline color="danger" onClick={this.onDeleteLogo}>Delete logo</Button>
+                      {/* job-link */}
+                      <div className="col-md-4 col-sm-6  job-link">
+                        <b>Link to the job</b>
+                        <a
+                          target="_blank"
+                          href={`${API_URL}/jobs/${id}`}
+                          title={`${API_URL}/jobs/${id}`}
+                        >{`${`${API_URL}/jobs/${id}`}`}</a>
+                      </div>
                     </div>
-                  </div>
+                  </fieldset>
 
-                  {/* cover */}
-                  <div className="col-md-6  edit-cover">
-                    <label htmlFor="edit-cover">Cover</label>
-                    {
-                      !coverSwitcher ? (
-                        cover ? <img className="cover" src={coverUrl} alt="cover" />
-                              : <div className="no-cover">No cover</div>
-                      ) : (
-                        coverLoading ? <Spinner /> : (
-                          cover && <img className="cover" src={cover} alt="cover" />
-                        )
-                      )
-                    }
-                    <input
-                      id="edit-cover"
-                      type="file"
-                      className="input-file-custom"
-                      ref={this.fileInputCover}
-                      onChange={this.onUploadCover}
-                    />
-                    <div className="edit-cover__buttons">
-                      <label htmlFor="edit-cover" className="input-file-label  btn btn-light">
-                        <i className="ion-image" />&nbsp;
-                        <span>Load cover</span>
-                      </label>
-                      <Button disabled={!cover || !coverUrl} outline color="danger" onClick={this.onDeleteCover}>Delete cover</Button>
+                  <fieldset>
+                    <div className="form-group row">
+                      {/* name */}
+                      <div className="col-md-5">
+                        <label htmlFor="edit-name">Job title</label>
+                        <input
+                          name="name"
+                          type="text"
+                          value={name}
+                          id="edit-name"
+                          style={{ height: '38px'}}
+                          onChange={this.onChange}
+                          className="form-control"
+                        />
+                      </div>
+
+                      {/* plan */}
+                      <div className="col-md-2">
+                        <label htmlFor="edit-plan_id">Plan</label>
+                        <input
+                          hidden
+                          name="plan_id"
+                          value={plan_id}
+                          id="edit-plan_id"
+                          onChange={this.onChange}
+                          type="number"
+                          className="form-control"
+                        />
+
+                        <Select
+                          value={planObj}
+                          onChange={this.onChangePlan}
+                          options={planOptions}
+                        />
+                      </div>
+
+                      {/* published */}
+                      <div className="col-md-3">
+                        <label htmlFor="edit-published">Published</label>
+                        <input
+                          type="date"
+                          name="published"
+                          id="edit-published"
+                          value={published ? published.substring(0, 10) : ''}
+                          style={{ height: '38px'}}
+                          onChange={this.onChange}
+                          className="form-control"
+                        />
+                      </div>
+
+                      {/* status */}
+                      <div className="col-md-2">
+                        <label htmlFor="edit-status">Status</label>
+                        <input
+                          hidden
+                          name="status"
+                          value={status}
+                          id="edit-status"
+                          onChange={this.onChange}
+                          type="text"
+                          className="form-control"
+                        />
+
+                        <Select
+                          value={statusObj}
+                          onChange={this.onChangeStatus}
+                          options={statusOptions}
+                        />
+                      </div>
+
+                      {/* user */}
+                      <div className="col-md-5">
+                        <label htmlFor="edit-employer_id">
+                          User:&nbsp;
+                          <Link
+                            style={{ fontWeight: 'normal' }}
+                            to={`/users/${employer_id}`}
+                            title={`.../users/${employer_id}`}
+                            target='_blank'>
+                            edit in a new tab
+                          </Link>
+                        </label>
+                        <input
+                          hidden
+                          name="employer_id"
+                          value={employer_id}
+                          id="edit-employer_id"
+                          onChange={this.onChange}
+                          type="number"
+                          className="form-control"
+                        />
+
+                        <AsyncSelect
+                          menuPlacement="auto"
+                          cacheOptions={true}
+                          defaultOptions={true}
+                          loadOptions={inputValue => getUsers(inputValue).then(res => res.data)}
+                          getOptionValue={o => o.id}
+                          getOptionLabel={o => (
+                            <div>
+                              <span>{`${o.name} ${o.surname} `}</span>
+                              <span style={{ color: '#3498db', textShadow: '1px 1px 0 #fff' }}>
+                                {o.email}
+                              </span>
+                            </div>
+                          )}
+                          onChange={this.onChangeUser}
+                          value={user}
+                        />
+                      </div>
+
+                      {/* copy button */}
+                      <div className="col-md-2  copy-button">
+                        <CopyToClipboard text={`${user.name} ${user.surname} <${user.email}>`}>
+                          <Button
+                            title="Copy user data to clipboard"
+                            disabled={!user} outline
+                            color="primary"
+                            onClick={this.onCopyUser}
+                          >
+                            Copy user
+                          </Button>
+                        </CopyToClipboard>
+                      </div>
+
+                      {/* company */}
+                      <div className="col-md-5">
+                        <label htmlFor="edit-company_id">
+                          Company:&nbsp;
+                          <Link
+                            style={{ fontWeight: 'normal' }}
+                            to={`/companies/${company_id}`}
+                            title={`.../companies/${company_id}`}
+                            target='_blank'>
+                            edit in a new tab
+                          </Link>
+                        </label>
+                        <input
+                          hidden
+                          name="company_id"
+                          value={company_id}
+                          id="edit-company_id"
+                          onChange={this.onChange}
+                          type="number"
+                          className="form-control"
+                        />
+
+                        <AsyncSelect
+                          menuPlacement="auto"
+                          cacheOptions={true}
+                          defaultOptions={true}
+                          loadOptions={inputValue => getCompanies(inputValue).then(res => res.data)}
+                          getOptionValue={o => o.id}
+                          getOptionLabel={o => o.name}
+                          onChange={this.onChangeCompany}
+                          value={company}
+                        />
+                      </div>
+
+                      {/* locations */}
+                      <div className="col-md-12">
+                        <label htmlFor="edit-locations">Locations</label>
+                        <AsyncSelect
+                          isMulti={true}
+                          menuPlacement="auto"
+                          cacheOptions={true}
+                          defaultOptions={true}
+                          loadOptions={inputValue => getLocations(inputValue).then(res => res.data)}
+                          getOptionValue={o => o.id}
+                          getOptionLabel={o => (
+                            <div>
+                              <span>{`${o.name && o.name + ', '} `}</span>
+                              <span style={{ color: '#448aff' }}>{o.alias_region}</span>
+                            </div>
+                          )}
+                          onChange={this.onChangeLocations}
+                          value={locations}
+                        />
+                      </div>
+
+                      {/* vacancy */}
+                      <div className="col-md-3">
+                        <label htmlFor="edit-vacancy_role">Role</label>
+                        <input
+                          hidden
+                          name="vacancy_role"
+                          value={vacancy_role}
+                          id="edit-vacancy_role"
+                          onChange={this.onChange}
+                          type="number"
+                          className="form-control"
+                        />
+
+                        <AsyncSelect
+                          menuPlacement="auto"
+                          cacheOptions={true}
+                          defaultOptions={true}
+                          loadOptions={inputValue => getVacancies(inputValue).then(res => res.data)}
+                          getOptionValue={o => o.id}
+                          getOptionLabel={o => o.name}
+                          value={vacancy}
+                          onChange={this.onChangeVacancy}
+                        />
+                      </div>
+
+                      {/* experience_from */}
+                      <div className="col-md-3">
+                        <label htmlFor="edit-experience_from">Experience, from</label>
+                        <input
+                          hidden
+                          min={0}
+                          max={9}
+                          type="number"
+                          onChange={this.onChange}
+                          name="experience_from"
+                          value={experience_from}
+                          id="edit-experience_from"
+                          className="form-control"
+                        />
+                        <Select
+                          value={experience_from}
+                          onChange={this.onChangeExperienceFrom}
+                          options={experienceFromOptions}
+                        />
+                      </div>
+
+                      {/* experience_to */}
+                      <div className="col-md-3">
+                        <label htmlFor="edit-experience_up">Experience, to</label>
+                        <input
+                          hidden
+                          min={1}
+                          max={10}
+                          type="number"
+                          onChange={this.onChange}
+                          name="experience_up"
+                          value={experience_up}
+                          id="edit-experience_up"
+                          className="form-control"
+                        />
+                        <Select
+                          value={experience_up}
+                          onChange={this.onChangeExperienceUp}
+                          options={experienceUpOptions}
+                        />
+                      </div>
+
+                      {/* seniority */}
+                      <div className="col-md-3">
+                        <label htmlFor="edit-seniority">Seniority</label>
+
+                        <input
+                          hidden
+                          name="seniority"
+                          value={seniority}
+                          id="edit-seniority"
+                          onChange={this.onChange}
+                          type="number"
+                          className="form-control"
+                        />
+
+                        <Select
+                          value={seniorityObj}
+                          onChange={this.onChangeSeniority}
+                          options={seniorityOptions}
+                        />
+                      </div>
+
+                      {/* skills */}
+                      <div className="col-md-12">
+                        <label htmlFor="edit-skills">Skills</label>
+                        <AsyncSelect
+                          isMulti={true}
+                          menuPlacement="auto"
+                          cacheOptions={true}
+                          defaultOptions={true}
+                          loadOptions={inputValue => getSkills(inputValue).then(res => res.data)}
+                          getOptionValue={o => o.id}
+                          getOptionLabel={o => o.name}
+                          onChange={this.onChangeSkills}
+                          value={skills}
+                        />
+                      </div>
+
+                      {/* logo */}
+                      <div className="col-md-6  edit-logo">
+                        <label htmlFor="edit-logo">Logo</label>
+                        {
+                          !logoSwitcher ? (
+                            logo ? <img className="logo" src={logoUrl} alt="logo" />
+                                : <div className="no-logo">No logo</div>
+                          ) : (
+                            logoLoading ? <Spinner /> : (
+                              logo && <img className="logo" src={logo} alt="logo" />
+                            )
+                          )
+                        }
+                        <input
+                          id="edit-logo"
+                          type="file"
+                          className="input-file-custom"
+                          ref={this.fileInputLogo}
+                          onChange={this.onUploadLogo}
+                        />
+
+                        <div className="edit-logo__buttons">
+                          <label htmlFor="edit-logo" className="input-file-label  btn btn-light">
+                            <i className="ion-image" />&nbsp;
+                            <span>Load logo</span>
+                          </label>
+                          <Button disabled={!logo || !logoUrl} outline color="danger" onClick={this.onDeleteLogo}>Delete logo</Button>
+                        </div>
+                      </div>
+
+                      {/* cover */}
+                      <div className="col-md-6  edit-cover">
+                        <label htmlFor="edit-cover">Cover</label>
+                        {
+                          !coverSwitcher ? (
+                            cover ? <img className="cover" src={coverUrl} alt="cover" />
+                                  : <div className="no-cover">No cover</div>
+                          ) : (
+                            coverLoading ? <Spinner /> : (
+                              cover && <img className="cover" src={cover} alt="cover" />
+                            )
+                          )
+                        }
+                        <input
+                          id="edit-cover"
+                          type="file"
+                          className="input-file-custom"
+                          ref={this.fileInputCover}
+                          onChange={this.onUploadCover}
+                        />
+                        <div className="edit-cover__buttons">
+                          <label htmlFor="edit-cover" className="input-file-label  btn btn-light">
+                            <i className="ion-image" />&nbsp;
+                            <span>Load cover</span>
+                          </label>
+                          <Button disabled={!cover || !coverUrl} outline color="danger" onClick={this.onDeleteCover}>Delete cover</Button>
+                        </div>
+                      </div>
+
+                      {/* details */}
+                      <div className="col-md-12">
+                        <label htmlFor="edit-details">Details</label>
+
+                        <CKEditor
+                          editor={ClassicEditor}
+                          data={details}
+                          onInit={ editor => {
+                              // You can store the "editor" and use when it is needed.
+                              // console.log( 'Editor is ready to use!', editor );
+                          } }
+                          // onChange={onChangeDetails}
+                          onChange={ ( event, editor ) => {
+                              const data = editor.getData();
+                              // console.log( { event, editor, data } );
+                              this.onChangeDetails(data);
+                          } }
+                          onBlur={ ( event, editor ) => {
+                              // console.log( 'Blur.', editor );
+                          } }
+                          onFocus={ ( event, editor ) => {
+                              // console.log( 'Focus.', editor );
+                          } }
+                        />
+                      </div>
                     </div>
-                  </div>
-
-                  {/* details */}
-                  <div className="col-md-12">
-                    <label htmlFor="edit-details">Details</label>
-
-                    <CKEditor
-                      editor={ClassicEditor}
-                      data={details}
-                      onInit={ editor => {
-                          // You can store the "editor" and use when it is needed.
-                          // console.log( 'Editor is ready to use!', editor );
-                      } }
-                      // onChange={onChangeDetails}
-                      onChange={ ( event, editor ) => {
-                          const data = editor.getData();
-                          // console.log( { event, editor, data } );
-                          this.onChangeDetails(data);
-                      } }
-                      onBlur={ ( event, editor ) => {
-                          // console.log( 'Blur.', editor );
-                      } }
-                      onFocus={ ( event, editor ) => {
-                          // console.log( 'Focus.', editor );
-                      } }
-                    />
-                  </div>
-                </div>
-              </fieldset>
+                  </fieldset>
 
 
-              <footer className="ph-detail-page__buttons">
-                <Button outline color="danger" onClick={this.deleteClick}>Delete</Button>
-                <Button outline color="secondary" onClick={this.closeDetail}>Cancel</Button>
-                <Button disabled={!name || isEmpty(locations) || isEmpty(skills)} outline color="primary" type="submit">Save</Button>
-              </footer>
+                  <footer className="ph-detail-page__buttons">
+                    <Button outline color="danger" onClick={this.deleteClick}>Delete</Button>
+                    <Button outline color="secondary" onClick={this.closeDetail}>Cancel</Button>
+                    <Button disabled={!name || isEmpty(locations) || isEmpty(skills)} outline color="primary" type="submit">Save</Button>
+                  </footer>
 
-            </form>
-          </div>
-        </div>
+                </form>
+              </div>
+            </div>
+          </TabPanel>
+          <TabPanel>
+            <JobApplied id={id} />
+          </TabPanel>
+        </Tabs>
       </section>
     );
   }

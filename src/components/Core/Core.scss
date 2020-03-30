@@ -271,6 +271,10 @@ footer.footer {
     padding-right: 15px;
   }
 
+  &__subtitle {
+    font-size: 16px;
+  }
+
   &__is-loading {
     position: absolute;
     z-index: 11;
@@ -448,6 +452,53 @@ footer.footer {
   .ph-detail-page {
     .edit-logo, .edit-cover {
       min-height: 210px;
+    }
+  }
+}
+
+.applied-container {
+  .locations-list {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 10px;
+    color: #888;
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+
+    li {
+      padding-left: 15px;
+    }
+  }
+
+  &__title { font-size: 18px; }
+
+  &__item {
+    padding: 20px 25px;
+  }
+
+  &__date {
+    margin-bottom: 20px;
+  }
+
+  &__phone {
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 575px) {
+  .applied-container {
+    &__title { margin-bottom: 10px; }
+
+    &__locations { text-align: left !important; }
+
+    .locations-list {
+      justify-content: flex-start;
+
+      li {
+        padding-left: 0;
+        padding-right: 15px;
+      }
     }
   }
 }

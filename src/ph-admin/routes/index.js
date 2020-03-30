@@ -77,7 +77,7 @@ const Routes = ({ location }) => {
       <Route path="/plans"         component={Plans} />
 
       {/* if wrong route */}
-      <Redirect to="/companies" />
+      {/* <Redirect to="/companies" /> */}
     </Core>
   );
 }
