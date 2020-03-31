@@ -128,7 +128,7 @@ class Sidebar extends Component {
               </div>
 
               <div className="sidebar-header-logo">
-                <NavLink to='/'>
+                <NavLink to='/companies'>
                   <SVGReplace src="img/logo.svg" alt="Logo" width={120} />
                 </NavLink>
                 {/* <span className="sidebar-header-logo-text">PH Admin</span> */}
