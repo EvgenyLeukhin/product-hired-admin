@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import ReadMoreReact from 'read-more-react';
+
 import isEmpty from 'lodash/isEmpty';
 
 import { API_URL } from '../../api/apiUrl';
@@ -82,7 +84,10 @@ const UserApplied = ({ appliedData }) => {
 
                 <div className="col-md-12">
                   <b>How do you know you are an amazing fit for this role?</b>
-                  <p style={{ marginTop: '5px', marginBottom: 0 }}>{i.vacancy.description || 'ー'}</p>
+                  <ReadMoreReact
+                    readMoreText="Read more..."
+                    text={i.vacancy.description || 'ー'}
+                  />
                 </div>
 
               </div>

@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { Button } from 'reactstrap';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
+import ReadMoreReact from 'read-more-react';
+
 import isEmpty from 'lodash/isEmpty';
 
 import Alerts from '../../components/Alerts/index2.jsx';
@@ -110,7 +112,10 @@ class JobApplied extends React.Component {
 
                   <div className="col-md-12">
                     <b>How do you know you are an amazing fit for this role?</b>
-                    <p style={{ marginTop: '5px', marginBottom: 0 }}>{i.about || 'ー'}</p>
+                    <ReadMoreReact
+                      readMoreText="Read more..."
+                      text={i.about || 'ー'}
+                    />
                   </div>
 
                 </div>
