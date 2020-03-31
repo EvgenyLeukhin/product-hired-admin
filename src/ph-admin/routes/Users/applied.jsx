@@ -14,7 +14,9 @@ const UserApplied = ({ appliedData }) => {
 
   return (
     <div className="applied-container">
-      <h4 className="ph-detail-page__title">Jobs Applied</h4>
+      <h4 className="ph-detail-page__title">
+        { !isEmpty(appliedData) ? 'Jobs Applied' : 'No data' }
+      </h4>
 
       {
         !isEmpty(appliedData) ? appliedData.map(i => {
@@ -98,7 +100,7 @@ const UserApplied = ({ appliedData }) => {
               </div>
             </div>
           );
-        }) : 'No jobs'
+        }) : null
       }
     </div>
   );

@@ -43,7 +43,9 @@ class JobApplied extends React.Component {
           )
         }
 
-        <h4 className="ph-detail-page__title">Talents applied to a job</h4>
+        <h4 className="ph-detail-page__title">
+          { !isEmpty(appliedData) ? 'Talents applied to a job' : 'No data' }
+        </h4>
 
         {
           !isEmpty(appliedData) ? appliedData.map(i => {
@@ -124,7 +126,7 @@ class JobApplied extends React.Component {
                 </div>
               </div>
             );
-          }) : 'No talents'
+          }) : null
         }
       </div>
     );
