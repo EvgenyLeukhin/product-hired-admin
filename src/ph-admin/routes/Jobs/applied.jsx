@@ -58,14 +58,12 @@ class JobApplied extends React.Component {
                     </b>
                     &nbsp;
                     <span>
-                      <Link
+                      <a
+                        href={`mailto:${i.user.email}`}
                         style={{ fontSize: '14px', color: '#888' }}
-                        to={`mailto:${i.user.email}`}
-                        title={i.user.emai}
-                        target='_blank'
                       >
                         {i.user.email}
-                      </Link>
+                      </a>
                     </span>
                   </div>
 
