@@ -475,6 +475,12 @@ footer.footer {
 
   &__item {
     padding: 20px 25px;
+    transition: all .23s;
+
+    &:hover {
+      border: 1px solid #448AFF;
+      box-shadow: 0 0 10px 3px #ccc;
+    }
   }
 
   &__date {

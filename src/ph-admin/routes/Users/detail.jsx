@@ -55,10 +55,13 @@ class UserDetail extends React.Component {
     alertIsOpen: false, alertType: '', alertErrorText: '',
 
     // api
-    loading: false, tabIndex: 0, appliedCount: 0,
+    loading: false,
 
     // delete
-    deleteModalIsOpen: false, deleteModalLoading: false
+    deleteModalIsOpen: false, deleteModalLoading: false,
+
+    // applied
+    tabIndex: 0, appliedData: [],  appliedCount: 0,
   }
 
   // change fields
@@ -358,7 +361,10 @@ class UserDetail extends React.Component {
 
     // get applied count
     getUserApplied(match.params.id).then(res => {
-      this.setState({ appliedCount: res.data.length > 0 ? res.data.length : 0 });
+      this.setState({
+        appliedData: res.data,
+        appliedCount: res.data.length > 0 ? res.data.length : 0
+      });
     }).catch(error => this.catchErrors(error));
 
   }
@@ -374,9 +380,14 @@ class UserDetail extends React.Component {
       // delete
       deleteModalIsOpen, deleteModalLoading,
 
+      // alerts
+      alertIsOpen, alertType, alertErrorText, errorAlertIsOpen,
 
-      alertIsOpen, alertType, alertErrorText, errorAlertIsOpen, // alerts
-      loading, tabIndex, appliedCount                           // api
+      // api
+      loading,
+
+      // applied
+      tabIndex, appliedData, appliedCount,
     } = this.state;
 
 
@@ -406,7 +417,7 @@ class UserDetail extends React.Component {
         <Tabs selectedIndex={tabIndex} onSelect={tabIndex => this.setState({ tabIndex })}>
           <TabList>
             <Tab>Edit user</Tab>
-            <Tab>View Jobs Applied <b>({appliedCount})</b></Tab>
+            <Tab>View jobs applied <b>({appliedCount})</b></Tab>
           </TabList>
           <TabPanel>
             <div className="cardbox">
@@ -908,7 +919,7 @@ class UserDetail extends React.Component {
             </div>
           </TabPanel>
           <TabPanel>
-            <UserApplied id={id} name={name} surname={surname} email={email} />
+            <UserApplied id={id} name={name} surname={surname} email={email} appliedData={appliedData} />
           </TabPanel>
         </Tabs>
       </section>
