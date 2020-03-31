@@ -3,6 +3,7 @@ import { withRouter, Switch, Route, Redirect } from 'react-router-dom';
 
 /* loader component for Suspense */
 import Core        from '../../components/Core/Core';
+import Profile     from './UserProfile/';
 
 import Companies       from './Companies/index.jsx';
 import CompaniesDetail from './Companies/detail.jsx';
@@ -58,8 +59,6 @@ const Routes = ({ location }) => {
   // if login (don't change Routes order)
   } else return (
     <Core>
-      <Route path="/"              component={Companies} />
-
       <Route path="/companies/:id" component={CompaniesDetail} />
       <Route path="/companies"     component={Companies} />
 
@@ -77,6 +76,8 @@ const Routes = ({ location }) => {
 
       <Route path="/plans/:id"     component={PlansDetail} />
       <Route path="/plans"         component={Plans} />
+
+      <Route path="/profile"       component={Profile} />
 
       {/* <Route path="*"              component={() => <h2>404 - Page not found</h2>} /> */}
 

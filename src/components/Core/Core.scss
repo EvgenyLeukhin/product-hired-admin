@@ -476,7 +476,15 @@ footer.footer {
     flex-wrap: wrap;
 
     li {
-      padding-left: 15px;
+      // outline: 1px solid red;
+      padding-right: 10px;
+      margin-left: 10px;
+      border-right: 1px solid #888;
+
+      &:last-child {
+        border: 0;
+        padding-right: 0;
+      }
     }
   }
 
@@ -516,8 +524,8 @@ footer.footer {
       justify-content: flex-start;
 
       li {
-        padding-left: 0;
-        padding-right: 15px;
+        margin-left: 0;
+        margin-right: 10px;
       }
     }
   }
