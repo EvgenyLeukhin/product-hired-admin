@@ -67,26 +67,28 @@ const UserApplied = props => {
                   }
                 </div>
 
-                <div className="col-md-6" />
+                <div className="col-md-3  applied-container__resume">
+                  <b>Resume</b><br/>
+                  {
+                    <a
+                      download
+                      href={`${API_URL}${i.url}`}
+                      title="Click to download"
+                      target="_blank"
+                    >
+                      Download
+                    </a>
+                  }
+                </div>
+
+                <div className="col-md-3" />
 
                 <div className="col-md-12">
                   <b>How do you know you are an amazing fit for this role?</b>
-                  <p style={{ marginTop: '5px' }}>{i.vacancy.description}</p>
-                </div>
-
-                <div className="col-md-6">
-                  <a
-                    download
-                    href={`${API_URL}/${i.url}`}
-                    title="Click to download"
-                    target="_blank"
-                  >
-                    Download CV
-                  </a>
+                  <p style={{ marginTop: '5px', marginBottom: 0 }}>{i.vacancy.description || 'ー'}</p>
                 </div>
 
               </div>
-
             </div>
           );
         })

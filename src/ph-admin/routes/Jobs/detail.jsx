@@ -465,7 +465,7 @@ class JobDetail extends React.Component {
 
         <Tabs selectedIndex={tabIndex} onSelect={tabIndex => this.setState({ tabIndex })}>
           <TabList>
-            <Tab>Edit</Tab>
+            <Tab>User</Tab>
             <Tab>Talents applied <b>({appliedCount})</b></Tab>
           </TabList>
           <TabPanel>
