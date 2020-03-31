@@ -10,10 +10,6 @@ const UserApplied = props => {
   return (
     <div className="applied-container">
       <h4 className="ph-detail-page__title">Jobs Applied</h4>
-      <div className="ph-detail-page__subtitle">
-        <span>{`${name} ${surname}`}</span>&nbsp;
-        <a href={`mailto:${email}`}>{email}</a>
-      </div>
 
       {
         appliedData.map(i => {
