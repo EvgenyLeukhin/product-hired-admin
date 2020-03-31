@@ -918,7 +918,7 @@ class UserDetail extends React.Component {
             </div>
           </TabPanel>
           <TabPanel>
-            <UserApplied id={id} name={name} surname={surname} email={email} appliedData={appliedData} />
+            <UserApplied appliedData={appliedData} />
           </TabPanel>
         </Tabs>
       </section>

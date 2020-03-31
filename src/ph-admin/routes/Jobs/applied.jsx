@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { Button } from 'reactstrap';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
+import isEmpty from 'lodash/isEmpty';
+
 import Alerts from '../../components/Alerts/index2.jsx';
 
 import { API_URL } from '../../api/apiUrl';
@@ -42,7 +44,7 @@ class JobApplied extends React.Component {
         <h4 className="ph-detail-page__title">Talents applied to a job</h4>
 
         {
-          appliedData.map(i => {
+          !isEmpty(appliedData) ? appliedData.map(i => {
             return (
               <div className="cardbox  applied-container__item" key={i.id}>
                 <div className="row">
@@ -114,7 +116,7 @@ class JobApplied extends React.Component {
                 </div>
               </div>
             );
-          })
+          }) : 'No talents'
         }
       </div>
     );

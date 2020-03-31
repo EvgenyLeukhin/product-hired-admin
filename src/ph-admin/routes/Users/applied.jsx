@@ -1,18 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import isEmpty from 'lodash/isEmpty';
+
 import { API_URL } from '../../api/apiUrl';
 
 
-const UserApplied = props => {
-  const { name, surname, email, appliedData } = props;
+const UserApplied = ({ appliedData }) => {
 
   return (
     <div className="applied-container">
       <h4 className="ph-detail-page__title">Jobs Applied</h4>
 
       {
-        appliedData.map(i => {
+        !isEmpty(appliedData) ? appliedData.map(i => {
           return (
             <div className="cardbox  applied-container__item" key={i.id}>
               <div className="row">
@@ -87,7 +88,7 @@ const UserApplied = props => {
               </div>
             </div>
           );
-        })
+        }) : 'No jobs'
       }
     </div>
   );
