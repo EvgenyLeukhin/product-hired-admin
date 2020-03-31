@@ -39,7 +39,7 @@ class JobApplied extends React.Component {
           )
         }
 
-        <h4 className="ph-detail-page__title">Talants applied to a job</h4>
+        <h4 className="ph-detail-page__title">Talents applied to a job</h4>
 
         {
           appliedData.map(i => {
