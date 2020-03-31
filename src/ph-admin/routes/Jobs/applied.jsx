@@ -1,44 +1,124 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { Button } from 'reactstrap';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
-import getJobApplied from './api/getJobApplied';
+import Alerts from '../../components/Alerts/index2.jsx';
+
+import { API_URL } from '../../api/apiUrl';
+
 
 class JobApplied extends React.Component {
   state = {
-    data: [],
-    loading: false,
+    // alerts
+    alertIsOpen: false, alertType: '', alertErrorText: '',
   }
 
-  catchErrors = error => {
-    const { name, statusCode, message } = error.response.data.error;
-    if (statusCode === 401) {
-      localStorage.removeItem('ph-admin-user-data');
-      this.props.history.push('/login');
+  onCopyUser = e => {
+    e.preventDefault();
 
-    } else {
-      this.setState({
-        errorAlertIsOpen: true,
-        loading: false,
-        alertType: 'error',
-        alertIsOpen: true,
-        alertErrorText: `${name}, ${message}`
-      });
-    }
+    this.setState({ alertType: 'copy', alertIsOpen: true });
+
+    // close alert after 2 sec
+    setTimeout(() => {
+      this.setState({ alertIsOpen: false });
+    }, 2000);
   }
 
-  componentDidMount() {
-    this.setState({ loading: true });
-    const { id } = this.props;
-
-    getJobApplied(id).then(res => {
-      const { data } = res;
-      console.log(data);
-      this.setState({ data, loading: false });
-    }).catch(error => this.catchErrors(error));
-  }
+  closeErrorAlert  = () => this.setState({ errorAlertIsOpen: false });
 
   render() {
+    const { id, name, appliedData } = this.props;
+    const { alertIsOpen, alertType, alertErrorText, errorAlertIsOpen } = this.state;
+
     return (
-      <div>In progress</div>
+      <div className="applied-container">
+        {
+          alertIsOpen && (
+            <Alerts id={id} name={name} type={alertType} errorText={alertErrorText} errorAlertIsOpen={errorAlertIsOpen} closeErrorAlert={this.closeErrorAlert} />
+          )
+        }
+
+        <h4 className="ph-detail-page__title">Talants applied to a job</h4>
+
+        {
+          appliedData.map(i => {
+            return (
+              <div className="cardbox  applied-container__item" key={i.id}>
+                <div className="row">
+                  <div className="col-md-6  applied-container__title">
+                    <b>
+                      <Link
+                        to={`/users/${i.user.id}`}
+                        title={`/users/${i.user.id}`}
+                        target='_blank'
+                      >
+                        {`${i.user.name} ${i.user.surname}`}
+                      </Link>
+                    </b>
+                    &nbsp;
+                    <span>
+                      <Link
+                        style={{ fontSize: '14px', color: '#888' }}
+                        to={`mailto:${i.user.email}`}
+                        title={i.user.emai}
+                        target='_blank'
+                      >
+                        {i.user.email}
+                      </Link>
+                    </span>
+                  </div>
+
+                  <div className="col-md-6  applied-container__copy-user">
+                    <CopyToClipboard text={`${i.user.name} ${i.user.surname} <${i.user.email}>`}>
+                      <Button
+                        title="Copy user data to clipboard"
+                        disabled={!i.user} outline
+                        color="primary"
+                        onClick={this.onCopyUser}
+                      >
+                        Copy user
+                      </Button>
+                    </CopyToClipboard>
+                  </div>
+
+                  <div className="col-md-3  applied-container__date">
+                    <b>Applied</b><br/>
+                    <span>{`${i.created.substring(0, 10)}` || ''}</span>
+                  </div>
+
+                  <div className="col-md-3  applied-container__phone">
+                    <b>Phone</b><br/>
+                    { i.phone ? <a href={`tel:${i.phone}`}>{i.phone}</a> : 'ー' }
+                  </div>
+
+                  <div className="col-md-3  applied-container__resume">
+                    <b>Resume</b><br/>
+                    {
+                      <a
+                        download
+                        href={`${API_URL}${i.url}`}
+                        title="Click to download"
+                        target="_blank"
+                      >
+                        Download
+                      </a>
+                    }
+                  </div>
+
+                  <div className="col-md-3" />
+
+                  <div className="col-md-12">
+                    <b>How do you know you are an amazing fit for this role?</b>
+                    <p style={{ marginTop: '5px', marginBottom: 0 }}>{i.about || 'ー'}</p>
+                  </div>
+
+                </div>
+              </div>
+            );
+          })
+        }
+      </div>
     );
   }
 }

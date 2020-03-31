@@ -39,6 +39,7 @@ import getUsers        from './api/getUsers';
 import getUser         from './api/getUser';
 import getVacancies    from './api/getVacancies';
 import getVacancy      from './api/getVacancy';
+import getJobApplied   from './api/getJobApplied';
 
 import seniorityOptions      from './api/seniorityOptions';
 import statusOptions         from './api/statusOptions';
@@ -92,7 +93,8 @@ class JobDetail extends React.Component {
     // default state fields when add job
     application_link: null, application_type: 0, hash: null,
 
-    tabIndex: 0,
+    // applied
+    tabIndex: 0, appliedData: [], appliedCount: 0,
   }
   // ---------------- STATE ---------------- //
 
@@ -385,8 +387,16 @@ class JobDetail extends React.Component {
       ) : this.setState({ vacancy: { name: '' }}); // if doesn't have - reset
     })
     .catch(error => this.catchErrors(error));
+
+    // get applied count
+    getJobApplied(match.params.id).then(res => {
+      this.setState({
+        appliedData: res.data,
+        appliedCount: res.data.length > 0 ? res.data.length : 0
+      });
+    }).catch(error => this.catchErrors(error));
   }
-  // ---------------- LIFECYCLE ---------------- //
+  // ---------------- LIFECYCLE --- ------------- //
 
 
 
@@ -404,10 +414,14 @@ class JobDetail extends React.Component {
       alertIsOpen, alertType, alertErrorText, errorAlertIsOpen,
 
       // api
-      loading, tabIndex,
+      loading,
 
       // delete
       deleteModalIsOpen, deleteModalLoading,
+
+      // applied
+      tabIndex, appliedData, appliedCount,
+
     } = this.state;
 
     const createdString = created && `${created.substring(0, 10)}, ${created.substring(11, 16)} UTC`;
@@ -438,7 +452,7 @@ class JobDetail extends React.Component {
         />
         {
           alertIsOpen && (
-            <Alerts id={id} name={name} type={alertType} errorText={alertErrorText} errorAlertIsOpen={errorAlertIsOpen}closeErrorAlert={this.closeErrorAlert} />
+            <Alerts id={id} name={name} type={alertType} errorText={alertErrorText} errorAlertIsOpen={errorAlertIsOpen} closeErrorAlert={this.closeErrorAlert} />
           )
         }
 
@@ -451,8 +465,8 @@ class JobDetail extends React.Component {
 
         <Tabs selectedIndex={tabIndex} onSelect={tabIndex => this.setState({ tabIndex })}>
           <TabList>
-            <Tab>Edit job</Tab>
-            <Tab>View Talants Applied (0)</Tab>
+            <Tab>Edit</Tab>
+            <Tab>Talants applied <b>({appliedCount})</b></Tab>
           </TabList>
           <TabPanel>
             <div className="cardbox">
@@ -874,7 +888,7 @@ class JobDetail extends React.Component {
             </div>
           </TabPanel>
           <TabPanel>
-            <JobApplied id={id} />
+            <JobApplied id={id} name={name} appliedData={appliedData} />
           </TabPanel>
         </Tabs>
       </section>

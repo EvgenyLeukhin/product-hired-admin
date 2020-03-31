@@ -483,11 +483,14 @@ footer.footer {
     }
   }
 
-  &__date {
-    margin-bottom: 20px;
-  }
+  &__resume { margin-bottom: 20px; }
 
-  &__phone {
+  &__date { margin-bottom: 20px; }
+
+  &__phone { margin-bottom: 20px; }
+
+  &__copy-user {
+    text-align: right;
     margin-bottom: 20px;
   }
 }
@@ -497,6 +500,8 @@ footer.footer {
     &__title { margin-bottom: 10px; }
 
     &__locations { text-align: left !important; }
+
+    &__copy-user { text-align: left; }
 
     .locations-list {
       justify-content: flex-start;

@@ -8,6 +8,9 @@ const getJobApplied = id => {
   return axios.get(
     `${API_URL}/${subUrl}/vacancies/${id}/applied-jobs`,
     {
+      params: {
+        filter: { include: 'user' }
+      },
       headers: { Authorization: token }
     }
   )

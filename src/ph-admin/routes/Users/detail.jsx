@@ -366,7 +366,6 @@ class UserDetail extends React.Component {
         appliedCount: res.data.length > 0 ? res.data.length : 0
       });
     }).catch(error => this.catchErrors(error));
-
   }
 
   render() {
