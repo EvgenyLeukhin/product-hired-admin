@@ -113,6 +113,9 @@ class JobApplied extends React.Component {
                   <div className="col-md-12">
                     <b>How do you know you are an amazing fit for this role?</b>
                     <ReadMoreReact
+                      min={200}
+                      ideal={250}
+                      max={300}
                       readMoreText="Read more..."
                       text={i.about || 'ー'}
                     />
