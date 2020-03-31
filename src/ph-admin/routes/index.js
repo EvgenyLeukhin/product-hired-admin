@@ -58,6 +58,9 @@ const Routes = ({ location }) => {
   // if login (don't change Routes order)
   } else return (
     <Core>
+      <Route path="/" exact>
+        <Redirect to="/companies" />
+      </Route>
       <Route path="/companies/:id" component={CompaniesDetail} />
       <Route path="/companies"     component={Companies} />
 

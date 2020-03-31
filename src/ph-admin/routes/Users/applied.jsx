@@ -10,6 +10,8 @@ import { API_URL } from '../../api/apiUrl';
 
 const UserApplied = ({ appliedData }) => {
 
+  console.log(appliedData);
+
   return (
     <div className="applied-container">
       <h4 className="ph-detail-page__title">Jobs Applied</h4>
@@ -89,7 +91,7 @@ const UserApplied = ({ appliedData }) => {
                     ideal={250}
                     max={300}
                     readMoreText="Read more..."
-                    text={i.vacancy.description || 'ー'}
+                    text={i.about || 'ー'}
                   />
                 </div>
 
