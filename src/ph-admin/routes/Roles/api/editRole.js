@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { API_URL, subUrl } from '../../../api/apiUrl';
 
-const editRole = (id, name, slug, weight, keywords, negative) => {
+const editRole = (id, name, slug, weight, keywords, negative, skills) => {
   const token = JSON.parse(localStorage.getItem('ph-admin-user-data')).id;
 
   return axios.patch(
@@ -11,7 +11,8 @@ const editRole = (id, name, slug, weight, keywords, negative) => {
       slug,
       weight,
       keywords,
-      negative
+      negative,
+      skills
     },
     {
       headers: { Authorization: token }

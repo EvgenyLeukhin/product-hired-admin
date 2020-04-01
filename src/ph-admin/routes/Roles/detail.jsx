@@ -2,16 +2,18 @@ import React from 'react';
 import slugify from 'slugify';
 
 import { Button } from 'reactstrap';
+import AsyncSelect from 'react-select/async';
 import Alerts from '../../components/Alerts/index2.jsx';
 import Spinner from '../../../components/Spinner';
 
-import getRole  from './api/getRole';
-import editRole from './api/editRole';
+import getRole    from './api/getRole';
+import getSkills  from './api/getSkills';
+import editRole   from './api/editRole';
 
 class RoleDetail extends React.Component {
   state = {
     // fields
-    id: null, name: '', oldName: '', slug: '', weight: null, keywords: '', negative: '',
+    id: null, name: '', oldName: '', slug: '', weight: null, keywords: '', negative: '', skills: [],
 
     // alerts
     alertIsOpen: false, alertType: '', alertErrorText: '',
@@ -22,6 +24,8 @@ class RoleDetail extends React.Component {
 
   // change fields
   onChange    = e  => this.setState({ [e.target.name]: e.target.value });
+
+  onChangeSkills = skills => this.setState({ skills });
 
   generateSlug = () => {
     const { name } = this.state;
@@ -40,8 +44,8 @@ class RoleDetail extends React.Component {
     e.preventDefault();
     this.setState({ loading: true });
 
-    const { id, name, slug, weight, keywords, negative } = this.state;
-    editRole(id, name, slug, weight, keywords, negative).then(res => {
+    const { id, name, slug, weight, keywords, negative, skills } = this.state;
+    editRole(id, name, slug, weight, keywords, negative, skills).then(res => {
       // open alert
       this.setState({ alertIsOpen: true, alertType: 'edit'});
 
@@ -84,17 +88,19 @@ class RoleDetail extends React.Component {
 
     // get request
     getRole(match.params.id).then(res => {
-      const { id, name, slug, weight, keywords, negative } = res.data;
-      this.setState({ id, name, oldName: name, slug, weight, keywords, negative, loading: false });
+      const { id, name, slug, weight, keywords, negative, skills } = res.data;
+      this.setState({ id, name, oldName: name, slug, weight, keywords, negative, skills, loading: false });
     }).catch(error => this.catchErrors(error));
   }
 
   render() {
     const {
-      id, name, oldName, slug, weight, keywords, negative,          // fields
-      alertIsOpen, alertType, alertErrorText, errorAlertIsOpen, // alerts
-      loading                                                   // api
+      id, name, oldName, slug, weight, keywords, negative, skills,         // fields
+      alertIsOpen, alertType, alertErrorText, errorAlertIsOpen,            // alerts
+      loading                                                              // api
     } = this.state;
+
+    console.log(skills);
 
 
     return (
@@ -201,9 +207,20 @@ class RoleDetail extends React.Component {
                     />
                   </div>
 
-                  {/* <div className="col-md-12">
+                  <div className="col-md-12">
                     <label htmlFor="edit-skills">Recommended Skills</label>
-                  </div> */}
+                    <AsyncSelect
+                      isMulti={true}
+                      menuPlacement="auto"
+                      cacheOptions={true}
+                      defaultOptions={true}
+                      loadOptions={inputValue => getSkills(inputValue).then(res => res.data)}
+                      getOptionValue={o => o.id}
+                      getOptionLabel={o => o.name}
+                      onChange={this.onChangeSkills}
+                      value={skills}
+                    />
+                  </div>
                 </div>
               </fieldset>
 

@@ -45,6 +45,7 @@ class Roles extends React.Component {
             weight:   afterEditData.weight,
             keywords: afterEditData.keywords,
             negative: afterEditData.negative,
+            skills: afterEditData.skills,
           };
         }
       }
