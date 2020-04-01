@@ -25,10 +25,11 @@ const getUsersCount = state => {
 
     // name //
     } else if (i.id === 'name') {
-      where.or = [
-        { 'name':    { 'like': `%${i.value}%`} },
-        { 'surname': { 'like': `%${i.value}%`} },
-      ]
+      where.fullName = { 'like': '%' + i.value + '%' }
+      // where.or = [
+      //   { 'name':    { 'like': `%${i.value}%`} },
+      //   { 'surname': { 'like': `%${i.value}%`} },
+      // ]
 
     // role //
     } else if (i.id === 'user_role_id') {
@@ -48,15 +49,22 @@ const getUsersCount = state => {
         return where.lastLogin = { 'gt': lastLoginDate }
       }
 
+    // roles //
+    } else if (i.id === 'roles') {
+      i.value ? where.access = { 'inq': [Number(i.value)] } : where.access = null;
+
     } else {
       where[i.id] = { 'like': '%' + i.value + '%' }
     }
   });
 
   // get-request for count
-  return axios.get(`${API_URL}/${subUrl}/users/count`, {
+  return axios.get(`${API_URL}/${subUrl}/users/searchExtra`, {
     // inject where to params
-    params: { where },
+    params: {
+      filter: { where },
+      count: true
+    },
     headers: { Authorization: token } // backend doesn't check it
   })
 };

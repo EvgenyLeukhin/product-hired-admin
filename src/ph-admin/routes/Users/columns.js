@@ -186,7 +186,6 @@ const columns = [
     Header: 'Access',
     accessor: 'roles',
     width: 110,
-    filterable: false,
     sortable: false,
     Cell: ({ original }) => {
       const { roles } = original;
@@ -195,6 +194,25 @@ const columns = [
       if (!isEmpty(rolesArray)) {
         return <span className="roles-string">{rolesArray.join(', ')}</span>;
       } else return null;
+    },
+    Filter: ({ filter, onChange }) => {
+      return (
+        <select
+          onChange={
+            event => {
+              if (event.target.value === 'Null') {
+                return onChange(null);
+              } else return onChange(event.target.value);
+            }
+          }
+          style={{ width: "100%", height: '38px' }}
+          value={filter ? filter.value : ''}
+        >
+          <option value=''>All</option>
+          <option value={4}>Admin</option>
+          <option value={5}>Banned</option>
+        </select>
+      )
     }
   },
 

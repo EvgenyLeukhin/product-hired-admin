@@ -152,7 +152,7 @@ class Users extends React.Component {
 
   componentWillReceiveProps() {
     // AFTER EDIT //
-    const { afterEditData } = this.props.history.location.state || {};
+    const { afterEditData, roles } = this.props.history.location.state || {};
 
     if(!isEmpty(afterEditData)) {
       // get current table-data from the state w\o editing change (when render only)
@@ -163,7 +163,7 @@ class Users extends React.Component {
         if (users[i].id === afterEditData.id) {
           // inject editing data to table state
           users[i] = {
-            id: afterEditData.id, name: afterEditData.name, surname: afterEditData.surname, email: afterEditData.email,  job_title: afterEditData.job_title, emailVerified: afterEditData.emailVerified, admin: afterEditData.admin, status: afterEditData.status, banned: afterEditData.banned, experience: afterEditData.experience.value, image: afterEditData.image, skills: afterEditData.skills, created: afterEditData.created, emailSettings: afterEditData.emailSettings, emailJobApplication: afterEditData.emailJobApplication, emailMarketing: afterEditData.emailMarketing, seniority_id: afterEditData.seniority_id, seniority: afterEditData.seniority, location_id: afterEditData.location_id, location: afterEditData.location, userRole: afterEditData.userRole, user_role_id: afterEditData.user_role_id, roles: afterEditData.roles, role: afterEditData.role, role_id: afterEditData.role_id, company: afterEditData.company, company_id: afterEditData.company_id,
+            id: afterEditData.id, name: afterEditData.name, surname: afterEditData.surname, email: afterEditData.email, job_title: afterEditData.job_title, emailVerified: afterEditData.emailVerified, admin: afterEditData.admin, status: afterEditData.status, banned: afterEditData.banned, experience: afterEditData.experience.value, image: afterEditData.image, skills: afterEditData.skills, created: afterEditData.created, emailSettings: afterEditData.emailSettings, emailJobApplication: afterEditData.emailJobApplication, emailMarketing: afterEditData.emailMarketing, seniority_id: afterEditData.seniority_id, seniority: afterEditData.seniority, location_id: afterEditData.location_id, location: afterEditData.location, userRole: afterEditData.userRole, user_role_id: afterEditData.user_role_id, roles, role: afterEditData.role, role_id: afterEditData.role_id, company: afterEditData.company, company_id: afterEditData.company_id,
           };
         }
       }

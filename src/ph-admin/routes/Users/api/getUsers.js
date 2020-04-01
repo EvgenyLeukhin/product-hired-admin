@@ -47,6 +47,8 @@ const getUsers = state => {
       }
       filter.order = i.value ? 'lastLogin DESC' : 'id DESC';
 
+    } else if (i.id === 'roles') {
+      i.value ? filter.where.access = { 'inq': [Number(i.value)] } : filter.where.access = null;
 
     } else (
       filter.where[i.id] = { 'like': '%' + i.value + '%' }

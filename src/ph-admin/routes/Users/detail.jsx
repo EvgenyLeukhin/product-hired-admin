@@ -182,6 +182,7 @@ class UserDetail extends React.Component {
     this.setState({ loading: true, errorAlertIsOpen: false });
 
     const { state } = this;
+    const { admin, banned } = this.state;
 
     editUser(state).then(res => {
       // open alert
@@ -195,7 +196,13 @@ class UserDetail extends React.Component {
         const { history } = this.props;
         history.push({
           pathname: '/users',
-          state: { afterEditData: res.data }
+          state: {
+            afterEditData: res.data,
+            roles: [
+              admin  && { name: 'admin' },
+              banned && { name: 'banned' },
+            ]
+          }
         })
       }, 2000);
 
