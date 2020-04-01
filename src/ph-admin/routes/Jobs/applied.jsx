@@ -55,7 +55,7 @@ class JobApplied extends React.Component {
 
         {
           !isEmpty(appliedData) ? appliedData.map((i, index) => {
-            if (index < activePage * 5 && index >= (activePage - 1) * 5) {
+            if (index < activePage * 10 && index >= (activePage - 1) * 10) {
               return (
                 <div className="cardbox  applied-container__item" key={i.id}>
                   <div className="row">
@@ -137,12 +137,12 @@ class JobApplied extends React.Component {
           }) : null
         }
         {
-          (!isEmpty(appliedData) && appliedData.length > 5) && (
+          (!isEmpty(appliedData) && appliedData.length > 10) && (
             <Pagination
               activePage={activePage}
               itemsCountPerPage={10}
               totalItemsCount={appliedData.length}
-              pageRangeDisplayed={5}
+              pageRangeDisplayed={10}
               onChange={this.handlePageChange}
             />
           )
