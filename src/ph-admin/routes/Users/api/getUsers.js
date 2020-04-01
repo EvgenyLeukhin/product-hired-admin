@@ -22,19 +22,15 @@ const getUsers = state => {
     if (i.id === 'id') {
       filter.where[i.id] = i.value;
 
+    // name //
     } else if (i.id === 'name') {
-      filter.where = {
-        'or': [
-          { 'name':    { 'like': `%${i.value}%`} },
-          { 'surname': { 'like': `%${i.value}%`} },
-        ]
-      }
+      filter.where.fullName = { 'like': '%' + i.value + '%' }
 
     // role //
     } else if (i.id === 'user_role_id') {
       i.value ? filter.where[i.id] = Number(i.value) : filter.where[i.id] = null;
 
-      // Created // +
+    // created //
     } else if (i.id === 'created') {
       const createdDate = i.value && format(i.value, 'yyyy-MM-dd');
       if (createdDate) {
@@ -42,7 +38,16 @@ const getUsers = state => {
       }
       filter.order = i.value ? 'created DESC' : 'id DESC';
 
-    // filter.where[i.id] = i.value;
+
+    // lastLogin
+    } else if (i.id === 'lastLogin') {
+      const lastLoginDate = i.value && format(i.value, 'yyyy-MM-dd');
+      if (lastLoginDate) {
+        return filter.where.lastLogin = { 'gt': lastLoginDate }
+      }
+      filter.order = i.value ? 'lastLogin DESC' : 'id DESC';
+
+
     } else (
       filter.where[i.id] = { 'like': '%' + i.value + '%' }
     )
@@ -55,7 +60,7 @@ const getUsers = state => {
   });
 
   // get-request for data
-  return axios.get(`${API_URL}/${subUrl}/users`, {
+  return axios.get(`${API_URL}/${subUrl}/users/searchExtra`, {
     params: { filter },
     headers: { Authorization: token } // backend doesn't check it
   })

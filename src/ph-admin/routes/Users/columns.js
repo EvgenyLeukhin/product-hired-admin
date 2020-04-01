@@ -153,6 +153,50 @@ const columns = [
       );
     }
   },
+  // lastLogin //
+  {
+    Header: 'Last login',
+    accessor: 'lastLogin',
+    Cell: ({ original }) => {
+      const { lastLogin } = original;
+      return (
+        <div className="ellipsis-text" title={lastLogin && lastLogin.substring(0, 10) || ''}>
+          <span>{lastLogin && lastLogin.substring(0, 10) || ''}</span>
+        </div>
+      )
+    },
+    Filter: ({ filter, onChange }) => {
+      return (
+        <DatePicker
+          placeholderText="Select date..."
+          isClearable={filter ? true : false}
+          className="lastLogin-datepicker"
+          selected={filter ? filter.value : ''}
+          onChange={date => {
+            console.log(date);
+            onChange(date)
+          }}
+        />
+      );
+    }
+  },
+
+  // access //
+  {
+    Header: 'Access',
+    accessor: 'roles',
+    width: 110,
+    filterable: false,
+    sortable: false,
+    Cell: ({ original }) => {
+      const { roles } = original;
+      const rolesArray = roles ? roles.map(i => i.name) : [];
+
+      if (!isEmpty(rolesArray)) {
+        return <span className="roles-string">{rolesArray.join(', ')}</span>;
+      } else return null;
+    }
+  },
 
   // status //
   // {
@@ -185,23 +229,6 @@ const columns = [
   //     )
   //   }
   // },
-
-  // access //
-  {
-    Header: 'Access',
-    accessor: 'roles',
-    width: 110,
-    filterable: false,
-    sortable: false,
-    Cell: ({ original }) => {
-      const { roles } = original;
-      const rolesArray = roles ? roles.map(i => i.name) : [];
-
-      if (!isEmpty(rolesArray)) {
-        return <span className="roles-string">{rolesArray.join(', ')}</span>;
-      } else return null;
-    }
-  },
 ];
 
 export default columns;

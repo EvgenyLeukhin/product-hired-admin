@@ -34,11 +34,18 @@ const getUsersCount = state => {
     } else if (i.id === 'user_role_id') {
       i.value ? where[i.id] = Number(i.value) : where[i.id] = null;
 
-      // Created //
+    // Created //
     } else if (i.id === 'created') {
       const createdDate = i.value && format(i.value, 'yyyy-MM-dd');
       if (createdDate) {
         return where.created = { 'gt': createdDate }
+      }
+
+    // lastLogin //
+    } else if (i.id === 'lastLogin') {
+      const lastLoginDate = i.value && format(i.value, 'yyyy-MM-dd');
+      if (lastLoginDate) {
+        return where.lastLogin = { 'gt': lastLoginDate }
       }
 
     } else {
