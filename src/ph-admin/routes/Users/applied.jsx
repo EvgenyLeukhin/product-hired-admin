@@ -26,7 +26,7 @@ class UserApplied extends React.Component {
 
         {
           !isEmpty(appliedData) ? appliedData.map((i, index) => {
-            if (index < activePage * 5 && index > (activePage - 1) * 5) {
+            if (index < activePage * 5 && index >= (activePage - 1) * 5) {
               return (
                 <div className="cardbox  applied-container__item" key={i.id}>
                   <div className="row">
@@ -89,7 +89,7 @@ class UserApplied extends React.Component {
                           Download
                         </a>
                       }
-                    </div>
+                     </div>
 
                     <div className="col-md-3" />
 
@@ -110,13 +110,17 @@ class UserApplied extends React.Component {
             }
           }) : null
         }
-        <Pagination
-          activePage={activePage}
-          itemsCountPerPage={10}
-          totalItemsCount={appliedData.length}
-          pageRangeDisplayed={5}
-          onChange={this.handlePageChange}
-        />
+        {
+          (!isEmpty(appliedData) && appliedData.length > 5) && (
+            <Pagination
+              activePage={activePage}
+              itemsCountPerPage={10}
+              totalItemsCount={appliedData.length}
+              pageRangeDisplayed={5}
+              onChange={this.handlePageChange}
+            />
+          )
+        }
       </div>
     );
   }
