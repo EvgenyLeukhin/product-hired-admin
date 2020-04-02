@@ -1,16 +1,16 @@
 {
-  "main.css": "/product-hired-admin/static/css/main.508ba2cc.chunk.css",
-  "main.js": "/product-hired-admin/static/js/main.558337e8.chunk.js",
-  "main.js.map": "/product-hired-admin/static/js/main.558337e8.chunk.js.map",
+  "main.css": "/product-hired-admin/static/css/main.67a502cd.chunk.css",
+  "main.js": "/product-hired-admin/static/js/main.5071eea2.chunk.js",
+  "main.js.map": "/product-hired-admin/static/js/main.5071eea2.chunk.js.map",
   "static/css/1.a82e204f.chunk.css": "/product-hired-admin/static/css/1.a82e204f.chunk.css",
   "static/js/1.9bc330b1.chunk.js": "/product-hired-admin/static/js/1.9bc330b1.chunk.js",
   "static/js/1.9bc330b1.chunk.js.map": "/product-hired-admin/static/js/1.9bc330b1.chunk.js.map",
   "runtime~main.js": "/product-hired-admin/static/js/runtime~main.0be16bc4.js",
   "runtime~main.js.map": "/product-hired-admin/static/js/runtime~main.0be16bc4.js.map",
   "static/media/ionicons.css": "/product-hired-admin/static/media/ionicons.19e65b89.eot",
+  "static/css/main.67a502cd.chunk.css.map": "/product-hired-admin/static/css/main.67a502cd.chunk.css.map",
   "static/css/1.a82e204f.chunk.css.map": "/product-hired-admin/static/css/1.a82e204f.chunk.css.map",
-  "static/css/main.508ba2cc.chunk.css.map": "/product-hired-admin/static/css/main.508ba2cc.chunk.css.map",
   "index.html": "/product-hired-admin/index.html",
-  "precache-manifest.1f25874e7b9bfc237df47f223b72beaa.js": "/product-hired-admin/precache-manifest.1f25874e7b9bfc237df47f223b72beaa.js",
+  "precache-manifest.f2582c92868b95c1eb7bc6880b74fd42.js": "/product-hired-admin/precache-manifest.f2582c92868b95c1eb7bc6880b74fd42.js",
   "service-worker.js": "/product-hired-admin/service-worker.js"
 }

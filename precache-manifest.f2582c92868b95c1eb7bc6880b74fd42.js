@@ -20,23 +20,23 @@ self.__precacheManifest = [
     "url": "/product-hired-admin/static/js/runtime~main.0be16bc4.js"
   },
   {
-    "revision": "558337e8c3b1d5b340c4",
-    "url": "/product-hired-admin/static/js/main.558337e8.chunk.js"
+    "revision": "5071eea2fbee9f59b26b",
+    "url": "/product-hired-admin/static/js/main.5071eea2.chunk.js"
   },
   {
     "revision": "9bc330b11adad60c717d",
     "url": "/product-hired-admin/static/js/1.9bc330b1.chunk.js"
   },
   {
-    "revision": "558337e8c3b1d5b340c4",
-    "url": "/product-hired-admin/static/css/main.508ba2cc.chunk.css"
+    "revision": "5071eea2fbee9f59b26b",
+    "url": "/product-hired-admin/static/css/main.67a502cd.chunk.css"
   },
   {
     "revision": "9bc330b11adad60c717d",
     "url": "/product-hired-admin/static/css/1.a82e204f.chunk.css"
   },
   {
-    "revision": "bc872350fc2a891b7076fd081d2e0602",
+    "revision": "b1e054e4cc613216c83440b8ba6edf88",
     "url": "/product-hired-admin/index.html"
   }
 ];
