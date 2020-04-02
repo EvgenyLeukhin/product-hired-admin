@@ -79,6 +79,11 @@ body {
     }
 
     .alert {
+      position: fixed;
+      top: 10px;
+      left: 240px;
+      right: 10px;
+
       .close {
         color: rgba(255,255,255, 1);
         text-shadow: none;
@@ -231,6 +236,14 @@ footer.footer {
   z-index: 10;
   max-width: none;
 
+  // alerts
+  .alert {
+    position: fixed;
+    top: 10px;
+    left: 240px;
+    right: 10px;
+  }
+
   // hide react-table when detail page is open
   & + div { display: none; }
 
@@ -277,19 +290,18 @@ footer.footer {
   }
 
   &__is-loading {
-    position: absolute;
+    position: fixed;
     z-index: 11;
     background-color: rgba(255,255,255, .65);
     display: flex;
-    flex-direction: column;
     align-items: center;
-    top: 70px;
-    left: 0;
+    justify-content: center;
+    top: 65px;
+    left: 241px;
     right: 0;
-    bottom: 10%;
+    bottom: 0;
 
     .sk-chase {
-      margin-top: 100px;
       width: 35px;
       height: 35px;
       .sk-chase-dot:before {
@@ -448,6 +460,18 @@ footer.footer {
   }
 }
 
+@media (max-width: 991px) {
+  .main-container,
+  .ph-detail-page {
+    .alert { left: 10px; }
+  }
+
+  .ph-detail-page {
+    &__is-loading {
+      left: 0;
+    }
+  }
+}
 
 @media (max-width: 767px) {
   .ph-detail-page {
