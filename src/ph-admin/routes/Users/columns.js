@@ -157,6 +157,7 @@ const columns = [
   {
     Header: 'Last login',
     accessor: 'lastLogin',
+    width: 120,
     Cell: ({ original }) => {
       const { lastLogin } = original;
       return (
