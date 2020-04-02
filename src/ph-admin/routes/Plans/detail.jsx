@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Button } from 'reactstrap';
-import Alerts from '../../components/Alerts/index2.jsx';
+import Alerts from '../../components/Alerts';
 import Spinner from '../../../components/Spinner';
 
 import getPlan  from './api/getPlan';
@@ -83,7 +83,7 @@ class PlanDetail extends React.Component {
 
   render() {
     const {
-      name, price, oldName,                                     // fields
+      id, name, price, oldName,                                 // fields
       alertIsOpen, alertType, alertErrorText, errorAlertIsOpen, // alerts
       loading                                                   // api
     } = this.state;
@@ -93,7 +93,7 @@ class PlanDetail extends React.Component {
       <section className="ph-detail-page  container">
         {
           alertIsOpen && (
-            <Alerts name={name} type={alertType} errorText={alertErrorText} errorAlertIsOpen={errorAlertIsOpen}closeErrorAlert={this.closeErrorAlert} />
+            <Alerts id={id} name={name} type={alertType} errorText={alertErrorText} errorAlertIsOpen={errorAlertIsOpen}closeErrorAlert={this.closeErrorAlert} />
           )
         }
 

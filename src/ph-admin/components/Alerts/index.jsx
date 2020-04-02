@@ -13,14 +13,14 @@ const Alerts = ({ type, id, name, surname, errorText, errorAlertIsOpen, closeErr
         // edit //
         type === 'edit' && (
           <Alert color="warning">
-            {`"${id}`} - <b>{Name} has been edited</b>
+            {`${id}`} - <b>{Name} has been edited</b>
           </Alert>
         ) ||
 
         // delete //
         type === 'delete' && (
           <Alert color="danger">
-            {`"${id}`} - <b>{Name} has been deleted</b>
+            {`${id}`} - <b>{Name} has been deleted</b>
           </Alert>
         ) ||
 

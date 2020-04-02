@@ -5,7 +5,7 @@ import isEmpty from 'lodash/isEmpty';
 import Table from '../../components/Table';
 import columns from './columns';
 
-import Alerts from '../../components/Alerts/index2.jsx';
+import Alerts from '../../components/Alerts';
 import AddButton from '../../components/AddButton';
 
 import AddUser    from './add';
@@ -239,7 +239,7 @@ class Users extends React.Component {
           addClick={this.addClick}
         />
 
-        { alertIsOpen && <Alerts type={alertType} id={id} name={name} errorText={alertErrorText} /> }
+        { alertIsOpen && <Alerts type={alertType} id={id} name={name} surname={surname} errorText={alertErrorText} /> }
 
         <AddUser
           // fields

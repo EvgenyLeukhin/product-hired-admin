@@ -10,7 +10,7 @@ import DeleteUser from './delete';
 import UserApplied from './applied';
 
 import { Button } from 'reactstrap';
-import Alerts from '../../components/Alerts/index2.jsx';
+import Alerts from '../../components/Alerts';
 import Spinner from '../../../components/Spinner';
 
 import { API_URL } from '../../api/apiUrl';
@@ -401,7 +401,7 @@ class UserDetail extends React.Component {
       <section className="ph-detail-page  container  edit-user">
         {
           alertIsOpen && (
-            <Alerts id={id} name={name} type={alertType} errorText={alertErrorText} errorAlertIsOpen={errorAlertIsOpen}closeErrorAlert={this.closeErrorAlert} />
+            <Alerts id={id} name={name} surname={surname} type={alertType} errorText={alertErrorText} errorAlertIsOpen={errorAlertIsOpen}closeErrorAlert={this.closeErrorAlert} />
           )
         }
 

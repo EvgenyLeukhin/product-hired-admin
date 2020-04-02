@@ -3,7 +3,7 @@ import slugify from 'slugify';
 
 import { Button } from 'reactstrap';
 import AsyncSelect from 'react-select/async';
-import Alerts from '../../components/Alerts/index2.jsx';
+import Alerts from '../../components/Alerts';
 import Spinner from '../../../components/Spinner';
 
 import getRole    from './api/getRole';
@@ -99,8 +99,6 @@ class RoleDetail extends React.Component {
       alertIsOpen, alertType, alertErrorText, errorAlertIsOpen,            // alerts
       loading                                                              // api
     } = this.state;
-
-    console.log(skills);
 
 
     return (

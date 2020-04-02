@@ -17,7 +17,7 @@ import 'react-tabs/style/react-tabs.css';
 // ---------------- COMPONENTS ---------------- //
 import DeleteJob from './delete';
 import JobApplied from './applied';
-import Alerts from '../../components/Alerts/index2.jsx';
+import Alerts from '../../components/Alerts';
 import Spinner from '../../../components/Spinner';
 // ---------------- COMPONENTS ---------------- //
 

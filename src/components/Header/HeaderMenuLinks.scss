@@ -7,6 +7,10 @@
 
 // Transformed Navigation Link
 
+.header-container > nav {
+  box-shadow: none !important;
+}
+
 .header-container > nav > ul > li > .menu-link {
     height: $header-hg;
     padding-top: 25px;

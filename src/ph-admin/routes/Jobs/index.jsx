@@ -5,7 +5,7 @@ import isEmpty from 'lodash/isEmpty';
 import Table from '../../components/Table';
 import columns from './columns';
 
-import Alerts from '../../components/Alerts/index2';
+import Alerts from '../../components/Alerts';
 import AddButton from '../../components/AddButton';
 
 import AddJob    from './add';

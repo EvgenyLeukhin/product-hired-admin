@@ -8,7 +8,7 @@ import Pagination from 'react-js-pagination';
 
 import isEmpty from 'lodash/isEmpty';
 
-import Alerts from '../../components/Alerts/index2.jsx';
+import Alerts from '../../components/Alerts';
 
 import { API_URL } from '../../api/apiUrl';
 
