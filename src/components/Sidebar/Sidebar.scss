@@ -131,7 +131,7 @@
     .sidebar-visible {
         overflow: hidden;
         .sidebar-container {
-            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+            // box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
             transform: translate3d(0, 0, 0);
         }
         .sidebar-layout-obfuscator {
