@@ -17,7 +17,7 @@
 
     position: relative;
     background-color: $header-bg;
-    z-index: 1;
+    z-index: 2;
     @media #{$min-desktop} {
         margin-left: $sidebar-wd;
     }
@@ -134,7 +134,7 @@
     left: auto !important;
     right: 10px;
     top: 64px !important;
-    position: fixed !important;
+    position: absolute !important;
     transform: none !important;
     z-index: 10;
   }

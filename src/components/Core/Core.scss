@@ -62,6 +62,7 @@ body {
 
 .main-container {
     position: relative;
+    z-index: 1;
     height: calc(100% - #{$header-hg});
     // background-color: $main-content-bg;
     overflow: auto;
@@ -80,9 +81,10 @@ body {
 
     .alert {
       position: fixed;
-      top: 10px;
-      left: 250px;
-      right: 10px;
+      top: 65px;
+      left: 240px;
+      right: 0;
+      border-radius: 0;
 
       .close {
         color: rgba(255,255,255, 1);
@@ -233,15 +235,16 @@ footer.footer {
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 0;
+  z-index: 1;
   max-width: none;
 
   // alerts
   .alert {
     position: fixed;
-    top: 10px;
-    left: 250px;
-    right: 10px;
+    border-radius: 0;
+    top: 65px;
+    left: 240px;
+    right: 0;
   }
 
   // hide react-table when detail page is open
@@ -463,7 +466,7 @@ footer.footer {
 @media (max-width: 991px) {
   .main-container,
   .ph-detail-page {
-    .alert { left: 10px; }
+    .alert { left: 0; }
   }
 
   .ph-detail-page {
