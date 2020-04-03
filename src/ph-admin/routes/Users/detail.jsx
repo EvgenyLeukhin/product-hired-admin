@@ -41,7 +41,7 @@ class UserDetail extends React.Component {
     id: null, name: '', oldName: '', surname: '', password: '', email: '', job_title: '',
     emailVerified: false, admin: false, status: true, banned: false,
     experience: { value: 0, label: '0' }, skills: [],
-    created: '', modified: '',
+    created: '', modified: '', lastLogin: '',
     emailSettings: true, emailJobApplication: true, emailMarketing: true,
     seniority: {}, seniority_id: null,
     location: { id: null, name: '', alias_region: '' }, location_id: null,
@@ -290,6 +290,7 @@ class UserDetail extends React.Component {
         skills: data.skills,
         created: data.created,
         modified: data.modified, // get modified from data
+        lastLogin: data.lastLogin, // get modified from data
         emailSettings: data.emailSettings,
         emailJobApplication: data.emailJobApplication,
         emailMarketing: data.emailMarketing,
@@ -378,7 +379,7 @@ class UserDetail extends React.Component {
   render() {
     const {
       // fields
-      id, name, oldName, surname, email, job_title, emailVerified, admin, status, banned, experience, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority_id, seniority, location, location_id, userRole, user_role_id, roles, role, role_id, company, company_id,
+      id, name, oldName, surname, email, job_title, emailVerified, admin, status, banned, experience, skills, created, modified, emailSettings, emailJobApplication, emailMarketing, seniority_id, seniority, location, location_id, userRole, user_role_id, roles, role, role_id, company, company_id, lastLogin,
 
       // image
       image, imageLoading,
@@ -401,7 +402,7 @@ class UserDetail extends React.Component {
       <section className="ph-detail-page  container  edit-user">
         {
           alertIsOpen && (
-            <Alerts id={id} name={name} surname={surname} type={alertType} errorText={alertErrorText} errorAlertIsOpen={errorAlertIsOpen}closeErrorAlert={this.closeErrorAlert} />
+            <Alerts id={id} name={name} surname={surname} type={alertType} errorText={alertErrorText} errorAlertIsOpen={errorAlertIsOpen} closeErrorAlert={this.closeErrorAlert} />
           )
         }
 
@@ -488,30 +489,21 @@ class UserDetail extends React.Component {
 
                         <div className="created">
                           <label htmlFor="edit-created">Created</label>
-                          <input
-                            disabled
-                            name="created"
-                            value={created && `${created.substring(0, 10)}, ${created.substring(11, 16)}UTC`}
-                            id="edit-created"
-                            type="text"
-                            className="form-control"
-                          />
+                          <div id="edit-created">{created ? `${created.substring(0, 10)}, ${created.substring(11, 16)}UTC` : '一'}</div>
                         </div>
 
                         <div className="modified">
                           <label htmlFor="edit-modified">Modified</label>
-                          <input
-                            disabled
-                            name="modified"
-                            value={modified && `${modified.substring(0, 10)}, ${modified.substring(11, 16)}UTC`}
-                            id="edit-modified"
-                            type="text"
-                            className="form-control"
-                          />
+                          <div id="edit-modified">{modified ? `${modified.substring(0, 10)}, ${modified.substring(11, 16)}UTC` : '一'}</div>
+                        </div>
+
+                        <div className="lastLogin">
+                          <label htmlFor="edit-lastLogin">Last login</label>
+                          <div id="edit-lastLogin">{lastLogin ? `${lastLogin.substring(0, 10)}, ${lastLogin.substring(11, 16)}UTC` : '一'}</div>
                         </div>
 
                         <div className="admin">
-                          <label htmlFor="edit-modified">Admin status</label>
+                          <label htmlFor="edit-admin">Admin status</label>
 
                           <div className="custom-checkbox">
                             <label className="switch switch-warn switch-primary">

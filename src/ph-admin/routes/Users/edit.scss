@@ -13,8 +13,16 @@
 
   &__left {
     .edit-image { margin-bottom: 15px; }
-    .created { margin-bottom: 15px; }
-    .modified { margin-bottom: 15px; }
+
+    .admin {
+      label { padding-left: 0; }
+    }
+
+    .created, .modified, .lastLogin {
+      margin-bottom: 15px;
+
+      & > label { padding-left: 0; }
+    }
   }
 
 
@@ -34,6 +42,22 @@
     display: flex;
     align-items: center;
     margin-top: 6px;
+  }
+}
+
+@media (max-width: 844px) {
+  .edit-user {
+    &__left {
+      .edit-image { padding-left: 12px; }
+
+      .admin {
+        label { padding-left: 12px; }
+      }
+
+      .created, .modified, .lastLogin {
+        padding-left: 12px;
+      }
+    }
   }
 }
 
