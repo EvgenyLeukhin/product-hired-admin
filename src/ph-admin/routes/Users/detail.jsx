@@ -489,17 +489,17 @@ class UserDetail extends React.Component {
 
                         <div className="created">
                           <label htmlFor="edit-created">Created</label>
-                          <div id="edit-created">{created ? `${created.substring(0, 10)}, ${created.substring(11, 16)}UTC` : '一'}</div>
+                          <div id="edit-created">{created ? `${created.substring(0, 10)}, ${created.substring(11, 16)} UTC` : '一'}</div>
                         </div>
 
                         <div className="modified">
                           <label htmlFor="edit-modified">Modified</label>
-                          <div id="edit-modified">{modified ? `${modified.substring(0, 10)}, ${modified.substring(11, 16)}UTC` : '一'}</div>
+                          <div id="edit-modified">{modified ? `${modified.substring(0, 10)}, ${modified.substring(11, 16)} UTC` : '一'}</div>
                         </div>
 
                         <div className="lastLogin">
                           <label htmlFor="edit-lastLogin">Last login</label>
-                          <div id="edit-lastLogin">{lastLogin ? `${lastLogin.substring(0, 10)}, ${lastLogin.substring(11, 16)}UTC` : '一'}</div>
+                          <div id="edit-lastLogin">{lastLogin ? `${lastLogin.substring(0, 10)}, ${lastLogin.substring(11, 16)} UTC` : '一'}</div>
                         </div>
 
                         <div className="admin">
