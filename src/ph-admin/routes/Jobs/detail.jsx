@@ -91,7 +91,7 @@ class JobDetail extends React.Component {
     logoSwitcher: false, coverSwitcher: false,
 
     // default state fields when add job
-    application_link: null, application_type: 0, hash: null,
+    application_link: '', application_type: 0, hash: null,
 
     // applied
     tabIndex: 0, appliedData: [], appliedCount: 0,
@@ -306,14 +306,14 @@ class JobDetail extends React.Component {
     // get request
     getJob(match.params.id).then(res => {
       const { data } = res;
-      const { id, name, created, modified, published, views, impressions, details, skills, seniority, status, plan_id, employer_id, company, company_id, locations, vacancy_role, vacancy, logo, cover } = data;
+      const { id, name, created, modified, published, views, impressions, details, skills, seniority, status, plan_id, employer_id, company, company_id, locations, vacancy_role, vacancy, logo, cover, application_link } = data;
 
       this.setState({
         loading: false,
         oldName: data.name,
 
         // save data to state from react-table
-        id, name, created, modified, published, views, impressions, details, skills, seniority, status, plan_id,employer_id, company, company_id, locations, vacancy_role, vacancy, logo, cover,
+        id, name, created, modified, published, views, impressions, details, skills, seniority, status, plan_id,employer_id, company, company_id, locations, vacancy_role, vacancy, logo, cover, application_link,
 
         experience_up:   { value: data.experience_up,   label: `${data.experience_up}` },
         experience_from: { value: data.experience_from, label: `${data.experience_from}` },
@@ -405,7 +405,7 @@ class JobDetail extends React.Component {
       // fields
       id, name, oldName, user, employer_id, created, modified, published, views, impressions, details,
       experience_from, experience_up, seniority, seniorityObj, skills, status, statusObj,
-      plan_id, planObj, company_id, company, locations, vacancy_role, vacancy,
+      plan_id, planObj, company_id, company, locations, vacancy_role, vacancy, application_link,
 
       // images
       logo, cover, logoSwitcher, coverSwitcher, logoLoading, coverLoading,
@@ -846,6 +846,20 @@ class JobDetail extends React.Component {
                           </label>
                           <Button disabled={!cover || !coverUrl} outline color="danger" onClick={this.onDeleteCover}>Delete cover</Button>
                         </div>
+                      </div>
+
+                      {/* application_link */}
+                      <div className="col-md-12">
+                        <label htmlFor="edit-application_link">Where to apply (external link)</label>
+                        <input
+                          name="application_link"
+                          type="text"
+                          value={application_link}
+                          id="edit-application_link"
+                          style={{ height: '38px'}}
+                          onChange={this.onChange}
+                          className="form-control"
+                        />
                       </div>
 
                       {/* details */}

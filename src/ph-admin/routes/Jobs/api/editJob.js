@@ -19,7 +19,8 @@ const editJob = state => {
     experience_from,
     employer_id,
     plan_id,
-    published
+    published,
+    application_link
     // created,
   } = state;
 
@@ -50,6 +51,7 @@ const editJob = state => {
       role: vacancy,
       modified: `${new Date().toISOString()}`,
       published,
+      application_link
     },
 
     {
