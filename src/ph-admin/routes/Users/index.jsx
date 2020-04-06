@@ -229,15 +229,16 @@ class Users extends React.Component {
 
     return (
       <div className="users-page">
-        <p className="md-lg">
-          Total records:&nbsp;<b>{count && formatNumber(this.state.count)}</b>
-        </p>
-
-        <AddButton
-          text="user"
-          loading={addModalLoading}
-          addClick={this.addClick}
-        />
+        <div className="table-top">
+          <p className="md-lg">
+            Total records:&nbsp;<b>{count && formatNumber(this.state.count)}</b>
+          </p>
+          <AddButton
+            text="user"
+            loading={addModalLoading && deleteModalLoading}
+            addClick={this.addClick}
+          />
+        </div>
 
         { alertIsOpen && <Alerts type={alertType} id={id} name={name} surname={surname} errorText={alertErrorText} /> }
 

@@ -293,17 +293,18 @@ class Companies extends React.Component {
 
     return (
       <div className="companies-page">
-        <p className="md-lg">
-          Total records:&nbsp;<b>{count && formatNumber(this.state.count)}</b>
-        </p>
+        <div className="table-top">
+          <p className="md-lg">
+            Total records:&nbsp;<b>{count && formatNumber(this.state.count)}</b>
+          </p>
+          <AddButton
+            text="company"
+            loading={addModalLoading && deleteModalLoading}
+            addClick={this.addClick}
+          />
+        </div>
 
         { alertIsOpen && <Alerts type={alertType} id={id} name={name} errorText={alertErrorText} /> }
-
-        <AddButton
-          text="company"
-          loading={addModalLoading && deleteModalLoading}
-          addClick={this.addClick}
-        />
 
         <AddCompany
           // fields
