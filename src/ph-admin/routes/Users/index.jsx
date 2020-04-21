@@ -233,6 +233,9 @@ class Users extends React.Component {
           <p className="md-lg">
             Total records:&nbsp;<b>{count && formatNumber(this.state.count)}</b>
           </p>
+
+          <a href="https://producthired.com/api/api/users/csvExport" target="_blank">Export as CSV</a>
+
           <AddButton
             text="user"
             loading={addModalLoading && deleteModalLoading}
