@@ -7,7 +7,7 @@
     "@ckeditor/ckeditor5-build-classic": "^17.0.0",
     "@ckeditor/ckeditor5-react": "^2.1.0",
     "animate.css": "3.7.0",
-    "axios": "0.18.0",
+    "axios": "0.18.1",
     "bootstrap": "4.3.1",
     "chart.js": "2.7.3",
     "classnames": "^2.2.6",
