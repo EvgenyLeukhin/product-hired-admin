@@ -14,9 +14,9 @@ class Profile extends Component {
     id: null,
     email: '',
     created: '',
-    city: '',
-    country: '',
+    lastLogin: ''
   }
+
   UNSAFE_componentWillMount() { this.props.setHeaderTitle('Profile') }
 
   componentDidMount() {
@@ -28,14 +28,13 @@ class Profile extends Component {
         id: res.id,
         email: res.email,
         created: res.created,
-        city: res.location.name,
-        country: res.location.alias_region,
+        lastLogin: res.lastLogin
       });
     })
   }
 
   render() {
-    const { name, position, avatar, id, email, created, city, country } = this.state;
+    const { name, position, avatar, id, email, created, lastLogin } = this.state;
 
     return (
       <section className="section-container">
@@ -96,10 +95,10 @@ class Profile extends Component {
                         </tr>
 
                         <tr>
-                          <td><em className="ion-android-home icon-fw mr" />Location</td>
+                          <td><em className="ion-android-home icon-fw mr" />Last login</td>
                           <td>
                             <span className="is-editable text-inherit">
-                              { city && `${city}, ${country}` || '—' }
+                              <span className="is-editable text-inherit">{lastLogin.substring(0, 10) || '—'}</span>
                             </span>
                           </td>
                         </tr>
