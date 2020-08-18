@@ -48,18 +48,19 @@ class Plans extends React.Component {
   }
 
   catchErrors = error => {
-    const { name, statusCode, message } = error.response.data.error;
-    if (statusCode === 401) {
-      localStorage.removeItem('ph-admin-user-data');
-      this.props.history.push('/login');
-    } else {
-      this.setState({
-        errorAlertIsOpen: true,
-        alertType: 'error',
-        alertIsOpen: true,
-        alertErrorText: `${name}, ${message}`
-      });
-    }
+    console.log(error);
+    // const { name, statusCode, message } = error.response.data.error;
+    // if (statusCode === 401) {
+    //   localStorage.removeItem('ph-admin-user-data');
+    //   this.props.history.push('/login');
+    // } else {
+    //   this.setState({
+    //     errorAlertIsOpen: true,
+    //     alertType: 'error',
+    //     alertIsOpen: true,
+    //     alertErrorText: `${name}, ${message}`
+    //   });
+    // }
   }
 
   render() {

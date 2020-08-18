@@ -136,20 +136,21 @@ class Jobs extends React.Component {
   closeErrorAlert  = () => this.setState({ errorAlertIsOpen: false });
 
   catchErrors = error => {
-    const { name, statusCode, message } = error.response.data.error;
-    if (statusCode === 401) {
-      localStorage.removeItem('ph-admin-user-data');
-      this.props.history.push('/login');
-    } else {
-      this.setState({
-        errorAlertIsOpen: true,
-        addModalLoading: false,
-        deleteodalLoading: false,
-        alertType: 'error',
-        alertIsOpen: true,
-        alertErrorText: `${name}, ${message}`
-      });
-    }
+    console.log(error);
+    // const { name, statusCode, message } = error.response.data.error;
+    // if (statusCode === 401) {
+    //   localStorage.removeItem('ph-admin-user-data');
+    //   this.props.history.push('/login');
+    // } else {
+    //   this.setState({
+    //     errorAlertIsOpen: true,
+    //     addModalLoading: false,
+    //     deleteodalLoading: false,
+    //     alertType: 'error',
+    //     alertIsOpen: true,
+    //     alertErrorText: `${name}, ${message}`
+    //   });
+    // }
   }
 
   componentWillReceiveProps() {

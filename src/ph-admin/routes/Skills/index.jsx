@@ -140,20 +140,21 @@ class Skills extends React.Component {
   }
 
   catchErrors = error => {
-    const { name, statusCode, message } = error.response.data.error;
-    if (statusCode === 401) {
-      localStorage.removeItem('ph-admin-user-data');
-      this.props.history.push('/login');
-    } else {
-      this.setState({
-        errorAlertIsOpen: true,
-        addModalLoading: false,
-        deleteModalLoading: false,
-        alertType: 'error',
-        alertIsOpen: true,
-        alertErrorText: `${name}, ${message}`
-      });
-    }
+    console.log(error);
+    // const { name, statusCode, message } = error.response.data.error;
+    // if (statusCode === 401) {
+    //   localStorage.removeItem('ph-admin-user-data');
+    //   this.props.history.push('/login');
+    // } else {
+    //   this.setState({
+    //     errorAlertIsOpen: true,
+    //     addModalLoading: false,
+    //     deleteModalLoading: false,
+    //     alertType: 'error',
+    //     alertIsOpen: true,
+    //     alertErrorText: `${name}, ${message}`
+    //   });
+    // }
   }
 
   componentWillReceiveProps() {

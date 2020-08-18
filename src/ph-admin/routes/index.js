@@ -23,6 +23,12 @@ import RolesDetail  from './Roles/detail.jsx';
 import Plans        from './Plans/index.jsx';
 import PlansDetail  from './Plans/detail.jsx';
 
+import Campaings       from './Campaings/index.jsx';
+import CampaingsDetail from './Campaings/detail.jsx';
+
+import PagesForAdvertising       from './PagesForAdvertising/index.jsx';
+import PagesForAdvertisingDetail from './PagesForAdvertising/detail.jsx';
+
 // common styles //
 import '../../components/Bootstrap/Bootstrap';
 import '../../components/Common/Common';
@@ -76,6 +82,12 @@ const Routes = ({ location }) => {
 
       <Route path="/plans/:id"     component={PlansDetail} />
       <Route path="/plans"         component={Plans} />
+
+      <Route path="/campaings/:id" component={CampaingsDetail} />
+      <Route path="/campaings"     component={Campaings} />
+
+      <Route path="/pages-for-advertising/:id" component={PagesForAdvertisingDetail} />
+      <Route path="/pages-for-advertising"     component={PagesForAdvertising} />
 
       <Route path="/profile"       component={Profile} />
 

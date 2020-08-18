@@ -24,23 +24,20 @@ const Menu = [
     icon: 'img/icons/navicon.svg',
     path: '/roles' },
 
-  {
-    id: 5,
+  { id: 5,
     name: 'Plans',
     icon: 'img/icons/connection-bars.svg',
-    path: '/plans'
-  },
+    path: '/plans' },
 
-  // {
-  //   id: 2,
-  //   name: 'Charts',
-  //   icon: 'img/icons/connection-bars.svg',
-  //   submenu: [
-  //     { name: 'Talents',   path: '/talents' },
-  //     { name: 'Employers', path: '/employers' },
-  //     { name: 'Filters',   path: '/filters' }
-  //   ],
-  // },
+  { id: 6,
+    name: 'Campaings',
+    icon: 'img/icons/ios-browsers.svg',
+    path: '/campaings' },
+
+  { id: 7,
+    name: 'Pages for advertising',
+    icon: 'img/icons/clipboard.svg',
+    path: '/pages-for-advertising' },
 ];
 
 export default Menu;
