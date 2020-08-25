@@ -1,0 +1,43 @@
+.edit-job {
+  .top-fields {
+    b { display: block; }
+
+    border-bottom: 3px solid rgba(0,0,0,0.12);
+    margin-bottom: 20px;
+
+    .job-link {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+  }
+
+  .edit-logo__buttons,
+  .edit-cover__buttons {
+    margin-top: auto;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    & > label.input-file-label.btn.btn-light { margin-right: 15px; }
+  }
+
+  .copy-button {
+    padding-top: 24px;
+
+    button { min-height: 38px; }
+  }
+}
+
+@media (max-width: 767px) {
+  .edit-job {
+    .top-fields {
+      text-align: left;
+      & > div {
+        margin-bottom: 15px !important;
+      }
+    }
+
+    .copy-button { padding-top: 0; }
+  }
+}
