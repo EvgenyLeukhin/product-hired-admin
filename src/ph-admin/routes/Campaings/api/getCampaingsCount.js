@@ -13,7 +13,7 @@ const getCampaingsCount = state => {
   // where template for request
   const where = {};
 
-  // when we are typing something inside filter-fields state of react-table is changing
+  // when we are typing something inside filter-fields the state of react-table is changing
   // we take filter inputs values and inject to request params
   filtered.forEach(i => {
     // if (i.id === 'id') where[i.id] = i.value
@@ -22,6 +22,10 @@ const getCampaingsCount = state => {
     // Id // +
     if (i.id === 'id') {
       where[i.id] = i.value;
+
+    // Views // -
+    // } else if (i.id === 'views') {
+    //   where[i.id] = i.value; // filtering doesn't work
 
     // Job // +
     } else if (i.id === 'name') {
@@ -68,7 +72,7 @@ const getCampaingsCount = state => {
   });
 
   // get-request for count
-  return axios.get(`${API_URL}/${subUrl}/vacancies/searchExtra`, {
+  return axios.get(`${API_URL}/${subUrl}/vacancies/searchExtra`, { // TODO vacancies -- > campaings (when it will be ready)
     // inject where to params
     params: {
       filter: { where },

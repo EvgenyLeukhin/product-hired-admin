@@ -29,7 +29,7 @@ const getPages = state => {
   });
 
   // get-request for data
-  return axios.get(`${API_URL}/${subUrl}/users`, { // users -- > pages-for-advertising(when be will be ready)
+  return axios.get(`${API_URL}/${subUrl}/users`, { // TODO users -- > pages-for-advertising (when it will be ready)
     params: { filter },
     headers: { Authorization: token } // backend doesn't check it
   })

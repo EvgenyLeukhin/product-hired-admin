@@ -18,9 +18,14 @@ const getCampaings = state => {
 
   // inject where to filter
   filtered.forEach(i => {
+    console.log(i.id);
     // Id column // +
     if (i.id === 'id') {
       filter.where[i.id] = i.value;
+
+    // Views column // -
+    // } else if (i.id === 'views') {
+    //   filter.where[i.id] = i.value; // filtering doesn't work
 
     // Job column // +
     } else if (i.id === 'name') {
@@ -86,7 +91,7 @@ const getCampaings = state => {
   });
 
   // get-request for data
-  return axios.get(`${API_URL}/${subUrl}/vacancies/searchExtra`, {
+  return axios.get(`${API_URL}/${subUrl}/vacancies/searchExtra`, {  // TODO vacancies -- > campaings (when it will be ready)
     params: { filter },
     headers: { Authorization: token } // backend doesn't check it
   })

@@ -17,7 +17,7 @@ import { withHeaderTitle } from '../../../components/Header/HeaderTitle';
 
 import addCampaing       from './api/addCampaing';
 import deleteCampaing    from './api/deleteCampaing';
-import getCampaings       from './api/getCampaings';
+import getCampaings      from './api/getCampaings';
 import getCampaingsCount from './api/getCampaingsCount';
 
 
@@ -38,38 +38,46 @@ class Campaings extends React.Component {
     addModalIsOpen: false, addModalLoading: false,
 
     // fields
-    id: null, name: '',
-    company: { id: null, name: '' }, company_id: null,
+    // company: { id: null, name: '' }, company_id: null,
+    id: null, name: '', url: '', weight: null,
+    companies: [],
     user: { id: null, name: '', surname: '', email: '' }, employer_id: null
   }
 
   // onChanges
-  onChange        = e       => this.setState({ [e.target.name]: e.target.value });
-  onChangeCompany = company => this.setState({ company, company_id: company.id });
-  onChangeUser    = user    => this.setState({ user,    employer_id: user.id });
+  // onChangeCompany = company => this.setState({ companies, company_id: company.id });
+  onChange          = e         => this.setState({ [e.target.name]: e.target.value });
+  onChangeCompanies = companies => this.setState({ companies });
+  onChangeUser      = user      => {
+    console.log(user);
+    this.setState({ user, employer_id: user.id });
+  }
+
+  resetFields = () => {
+    this.setState({
+      name: '', url: '', weight: '', companies: [],
+      user: { id: null, name: '', surname: '', email: '' }
+    });
+  }
 
   addClick = () => {
-    this.setState({
-      // reset fields
-      id: null, name: '',
-      company: { id: null, name: '' },
-      user:    { id: null, name: '', surname: '', email: '' },
+    // reset fields
+    this.resetFields();
 
-      // add modal
-      addModalIsOpen: true, alertIsOpen: false,
-    });
+    // add modal
+    this.setState({ addModalIsOpen: true, alertIsOpen: false });
   }
 
   addSubmit = e => {
     e.preventDefault();
 
     this.setState({ addModalLoading: true, errorAlertIsOpen: false });
-    const { name, user, employer_id, company, company_id, campaings } = this.state;
+    const { name, user, employer_id, companies, campaings, url, weight } = this.state;
 
-    addCampaing(name, employer_id, company_id)
+    addCampaing(name, employer_id, companies, url, weight)
       .then(res => {
         // add new obj from request and state
-        const newCampaing = { ...res.data, company, employer: user, locations: [{}] };
+        const newCampaing = { ...res.data, companies, employer: user, locations: [{}] };
 
         // concat new campaing to state campaings
         const campaingsWithNew = [newCampaing].concat(campaings);
@@ -166,13 +174,13 @@ class Campaings extends React.Component {
       for (let i = 0; i < campaings.length; i++) {
         if (campaings[i].id === afterEditData.id) {
           const {
-            id, name, user, created, modified, published, views, impressions, details,experience_from, experience_up, seniority, seniorityObj, skills, status, statusObj, plan_id, planObj,company_id, company, locations, vacancy_role, vacancy, logo, cover
+            id, name, user, created, modified, published, views, impressions, details,experience_from, experience_up, seniority, seniorityObj, skills, status, statusObj, plan_id, planObj, companies, locations, vacancy_role, vacancy, logo, cover
           } = afterEditData;
 
           const { employer, employer_id } = detailState;
           // inject editing data to table state
           campaings[i] = {
-            id, name, user, employer, employer_id, created, modified, published, views, impressions, details,experience_from: experience_from.value, experience_up: experience_up.value, seniority, seniorityObj, skills, status, statusObj, plan_id, planObj, company_id, company, locations, vacancy_role, vacancy, logo, cover, modified: `${new Date().toISOString()}`
+            id, name, user, employer, employer_id, created, modified, published, views, impressions, details,experience_from: experience_from.value, experience_up: experience_up.value, seniority, seniorityObj, skills, status, statusObj, plan_id, planObj, companies, locations, vacancy_role, vacancy, logo, cover, modified: `${new Date().toISOString()}`
           };
         }
       }
@@ -219,7 +227,7 @@ class Campaings extends React.Component {
       addModalIsOpen, addModalLoading,
 
       // fields
-      id, name, company, user,
+      id, name, companies, user, url, weight,
     } = this.state;
 
     const controlsColumn = [
@@ -242,8 +250,9 @@ class Campaings extends React.Component {
           <p className="md-lg">
             Total records:&nbsp;<b>{count && formatNumber(this.state.count)}</b>
           </p>
+
           <AddButton
-            text="job"
+            text="campaign"
             loading={addModalLoading && deleteModalLoading}
             addClick={this.addClick}
           />
@@ -253,7 +262,7 @@ class Campaings extends React.Component {
 
         <AddCampaing
           // fields
-          name={name} company={company} user={user}
+          name={name} companies={companies} user={user} url={url} weight={weight}
 
           // modal
           isOpen={addModalIsOpen}
@@ -262,7 +271,8 @@ class Campaings extends React.Component {
 
           // actions
           onChange={this.onChange}
-          onChangeCompany={this.onChangeCompany}
+          resetFields={this.resetFields}
+          onChangeCompanies={this.onChangeCompanies}
           onChangeUser={this.onChangeUser}
           onSubmit={this.addSubmit}
         />
@@ -297,7 +307,10 @@ class Campaings extends React.Component {
 
                 // data request
                 getCampaings(state)
-                  .then(res => this.setState({ campaings: res.data, tableLoading: false }))
+                  // .then(res => this.setState({ campaings: res.data, tableLoading: false }))
+                  .then(res => {
+                    this.setState({ campaings: res.data, tableLoading: false});
+                  })
                   .catch(error => this.catchErrors(error));
               }).catch(error => this.catchErrors(error));
           }}

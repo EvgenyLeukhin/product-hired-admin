@@ -4,7 +4,7 @@ import DeleteModal from '../../components/Modals/Delete/DeleteModal';
 import Spinner from '../../../components/Spinner';
 import { Button } from "reactstrap";
 
-
+// TODO delete 'some PH page' substring
 const DeletePage = ({ isOpen, modalLoading, closeModal, id, name, deleteSubmit }) => (
   <DeleteModal isOpen={isOpen} modalLoading={modalLoading} closeModal={closeModal}>
     <section className="section-container  delete-container">

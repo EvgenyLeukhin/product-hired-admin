@@ -21,7 +21,7 @@ const getPagesCount = state => {
   });
 
   // get-request for count
-  return axios.get(`${API_URL}/${subUrl}/users/count`, { // users -- > pages-for-advertising(when be will be ready)
+  return axios.get(`${API_URL}/${subUrl}/users/count`, { // TODO users -- > pages-for-advertising(when be will be ready)
     // inject where to params
     params: { where },
     headers: { Authorization: token } // backend doesn't check it

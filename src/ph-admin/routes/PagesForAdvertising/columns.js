@@ -27,6 +27,7 @@ const columns = [
   },
 
   // name //
+  // TODO delete 'some PH page' substring
   {
     Header: 'Page title',
     accessor: 'name',
@@ -50,7 +51,8 @@ const columns = [
   },
 
   // domain //
-  // email --> domain (when be will be ready)
+  // TODO email --> domain (when be will be ready)
+  // TODO delete https://producthired.com/ substring
   {
     Header: 'Page URL/Template',
     accessor: 'email',
@@ -82,35 +84,35 @@ const columns = [
 
   // status //
   // adminVerified --> status (when be will be ready)
-  {
-    Header: 'Status',
-    accessor: 'adminVerified',
-    width: 120,
-    Cell: ({ original }) => {
-      const { adminVerified } = original;
-      return (
-        <div className="ellipsis-text">{adminVerified ? 'Active' : 'Not active'}</div>
-      );
-    },
-    Filter: ({ filter, onChange }) => {
-      return (
-        <select
-          onChange={
-            event => {
-              if (event.target.value === 'Null') return onChange(null);
-              else                               return onChange(event.target.value);
-            }
-          }
-          style={{ width: "100%", height: '38px' }}
-          value={filter ? filter.value : ''}
-        >
-          <option value=''>All</option>
-          <option value={true}>Active</option>
-          <option value={false}>Not active</option>
-        </select>
-      )
-    }
-  }
+  // {
+  //   Header: 'Status',
+  //   accessor: 'adminVerified',
+  //   width: 120,
+  //   Cell: ({ original }) => {
+  //     const { adminVerified } = original;
+  //     return (
+  //       <div className="ellipsis-text">{adminVerified ? 'Active' : 'Not active'}</div>
+  //     );
+  //   },
+  //   Filter: ({ filter, onChange }) => {
+  //     return (
+  //       <select
+  //         onChange={
+  //           event => {
+  //             if (event.target.value === 'Null') return onChange(null);
+  //             else                               return onChange(event.target.value);
+  //           }
+  //         }
+  //         style={{ width: "100%", height: '38px' }}
+  //         value={filter ? filter.value : ''}
+  //       >
+  //         <option value=''>All</option>
+  //         <option value={true}>Active</option>
+  //         <option value={false}>Not active</option>
+  //       </select>
+  //     )
+  //   }
+  // }
 ];
 
 export default columns;

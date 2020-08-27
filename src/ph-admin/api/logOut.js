@@ -18,7 +18,6 @@ const logOut = () => {
       // remove token
       localStorage.removeItem('ph-admin-user-data');
 
-    // TODO
     }).catch(error => {
       // remove token too
       console.log(error);
